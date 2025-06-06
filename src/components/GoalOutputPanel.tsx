@@ -1,9 +1,8 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
-import { TrendingUp, Download, FileText, PresentationChart } from "lucide-react";
+import { TrendingUp, Download, FileText, Presentation } from "lucide-react";
 
 interface GoalOutputPanelProps {
   goalId: string;
@@ -116,7 +115,7 @@ export const GoalOutputPanel = ({ goalId, outputType }: GoalOutputPanelProps) =>
           Export PDF
         </Button>
         <Button variant="outline" className="flex items-center gap-2">
-          <PresentationChart className="h-4 w-4" />
+          <Presentation className="h-4 w-4" />
           Add to Presentation
         </Button>
         <Button className="flex items-center gap-2">
