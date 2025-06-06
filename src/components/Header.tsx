@@ -2,26 +2,27 @@
 import { Search, Bell, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export const Header = () => {
   return (
     <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6">
       <div className="flex items-center gap-4">
-        <SidebarTrigger />
+        <div className="text-2xl font-bold text-blue-600">eAdvisys</div>
         <div className="flex items-center gap-2">
-          <div className="text-2xl font-bold text-blue-600">eAdvisys</div>
+          <Select defaultValue="no-client">
+            <SelectTrigger className="w-48">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="no-client">No Client Selected</SelectItem>
+              <SelectItem value="paul-sally">Paul Johnson & Sally Johnson</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button variant="outline" size="sm">
+            Save
+          </Button>
         </div>
-        <Select defaultValue="no-client">
-          <SelectTrigger className="w-48">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="no-client">No Client Selected</SelectItem>
-            <SelectItem value="paul-sally">Paul Johnson & Sally Johnson</SelectItem>
-          </SelectContent>
-        </Select>
       </div>
 
       <div className="flex items-center gap-4">

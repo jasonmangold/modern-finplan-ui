@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ChevronDown, Download, Search } from "lucide-react";
 
 const educationCategories = [
   "Personal Finance",
@@ -36,6 +38,7 @@ const educationReports = [
 const Education = () => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [filtersOpen, setFiltersOpen] = useState(true);
 
   const filteredReports = educationReports.filter(report =>
     report.toLowerCase().includes(searchTerm.toLowerCase())
@@ -49,48 +52,76 @@ const Education = () => {
     );
   };
 
+  const handleDownload = (reportTitle: string) => {
+    // Placeholder download functionality
+    console.log(`Downloading: ${reportTitle}`);
+    // In a real app, this would trigger a PDF download
+  };
+
   return (
     <div className="p-6">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900 mb-4">Education</h1>
         
-        {/* Filter Options */}
-        <div className="flex items-center gap-4 mb-4">
-          <span className="font-medium">Filter Reports</span>
-          <span>Format:</span>
-          <div className="flex items-center space-x-2">
-            <Checkbox id="one-pagers" />
-            <label htmlFor="one-pagers" className="text-sm">One Pagers</label>
-          </div>
-          
-          <span>Topic:</span>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center space-x-2">
-              <Checkbox id="retirement" />
-              <label htmlFor="retirement" className="text-sm">Retirement</label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox id="life-insurance" />
-              <label htmlFor="life-insurance" className="text-sm">Life Insurance</label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox id="college" />
-              <label htmlFor="college" className="text-sm">College</label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox id="disability" />
-              <label htmlFor="disability" className="text-sm">Disability</label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox id="long-term-care" />
-              <label htmlFor="long-term-care" className="text-sm">Long-Term Care</label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox id="debt" />
-              <label htmlFor="debt" className="text-sm">Debt</label>
-            </div>
+        {/* Search Bar */}
+        <div className="mb-4">
+          <div className="relative max-w-md">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+            <Input 
+              placeholder="Search reports..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10"
+            />
           </div>
         </div>
+        
+        {/* Collapsible Filter Options */}
+        <Collapsible open={filtersOpen} onOpenChange={setFiltersOpen}>
+          <CollapsibleTrigger asChild>
+            <Button variant="outline" className="flex items-center gap-2 mb-4">
+              <span className="font-medium">Filter Reports</span>
+              <ChevronDown className={`h-4 w-4 transition-transform ${filtersOpen ? 'rotate-180' : ''}`} />
+            </Button>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <div className="flex items-center gap-4 mb-4 p-4 bg-gray-50 rounded-lg">
+              <span className="font-medium">Format:</span>
+              <div className="flex items-center space-x-2">
+                <Checkbox id="one-pagers" />
+                <label htmlFor="one-pagers" className="text-sm">One Pagers</label>
+              </div>
+              
+              <span className="font-medium">Topic:</span>
+              <div className="flex items-center gap-4 flex-wrap">
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="retirement" />
+                  <label htmlFor="retirement" className="text-sm">Retirement</label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="life-insurance" />
+                  <label htmlFor="life-insurance" className="text-sm">Life Insurance</label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="college" />
+                  <label htmlFor="college" className="text-sm">College</label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="disability" />
+                  <label htmlFor="disability" className="text-sm">Disability</label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="long-term-care" />
+                  <label htmlFor="long-term-care" className="text-sm">Long-Term Care</label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="debt" />
+                  <label htmlFor="debt" className="text-sm">Debt</label>
+                </div>
+              </div>
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
       </div>
 
       <div className="grid grid-cols-12 gap-6">
@@ -122,31 +153,28 @@ const Education = () => {
         <div className="col-span-9">
           <Card>
             <CardHeader>
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <div className="relative">
-                    <Input 
-                      placeholder="Search report"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pr-10"
-                    />
-                    <Button size="sm" className="absolute right-1 top-1 h-8 w-8 p-0">
-                      🔍
-                    </Button>
-                  </div>
-                </div>
-              </div>
+              <CardTitle>Reports ({filteredReports.length})</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {filteredReports.map((report) => (
                   <div key={report} className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
-                    <span className="font-medium">{report}</span>
-                    <Checkbox 
-                      checked={selectedItems.includes(report)}
-                      onCheckedChange={() => handleItemSelection(report)}
-                    />
+                    <div className="flex items-center gap-3">
+                      <Checkbox 
+                        checked={selectedItems.includes(report)}
+                        onCheckedChange={() => handleItemSelection(report)}
+                      />
+                      <span className="font-medium">{report}</span>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => handleDownload(report)}
+                      className="flex items-center gap-2"
+                    >
+                      <Download className="h-4 w-4" />
+                      Download
+                    </Button>
                   </div>
                 ))}
               </div>

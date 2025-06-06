@@ -1,6 +1,6 @@
 
 import { Header } from "./Header";
-import { AppSidebar } from "./AppSidebar";
+import { TopNavigation } from "./TopNavigation";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -8,15 +8,13 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <>
-      <AppSidebar />
-      <div className="flex-1 flex flex-col">
-        <Header />
-        <main className="flex-1 bg-gray-50">
-          {children}
-        </main>
-      </div>
-    </>
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <TopNavigation />
+      <main className="flex-1 bg-gray-50">
+        {children}
+      </main>
+    </div>
   );
 };
 
