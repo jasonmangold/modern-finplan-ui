@@ -9,11 +9,11 @@ interface ViewModeToggleProps {
 
 export const ViewModeToggle = ({ viewMode, onViewModeChange }: ViewModeToggleProps) => {
   return (
-    <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-lg">
+    <div className="inline-flex items-center gap-2 bg-muted p-1 rounded-lg">
       <Toggle
         pressed={viewMode === "comprehensive"}
         onPressedChange={() => onViewModeChange("comprehensive")}
-        className="flex items-center gap-2 px-4 py-2 text-sm font-medium data-[state=on]:bg-white data-[state=on]:shadow-sm"
+        className="flex items-center gap-2 px-6 py-2 text-sm font-medium data-[state=on]:bg-background data-[state=on]:shadow-sm"
       >
         <Database className="h-4 w-4" />
         Comprehensive Input
@@ -21,7 +21,7 @@ export const ViewModeToggle = ({ viewMode, onViewModeChange }: ViewModeTogglePro
       <Toggle
         pressed={viewMode === "goals-based"}
         onPressedChange={() => onViewModeChange("goals-based")}
-        className="flex items-center gap-2 px-4 py-2 text-sm font-medium data-[state=on]:bg-white data-[state=on]:shadow-sm"
+        className="flex items-center gap-2 px-6 py-2 text-sm font-medium data-[state=on]:bg-background data-[state=on]:shadow-sm"
       >
         <Target className="h-4 w-4" />
         Goals-Based Planning

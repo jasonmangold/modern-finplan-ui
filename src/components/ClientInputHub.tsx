@@ -6,9 +6,36 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
-import { User, DollarSign, PiggyBank, CreditCard, Shield, FileText, TrendingUp } from "lucide-react";
+import { User, DollarSign, PiggyBank, CreditCard, Shield, TrendingUp } from "lucide-react";
+import { useFormContext } from "@/contexts/FormContext";
+import { useEffect, useState } from "react";
 
 export const ClientInputHub = () => {
+  const { updateSectionCompletion } = useFormContext();
+  const [formData, setFormData] = useState<Record<string, any>>({});
+
+  // Mock completion logic - in real app, this would be more sophisticated
+  const checkSectionCompletion = (sectionId: string, data: Record<string, any>) => {
+    const requiredFields: Record<string, string[]> = {
+      personal: ['primaryClient', 'age'],
+      income: ['grossIncome', 'annualExpenses'],
+      savings: ['401kBalance', 'cashSavings'],
+      expenses: ['monthlyExpenses'],
+      assets: ['homeValue', 'totalAssets'],
+      insurance: ['lifeInsurance']
+    };
+
+    const required = requiredFields[sectionId] || [];
+    const completed = required.every(field => data[field] && data[field].toString().trim() !== '');
+    updateSectionCompletion(sectionId, completed);
+  };
+
+  const handleInputChange = (sectionId: string, field: string, value: any) => {
+    const newData = { ...formData, [field]: value };
+    setFormData(newData);
+    checkSectionCompletion(sectionId, newData);
+  };
+
   return (
     <div className="h-full">
       <Card className="h-full border-0 shadow-none">
@@ -20,11 +47,13 @@ export const ClientInputHub = () => {
         </CardHeader>
         <CardContent className="px-0 h-[calc(100%-80px)] overflow-hidden">
           <Tabs defaultValue="personal" className="h-full">
-            <TabsList className="grid w-full grid-cols-4 mb-4 mx-6">
+            <TabsList className="grid w-full grid-cols-6 mb-4 mx-6 text-xs">
               <TabsTrigger value="personal" className="text-xs">Personal</TabsTrigger>
-              <TabsTrigger value="financial" className="text-xs">Financial</TabsTrigger>
-              <TabsTrigger value="protection" className="text-xs">Protection</TabsTrigger>
-              <TabsTrigger value="planning" className="text-xs">Planning</TabsTrigger>
+              <TabsTrigger value="income" className="text-xs">Income</TabsTrigger>
+              <TabsTrigger value="savings" className="text-xs">Savings</TabsTrigger>
+              <TabsTrigger value="expenses" className="text-xs">Expenses</TabsTrigger>
+              <TabsTrigger value="assets" className="text-xs">Assets</TabsTrigger>
+              <TabsTrigger value="insurance" className="text-xs">Insurance</TabsTrigger>
             </TabsList>
 
             <div className="h-[calc(100%-60px)] overflow-y-auto px-6">
@@ -32,33 +61,57 @@ export const ClientInputHub = () => {
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 mb-3">
                     <User className="h-4 w-4 text-blue-600" />
-                    <h3 className="font-medium text-gray-900">Demographics</h3>
+                    <h3 className="font-medium text-gray-900">Personal & Demographics</h3>
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label className="text-xs text-gray-600">Primary Client</Label>
-                      <Input defaultValue="Paul Johnson" className="text-sm mt-1" />
+                      <Input 
+                        defaultValue="Paul Johnson" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('personal', 'primaryClient', e.target.value)}
+                      />
                     </div>
                     <div>
                       <Label className="text-xs text-gray-600">Spouse/Partner</Label>
-                      <Input defaultValue="Sally Johnson" className="text-sm mt-1" />
+                      <Input 
+                        defaultValue="Sally Johnson" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('personal', 'spouse', e.target.value)}
+                      />
                     </div>
                     <div>
                       <Label className="text-xs text-gray-600">Age (Primary)</Label>
-                      <Input defaultValue="40" className="text-sm mt-1" />
+                      <Input 
+                        defaultValue="40" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('personal', 'age', e.target.value)}
+                      />
                     </div>
                     <div>
                       <Label className="text-xs text-gray-600">Age (Spouse)</Label>
-                      <Input defaultValue="38" className="text-sm mt-1" />
+                      <Input 
+                        defaultValue="38" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('personal', 'spouseAge', e.target.value)}
+                      />
                     </div>
                     <div>
                       <Label className="text-xs text-gray-600">Retirement Age</Label>
-                      <Input defaultValue="67" className="text-sm mt-1" />
+                      <Input 
+                        defaultValue="67" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('personal', 'retirementAge', e.target.value)}
+                      />
                     </div>
                     <div>
                       <Label className="text-xs text-gray-600">Life Expectancy</Label>
-                      <Input defaultValue="90" className="text-sm mt-1" />
+                      <Input 
+                        defaultValue="90" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('personal', 'lifeExpectancy', e.target.value)}
+                      />
                     </div>
                   </div>
 
@@ -68,206 +121,232 @@ export const ClientInputHub = () => {
                       placeholder="Primary financial objectives and goals..."
                       className="text-sm mt-1 resize-none"
                       rows={3}
+                      onChange={(e) => handleInputChange('personal', 'goals', e.target.value)}
                     />
                   </div>
                 </div>
               </TabsContent>
 
-              <TabsContent value="financial" className="space-y-6 mt-0">
-                <div className="space-y-6">
-                  {/* Income Section */}
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <DollarSign className="h-4 w-4 text-green-600" />
-                      <h3 className="font-medium text-gray-900">Income & Cash Flow</h3>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label className="text-xs text-gray-600">Annual Gross Income</Label>
-                        <Input defaultValue="$150,000" className="text-sm mt-1" />
-                      </div>
-                      <div>
-                        <Label className="text-xs text-gray-600">Spouse Income</Label>
-                        <Input defaultValue="$80,000" className="text-sm mt-1" />
-                      </div>
-                      <div>
-                        <Label className="text-xs text-gray-600">Other Income</Label>
-                        <Input defaultValue="$15,000" className="text-sm mt-1" />
-                      </div>
-                      <div>
-                        <Label className="text-xs text-gray-600">Annual Expenses</Label>
-                        <Input defaultValue="$120,000" className="text-sm mt-1" />
-                      </div>
-                    </div>
+              <TabsContent value="income" className="space-y-6 mt-0">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <DollarSign className="h-4 w-4 text-green-600" />
+                    <h3 className="font-medium text-gray-900">Income & Employment</h3>
                   </div>
-
-                  {/* Assets Section */}
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <PiggyBank className="h-4 w-4 text-blue-600" />
-                      <h3 className="font-medium text-gray-900">Assets & Savings</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label className="text-xs text-gray-600">Annual Gross Income</Label>
+                      <Input 
+                        defaultValue="$150,000" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('income', 'grossIncome', e.target.value)}
+                      />
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label className="text-xs text-gray-600">401(k) Balance</Label>
-                        <Input defaultValue="$350,000" className="text-sm mt-1" />
-                      </div>
-                      <div>
-                        <Label className="text-xs text-gray-600">IRA Balance</Label>
-                        <Input defaultValue="$150,000" className="text-sm mt-1" />
-                      </div>
-                      <div>
-                        <Label className="text-xs text-gray-600">Taxable Investments</Label>
-                        <Input defaultValue="$75,000" className="text-sm mt-1" />
-                      </div>
-                      <div>
-                        <Label className="text-xs text-gray-600">Cash/Savings</Label>
-                        <Input defaultValue="$50,000" className="text-sm mt-1" />
-                      </div>
-                      <div>
-                        <Label className="text-xs text-gray-600">Home Value</Label>
-                        <Input defaultValue="$450,000" className="text-sm mt-1" />
-                      </div>
-                      <div>
-                        <Label className="text-xs text-gray-600">Other Assets</Label>
-                        <Input defaultValue="$25,000" className="text-sm mt-1" />
-                      </div>
+                    <div>
+                      <Label className="text-xs text-gray-600">Spouse Income</Label>
+                      <Input 
+                        defaultValue="$80,000" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('income', 'spouseIncome', e.target.value)}
+                      />
                     </div>
-                  </div>
-
-                  {/* Liabilities Section */}
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <CreditCard className="h-4 w-4 text-red-600" />
-                      <h3 className="font-medium text-gray-900">Debts & Liabilities</h3>
+                    <div>
+                      <Label className="text-xs text-gray-600">Other Income</Label>
+                      <Input 
+                        defaultValue="$15,000" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('income', 'otherIncome', e.target.value)}
+                      />
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label className="text-xs text-gray-600">Mortgage Balance</Label>
-                        <Input defaultValue="$320,000" className="text-sm mt-1" />
-                      </div>
-                      <div>
-                        <Label className="text-xs text-gray-600">Monthly Payment</Label>
-                        <Input defaultValue="$2,200" className="text-sm mt-1" />
-                      </div>
-                      <div>
-                        <Label className="text-xs text-gray-600">Credit Card Debt</Label>
-                        <Input defaultValue="$8,500" className="text-sm mt-1" />
-                      </div>
-                      <div>
-                        <Label className="text-xs text-gray-600">Other Loans</Label>
-                        <Input defaultValue="$15,000" className="text-sm mt-1" />
-                      </div>
+                    <div>
+                      <Label className="text-xs text-gray-600">Annual Expenses</Label>
+                      <Input 
+                        defaultValue="$120,000" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('income', 'annualExpenses', e.target.value)}
+                      />
                     </div>
                   </div>
                 </div>
               </TabsContent>
 
-              <TabsContent value="protection" className="space-y-6 mt-0">
-                <div className="space-y-6">
-                  {/* Insurance Section */}
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <Shield className="h-4 w-4 text-purple-600" />
-                      <h3 className="font-medium text-gray-900">Insurance Coverage</h3>
+              <TabsContent value="savings" className="space-y-6 mt-0">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <PiggyBank className="h-4 w-4 text-blue-600" />
+                    <h3 className="font-medium text-gray-900">Savings & Investments</h3>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label className="text-xs text-gray-600">401(k) Balance</Label>
+                      <Input 
+                        defaultValue="$350,000" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('savings', '401kBalance', e.target.value)}
+                      />
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label className="text-xs text-gray-600">Life Insurance (Primary)</Label>
-                        <Input defaultValue="$500,000" className="text-sm mt-1" />
-                      </div>
-                      <div>
-                        <Label className="text-xs text-gray-600">Life Insurance (Spouse)</Label>
-                        <Input defaultValue="$300,000" className="text-sm mt-1" />
-                      </div>
-                      <div>
-                        <Label className="text-xs text-gray-600">Disability Insurance</Label>
-                        <Select defaultValue="group">
-                          <SelectTrigger className="text-sm mt-1">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="none">None</SelectItem>
-                            <SelectItem value="group">Group Coverage</SelectItem>
-                            <SelectItem value="individual">Individual Policy</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div>
-                        <Label className="text-xs text-gray-600">LTC Insurance</Label>
-                        <Select defaultValue="none">
-                          <SelectTrigger className="text-sm mt-1">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="none">None</SelectItem>
-                            <SelectItem value="traditional">Traditional LTC</SelectItem>
-                            <SelectItem value="hybrid">Hybrid Policy</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
+                    <div>
+                      <Label className="text-xs text-gray-600">IRA Balance</Label>
+                      <Input 
+                        defaultValue="$150,000" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('savings', 'iraBalance', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-xs text-gray-600">Taxable Investments</Label>
+                      <Input 
+                        defaultValue="$75,000" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('savings', 'taxableInvestments', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-xs text-gray-600">Cash/Savings</Label>
+                      <Input 
+                        defaultValue="$50,000" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('savings', 'cashSavings', e.target.value)}
+                      />
                     </div>
                   </div>
                 </div>
               </TabsContent>
 
-              <TabsContent value="planning" className="space-y-6 mt-0">
-                <div className="space-y-6">
-                  {/* Estate Planning */}
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <FileText className="h-4 w-4 text-gray-600" />
-                      <h3 className="font-medium text-gray-900">Estate Planning</h3>
+              <TabsContent value="expenses" className="space-y-6 mt-0">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <CreditCard className="h-4 w-4 text-red-600" />
+                    <h3 className="font-medium text-gray-900">Expenses & Cash Flow</h3>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label className="text-xs text-gray-600">Monthly Housing</Label>
+                      <Input 
+                        defaultValue="$2,200" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('expenses', 'housing', e.target.value)}
+                      />
                     </div>
-                    <div className="space-y-3">
-                      <div className="flex items-center space-x-2">
-                        <Checkbox id="will" defaultChecked />
-                        <Label htmlFor="will" className="text-sm">Will in place</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox id="trust" />
-                        <Label htmlFor="trust" className="text-sm">Trust established</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox id="poa" defaultChecked />
-                        <Label htmlFor="poa" className="text-sm">Power of Attorney</Label>
-                      </div>
+                    <div>
+                      <Label className="text-xs text-gray-600">Monthly Utilities</Label>
+                      <Input 
+                        defaultValue="$300" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('expenses', 'utilities', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-xs text-gray-600">Monthly Food</Label>
+                      <Input 
+                        defaultValue="$800" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('expenses', 'food', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-xs text-gray-600">Other Monthly Expenses</Label>
+                      <Input 
+                        defaultValue="$1,500" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('expenses', 'monthlyExpenses', e.target.value)}
+                      />
                     </div>
                   </div>
+                </div>
+              </TabsContent>
 
-                  {/* Risk Tolerance */}
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <TrendingUp className="h-4 w-4 text-orange-600" />
-                      <h3 className="font-medium text-gray-900">Investment Profile</h3>
+              <TabsContent value="assets" className="space-y-6 mt-0">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <TrendingUp className="h-4 w-4 text-purple-600" />
+                    <h3 className="font-medium text-gray-900">Assets & Liabilities</h3>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label className="text-xs text-gray-600">Home Value</Label>
+                      <Input 
+                        defaultValue="$450,000" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('assets', 'homeValue', e.target.value)}
+                      />
                     </div>
-                    <div className="space-y-3">
-                      <div>
-                        <Label className="text-xs text-gray-600">Risk Tolerance</Label>
-                        <Select defaultValue="moderate">
-                          <SelectTrigger className="text-sm mt-1">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="conservative">Conservative</SelectItem>
-                            <SelectItem value="moderate">Moderate</SelectItem>
-                            <SelectItem value="aggressive">Aggressive</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div>
-                        <Label className="text-xs text-gray-600">Time Horizon</Label>
-                        <Select defaultValue="long">
-                          <SelectTrigger className="text-sm mt-1">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="short">Short-term (&lt;5 years)</SelectItem>
-                            <SelectItem value="medium">Medium-term (5-15 years)</SelectItem>
-                            <SelectItem value="long">Long-term (&gt;15 years)</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
+                    <div>
+                      <Label className="text-xs text-gray-600">Mortgage Balance</Label>
+                      <Input 
+                        defaultValue="$320,000" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('assets', 'mortgageBalance', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-xs text-gray-600">Other Assets</Label>
+                      <Input 
+                        defaultValue="$25,000" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('assets', 'otherAssets', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-xs text-gray-600">Total Debt</Label>
+                      <Input 
+                        defaultValue="$23,500" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('assets', 'totalAssets', e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="insurance" className="space-y-6 mt-0">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Shield className="h-4 w-4 text-purple-600" />
+                    <h3 className="font-medium text-gray-900">Insurance & Protection</h3>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label className="text-xs text-gray-600">Life Insurance (Primary)</Label>
+                      <Input 
+                        defaultValue="$500,000" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('insurance', 'lifeInsurance', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-xs text-gray-600">Life Insurance (Spouse)</Label>
+                      <Input 
+                        defaultValue="$300,000" 
+                        className="text-sm mt-1"
+                        onChange={(e) => handleInputChange('insurance', 'spouseLifeInsurance', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-xs text-gray-600">Disability Insurance</Label>
+                      <Select defaultValue="group">
+                        <SelectTrigger className="text-sm mt-1">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="none">None</SelectItem>
+                          <SelectItem value="group">Group Coverage</SelectItem>
+                          <SelectItem value="individual">Individual Policy</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label className="text-xs text-gray-600">LTC Insurance</Label>
+                      <Select defaultValue="none">
+                        <SelectTrigger className="text-sm mt-1">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="none">None</SelectItem>
+                          <SelectItem value="traditional">Traditional LTC</SelectItem>
+                          <SelectItem value="hybrid">Hybrid Policy</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                 </div>
