@@ -47,7 +47,7 @@ export const ClientInputHub = () => {
         <CardHeader className="pb-4">
           <CardTitle className="text-lg font-semibold text-gray-900 flex items-center gap-2">
             <User className="h-5 w-5 text-blue-600" />
-            Client Data Hub
+            Client Data
           </CardTitle>
         </CardHeader>
         <CardContent className="px-0 h-[calc(100%-80px)] overflow-hidden">
