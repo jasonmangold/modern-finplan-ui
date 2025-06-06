@@ -1,157 +1,216 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown, Download, Search, Filter } from "lucide-react";
+import { ChevronDown, Download, Search, Filter, X } from "lucide-react";
+
 const educationCategories = ["Personal Finance", "Income Taxes", "Investments", "Retirement Planning", "Insurance", "Home Ownership", "Education Funding", "Estate Planning", "Business Planning", "Charitable Planning", "Social Security and Government Programs"];
+
 const educationReports = ["The Need for Financial Planning", "Up to Your Neck in Debt?", "Budgeting Basics", "Income Tax Fundamentals", "Advanced Tax Strategies", "Tax Planning Guide", "Investment Planning 101", "Understanding Mutual Funds", "Stocks and Bonds Basics", "Alternative Investments", "The Road to Retirement Planning"];
+
+const topicTags = ["Retirement", "Life Insurance", "College", "Disability", "Long-Term Care", "Debt", "Estate Planning", "Tax Strategy"];
+
 const Education = () => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const filteredReports = educationReports.filter(report => report.toLowerCase().includes(searchTerm.toLowerCase()));
+  const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
+  const [selectedFormats, setSelectedFormats] = useState<string[]>([]);
+
+  const filteredReports = educationReports.filter(report => 
+    report.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const handleItemSelection = (item: string) => {
-    setSelectedItems(prev => prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]);
+    setSelectedItems(prev => 
+      prev.includes(item) 
+        ? prev.filter(i => i !== item) 
+        : [...prev, item]
+    );
   };
+
   const handleDownload = (reportTitle: string) => {
     console.log(`Downloading: ${reportTitle}`);
   };
-  return <div className="p-6">
-      <div className="mb-6">
-        
-        
-        {/* Enhanced Search and Filter Section */}
-        <div className="bg-white rounded-lg border shadow-sm p-6 mb-6">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <Input placeholder="Search reports and topics..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-10" />
-            </div>
-            <Collapsible open={filtersOpen} onOpenChange={setFiltersOpen}>
-              <CollapsibleTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2">
-                  <Filter className="h-4 w-4" />
-                  <span>Filters</span>
-                  <ChevronDown className={`h-4 w-4 transition-transform ${filtersOpen ? 'rotate-180' : ''}`} />
-                </Button>
-              </CollapsibleTrigger>
-            </Collapsible>
-            <Button className="bg-blue-600 text-white hover:bg-blue-700">
-              Download Selected ({selectedItems.length})
-            </Button>
+
+  const handleTopicToggle = (topic: string) => {
+    setSelectedTopics(prev =>
+      prev.includes(topic)
+        ? prev.filter(t => t !== topic)
+        : [...prev, topic]
+    );
+  };
+
+  const clearAllFilters = () => {
+    setSelectedTopics([]);
+    setSelectedFormats([]);
+  };
+
+  return (
+    <div className="p-8 max-w-7xl mx-auto space-y-8">
+      {/* Modern Search and Filter Section */}
+      <div className="smooth-card p-8">
+        <div className="flex items-center gap-6 mb-6">
+          <div className="relative flex-1 max-w-md">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+            <Input 
+              placeholder="Search reports and topics..." 
+              value={searchTerm} 
+              onChange={(e) => setSearchTerm(e.target.value)} 
+              className="pl-12 h-12 text-base border-gray-200 bg-gray-50/50 focus:bg-white transition-colors rounded-xl"
+            />
           </div>
           
           <Collapsible open={filtersOpen} onOpenChange={setFiltersOpen}>
-            <CollapsibleContent>
-              <div className="border-t pt-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h3 className="font-medium text-gray-900 mb-3">Format</h3>
-                    <div className="space-y-2">
-                      <div className="flex items-center space-x-2">
-                        <Checkbox id="one-pagers" />
-                        <label htmlFor="one-pagers" className="text-sm">One Pagers</label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox id="detailed-reports" />
-                        <label htmlFor="detailed-reports" className="text-sm">Detailed Reports</label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox id="infographics" />
-                        <label htmlFor="infographics" className="text-sm">Infographics</label>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <h3 className="font-medium text-gray-900 mb-3">Topic</h3>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="flex items-center space-x-2">
-                        <Checkbox id="retirement" />
-                        <label htmlFor="retirement" className="text-sm">Retirement</label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox id="life-insurance" />
-                        <label htmlFor="life-insurance" className="text-sm">Life Insurance</label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox id="college" />
-                        <label htmlFor="college" className="text-sm">College</label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox id="disability" />
-                        <label htmlFor="disability" className="text-sm">Disability</label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox id="long-term-care" />
-                        <label htmlFor="long-term-care" className="text-sm">Long-Term Care</label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox id="debt" />
-                        <label htmlFor="debt" className="text-sm">Debt</label>
-                      </div>
-                    </div>
+            <CollapsibleTrigger asChild>
+              <Button variant="outline" className="modern-button h-12 px-6 border-gray-200 hover:bg-gray-50">
+                <Filter className="h-4 w-4" />
+                <span>Filters</span>
+                <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${filtersOpen ? 'rotate-180' : ''}`} />
+              </Button>
+            </CollapsibleTrigger>
+          </Collapsible>
+          
+          <Button className="modern-button h-12 px-6 bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50" disabled={selectedItems.length === 0}>
+            <Download className="h-4 w-4" />
+            Download Selected ({selectedItems.length})
+          </Button>
+        </div>
+        
+        <Collapsible open={filtersOpen} onOpenChange={setFiltersOpen}>
+          <CollapsibleContent>
+            <div className="border-t border-gray-200 pt-6 animate-fade-in">
+              <div className="space-y-6">
+                {/* Topic Pills */}
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-4">Topics</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {topicTags.map(topic => (
+                      <button
+                        key={topic}
+                        onClick={() => handleTopicToggle(topic)}
+                        className={`pill-tag transition-all ${
+                          selectedTopics.includes(topic)
+                            ? 'bg-blue-100 text-blue-700 border border-blue-200'
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200'
+                        }`}
+                      >
+                        {topic}
+                        {selectedTopics.includes(topic) && (
+                          <X className="h-3 w-3 ml-1" />
+                        )}
+                      </button>
+                    ))}
                   </div>
                 </div>
                 
-                <div className="mt-4 pt-4 border-t flex gap-2">
-                  <Button variant="outline" size="sm">Clear All Filters</Button>
-                  <Button size="sm" className="bg-blue-600 text-white hover:bg-blue-700">Apply Filters</Button>
+                {/* Format Options */}
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-4">Format</h3>
+                  <div className="flex flex-wrap gap-4">
+                    {["One Pagers", "Detailed Reports", "Infographics"].map(format => (
+                      <div key={format} className="flex items-center space-x-3">
+                        <Checkbox 
+                          id={format} 
+                          checked={selectedFormats.includes(format)}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              setSelectedFormats(prev => [...prev, format]);
+                            } else {
+                              setSelectedFormats(prev => prev.filter(f => f !== format));
+                            }
+                          }}
+                        />
+                        <label htmlFor={format} className="text-sm font-medium text-gray-700">{format}</label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="flex gap-3 pt-4 border-t border-gray-200">
+                  <Button variant="outline" size="sm" onClick={clearAllFilters} className="modern-button">
+                    Clear All Filters
+                  </Button>
+                  <Button size="sm" className="modern-button bg-blue-600 text-white hover:bg-blue-700">
+                    Apply Filters
+                  </Button>
                 </div>
               </div>
-            </CollapsibleContent>
-          </Collapsible>
-        </div>
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
       </div>
 
-      <div className="grid grid-cols-12 gap-6">
+      <div className="grid grid-cols-12 gap-8">
         {/* Categories Sidebar */}
         <div className="col-span-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>Categories</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <Button variant="ghost" className="w-full justify-start text-blue-600 bg-blue-50">
-                  All (52)
-                </Button>
-                {educationCategories.map(category => <details key={category} className="group">
-                    <summary className="flex items-center justify-between p-2 text-sm font-medium cursor-pointer hover:bg-gray-50 rounded">
-                      <span>{category}</span>
-                      <span className="text-gray-400">▼</span>
-                    </summary>
-                  </details>)}
-              </div>
-            </CardContent>
-          </Card>
+          <div className="smooth-card p-6">
+            <h3 className="font-semibold text-lg mb-6 text-gray-900">Categories</h3>
+            <div className="space-y-2">
+              <Button variant="ghost" className="w-full justify-start h-auto p-3 text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg">
+                <div className="text-left">
+                  <div className="font-medium">All Reports</div>
+                  <div className="text-xs text-blue-500">52 available</div>
+                </div>
+              </Button>
+              {educationCategories.map(category => (
+                <details key={category} className="group">
+                  <summary className="flex items-center justify-between p-3 text-sm font-medium cursor-pointer hover:bg-gray-50 rounded-lg transition-colors">
+                    <span className="text-gray-700">{category}</span>
+                    <ChevronDown className="h-4 w-4 text-gray-400 group-open:rotate-180 transition-transform" />
+                  </summary>
+                </details>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Main Content */}
         <div className="col-span-9">
-          <Card>
-            <CardHeader>
-              <CardTitle>Reports ({filteredReports.length})</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {filteredReports.map(report => <div key={report} className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
-                    <div className="flex items-center gap-3">
-                      <Checkbox checked={selectedItems.includes(report)} onCheckedChange={() => handleItemSelection(report)} />
-                      <span className="font-medium">{report}</span>
+          <div className="smooth-card p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="font-semibold text-lg text-gray-900">
+                Reports ({filteredReports.length})
+              </h3>
+              {selectedItems.length > 0 && (
+                <div className="text-sm text-blue-600 font-medium">
+                  {selectedItems.length} selected
+                </div>
+              )}
+            </div>
+            <div className="space-y-3">
+              {filteredReports.map(report => (
+                <div key={report} className="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50/50 transition-all duration-200 group">
+                  <div className="flex items-center gap-4">
+                    <Checkbox 
+                      checked={selectedItems.includes(report)} 
+                      onCheckedChange={() => handleItemSelection(report)} 
+                    />
+                    <div>
+                      <span className="font-medium text-gray-900 group-hover:text-blue-700 transition-colors">{report}</span>
+                      <div className="text-xs text-gray-500 mt-1">PDF • 2.1 MB</div>
                     </div>
-                    <Button variant="outline" size="sm" onClick={() => handleDownload(report)} className="flex items-center gap-2">
-                      <Download className="h-4 w-4" />
-                      Download
-                    </Button>
-                  </div>)}
-              </div>
-            </CardContent>
-          </Card>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => handleDownload(report)} 
+                    className="modern-button opacity-0 group-hover:opacity-100 transition-all"
+                  >
+                    <Download className="h-4 w-4" />
+                    Download
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default Education;

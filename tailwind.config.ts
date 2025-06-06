@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -18,6 +19,9 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -61,12 +65,35 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				blue: {
+					50: 'hsl(var(--blue-50))',
+					100: 'hsl(var(--blue-100))',
+					500: 'hsl(var(--blue-500))',
+					600: 'hsl(var(--blue-600))',
+					700: 'hsl(var(--blue-700))',
+				},
+				gray: {
+					50: 'hsl(var(--gray-50))',
+					100: 'hsl(var(--gray-100))',
+					200: 'hsl(var(--gray-200))',
+					300: 'hsl(var(--gray-300))',
+					400: 'hsl(var(--gray-400))',
+					500: 'hsl(var(--gray-500))',
+					600: 'hsl(var(--gray-600))',
+					700: 'hsl(var(--gray-700))',
+					800: 'hsl(var(--gray-800))',
+					900: 'hsl(var(--gray-900))',
 				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			spacing: {
+				'18': '4.5rem',
+				'88': '22rem',
 			},
 			keyframes: {
 				'accordion-down': {
@@ -84,11 +111,33 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'fade-in': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateY(10px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				},
+				'slide-in': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateX(-10px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateX(0)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fade-in 0.3s ease-out',
+				'slide-in': 'slide-in 0.3s ease-out'
 			}
 		}
 	},
