@@ -18,13 +18,13 @@ export const ComprehensiveInputMode = ({ onSeeResults }: ComprehensiveInputModeP
   return (
     <div className="h-full flex gap-6 p-6">
       {/* Progress Sidebar */}
-      <div className="w-80 space-y-4">
-        <Card>
+      <div className="w-80 flex flex-col space-y-4">
+        <Card className="flex-1">
           <CardHeader className="pb-4">
             <CardTitle className="text-xl">Input Progress</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
+          <CardContent className="flex flex-col h-full">
+            <div className="space-y-4 flex-1">
               <div className="flex items-center justify-between">
                 <span className="text-lg text-gray-600">
                   {completedSections} of {sections.length} completed
@@ -33,13 +33,13 @@ export const ComprehensiveInputMode = ({ onSeeResults }: ComprehensiveInputModeP
               </div>
               <Progress value={completionPercentage} className="h-3" />
               
-              <div className="space-y-3 mt-6">
+              <div className="space-y-3 mt-6 overflow-y-auto">
                 {sections.map((section) => (
                   <div key={section.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50">
                     {section.completed ? (
-                      <CheckCircle className="h-5 w-5 text-green-600" />
+                      <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
                     ) : (
-                      <Circle className="h-5 w-5 text-gray-400" />
+                      <Circle className="h-5 w-5 text-gray-400 flex-shrink-0" />
                     )}
                     <span className={`text-base ${section.completed ? 'text-gray-900 font-medium' : 'text-gray-500'}`}>
                       {section.label}
@@ -51,7 +51,7 @@ export const ComprehensiveInputMode = ({ onSeeResults }: ComprehensiveInputModeP
           </CardContent>
         </Card>
 
-        {/* See Results Button */}
+        {/* See Results Button - Always visible at bottom */}
         <Button 
           onClick={onSeeResults}
           className="w-full flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3"
@@ -63,7 +63,7 @@ export const ComprehensiveInputMode = ({ onSeeResults }: ComprehensiveInputModeP
       </div>
 
       {/* Main Input Area */}
-      <div className="flex-1">
+      <div className="flex-1 overflow-hidden">
         <ClientInputHub />
       </div>
     </div>
