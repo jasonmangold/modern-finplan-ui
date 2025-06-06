@@ -46,7 +46,7 @@ export const GoalDetailView = ({ goalId, onBack }: GoalDetailViewProps) => {
   const IconComponent = config.icon;
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
@@ -83,7 +83,7 @@ export const GoalDetailView = ({ goalId, onBack }: GoalDetailViewProps) => {
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* Main Content with proper padding */}
       <div className="flex-1 grid grid-cols-2 gap-6 overflow-hidden">
         {/* Left Panel - Inputs */}
         <div className="overflow-y-auto">

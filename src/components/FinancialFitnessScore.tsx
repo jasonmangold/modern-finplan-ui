@@ -68,9 +68,9 @@ export const FinancialFitnessScore = ({ onBack }: FinancialFitnessScoreProps) =>
   };
 
   return (
-    <div className="h-full p-6">
+    <div className="h-full flex flex-col p-6">
       {/* Header */}
-      <div className="flex items-center gap-4 mb-6">
+      <div className="flex items-center gap-4 mb-6 flex-shrink-0">
         <Button variant="outline" onClick={onBack} className="flex items-center gap-2">
           <ArrowLeft className="h-4 w-4" />
           Back to Goals
@@ -86,17 +86,17 @@ export const FinancialFitnessScore = ({ onBack }: FinancialFitnessScoreProps) =>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="grid grid-cols-2 gap-8 h-[calc(100%-120px)]">
+      {/* Main Content with proper height management */}
+      <div className="flex-1 grid grid-cols-2 gap-8 min-h-0">
         {/* Left Panel - Topic Selection */}
-        <Card className="overflow-hidden">
-          <CardHeader>
+        <Card className="flex flex-col min-h-0">
+          <CardHeader className="flex-shrink-0">
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5" />
               Select Topics to Include
             </CardTitle>
           </CardHeader>
-          <CardContent className="overflow-y-auto">
+          <CardContent className="flex-1 overflow-y-auto">
             <div className="space-y-4">
               {fitnessTopics.map((topic) => (
                 <div key={topic.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50">
@@ -118,9 +118,9 @@ export const FinancialFitnessScore = ({ onBack }: FinancialFitnessScoreProps) =>
         </Card>
 
         {/* Right Panel - Scores */}
-        <div className="space-y-6">
+        <div className="flex flex-col space-y-6 min-h-0">
           {/* Overall Score */}
-          <Card>
+          <Card className="flex-shrink-0">
             <CardHeader>
               <CardTitle>Overall Financial Fitness</CardTitle>
             </CardHeader>
@@ -142,11 +142,11 @@ export const FinancialFitnessScore = ({ onBack }: FinancialFitnessScoreProps) =>
           </Card>
 
           {/* Individual Scores */}
-          <Card className="flex-1 overflow-hidden">
-            <CardHeader>
+          <Card className="flex-1 flex flex-col min-h-0">
+            <CardHeader className="flex-shrink-0">
               <CardTitle>Individual Topic Scores</CardTitle>
             </CardHeader>
-            <CardContent className="overflow-y-auto">
+            <CardContent className="flex-1 overflow-y-auto">
               <div className="space-y-4">
                 {selectedTopicData.map((topic) => (
                   <div key={topic.id} className="space-y-2">

@@ -1,20 +1,17 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { User, DollarSign, PiggyBank, CreditCard, Shield, TrendingUp } from "lucide-react";
 import { useFormContext } from "@/contexts/FormContext";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export const ClientInputHub = () => {
-  const { updateSectionCompletion } = useFormContext();
-  const [formData, setFormData] = useState<Record<string, any>>({});
+  const { updateSectionCompletion, updateFormData, formData, activeTab, setActiveTab } = useFormContext();
 
-  // Mock completion logic - in real app, this would be more sophisticated
+  // Check section completion logic
   const checkSectionCompletion = (sectionId: string, data: Record<string, any>) => {
     const requiredFields: Record<string, string[]> = {
       personal: ['primaryClient', 'age'],
@@ -31,10 +28,17 @@ export const ClientInputHub = () => {
   };
 
   const handleInputChange = (sectionId: string, field: string, value: any) => {
+    updateFormData(field, value);
     const newData = { ...formData, [field]: value };
-    setFormData(newData);
     checkSectionCompletion(sectionId, newData);
   };
+
+  // Check all sections when formData changes
+  useEffect(() => {
+    ['personal', 'income', 'savings', 'expenses', 'assets', 'insurance'].forEach(sectionId => {
+      checkSectionCompletion(sectionId, formData);
+    });
+  }, [formData]);
 
   return (
     <div className="h-full">
@@ -46,7 +50,7 @@ export const ClientInputHub = () => {
           </CardTitle>
         </CardHeader>
         <CardContent className="px-0 h-[calc(100%-80px)] overflow-hidden">
-          <Tabs defaultValue="personal" className="h-full">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full">
             <TabsList className="grid w-full grid-cols-6 mb-4 mx-6 text-xs">
               <TabsTrigger value="personal" className="text-xs">Personal</TabsTrigger>
               <TabsTrigger value="income" className="text-xs">Income</TabsTrigger>
@@ -68,7 +72,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Primary Client</Label>
                       <Input 
-                        defaultValue="Paul Johnson" 
+                        value={formData.primaryClient || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('personal', 'primaryClient', e.target.value)}
                       />
@@ -76,7 +80,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Spouse/Partner</Label>
                       <Input 
-                        defaultValue="Sally Johnson" 
+                        value={formData.spouse || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('personal', 'spouse', e.target.value)}
                       />
@@ -84,7 +88,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Age (Primary)</Label>
                       <Input 
-                        defaultValue="40" 
+                        value={formData.age || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('personal', 'age', e.target.value)}
                       />
@@ -92,7 +96,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Age (Spouse)</Label>
                       <Input 
-                        defaultValue="38" 
+                        value={formData.spouseAge || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('personal', 'spouseAge', e.target.value)}
                       />
@@ -100,7 +104,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Retirement Age</Label>
                       <Input 
-                        defaultValue="67" 
+                        value={formData.retirementAge || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('personal', 'retirementAge', e.target.value)}
                       />
@@ -108,7 +112,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Life Expectancy</Label>
                       <Input 
-                        defaultValue="90" 
+                        value={formData.lifeExpectancy || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('personal', 'lifeExpectancy', e.target.value)}
                       />
@@ -118,6 +122,7 @@ export const ClientInputHub = () => {
                   <div>
                     <Label className="text-xs text-gray-600">Financial Goals</Label>
                     <Textarea 
+                      value={formData.goals || ""}
                       placeholder="Primary financial objectives and goals..."
                       className="text-sm mt-1 resize-none"
                       rows={3}
@@ -137,7 +142,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Annual Gross Income</Label>
                       <Input 
-                        defaultValue="$150,000" 
+                        value={formData.grossIncome || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('income', 'grossIncome', e.target.value)}
                       />
@@ -145,7 +150,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Spouse Income</Label>
                       <Input 
-                        defaultValue="$80,000" 
+                        value={formData.spouseIncome || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('income', 'spouseIncome', e.target.value)}
                       />
@@ -153,7 +158,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Other Income</Label>
                       <Input 
-                        defaultValue="$15,000" 
+                        value={formData.otherIncome || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('income', 'otherIncome', e.target.value)}
                       />
@@ -161,7 +166,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Annual Expenses</Label>
                       <Input 
-                        defaultValue="$120,000" 
+                        value={formData.annualExpenses || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('income', 'annualExpenses', e.target.value)}
                       />
@@ -180,7 +185,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">401(k) Balance</Label>
                       <Input 
-                        defaultValue="$350,000" 
+                        value={formData.401kBalance || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('savings', '401kBalance', e.target.value)}
                       />
@@ -188,7 +193,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">IRA Balance</Label>
                       <Input 
-                        defaultValue="$150,000" 
+                        value={formData.iraBalance || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('savings', 'iraBalance', e.target.value)}
                       />
@@ -196,7 +201,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Taxable Investments</Label>
                       <Input 
-                        defaultValue="$75,000" 
+                        value={formData.taxableInvestments || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('savings', 'taxableInvestments', e.target.value)}
                       />
@@ -204,7 +209,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Cash/Savings</Label>
                       <Input 
-                        defaultValue="$50,000" 
+                        value={formData.cashSavings || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('savings', 'cashSavings', e.target.value)}
                       />
@@ -223,7 +228,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Monthly Housing</Label>
                       <Input 
-                        defaultValue="$2,200" 
+                        value={formData.housing || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('expenses', 'housing', e.target.value)}
                       />
@@ -231,7 +236,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Monthly Utilities</Label>
                       <Input 
-                        defaultValue="$300" 
+                        value={formData.utilities || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('expenses', 'utilities', e.target.value)}
                       />
@@ -239,7 +244,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Monthly Food</Label>
                       <Input 
-                        defaultValue="$800" 
+                        value={formData.food || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('expenses', 'food', e.target.value)}
                       />
@@ -247,7 +252,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Other Monthly Expenses</Label>
                       <Input 
-                        defaultValue="$1,500" 
+                        value={formData.monthlyExpenses || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('expenses', 'monthlyExpenses', e.target.value)}
                       />
@@ -266,7 +271,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Home Value</Label>
                       <Input 
-                        defaultValue="$450,000" 
+                        value={formData.homeValue || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('assets', 'homeValue', e.target.value)}
                       />
@@ -274,7 +279,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Mortgage Balance</Label>
                       <Input 
-                        defaultValue="$320,000" 
+                        value={formData.mortgageBalance || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('assets', 'mortgageBalance', e.target.value)}
                       />
@@ -282,7 +287,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Other Assets</Label>
                       <Input 
-                        defaultValue="$25,000" 
+                        value={formData.otherAssets || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('assets', 'otherAssets', e.target.value)}
                       />
@@ -290,7 +295,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Total Debt</Label>
                       <Input 
-                        defaultValue="$23,500" 
+                        value={formData.totalAssets || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('assets', 'totalAssets', e.target.value)}
                       />
@@ -309,7 +314,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Life Insurance (Primary)</Label>
                       <Input 
-                        defaultValue="$500,000" 
+                        value={formData.lifeInsurance || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('insurance', 'lifeInsurance', e.target.value)}
                       />
@@ -317,7 +322,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">Life Insurance (Spouse)</Label>
                       <Input 
-                        defaultValue="$300,000" 
+                        value={formData.spouseLifeInsurance || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('insurance', 'spouseLifeInsurance', e.target.value)}
                       />
