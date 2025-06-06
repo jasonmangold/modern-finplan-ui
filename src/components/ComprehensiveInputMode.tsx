@@ -5,10 +5,12 @@ import { CheckCircle, Circle } from "lucide-react";
 import { ClientInputHub } from "./ClientInputHub";
 
 const inputSections = [
-  { id: "personal", label: "Client Overview", completed: true },
-  { id: "financial", label: "Income & Employment", completed: true },
-  { id: "protection", label: "Insurance", completed: false },
-  { id: "planning", label: "Investment Profile", completed: true },
+  { id: "personal", label: "Personal & Demographics", completed: true },
+  { id: "income", label: "Income & Employment", completed: true },
+  { id: "savings", label: "Savings & Investments", completed: false },
+  { id: "expenses", label: "Expenses & Cash Flow", completed: true },
+  { id: "assets", label: "Assets & Liabilities", completed: false },
+  { id: "insurance", label: "Insurance & Protection", completed: false },
 ];
 
 export const ComprehensiveInputMode = () => {
@@ -16,42 +18,46 @@ export const ComprehensiveInputMode = () => {
   const completionPercentage = (completedSections / inputSections.length) * 100;
 
   return (
-    <div className="h-full space-y-6">
-      {/* Progress Tracker */}
-      <Card>
-        <CardHeader className="pb-4">
-          <CardTitle className="text-lg">Input Progress</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">
-                {completedSections} of {inputSections.length} sections completed
-              </span>
-              <span className="text-sm font-medium">{Math.round(completionPercentage)}%</span>
+    <div className="h-full flex gap-6">
+      {/* Progress Sidebar */}
+      <div className="w-80 space-y-4">
+        <Card>
+          <CardHeader className="pb-4">
+            <CardTitle className="text-xl">Input Progress</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-lg text-gray-600">
+                  {completedSections} of {inputSections.length} completed
+                </span>
+                <span className="text-lg font-medium">{Math.round(completionPercentage)}%</span>
+              </div>
+              <Progress value={completionPercentage} className="h-3" />
+              
+              <div className="space-y-3 mt-6">
+                {inputSections.map((section) => (
+                  <div key={section.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer">
+                    {section.completed ? (
+                      <CheckCircle className="h-5 w-5 text-green-600" />
+                    ) : (
+                      <Circle className="h-5 w-5 text-gray-400" />
+                    )}
+                    <span className={`text-base ${section.completed ? 'text-gray-900 font-medium' : 'text-gray-500'}`}>
+                      {section.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <Progress value={completionPercentage} className="h-2" />
-            
-            <div className="grid grid-cols-2 gap-2 mt-4">
-              {inputSections.map((section) => (
-                <div key={section.id} className="flex items-center gap-2">
-                  {section.completed ? (
-                    <CheckCircle className="h-4 w-4 text-green-600" />
-                  ) : (
-                    <Circle className="h-4 w-4 text-gray-400" />
-                  )}
-                  <span className={`text-sm ${section.completed ? 'text-gray-900' : 'text-gray-500'}`}>
-                    {section.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
 
-      {/* Client Input Hub */}
-      <ClientInputHub />
+      {/* Main Input Area */}
+      <div className="flex-1">
+        <ClientInputHub />
+      </div>
     </div>
   );
 };

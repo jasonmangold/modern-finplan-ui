@@ -98,9 +98,14 @@ const planningGoals = [
   }
 ];
 
-export const GoalsBasedMode = () => {
+interface GoalsBasedModeProps {
+  onGoalSelect: (goalId: string) => void;
+}
+
+export const GoalsBasedMode = ({ onGoalSelect }: GoalsBasedModeProps) => {
   const handleGoalClick = (goalId: string) => {
     console.log(`Opening goal wizard for: ${goalId}`);
+    onGoalSelect(goalId);
   };
 
   const completedGoals = planningGoals.filter(goal => goal.completed).length;
@@ -110,8 +115,8 @@ export const GoalsBasedMode = () => {
       {/* Header with Progress */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-semibold text-gray-900">Financial Goals</h2>
-          <p className="text-sm text-gray-600 mt-1">
+          <h2 className="text-3xl font-semibold text-gray-900">Financial Goals</h2>
+          <p className="text-lg text-gray-600 mt-2">
             {completedGoals} of {planningGoals.length} goals in progress
           </p>
         </div>
@@ -121,29 +126,29 @@ export const GoalsBasedMode = () => {
         </Button>
       </div>
 
-      {/* Goals Grid */}
-      <div className="grid grid-cols-2 gap-4 h-[calc(100%-120px)] overflow-y-auto">
+      {/* Goals Grid - Full Screen */}
+      <div className="grid grid-cols-4 gap-6 h-[calc(100%-120px)] overflow-y-auto">
         {planningGoals.map((goal) => {
           const IconComponent = goal.icon;
           return (
             <Card 
               key={goal.id} 
-              className={`cursor-pointer transition-all hover:shadow-md ${goal.color}`}
+              className={`cursor-pointer transition-all hover:shadow-lg hover:scale-105 ${goal.color} h-fit`}
               onClick={() => handleGoalClick(goal.id)}
             >
-              <CardHeader className="pb-3">
+              <CardHeader className="pb-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className={`p-2 rounded-lg bg-white ${goal.iconColor}`}>
-                      <IconComponent className="h-5 w-5" />
+                    <div className={`p-3 rounded-lg bg-white ${goal.iconColor}`}>
+                      <IconComponent className="h-6 w-6" />
                     </div>
                     <div>
-                      <CardTitle className="text-base">{goal.title}</CardTitle>
-                      <p className="text-xs text-gray-600 mt-1">{goal.description}</p>
+                      <CardTitle className="text-lg">{goal.title}</CardTitle>
+                      <p className="text-sm text-gray-600 mt-1">{goal.description}</p>
                     </div>
                   </div>
                   {goal.completed && (
-                    <Badge variant="secondary" className="text-xs">
+                    <Badge variant="secondary" className="text-sm">
                       Active
                     </Badge>
                   )}
@@ -152,7 +157,7 @@ export const GoalsBasedMode = () => {
               <CardContent className="pt-0">
                 <div className="flex items-center justify-between">
                   <p className="text-sm text-gray-700">{goal.status}</p>
-                  <ArrowRight className="h-4 w-4 text-gray-400" />
+                  <ArrowRight className="h-5 w-5 text-gray-400" />
                 </div>
               </CardContent>
             </Card>
@@ -162,11 +167,11 @@ export const GoalsBasedMode = () => {
 
       {/* Switch Mode Prompt */}
       <Card className="border-dashed border-2 border-blue-200 bg-blue-50">
-        <CardContent className="p-4 text-center">
-          <p className="text-sm text-blue-800 font-medium">
+        <CardContent className="p-6 text-center">
+          <p className="text-lg text-blue-800 font-medium">
             Want to review everything at once?
           </p>
-          <p className="text-xs text-blue-600 mt-1">
+          <p className="text-sm text-blue-600 mt-2">
             Switch to Comprehensive Mode to see all your client's data in one view.
           </p>
         </CardContent>
