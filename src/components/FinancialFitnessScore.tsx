@@ -7,23 +7,15 @@ import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, Award, TrendingUp } from "lucide-react";
 
 const fitnessTopics = [
-  { id: "education-funding", label: "Education Funding", score: 8.5 },
-  { id: "survivor-needs", label: "Survivor Needs", score: 9.2 },
-  { id: "retirement-accumulation", label: "Retirement Accumulation", score: 7.8 },
-  { id: "retirement-distribution", label: "Retirement Distribution", score: 4.2 },
-  { id: "social-security", label: "Social Security", score: 3.5 },
-  { id: "disability", label: "Disability", score: 2.1 },
-  { id: "critical-illness", label: "Critical Illness", score: 1.8 },
-  { id: "long-term-care", label: "Long-Term Care", score: 3.2 },
-  { id: "estate-analysis", label: "Estate Analysis", score: 5.5 },
   { id: "accumulation-funding", label: "Accumulation Funding", score: 8.9 },
-  { id: "asset-allocation", label: "Asset Allocation", score: 6.7 },
-  { id: "charitable-remainder-trust", label: "Charitable Remainder Trust", score: 2.0 },
-  { id: "personal-finance", label: "Personal Finance", score: 8.8 },
-  { id: "debt-repayment", label: "Debt Repayment", score: 6.3 },
-  { id: "business-continuation", label: "Business Continuation", score: 1.0 },
-  { id: "business-valuation", label: "Business Valuation", score: 1.0 },
-  { id: "key-employee", label: "Key Employee", score: 1.0 }
+  { id: "critical-illness", label: "Critical Illness", score: 1.8 },
+  { id: "debt-repayment", label: "Debt", score: 6.3 },
+  { id: "disability", label: "Disability", score: 2.1 },
+  { id: "education-funding", label: "Education Funding", score: 8.5 },
+  { id: "long-term-care", label: "Long Term Care", score: 3.2 },
+  { id: "retirement-accumulation", label: "Retirement Accumulation", score: 7.8 },
+  { id: "retirement-distribution", label: "Retirement Income Distribution", score: 4.2 },
+  { id: "survivor-needs", label: "Survivor", score: 9.2 }
 ];
 
 interface FinancialFitnessScoreProps {
@@ -32,11 +24,9 @@ interface FinancialFitnessScoreProps {
 
 export const FinancialFitnessScore = ({ onBack }: FinancialFitnessScoreProps) => {
   const [selectedTopics, setSelectedTopics] = useState<string[]>([
-    "education-funding",
-    "survivor-needs", 
-    "retirement-accumulation",
-    "personal-finance",
     "accumulation-funding",
+    "education-funding", 
+    "retirement-accumulation",
     "debt-repayment"
   ]);
 
@@ -97,7 +87,7 @@ export const FinancialFitnessScore = ({ onBack }: FinancialFitnessScoreProps) =>
             </CardTitle>
           </CardHeader>
           <CardContent className="flex-1 overflow-y-auto">
-            <div className="space-y-4">
+            <div className="space-y-3">
               {fitnessTopics.map((topic) => (
                 <div key={topic.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50">
                   <Checkbox
@@ -118,38 +108,38 @@ export const FinancialFitnessScore = ({ onBack }: FinancialFitnessScoreProps) =>
         </Card>
 
         {/* Right Panel - Scores */}
-        <div className="flex flex-col space-y-6 min-h-0">
-          {/* Overall Score */}
+        <div className="flex flex-col space-y-4 min-h-0">
+          {/* Overall Score - More compact */}
           <Card className="flex-shrink-0">
-            <CardHeader>
-              <CardTitle>Overall Financial Fitness</CardTitle>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base">Overall Financial Fitness</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-center">
-                <div className={`text-6xl font-bold mb-2 ${getScoreColor(overallScore)}`}>
+                <div className={`text-4xl font-bold mb-1 ${getScoreColor(overallScore)}`}>
                   {overallScore.toFixed(1)}
                 </div>
-                <div className="text-sm text-gray-500 mb-4">out of 10.0</div>
+                <div className="text-xs text-gray-500 mb-3">out of 10.0</div>
                 <Progress 
                   value={overallScore * 10} 
-                  className="h-4"
+                  className="h-3"
                 />
-                <p className="text-sm text-gray-600 mt-2">
+                <p className="text-xs text-gray-600 mt-2">
                   Based on {selectedTopics.length} selected topics
                 </p>
               </div>
             </CardContent>
           </Card>
 
-          {/* Individual Scores */}
+          {/* Individual Scores - Takes remaining space */}
           <Card className="flex-1 flex flex-col min-h-0">
-            <CardHeader className="flex-shrink-0">
-              <CardTitle>Individual Topic Scores</CardTitle>
+            <CardHeader className="flex-shrink-0 pb-3">
+              <CardTitle className="text-base">Individual Topic Scores</CardTitle>
             </CardHeader>
             <CardContent className="flex-1 overflow-y-auto">
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {selectedTopicData.map((topic) => (
-                  <div key={topic.id} className="space-y-2">
+                  <div key={topic.id} className="space-y-1.5">
                     <div className="flex justify-between items-center">
                       <span className="text-sm font-medium">{topic.label}</span>
                       <span className={`text-sm font-semibold ${getScoreColor(topic.score)}`}>
