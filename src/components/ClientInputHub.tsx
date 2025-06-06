@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -185,7 +186,7 @@ export const ClientInputHub = () => {
                     <div>
                       <Label className="text-xs text-gray-600">401(k) Balance</Label>
                       <Input 
-                        value={formData.401kBalance || ""} 
+                        value={formData["401kBalance"] || ""} 
                         className="text-sm mt-1"
                         onChange={(e) => handleInputChange('savings', '401kBalance', e.target.value)}
                       />
