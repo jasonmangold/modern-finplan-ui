@@ -31,11 +31,12 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
               }
               body {
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-                line-height: 1.5;
+                line-height: 1.4;
                 color: #374151;
                 background: white;
                 margin: 0;
                 padding: 0;
+                font-size: 12px;
               }
               .no-print {
                 display: none !important;
@@ -51,12 +52,13 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
               table {
                 border-collapse: collapse;
                 width: 100%;
-                margin: 0.75rem 0;
+                margin: 0.5rem 0;
                 break-inside: avoid;
+                font-size: 11px;
               }
               th, td {
                 border: 1px solid #d1d5db;
-                padding: 0.5rem;
+                padding: 0.4rem;
                 text-align: left;
                 vertical-align: top;
               }
@@ -64,22 +66,22 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
                 background-color: #f3f4f6;
                 font-weight: 600;
               }
-              .text-4xl { font-size: 1.875rem; font-weight: 700; margin-bottom: 0.5rem; }
-              .text-3xl { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; }
-              .text-2xl { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
-              .text-xl { font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem; }
-              .text-lg { font-size: 1rem; font-weight: 500; }
+              .text-4xl { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.3rem; }
+              .text-3xl { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.4rem; }
+              .text-2xl { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; }
+              .text-xl { font-size: 1rem; font-weight: 600; margin-bottom: 0.3rem; }
+              .text-lg { font-size: 0.95rem; font-weight: 500; }
               .font-bold { font-weight: 700; }
               .font-semibold { font-weight: 600; }
-              .mb-4 { margin-bottom: 0.75rem; }
-              .mb-6 { margin-bottom: 1rem; }
-              .mb-8 { margin-bottom: 1.25rem; }
-              .mt-4 { margin-top: 0.75rem; }
-              .mt-6 { margin-top: 1rem; }
-              .p-4 { padding: 0.75rem; }
-              .p-6 { padding: 0.75rem; }
+              .mb-4 { margin-bottom: 0.4rem; }
+              .mb-6 { margin-bottom: 0.5rem; }
+              .mb-8 { margin-bottom: 0.6rem; }
+              .mt-4 { margin-top: 0.4rem; }
+              .mt-6 { margin-top: 0.5rem; }
+              .p-4 { padding: 0.5rem; }
+              .p-6 { padding: 0.5rem; }
               .border { border: 1px solid #d1d5db; }
-              .border-l-4 { border-left: 4px solid; padding-left: 0.75rem; }
+              .border-l-4 { border-left: 4px solid; padding-left: 0.5rem; }
               .border-l-red-600 { border-left-color: #dc2626; }
               .border-l-blue-600 { border-left-color: #2563eb; }
               .border-l-green-500 { border-left-color: #10b981; }
@@ -102,15 +104,15 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
               .text-yellow-600 { color: #ca8a04; }
               .text-gray-700 { color: #374151; }
               .text-gray-900 { color: #111827; }
-              .rounded-lg { border-radius: 0.375rem; }
-              .rounded-xl { border-radius: 0.5rem; }
-              .space-y-4 > * + * { margin-top: 0.75rem; }
-              .space-y-6 > * + * { margin-top: 1rem; }
-              .space-y-8 > * + * { margin-top: 1.25rem; }
+              .rounded-lg { border-radius: 0.25rem; }
+              .rounded-xl { border-radius: 0.375rem; }
+              .space-y-4 > * + * { margin-top: 0.4rem; }
+              .space-y-6 > * + * { margin-top: 0.5rem; }
+              .space-y-8 > * + * { margin-top: 0.6rem; }
               .grid { display: grid; }
               .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-              .gap-4 { gap: 0.75rem; }
-              .gap-6 { gap: 1rem; }
+              .gap-4 { gap: 0.4rem; }
+              .gap-6 { gap: 0.5rem; }
               .flex { display: flex; }
               .items-center { align-items: center; }
               .items-start { align-items: flex-start; }
@@ -124,8 +126,8 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
               .list-inside { list-style-position: inside; }
               .overflow-x-auto { overflow-x: auto; }
               .w-full { width: 100%; }
-              .h-64 { height: 12rem; }
-              .h-48 { height: 10rem; }
+              .h-64 { height: 8rem; }
+              .h-48 { height: 6rem; }
               .relative { position: relative; }
               .absolute { position: absolute; }
               .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
@@ -136,76 +138,88 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
               .card {
                 background: white;
                 border: 1px solid #e5e7eb;
-                border-radius: 0.375rem;
-                margin-bottom: 0.75rem;
+                border-radius: 0.25rem;
+                margin-bottom: 0.4rem;
                 break-inside: avoid;
                 overflow: hidden;
               }
               
               .card-content {
-                padding: 0.75rem;
+                padding: 0.5rem;
               }
               
               .card-header {
-                padding: 0.75rem 0.75rem 0.25rem 0.75rem;
+                padding: 0.5rem 0.5rem 0.2rem 0.5rem;
               }
               
               .card-title {
-                font-size: 1.125rem;
+                font-size: 1rem;
                 font-weight: 600;
                 margin: 0;
                 display: flex;
                 align-items: center;
-                gap: 0.5rem;
+                gap: 0.4rem;
               }
               
-              /* Icon styling */
+              /* Icon styling - FIXED SIZES */
               svg {
-                width: 1.25rem;
-                height: 1.25rem;
+                width: 1rem !important;
+                height: 1rem !important;
                 flex-shrink: 0;
                 display: inline-block;
                 vertical-align: middle;
               }
               
               .icon-large svg {
-                width: 1.5rem;
-                height: 1.5rem;
+                width: 1.2rem !important;
+                height: 1.2rem !important;
               }
               
-              /* Header icons */
+              /* Header icons - larger for titles */
               .header-icon {
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                width: 2.5rem;
-                height: 2.5rem;
-                border-radius: 0.375rem;
+                width: 2rem;
+                height: 2rem;
+                border-radius: 0.25rem;
                 flex-shrink: 0;
               }
               
               .header-icon svg {
-                width: 1.75rem;
-                height: 1.75rem;
+                width: 1.4rem !important;
+                height: 1.4rem !important;
+              }
+              
+              /* Title icons in headers */
+              h1 svg, h2 svg {
+                width: 1.4rem !important;
+                height: 1.4rem !important;
+              }
+              
+              /* Card title icons */
+              .card-title svg {
+                width: 1.1rem !important;
+                height: 1.1rem !important;
               }
               
               /* Badge styles */
               .badge {
                 display: inline-flex;
                 align-items: center;
-                padding: 0.25rem 0.5rem;
-                border-radius: 0.25rem;
-                font-size: 0.75rem;
+                padding: 0.2rem 0.4rem;
+                border-radius: 0.2rem;
+                font-size: 0.7rem;
                 font-weight: 500;
-                margin: 0 0.25rem;
+                margin: 0 0.2rem;
               }
               
               /* Hero image container */
               .hero-container {
-                height: 8rem;
-                border-radius: 0.5rem;
+                height: 6rem;
+                border-radius: 0.375rem;
                 overflow: hidden;
-                margin: 1rem 0;
+                margin: 0.5rem 0;
                 position: relative;
                 background: linear-gradient(to right, #fef2f2, #fed7aa);
               }
@@ -219,9 +233,9 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
                 .md\\:grid-cols-2 { grid-template-columns: 1fr; }
               }
               
-              /* Ensure proper spacing between major sections */
+              /* Reduce spacing between major sections */
               .report-content > * {
-                margin-bottom: 1.25rem;
+                margin-bottom: 0.6rem;
               }
               
               .report-content > *:last-child {
@@ -230,7 +244,8 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
               
               /* Improve paragraph spacing */
               p {
-                margin: 0 0 0.75rem 0;
+                margin: 0 0 0.4rem 0;
+                line-height: 1.3;
               }
               
               p:last-child {
@@ -239,18 +254,19 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
               
               /* List styling */
               ul {
-                margin: 0.5rem 0;
-                padding-left: 1.25rem;
+                margin: 0.3rem 0;
+                padding-left: 1rem;
               }
               
               li {
-                margin-bottom: 0.25rem;
+                margin-bottom: 0.2rem;
+                line-height: 1.3;
               }
               
               /* Header section specific styling */
               .header-section {
                 text-align: center;
-                margin-bottom: 1.5rem;
+                margin-bottom: 0.8rem;
                 break-inside: avoid;
               }
               
@@ -258,16 +274,39 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                gap: 0.75rem;
-                margin-bottom: 0.75rem;
+                gap: 0.5rem;
+                margin-bottom: 0.4rem;
               }
               
               .header-section .badge-container {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                gap: 1rem;
-                margin-top: 0.75rem;
+                gap: 0.6rem;
+                margin-top: 0.4rem;
+              }
+              
+              /* Reduce whitespace in content sections */
+              .prose {
+                line-height: 1.3;
+              }
+              
+              .space-y-6 > * + * {
+                margin-top: 0.4rem;
+              }
+              
+              .space-y-8 > * + * {
+                margin-top: 0.5rem;
+              }
+              
+              /* Compact grid layouts */
+              .grid.gap-6 {
+                gap: 0.4rem;
+              }
+              
+              /* Fix alert/warning sections */
+              .border-l-4 {
+                margin: 0.4rem 0;
               }
             }
           </style>
