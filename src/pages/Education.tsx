@@ -1,11 +1,11 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown, Download, Search, Filter, X } from "lucide-react";
+import { ChevronDown, Download, Search, Filter, X, ArrowLeft } from "lucide-react";
+import { ReportViewer } from "@/components/ReportViewer";
 
 const educationCategories = ["Personal Finance", "Income Taxes", "Investments", "Retirement Planning", "Insurance", "Home Ownership", "Education Funding", "Estate Planning", "Business Planning", "Charitable Planning", "Social Security and Government Programs"];
 
@@ -19,6 +19,7 @@ const Education = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [selectedFormats, setSelectedFormats] = useState<string[]>([]);
+  const [selectedReport, setSelectedReport] = useState<string | null>(null);
 
   const filteredReports = educationReports.filter(report => 
     report.toLowerCase().includes(searchTerm.toLowerCase())
@@ -48,6 +49,34 @@ const Education = () => {
     setSelectedTopics([]);
     setSelectedFormats([]);
   };
+
+  const handleReportClick = (reportTitle: string) => {
+    if (reportTitle === "The Need for Financial Planning") {
+      setSelectedReport("retirement-planning");
+    }
+  };
+
+  const handleBackToReports = () => {
+    setSelectedReport(null);
+  };
+
+  if (selectedReport) {
+    return (
+      <div className="p-8 max-w-7xl mx-auto">
+        <div className="mb-6">
+          <Button 
+            variant="outline" 
+            onClick={handleBackToReports}
+            className="flex items-center gap-2"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to Reports
+          </Button>
+        </div>
+        <ReportViewer reportId={selectedReport} />
+      </div>
+    );
+  }
 
   return (
     <div className="p-8 max-w-7xl mx-auto space-y-8">
@@ -190,7 +219,12 @@ const Education = () => {
                       onCheckedChange={() => handleItemSelection(report)} 
                     />
                     <div>
-                      <span className="font-medium text-gray-900 group-hover:text-blue-700 transition-colors">{report}</span>
+                      <button
+                        onClick={() => handleReportClick(report)}
+                        className="font-medium text-gray-900 group-hover:text-blue-700 transition-colors text-left hover:underline"
+                      >
+                        {report}
+                      </button>
                       <div className="text-xs text-gray-500 mt-1">PDF • 2.1 MB</div>
                     </div>
                   </div>
