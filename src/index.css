@@ -4,6 +4,7 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;500;600;700&display=swap');
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. */
 
@@ -64,6 +65,10 @@
     --gray-700: 215 19% 27%;
     --gray-800: 215 28% 17%;
     --gray-900: 222 84% 5%;
+
+    /* Custom report colors */
+    --report-main-heading: #3F528C;
+    --report-sub-heading: #344373;
   }
 
   .dark {
@@ -140,6 +145,21 @@
 
   .smooth-card {
     @apply rounded-xl border border-gray-200/60 bg-white/70 backdrop-blur-sm shadow-sm shadow-gray-900/5 transition-all duration-200 hover:shadow-md hover:shadow-gray-900/10;
+  }
+
+  /* Report-specific fonts */
+  .report-heading {
+    font-family: 'Roboto Slab', serif;
+    color: var(--report-main-heading);
+  }
+
+  .report-subheading {
+    font-family: 'Roboto Slab', serif;
+    color: var(--report-sub-heading);
+  }
+
+  .report-body {
+    font-family: 'Source Sans Pro', sans-serif;
   }
 }
 

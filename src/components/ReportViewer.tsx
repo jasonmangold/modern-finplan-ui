@@ -23,6 +23,7 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
       <html>
         <head>
           <title>Report - ${getReportTitle()}</title>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;500;600;700&display=swap">
           <style>
             @media print {
               @page {
@@ -30,13 +31,13 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
                 size: A4;
               }
               body {
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-                line-height: 1.4;
+                font-family: 'Source Sans Pro', sans-serif;
+                line-height: 1.3;
                 color: #374151;
                 background: white;
                 margin: 0;
                 padding: 0;
-                font-size: 12px;
+                font-size: 11px;
               }
               .no-print {
                 display: none !important;
@@ -52,13 +53,13 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
               table {
                 border-collapse: collapse;
                 width: 100%;
-                margin: 0.5rem 0;
+                margin: 0.4rem 0;
                 break-inside: avoid;
-                font-size: 11px;
+                font-size: 10px;
               }
               th, td {
                 border: 1px solid #d1d5db;
-                padding: 0.4rem;
+                padding: 0.3rem;
                 text-align: left;
                 vertical-align: top;
               }
@@ -66,22 +67,24 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
                 background-color: #f3f4f6;
                 font-weight: 600;
               }
-              .text-4xl { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.3rem; }
-              .text-3xl { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.4rem; }
-              .text-2xl { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; }
-              .text-xl { font-size: 1rem; font-weight: 600; margin-bottom: 0.3rem; }
-              .text-lg { font-size: 0.95rem; font-weight: 500; }
+              .text-4xl { font-size: 1.4rem; font-weight: 400; margin-bottom: 0.3rem; font-family: 'Roboto Slab', serif; }
+              .text-3xl { font-size: 1.2rem; font-weight: 400; margin-bottom: 0.4rem; font-family: 'Roboto Slab', serif; }
+              .text-2xl { font-size: 1.1rem; font-weight: 400; margin-bottom: 0.3rem; font-family: 'Roboto Slab', serif; }
+              .text-xl { font-size: 1rem; font-weight: 400; margin-bottom: 0.3rem; font-family: 'Roboto Slab', serif; }
+              .text-lg { font-size: 0.95rem; font-weight: 400; }
               .font-bold { font-weight: 700; }
               .font-semibold { font-weight: 600; }
+              .mb-2 { margin-bottom: 0.2rem; }
+              .mb-3 { margin-bottom: 0.3rem; }
               .mb-4 { margin-bottom: 0.4rem; }
               .mb-6 { margin-bottom: 0.5rem; }
               .mb-8 { margin-bottom: 0.6rem; }
               .mt-4 { margin-top: 0.4rem; }
               .mt-6 { margin-top: 0.5rem; }
-              .p-4 { padding: 0.5rem; }
-              .p-6 { padding: 0.5rem; }
+              .p-4 { padding: 0.4rem; }
+              .p-6 { padding: 0.4rem; }
               .border { border: 1px solid #d1d5db; }
-              .border-l-4 { border-left: 4px solid; padding-left: 0.5rem; }
+              .border-l-4 { border-left: 4px solid; padding-left: 0.4rem; }
               .border-l-red-600 { border-left-color: #dc2626; }
               .border-l-blue-600 { border-left-color: #2563eb; }
               .border-l-green-500 { border-left-color: #10b981; }
@@ -104,15 +107,16 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
               .text-yellow-600 { color: #ca8a04; }
               .text-gray-700 { color: #374151; }
               .text-gray-900 { color: #111827; }
-              .rounded-lg { border-radius: 0.25rem; }
-              .rounded-xl { border-radius: 0.375rem; }
+              .rounded-lg { border-radius: 0.2rem; }
+              .rounded-xl { border-radius: 0.3rem; }
+              .space-y-3 > * + * { margin-top: 0.3rem; }
               .space-y-4 > * + * { margin-top: 0.4rem; }
-              .space-y-6 > * + * { margin-top: 0.5rem; }
-              .space-y-8 > * + * { margin-top: 0.6rem; }
+              .space-y-6 > * + * { margin-top: 0.4rem; }
+              .space-y-8 > * + * { margin-top: 0.5rem; }
               .grid { display: grid; }
               .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-              .gap-4 { gap: 0.4rem; }
-              .gap-6 { gap: 0.5rem; }
+              .gap-4 { gap: 0.3rem; }
+              .gap-6 { gap: 0.4rem; }
               .flex { display: flex; }
               .items-center { align-items: center; }
               .items-start { align-items: flex-start; }
@@ -126,8 +130,8 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
               .list-inside { list-style-position: inside; }
               .overflow-x-auto { overflow-x: auto; }
               .w-full { width: 100%; }
-              .h-64 { height: 8rem; }
-              .h-48 { height: 6rem; }
+              .h-64 { height: 6rem; }
+              .h-48 { height: 4rem; }
               .relative { position: relative; }
               .absolute { position: absolute; }
               .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
@@ -138,18 +142,18 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
               .card {
                 background: white;
                 border: 1px solid #e5e7eb;
-                border-radius: 0.25rem;
-                margin-bottom: 0.4rem;
+                border-radius: 0.2rem;
+                margin-bottom: 0.3rem;
                 break-inside: avoid;
                 overflow: hidden;
               }
               
               .card-content {
-                padding: 0.5rem;
+                padding: 0.4rem;
               }
               
               .card-header {
-                padding: 0.5rem 0.5rem 0.2rem 0.5rem;
+                padding: 0.4rem 0.4rem 0.2rem 0.4rem;
               }
               
               .card-title {
@@ -158,94 +162,94 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
                 margin: 0;
                 display: flex;
                 align-items: center;
-                gap: 0.4rem;
+                gap: 0.3rem;
               }
               
-              /* Icon styling - FIXED SIZES */
+              /* Icon styling */
               svg {
-                width: 1rem !important;
-                height: 1rem !important;
+                width: 0.9rem !important;
+                height: 0.9rem !important;
                 flex-shrink: 0;
                 display: inline-block;
                 vertical-align: middle;
               }
               
               .icon-large svg {
-                width: 1.2rem !important;
-                height: 1.2rem !important;
+                width: 1.1rem !important;
+                height: 1.1rem !important;
               }
               
-              /* Header icons - larger for titles */
+              /* Header icons */
               .header-icon {
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                width: 2rem;
-                height: 2rem;
-                border-radius: 0.25rem;
+                width: 1.8rem;
+                height: 1.8rem;
+                border-radius: 0.2rem;
                 flex-shrink: 0;
               }
               
               .header-icon svg {
-                width: 1.4rem !important;
-                height: 1.4rem !important;
+                width: 1.2rem !important;
+                height: 1.2rem !important;
               }
               
-              /* Title icons in headers */
+              /* Title icons */
               h1 svg, h2 svg {
-                width: 1.4rem !important;
-                height: 1.4rem !important;
+                width: 1.2rem !important;
+                height: 1.2rem !important;
               }
               
               /* Card title icons */
               .card-title svg {
-                width: 1.1rem !important;
-                height: 1.1rem !important;
+                width: 1rem !important;
+                height: 1rem !important;
               }
               
               /* Badge styles */
               .badge {
                 display: inline-flex;
                 align-items: center;
-                padding: 0.2rem 0.4rem;
-                border-radius: 0.2rem;
-                font-size: 0.7rem;
+                padding: 0.15rem 0.3rem;
+                border-radius: 0.15rem;
+                font-size: 0.65rem;
                 font-weight: 500;
-                margin: 0 0.2rem;
+                margin: 0 0.15rem;
               }
               
-              /* Hero image container */
+              /* Hero image */
               .hero-container {
-                height: 6rem;
-                border-radius: 0.375rem;
+                height: 4rem;
+                border-radius: 0.3rem;
                 overflow: hidden;
-                margin: 0.5rem 0;
+                margin: 0.4rem 0;
                 position: relative;
                 background: linear-gradient(to right, #fef2f2, #fed7aa);
               }
               
-              /* Table hover effects removed for print */
+              /* Remove hover effects */
               .hover\\:bg-gray-50 { background-color: transparent; }
               
-              /* Grid responsive adjustments for print */
+              /* Grid responsive */
               @media print and (max-width: 8in) {
                 .grid-cols-2 { grid-template-columns: 1fr; }
                 .md\\:grid-cols-2 { grid-template-columns: 1fr; }
               }
               
-              /* Reduce spacing between major sections */
+              /* Reduce spacing */
               .report-content > * {
-                margin-bottom: 0.6rem;
+                margin-bottom: 0.4rem;
               }
               
               .report-content > *:last-child {
                 margin-bottom: 0;
               }
               
-              /* Improve paragraph spacing */
+              /* Paragraph spacing */
               p {
-                margin: 0 0 0.4rem 0;
-                line-height: 1.3;
+                margin: 0 0 0.3rem 0;
+                line-height: 1.25;
               }
               
               p:last-child {
@@ -254,19 +258,19 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
               
               /* List styling */
               ul {
-                margin: 0.3rem 0;
-                padding-left: 1rem;
+                margin: 0.25rem 0;
+                padding-left: 0.8rem;
               }
               
               li {
-                margin-bottom: 0.2rem;
-                line-height: 1.3;
+                margin-bottom: 0.15rem;
+                line-height: 1.25;
               }
               
-              /* Header section specific styling */
+              /* Header section */
               .header-section {
                 text-align: center;
-                margin-bottom: 0.8rem;
+                margin-bottom: 0.6rem;
                 break-inside: avoid;
               }
               
@@ -274,39 +278,100 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                gap: 0.5rem;
-                margin-bottom: 0.4rem;
+                gap: 0.4rem;
+                margin-bottom: 0.3rem;
               }
               
               .header-section .badge-container {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                gap: 0.6rem;
-                margin-top: 0.4rem;
+                gap: 0.5rem;
+                margin-top: 0.3rem;
               }
               
-              /* Reduce whitespace in content sections */
+              /* Compact layouts */
               .prose {
-                line-height: 1.3;
+                line-height: 1.25;
               }
               
               .space-y-6 > * + * {
-                margin-top: 0.4rem;
+                margin-top: 0.3rem;
               }
               
               .space-y-8 > * + * {
-                margin-top: 0.5rem;
+                margin-top: 0.4rem;
               }
               
-              /* Compact grid layouts */
               .grid.gap-6 {
-                gap: 0.4rem;
+                gap: 0.3rem;
               }
               
-              /* Fix alert/warning sections */
+              /* Alert sections */
               .border-l-4 {
-                margin: 0.4rem 0;
+                margin: 0.3rem 0;
+              }
+
+              /* Report 3 specific styles */
+              .report-3-heading {
+                font-family: 'Roboto Slab', serif;
+                color: #3F528C;
+                font-weight: 400;
+                text-align: center;
+                border-bottom: 2px solid #e5e7eb;
+                padding-bottom: 0.3rem;
+                margin-bottom: 0.5rem;
+              }
+
+              .report-3-subheading {
+                font-family: 'Roboto Slab', serif;
+                color: #344373;
+                font-weight: 400;
+                margin-bottom: 0.3rem;
+              }
+
+              .report-3-body {
+                font-family: 'Source Sans Pro', sans-serif;
+                line-height: 1.4;
+                text-align: justify;
+              }
+
+              .report-3-footnote {
+                font-size: 0.7rem;
+                margin-top: 0.5rem;
+                border-top: 1px solid #e5e7eb;
+                padding-top: 0.3rem;
+              }
+
+              .report-3-page-footer {
+                position: fixed;
+                bottom: 0.3rem;
+                left: 0;
+                right: 0;
+                text-align: center;
+                font-size: 0.7rem;
+                display: flex;
+                justify-content: space-between;
+                padding: 0 0.5in;
+              }
+
+              .chart-container {
+                text-align: center;
+                margin: 0.5rem 0;
+              }
+
+              .chart-title {
+                font-family: 'Roboto Slab', serif;
+                color: #344373;
+                font-size: 0.9rem;
+                margin-bottom: 0.3rem;
+              }
+
+              .retirement-image {
+                float: right;
+                margin: 0 0 0.3rem 0.5rem;
+                width: 150px;
+                height: auto;
               }
             }
           </style>
@@ -336,6 +401,8 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
         return "The Need for Retirement Planning";
       case "retirement-planning-2":
         return "The Need for Retirement Planning (2)";
+      case "retirement-planning-3":
+        return "The Need for Retirement Planning (3)";
       default:
         return "Report";
     }
@@ -1125,6 +1192,172 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
               </p>
             </CardContent>
           </Card>
+        </div>
+      </div>
+    );
+  }
+
+  if (reportId === "retirement-planning-3") {
+    return (
+      <div className="max-w-4xl mx-auto space-y-6 report-content">
+        {/* Action Buttons */}
+        <div className="flex items-center justify-center gap-3 no-print mb-6">
+          <Button variant="outline" className="flex items-center gap-2" onClick={handleDownloadPDF}>
+            <Download className="h-4 w-4" />
+            Download PDF
+          </Button>
+          <Button variant="outline" className="flex items-center gap-2">
+            <Share className="h-4 w-4" />
+            Share
+          </Button>
+          <Button variant="outline" className="flex items-center gap-2">
+            <Printer className="h-4 w-4" />
+            Print
+          </Button>
+        </div>
+
+        {/* Page 1 */}
+        <div className="space-y-6">
+          {/* Header */}
+          <h1 className="report-3-heading text-4xl font-normal text-center border-b-2 border-gray-300 pb-4 mb-8">
+            The Need for Retirement Planning
+          </h1>
+
+          {/* Introduction with image */}
+          <div className="report-3-body text-base leading-relaxed">
+            <img 
+              src="/lovable-uploads/719f850d-208e-436a-84a3-c4b1512811cb.png"
+              alt="Retirement planning book"
+              className="retirement-image"
+            />
+            <p className="mb-4">
+              Traditionally, retirement in America has been defined in terms of its relationship to participation in the active work force. An individual would work full-time until a certain age, and then leave employment to spend a few years quietly rocking on the front porch. Declining health often made retirement short and unpleasant. Retirement planning, as such, typically focused on saving enough to guarantee minimal survival for a relatively brief period of time.
+            </p>
+            
+            <p className="mb-4">
+              More recently, however, many individuals are beginning to recognize that for a number of reasons, this traditional view of retirement is no longer accurate. Some individuals, for example, are voluntarily choosing to retire early, in their 40s or 50s. Others, because they enjoy working, choose to remain employed well past the traditional retirement age of 65. And, many retirees do more than just rock on the front porch. Retirement is now often defined by activities such as travel, returning to school, volunteer work, or the pursuit of favorite hobbies or sports.
+            </p>
+            
+            <p className="mb-4">
+              This changed the face of retirement, however, with all of its possibilities, does not happen automatically. Many of the issues associated with retirement, such as ill health, and the need to provide income, still exist. With proper planning, however, these needs can be met.
+            </p>
+          </div>
+
+          {/* Longer Lives Section */}
+          <div className="mt-8">
+            <h2 className="report-3-subheading text-2xl font-normal mb-4">
+              Longer Lives
+            </h2>
+            
+            <div className="report-3-body text-base leading-relaxed">
+              <p className="mb-4">
+                The single most important factor in this changed retirement picture is the fact that we now live much longer than before. A child born in 1900, for example, had an average life expectancy of 47.3 years. For a child born in 2020, however, average life expectancy had increased to 77.0 years. The following graph¹ illustrates this change.
+              </p>
+            </div>
+
+            <div className="report-3-footnote text-xs mt-6 pt-3 border-t border-gray-300">
+              ¹ Source: National Vital Statistics Reports, Volume 71, Number 1 – United States Life Tables, 2020, Table 19. August 8, 2022.
+            </div>
+          </div>
+
+          {/* Page footer */}
+          <div className="report-3-page-footer text-xs flex justify-between items-center mt-8 pt-3 border-t">
+            <span>Page 1 of 3</span>
+            <span>Presented by Jason Mangold</span>
+          </div>
+        </div>
+
+        {/* Page break */}
+        <div className="page-break"></div>
+
+        {/* Page 2 */}
+        <div className="space-y-6">
+          <h1 className="report-3-heading text-4xl font-normal text-center border-b-2 border-gray-300 pb-4 mb-8">
+            The Need for Retirement Planning
+          </h1>
+
+          {/* Chart */}
+          <div className="chart-container mb-8">
+            <h3 className="chart-title text-lg mb-4">Average U.S. Life Expectancy (1900 – 2020)</h3>
+            <img 
+              src="/lovable-uploads/b9f3724b-53f8-4430-9fc7-32d280a85c70.png"
+              alt="Life expectancy chart"
+              className="mx-auto max-w-full"
+            />
+          </div>
+
+          {/* Common Retirement Planning Issues */}
+          <div>
+            <h2 className="report-3-subheading text-2xl font-normal mb-4">
+              Common Retirement Planning Issues
+            </h2>
+            
+            <div className="report-3-body text-base leading-relaxed">
+              <p className="mb-4">
+                Planning for a much longer life span involves addressing problems not faced by earlier generations. Some of the key issues include the following:
+              </p>
+
+              <ul className="list-disc ml-6 space-y-3">
+                <li>
+                  <strong className="text-blue-600">Paying for retirement:</strong> Providing a steady income is often the key problem involved in retirement planning. Longer life spans raise the issue of the impact of inflation on fixed dollar payments, as well as the possibility of outliving accumulated personal savings. Social Security retirement benefits and income from employer-sponsored retirement plans typically provide only a portion of the total income required. If income is insufficient, a retiree may be forced to either continue working, or face a reduced standard of living.
+                </li>
+
+                <li>
+                  <strong className="text-red-600">Health care:</strong> The health benefits provided through the federal government's Medicare program are generally considered to be only a foundation. Often a supplemental Medigap policy is needed, as is a long-term care policy, to provide needed benefits not available through Medicare. Health care planning should also consider a health care proxy, allowing someone else to make medical decisions when an individual is temporarily incapacitated, as well as a living will that expresses an individual's wishes when no hope of recovery is possible.
+                </li>
+
+                <li>
+                  <strong className="text-blue-600">Estate planning:</strong> Retirement planning inevitably must consider what happens to an individual's assets after retirement is over. Estate planning should ensure not only
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Page footer */}
+          <div className="report-3-page-footer text-xs flex justify-between items-center mt-8 pt-3 border-t">
+            <span>Page 2 of 3</span>
+            <span>Presented by Jason Mangold</span>
+          </div>
+        </div>
+
+        {/* Page break */}
+        <div className="page-break"></div>
+
+        {/* Page 3 */}
+        <div className="space-y-6">
+          <h1 className="report-3-heading text-4xl font-normal text-center border-b-2 border-gray-300 pb-4 mb-8">
+            The Need for Retirement Planning
+          </h1>
+
+          <div className="report-3-body text-base leading-relaxed">
+            <p className="mb-4">
+              that assets are transferred to the individuals or organizations chosen by the owner, but also that the transfer is done with the least amount of tax and administrative expense.
+            </p>
+
+            <ul className="list-disc ml-6 space-y-3 mb-6">
+              <li>
+                <strong className="text-orange-600">Housing:</strong> This question involves not only the size and type of home (condo, house, shared housing, assisted living), but also its location. Such factors as climate and proximity to close family members and medical care are often important. Completely paying off a home loan can reduce monthly income needs. A reverse mortgage may provide additional monthly income.
+              </li>
+
+              <li>
+                <strong className="text-purple-600">Lifestyle:</strong> Some individuals, accustomed to a busy work life, find it difficult to enjoy the freedom offered by retirement. Planning ahead can make this transition easier.
+              </li>
+            </ul>
+
+            <h2 className="report-3-subheading text-2xl font-normal mb-4">
+              Seek Professional Guidance
+            </h2>
+
+            <p className="mb-4">
+              Developing a successful retirement plan involves carefully considering a wide range of issues and potential problems. Finding solutions to these questions often requires both personal education and the guidance of knowledgeable individuals, from many professional disciplines. The key is to begin planning as early as possible.
+            </p>
+          </div>
+
+          {/* Page footer */}
+          <div className="report-3-page-footer text-xs flex justify-between items-center mt-8 pt-3 border-t">
+            <span>Page 3 of 3</span>
+            <span>Presented by Jason Mangold</span>
+          </div>
         </div>
       </div>
     );
