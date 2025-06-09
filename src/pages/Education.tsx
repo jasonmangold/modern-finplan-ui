@@ -9,7 +9,7 @@ import { ReportViewer } from "@/components/ReportViewer";
 
 const educationCategories = ["Personal Finance", "Income Taxes", "Investments", "Retirement Planning", "Insurance", "Home Ownership", "Education Funding", "Estate Planning", "Business Planning", "Charitable Planning", "Social Security and Government Programs"];
 
-const educationReports = ["The Need for Financial Planning", "Up to Your Neck in Debt?", "Budgeting Basics", "Income Tax Fundamentals", "Advanced Tax Strategies", "Tax Planning Guide", "Investment Planning 101", "Understanding Mutual Funds", "Stocks and Bonds Basics", "Alternative Investments", "The Road to Retirement Planning"];
+const educationReports = ["The Need for Financial Planning", "The Need for Retirement Planning (2)", "Up to Your Neck in Debt?", "Budgeting Basics", "Income Tax Fundamentals", "Advanced Tax Strategies", "Tax Planning Guide", "Investment Planning 101", "Understanding Mutual Funds", "Stocks and Bonds Basics", "Alternative Investments", "The Road to Retirement Planning"];
 
 const topicTags = ["Retirement", "Life Insurance", "College", "Disability", "Long-Term Care", "Debt", "Estate Planning", "Tax Strategy"];
 
@@ -53,6 +53,8 @@ const Education = () => {
   const handleReportClick = (reportTitle: string) => {
     if (reportTitle === "The Need for Financial Planning") {
       setSelectedReport("retirement-planning");
+    } else if (reportTitle === "The Need for Retirement Planning (2)") {
+      setSelectedReport("retirement-planning-2");
     }
   };
 
