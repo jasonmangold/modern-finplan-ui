@@ -1,3 +1,4 @@
+
 import { useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
 
@@ -43,7 +44,7 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
         </div>
         <div className="w-full h-full">
           <iframe
-            src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/web/viewer.html?file=/retirement-planning-4.pdf"
+            src={`https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/web/viewer.html?file=${encodeURIComponent(window.location.origin + '/retirement-planning-4.pdf')}`}
             width="100%"
             height="100%"
             style={{ border: 'none' }}
