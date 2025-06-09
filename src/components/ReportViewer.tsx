@@ -1,8 +1,7 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Download, Share, Print, BookOpen, TrendingUp, Users, Heart, Home, PiggyBank } from "lucide-react";
+import { Download, Share, Printer, BookOpen, TrendingUp, Users, Heart, Home, PiggyBank } from "lucide-react";
 
 interface ReportViewerProps {
   reportId: string;
@@ -45,7 +44,7 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
           Share
         </Button>
         <Button variant="outline" className="flex items-center gap-2">
-          <Print className="h-4 w-4" />
+          <Printer className="h-4 w-4" />
           Print
         </Button>
       </div>
