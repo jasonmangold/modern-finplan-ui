@@ -26,14 +26,16 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
           <style>
             @media print {
               @page {
-                margin: 0.75in;
+                margin: 0.5in;
                 size: A4;
               }
               body {
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-                line-height: 1.6;
+                line-height: 1.5;
                 color: #374151;
                 background: white;
+                margin: 0;
+                padding: 0;
               }
               .no-print {
                 display: none !important;
@@ -44,37 +46,40 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
               img {
                 max-width: 100%;
                 height: auto;
+                display: block;
               }
               table {
                 border-collapse: collapse;
                 width: 100%;
-                margin: 1rem 0;
+                margin: 0.75rem 0;
+                break-inside: avoid;
               }
               th, td {
                 border: 1px solid #d1d5db;
-                padding: 0.75rem;
+                padding: 0.5rem;
                 text-align: left;
+                vertical-align: top;
               }
               th {
                 background-color: #f3f4f6;
                 font-weight: 600;
               }
-              .text-4xl { font-size: 2.25rem; font-weight: 700; }
-              .text-3xl { font-size: 1.875rem; font-weight: 700; }
-              .text-2xl { font-size: 1.5rem; font-weight: 600; }
-              .text-xl { font-size: 1.25rem; font-weight: 600; }
-              .text-lg { font-size: 1.125rem; }
+              .text-4xl { font-size: 1.875rem; font-weight: 700; margin-bottom: 0.5rem; }
+              .text-3xl { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; }
+              .text-2xl { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
+              .text-xl { font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem; }
+              .text-lg { font-size: 1rem; font-weight: 500; }
               .font-bold { font-weight: 700; }
               .font-semibold { font-weight: 600; }
-              .mb-4 { margin-bottom: 1rem; }
-              .mb-6 { margin-bottom: 1.5rem; }
-              .mb-8 { margin-bottom: 2rem; }
-              .mt-4 { margin-top: 1rem; }
-              .mt-6 { margin-top: 1.5rem; }
-              .p-4 { padding: 1rem; }
-              .p-6 { padding: 1.5rem; }
+              .mb-4 { margin-bottom: 0.75rem; }
+              .mb-6 { margin-bottom: 1rem; }
+              .mb-8 { margin-bottom: 1.25rem; }
+              .mt-4 { margin-top: 0.75rem; }
+              .mt-6 { margin-top: 1rem; }
+              .p-4 { padding: 0.75rem; }
+              .p-6 { padding: 0.75rem; }
               .border { border: 1px solid #d1d5db; }
-              .border-l-4 { border-left: 4px solid; }
+              .border-l-4 { border-left: 4px solid; padding-left: 0.75rem; }
               .border-l-red-600 { border-left-color: #dc2626; }
               .border-l-blue-600 { border-left-color: #2563eb; }
               .border-l-green-500 { border-left-color: #10b981; }
@@ -97,23 +102,173 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
               .text-yellow-600 { color: #ca8a04; }
               .text-gray-700 { color: #374151; }
               .text-gray-900 { color: #111827; }
-              .rounded-lg { border-radius: 0.5rem; }
-              .rounded-xl { border-radius: 0.75rem; }
-              .space-y-4 > * + * { margin-top: 1rem; }
-              .space-y-6 > * + * { margin-top: 1.5rem; }
-              .space-y-8 > * + * { margin-top: 2rem; }
+              .rounded-lg { border-radius: 0.375rem; }
+              .rounded-xl { border-radius: 0.5rem; }
+              .space-y-4 > * + * { margin-top: 0.75rem; }
+              .space-y-6 > * + * { margin-top: 1rem; }
+              .space-y-8 > * + * { margin-top: 1.25rem; }
               .grid { display: grid; }
               .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-              .gap-4 { gap: 1rem; }
-              .gap-6 { gap: 1.5rem; }
+              .gap-4 { gap: 0.75rem; }
+              .gap-6 { gap: 1rem; }
               .flex { display: flex; }
               .items-center { align-items: center; }
+              .items-start { align-items: flex-start; }
               .justify-between { justify-content: space-between; }
+              .justify-center { justify-content: center; }
               .text-center { text-align: center; }
               .max-w-3xl { max-width: 48rem; }
+              .max-w-4xl { max-width: 56rem; }
               .mx-auto { margin-left: auto; margin-right: auto; }
               .list-disc { list-style-type: disc; }
               .list-inside { list-style-position: inside; }
+              .overflow-x-auto { overflow-x: auto; }
+              .w-full { width: 100%; }
+              .h-64 { height: 12rem; }
+              .h-48 { height: 10rem; }
+              .relative { position: relative; }
+              .absolute { position: absolute; }
+              .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+              .object-cover { object-fit: cover; }
+              .flex-shrink-0 { flex-shrink: 0; }
+              
+              /* Card styles */
+              .card {
+                background: white;
+                border: 1px solid #e5e7eb;
+                border-radius: 0.375rem;
+                margin-bottom: 0.75rem;
+                break-inside: avoid;
+                overflow: hidden;
+              }
+              
+              .card-content {
+                padding: 0.75rem;
+              }
+              
+              .card-header {
+                padding: 0.75rem 0.75rem 0.25rem 0.75rem;
+              }
+              
+              .card-title {
+                font-size: 1.125rem;
+                font-weight: 600;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+              }
+              
+              /* Icon styling */
+              svg {
+                width: 1.25rem;
+                height: 1.25rem;
+                flex-shrink: 0;
+                display: inline-block;
+                vertical-align: middle;
+              }
+              
+              .icon-large svg {
+                width: 1.5rem;
+                height: 1.5rem;
+              }
+              
+              /* Header icons */
+              .header-icon {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 0.375rem;
+                flex-shrink: 0;
+              }
+              
+              .header-icon svg {
+                width: 1.75rem;
+                height: 1.75rem;
+              }
+              
+              /* Badge styles */
+              .badge {
+                display: inline-flex;
+                align-items: center;
+                padding: 0.25rem 0.5rem;
+                border-radius: 0.25rem;
+                font-size: 0.75rem;
+                font-weight: 500;
+                margin: 0 0.25rem;
+              }
+              
+              /* Hero image container */
+              .hero-container {
+                height: 8rem;
+                border-radius: 0.5rem;
+                overflow: hidden;
+                margin: 1rem 0;
+                position: relative;
+                background: linear-gradient(to right, #fef2f2, #fed7aa);
+              }
+              
+              /* Table hover effects removed for print */
+              .hover\\:bg-gray-50 { background-color: transparent; }
+              
+              /* Grid responsive adjustments for print */
+              @media print and (max-width: 8in) {
+                .grid-cols-2 { grid-template-columns: 1fr; }
+                .md\\:grid-cols-2 { grid-template-columns: 1fr; }
+              }
+              
+              /* Ensure proper spacing between major sections */
+              .report-content > * {
+                margin-bottom: 1.25rem;
+              }
+              
+              .report-content > *:last-child {
+                margin-bottom: 0;
+              }
+              
+              /* Improve paragraph spacing */
+              p {
+                margin: 0 0 0.75rem 0;
+              }
+              
+              p:last-child {
+                margin-bottom: 0;
+              }
+              
+              /* List styling */
+              ul {
+                margin: 0.5rem 0;
+                padding-left: 1.25rem;
+              }
+              
+              li {
+                margin-bottom: 0.25rem;
+              }
+              
+              /* Header section specific styling */
+              .header-section {
+                text-align: center;
+                margin-bottom: 1.5rem;
+                break-inside: avoid;
+              }
+              
+              .header-section h1 {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.75rem;
+                margin-bottom: 0.75rem;
+              }
+              
+              .header-section .badge-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 1rem;
+                margin-top: 0.75rem;
+              }
             }
           </style>
         </head>
