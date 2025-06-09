@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Download, Share, Printer, BookOpen, TrendingUp, Users, Heart, Home, PiggyBank, Calendar, DollarSign, CreditCard, AlertTriangle, FileText, Gavel } from "lucide-react";
+import { Download, Share, Printer, BookOpen, TrendingUp, Users, Heart, Home, PiggyBank, Calendar, DollarSign, CreditCard, AlertTriangle, FileText, Gavel, Search, TrendingDown, X } from "lucide-react";
 
 interface ReportViewerProps {
   reportId: string;
