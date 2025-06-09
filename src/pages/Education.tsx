@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -55,6 +56,8 @@ const Education = () => {
       setSelectedReport("retirement-planning");
     } else if (reportTitle === "The Need for Retirement Planning (2)") {
       setSelectedReport("retirement-planning-2");
+    } else if (reportTitle === "Up to Your Neck in Debt?") {
+      setSelectedReport("debt-management");
     }
   };
 

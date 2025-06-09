@@ -1,13 +1,311 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Download, Share, Printer, BookOpen, TrendingUp, Users, Heart, Home, PiggyBank, Calendar, DollarSign } from "lucide-react";
+import { Download, Share, Printer, BookOpen, TrendingUp, Users, Heart, Home, PiggyBank, Calendar, DollarSign, CreditCard, AlertTriangle, FileText, Gavel } from "lucide-react";
 
 interface ReportViewerProps {
   reportId: string;
 }
 
 export const ReportViewer = ({ reportId }: ReportViewerProps) => {
+  if (reportId === "debt-management") {
+    return (
+      <div className="max-w-4xl mx-auto space-y-8">
+        {/* Header */}
+        <div className="text-center space-y-4">
+          <div className="flex items-center justify-center gap-3">
+            <div className="p-3 bg-red-100 rounded-lg">
+              <CreditCard className="h-8 w-8 text-red-600" />
+            </div>
+            <h1 className="text-4xl font-bold text-gray-900">Up to Your Neck in Debt?</h1>
+          </div>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Practical strategies and solutions for managing overwhelming debt and regaining financial control
+          </p>
+          <div className="flex items-center justify-center gap-4">
+            <Badge variant="secondary" className="bg-red-100 text-red-800">
+              Debt Management
+            </Badge>
+            <Badge variant="outline">10 min read</Badge>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex items-center justify-center gap-3">
+          <Button variant="outline" className="flex items-center gap-2">
+            <Download className="h-4 w-4" />
+            Download PDF
+          </Button>
+          <Button variant="outline" className="flex items-center gap-2">
+            <Share className="h-4 w-4" />
+            Share
+          </Button>
+          <Button variant="outline" className="flex items-center gap-2">
+            <Printer className="h-4 w-4" />
+            Print
+          </Button>
+        </div>
+
+        {/* Hero Image */}
+        <div className="relative h-64 rounded-xl overflow-hidden bg-gradient-to-r from-red-50 to-orange-100 flex items-center justify-center">
+          <img 
+            src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=400&fit=crop"
+            alt="Debt management and financial stress"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-red-600/20"></div>
+        </div>
+
+        {/* Content */}
+        <div className="prose prose-lg max-w-none space-y-8">
+          {/* Warning Signs */}
+          <Card className="border-l-4 border-l-red-600 bg-red-50">
+            <CardContent className="p-6">
+              <div className="flex items-start gap-4">
+                <AlertTriangle className="h-8 w-8 text-red-600 flex-shrink-0 mt-1" />
+                <div>
+                  <h3 className="text-xl font-bold text-red-900 mb-4">Warning Signs</h3>
+                  <div className="space-y-3 text-red-800">
+                    <p>Are you afraid to open your bills? Do you juggle bills, paying Paul one month and Peter the next? Do you make only the required minimum payment? Do you have to pay for basic necessities like food, rent, or gasoline on credit because you're out of cash?</p>
+                    <p className="font-semibold">If some or all of these apply to you, it's a good bet you've taken on too much debt.</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Initial Steps */}
+          <div className="space-y-6">
+            <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+              <FileText className="h-8 w-8 text-blue-600" />
+              Initial Steps
+            </h2>
+            
+            <Card className="border-l-4 border-l-blue-600">
+              <CardContent className="p-6">
+                <p className="text-lg text-gray-700 mb-6">
+                  Many of us have to deal with a financial crisis at some point in our lives. Whatever the cause, there are ways to overcome these financial problems. Often the first step is to recognize that there is a problem. Then you can begin to take action to solve it.
+                </p>
+              </CardContent>
+            </Card>
+
+            <div className="grid gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <BookOpen className="h-6 w-6 text-green-600" />
+                    Create a budget
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-700">
+                    One key step is to create a realistic budget, a cold, hard look at both your income and your necessary living expenses. Are there ways to increase income, as well as reducing expenses?
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <Users className="h-6 w-6 text-blue-600" />
+                    Talk with your creditors
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-700">
+                    Contacting your creditors and explaining why you're having trouble paying your bills on time may lead to a reduced payment plan. Setting up an automatic payment plan from your checking or savings account can help establish how serious you are about paying your bills.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <Search className="h-6 w-6 text-purple-600" />
+                    Check for mistakes
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-700">
+                    Your bills or credit report could contain errors that, once corrected, could provide some partial relief.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* Lower the Cost of Debt */}
+          <div className="space-y-6">
+            <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+              <TrendingDown className="h-8 w-8 text-green-600" />
+              Lower the Cost of Debt
+            </h2>
+            
+            <p className="text-lg text-gray-700">
+              Lowering the cost of debt is another way to improve the situation:
+            </p>
+
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse border border-gray-300 bg-white rounded-lg overflow-hidden shadow-lg">
+                <thead className="bg-blue-50">
+                  <tr>
+                    <th className="border border-gray-300 p-4 text-left font-semibold text-blue-900">Method</th>
+                    <th className="border border-gray-300 p-4 text-left font-semibold text-blue-900">Description</th>
+                    <th className="border border-gray-300 p-4 text-left font-semibold text-blue-900">Comments</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="hover:bg-gray-50">
+                    <td className="border border-gray-300 p-4 font-medium">Refinance High-Cost Loans</td>
+                    <td className="border border-gray-300 p-4">Lower interest rates may allow you to refinance an existing loan and lower your payment.</td>
+                    <td className="border border-gray-300 p-4">Mortgages: Generally, the interest saved must be greater than the cost of acquiring the new loan. Credit cards: You may be able to move balances from one card to another, to take advantage of introductory rates.</td>
+                  </tr>
+                  <tr className="hover:bg-gray-50">
+                    <td className="border border-gray-300 p-4 font-medium">Consolidate Loans</td>
+                    <td className="border border-gray-300 p-4">Taking a number of high interest rate debts (often credit card debt) and replacing them with a single loan, often secured by the borrower's home or auto.</td>
+                    <td className="border border-gray-300 p-4">If payments are not made on the new loan, the lender often can seize the asset securing the loan.</td>
+                  </tr>
+                  <tr className="hover:bg-gray-50">
+                    <td className="border border-gray-300 p-4 font-medium">Reposition Assets</td>
+                    <td className="border border-gray-300 p-4">Using existing assets such as cash, jewelry, or securities to pay down or pay off debt. Loans with the highest interest rates should be paid off first.</td>
+                    <td className="border border-gray-300 p-4">There may be negative tax implications if an asset with long-term appreciation is sold. Be sure you keep adequate liquid reserves to cover any future emergency.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Outside Help */}
+          <div className="space-y-6">
+            <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+              <Heart className="h-8 w-8 text-purple-600" />
+              Outside Help
+            </h2>
+            
+            <Card className="border-l-4 border-l-purple-600">
+              <CardContent className="p-6">
+                <p className="text-lg text-gray-700">
+                  Many credit counseling agencies are available to help consumers who find themselves in financial trouble. Not all of these agencies work in a consumer's best interest. A reputable credit counseling agency has counselors trained in budgeting, credit, and debt management. A good counselor works closely with you to develop a personalized plan to resolve your individual debt problems.
+                </p>
+              </CardContent>
+            </Card>
+
+            <div className="grid gap-6">
+              <Card className="border-l-4 border-l-green-500">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <FileText className="h-6 w-6 text-green-600" />
+                    Debt management plan
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-700">
+                    A debt management plan, or DMP, may be recommended by a credit counselor. In a DMP, you make monthly payments to the credit counseling agency, which then uses your money to pay your unsecured debts in accordance with an agreement between you and your creditors. DMPs are not for everyone and may have restrictions which are unacceptable to some consumers.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-l-4 border-l-yellow-500">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <AlertTriangle className="h-6 w-6 text-yellow-600" />
+                    Debt negotiation
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-700">
+                    For a fee, debt negotiation firms offer to "negotiate" settling a debt with a creditor, often for 10% to 50% of the amount owed. These programs can be highly risky and can have a negative, long-term impact on your credit rating. The IRS may consider any debt forgiven as taxable income.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-l-4 border-l-red-500">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <X className="h-6 w-6 text-red-600" />
+                    Credit "repair" firms
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-700">
+                    Companies or agencies that offer or promise to "repair" your credit record should be regarded as scams. The passage of time and a regular history of repaying your debts are the only way to truly "fix" your credit report.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* Bankruptcy Section */}
+          <div className="space-y-6">
+            <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+              <Gavel className="h-8 w-8 text-orange-600" />
+              A Last Resort – Personal Bankruptcy
+            </h2>
+            
+            <Card className="bg-orange-50 border-l-4 border-l-orange-600">
+              <CardContent className="p-6">
+                <p className="text-lg text-orange-800 mb-4">
+                  If your debts are truly overwhelming, personal bankruptcy is a drastic option of last resort.
+                </p>
+                <p className="text-gray-700">
+                  Bankruptcy is a court-supervised process in which a debtor either has his debts eliminated (Chapter 7) or a plan is arranged which allows debt repayment under the supervision of the bankruptcy court (Chapter 13). Certain debts, such as most taxes, child support, and alimony, cannot be "discharged" through bankruptcy. Federal law requires a debtor to undergo credit counseling before filing bankruptcy and to complete debtor education before bankruptcy can be finalized. Competent legal advice is highly recommended.
+                </p>
+              </CardContent>
+            </Card>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="border-l-4 border-l-red-500">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <FileText className="h-6 w-6 text-red-600" />
+                    Chapter 7
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-700 mb-4">
+                    Also known as "liquidation", Chapter 7 effectively erases your unsecured debts. With the exception of certain "exempt" property,¹ other assets that you own, such as your home, jewelry, or artwork, may be sold and the proceeds used to pay your debts.
+                  </p>
+                  <div className="bg-red-50 p-4 rounded-lg">
+                    <p className="text-sm text-red-800">
+                      <strong>Impact:</strong> Not everyone qualifies for Chapter 7 bankruptcy; if you have a regular income that exceeds certain limits, you may be required to file Chapter 13. A Chapter 7 bankruptcy remains on your credit record for 10 years.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-l-4 border-l-blue-500">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <DollarSign className="h-6 w-6 text-blue-600" />
+                    Chapter 13
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-700 mb-4">
+                    Also known as "wage earner" bankruptcy, Chapter 13 allows you to propose a plan to repay your debts over a three to five year period. To qualify for Chapter 13, you need a steady source of income and your debts must not exceed certain dollar limits.
+                  </p>
+                  <div className="bg-blue-50 p-4 rounded-lg">
+                    <p className="text-sm text-blue-800">
+                      <strong>Impact:</strong> A Chapter 13 bankruptcy remains on your credit record for 7 years.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Card className="bg-blue-50 border border-blue-200">
+              <CardContent className="p-6">
+                <p className="text-blue-800">
+                  <strong>Online resources:</strong> See the website of the Department of Justice, U.S. Trustee, at https://www.justice.gov/ust.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (reportId === "retirement-planning") {
     return (
       <div className="max-w-4xl mx-auto space-y-8">
