@@ -8,9 +8,148 @@ interface ReportViewerProps {
 }
 
 export const ReportViewer = ({ reportId }: ReportViewerProps) => {
+  const handleDownloadPDF = () => {
+    // Create a new window for printing
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+
+    // Get the current report content
+    const reportContent = document.querySelector('.report-content');
+    if (!reportContent) return;
+
+    // Create the HTML structure for the PDF
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Report - ${getReportTitle()}</title>
+          <style>
+            @media print {
+              @page {
+                margin: 0.75in;
+                size: A4;
+              }
+              body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                line-height: 1.6;
+                color: #374151;
+                background: white;
+              }
+              .no-print {
+                display: none !important;
+              }
+              .page-break {
+                page-break-before: always;
+              }
+              img {
+                max-width: 100%;
+                height: auto;
+              }
+              table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 1rem 0;
+              }
+              th, td {
+                border: 1px solid #d1d5db;
+                padding: 0.75rem;
+                text-align: left;
+              }
+              th {
+                background-color: #f3f4f6;
+                font-weight: 600;
+              }
+              .text-4xl { font-size: 2.25rem; font-weight: 700; }
+              .text-3xl { font-size: 1.875rem; font-weight: 700; }
+              .text-2xl { font-size: 1.5rem; font-weight: 600; }
+              .text-xl { font-size: 1.25rem; font-weight: 600; }
+              .text-lg { font-size: 1.125rem; }
+              .font-bold { font-weight: 700; }
+              .font-semibold { font-weight: 600; }
+              .mb-4 { margin-bottom: 1rem; }
+              .mb-6 { margin-bottom: 1.5rem; }
+              .mb-8 { margin-bottom: 2rem; }
+              .mt-4 { margin-top: 1rem; }
+              .mt-6 { margin-top: 1.5rem; }
+              .p-4 { padding: 1rem; }
+              .p-6 { padding: 1.5rem; }
+              .border { border: 1px solid #d1d5db; }
+              .border-l-4 { border-left: 4px solid; }
+              .border-l-red-600 { border-left-color: #dc2626; }
+              .border-l-blue-600 { border-left-color: #2563eb; }
+              .border-l-green-500 { border-left-color: #10b981; }
+              .border-l-purple-600 { border-left-color: #9333ea; }
+              .border-l-orange-600 { border-left-color: #ea580c; }
+              .border-l-yellow-500 { border-left-color: #eab308; }
+              .bg-red-50 { background-color: #fef2f2; }
+              .bg-blue-50 { background-color: #eff6ff; }
+              .bg-green-50 { background-color: #f0fdf4; }
+              .bg-yellow-50 { background-color: #fefce8; }
+              .bg-orange-50 { background-color: #fff7ed; }
+              .bg-purple-50 { background-color: #faf5ff; }
+              .text-red-800 { color: #991b1b; }
+              .text-blue-800 { color: #1e40af; }
+              .text-green-600 { color: #16a34a; }
+              .text-red-600 { color: #dc2626; }
+              .text-blue-600 { color: #2563eb; }
+              .text-purple-600 { color: #9333ea; }
+              .text-orange-600 { color: #ea580c; }
+              .text-yellow-600 { color: #ca8a04; }
+              .text-gray-700 { color: #374151; }
+              .text-gray-900 { color: #111827; }
+              .rounded-lg { border-radius: 0.5rem; }
+              .rounded-xl { border-radius: 0.75rem; }
+              .space-y-4 > * + * { margin-top: 1rem; }
+              .space-y-6 > * + * { margin-top: 1.5rem; }
+              .space-y-8 > * + * { margin-top: 2rem; }
+              .grid { display: grid; }
+              .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+              .gap-4 { gap: 1rem; }
+              .gap-6 { gap: 1.5rem; }
+              .flex { display: flex; }
+              .items-center { align-items: center; }
+              .justify-between { justify-content: space-between; }
+              .text-center { text-align: center; }
+              .max-w-3xl { max-width: 48rem; }
+              .mx-auto { margin-left: auto; margin-right: auto; }
+              .list-disc { list-style-type: disc; }
+              .list-inside { list-style-position: inside; }
+            }
+          </style>
+        </head>
+        <body>
+          ${reportContent.innerHTML}
+        </body>
+      </html>
+    `;
+
+    // Write the content to the new window
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+
+    // Wait for content to load, then print
+    printWindow.onload = () => {
+      printWindow.print();
+      printWindow.close();
+    };
+  };
+
+  const getReportTitle = () => {
+    switch (reportId) {
+      case "debt-management":
+        return "Up to Your Neck in Debt?";
+      case "retirement-planning":
+        return "The Need for Retirement Planning";
+      case "retirement-planning-2":
+        return "The Need for Retirement Planning (2)";
+      default:
+        return "Report";
+    }
+  };
+
   if (reportId === "debt-management") {
     return (
-      <div className="max-w-4xl mx-auto space-y-8">
+      <div className="max-w-4xl mx-auto space-y-8 report-content">
         {/* Header */}
         <div className="text-center space-y-4">
           <div className="flex items-center justify-center gap-3">
@@ -31,8 +170,8 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-center gap-3">
-          <Button variant="outline" className="flex items-center gap-2">
+        <div className="flex items-center justify-center gap-3 no-print">
+          <Button variant="outline" className="flex items-center gap-2" onClick={handleDownloadPDF}>
             <Download className="h-4 w-4" />
             Download PDF
           </Button>
@@ -308,7 +447,7 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
 
   if (reportId === "retirement-planning") {
     return (
-      <div className="max-w-4xl mx-auto space-y-8">
+      <div className="max-w-4xl mx-auto space-y-8 report-content">
         {/* Header */}
         <div className="text-center space-y-4">
           <div className="flex items-center justify-center gap-3">
@@ -329,8 +468,8 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-center gap-3">
-          <Button variant="outline" className="flex items-center gap-2">
+        <div className="flex items-center justify-center gap-3 no-print">
+          <Button variant="outline" className="flex items-center gap-2" onClick={handleDownloadPDF}>
             <Download className="h-4 w-4" />
             Download PDF
           </Button>
@@ -568,7 +707,7 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
 
   if (reportId === "retirement-planning-2") {
     return (
-      <div className="max-w-4xl mx-auto space-y-8">
+      <div className="max-w-4xl mx-auto space-y-8 report-content">
         {/* Header */}
         <div className="text-center space-y-4">
           <div className="flex items-center justify-center gap-3">
@@ -589,8 +728,8 @@ export const ReportViewer = ({ reportId }: ReportViewerProps) => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-center gap-3">
-          <Button variant="outline" className="flex items-center gap-2">
+        <div className="flex items-center justify-center gap-3 no-print">
+          <Button variant="outline" className="flex items-center gap-2" onClick={handleDownloadPDF}>
             <Download className="h-4 w-4" />
             Download PDF
           </Button>
