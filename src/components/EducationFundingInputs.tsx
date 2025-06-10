@@ -36,20 +36,20 @@ export const EducationFundingInputs = () => {
 
       <Tabs defaultValue="personal" className="w-full">
         <TabsList className="w-full justify-start">
-          <TabsTrigger value="personal" className="flex items-center gap-1.5 sm:gap-2">
+          <TabsTrigger value="personal" className="flex items-center gap-1">
             <Users className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-            <span className="hidden sm:inline">Personal</span>
-            <span className="sm:hidden">Info</span>
+            <span className="hidden md:inline">Personal</span>
+            <span className="md:hidden text-xs">Info</span>
           </TabsTrigger>
-          <TabsTrigger value="education" className="flex items-center gap-1.5 sm:gap-2">
+          <TabsTrigger value="education" className="flex items-center gap-1">
             <GraduationCap className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-            <span className="hidden sm:inline">Education</span>
-            <span className="sm:hidden">Edu</span>
+            <span className="hidden md:inline">Education</span>
+            <span className="md:hidden text-xs">Edu</span>
           </TabsTrigger>
-          <TabsTrigger value="assumptions" className="flex items-center gap-1.5 sm:gap-2">
+          <TabsTrigger value="assumptions" className="flex items-center gap-1">
             <Settings className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-            <span className="hidden sm:inline">Assumptions</span>
-            <span className="sm:hidden">Calc</span>
+            <span className="hidden md:inline">Assumptions</span>
+            <span className="md:hidden text-xs">Calc</span>
           </TabsTrigger>
         </TabsList>
 
