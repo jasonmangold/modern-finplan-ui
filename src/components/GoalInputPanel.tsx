@@ -176,6 +176,7 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
   return (
     <div className="space-y-6">
       {goalId === "education-funding" && <EducationFundingInputs />}
+      {goalId === "retirement-accumulation" && <RetirementAccumulationInputs />}
       {goalId === "retirement" && <RetirementAccumulationInputs />}
       {goalId === "college" && (
         <>
@@ -186,7 +187,7 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
           {renderCollegeInputs()}
         </>
       )}
-      {(goalId !== "college" && goalId !== "retirement" && goalId !== "education-funding") && (
+      {(goalId !== "college" && goalId !== "retirement" && goalId !== "education-funding" && goalId !== "retirement-accumulation") && (
         <>
           <div>
             <h2 className="text-xl font-semibold mb-2">Input Parameters</h2>
