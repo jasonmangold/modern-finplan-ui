@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -6,13 +5,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { Calculator, Target, DollarSign, Calendar } from "lucide-react";
 import { EducationFundingInputs } from "./EducationFundingInputs";
+import { RetirementAccumulationInputs } from "./RetirementAccumulationInputs";
 
 interface GoalInputPanelProps {
   goalId: string;
 }
 
 export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
-  // Different input configurations based on goal type
   const renderCollegeInputs = () => (
     <>
       <Card>
@@ -177,6 +176,7 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
   return (
     <div className="space-y-6">
       {goalId === "education-funding" && <EducationFundingInputs />}
+      {goalId === "retirement" && <RetirementAccumulationInputs />}
       {goalId === "college" && (
         <>
           <div>
@@ -184,15 +184,6 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
             <p className="text-gray-600">Configure the specific inputs for this goal</p>
           </div>
           {renderCollegeInputs()}
-        </>
-      )}
-      {goalId === "retirement" && (
-        <>
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Input Parameters</h2>
-            <p className="text-gray-600">Configure the specific inputs for this goal</p>
-          </div>
-          {renderRetirementInputs()}
         </>
       )}
       {(goalId !== "college" && goalId !== "retirement" && goalId !== "education-funding") && (
