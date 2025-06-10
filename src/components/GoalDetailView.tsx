@@ -31,6 +31,12 @@ const goalConfigs = {
     icon: Car,
     color: "text-red-600",
     outputs: ["Payoff Strategy", "Consolidation Options", "Interest Savings", "Cash Flow Impact"]
+  },
+  "education-funding": {
+    title: "Education Funding",
+    icon: GraduationCap,
+    color: "text-purple-600",
+    outputs: ["Funding Strategy", "Savings Analysis", "Tax Benefits", "Timeline Projections"]
   }
 };
 
@@ -83,15 +89,15 @@ export const GoalDetailView = ({ goalId, onBack }: GoalDetailViewProps) => {
         </div>
       </div>
 
-      {/* Main Content with proper padding */}
-      <div className="flex-1 grid grid-cols-2 gap-6 overflow-hidden">
-        {/* Left Panel - Inputs */}
-        <div className="overflow-y-auto">
+      {/* Main Content with 40/60 split */}
+      <div className="flex-1 grid grid-cols-5 gap-6 overflow-hidden">
+        {/* Left Panel - Inputs (40% - 2 columns) */}
+        <div className="col-span-2 overflow-y-auto">
           <GoalInputPanel goalId={goalId} />
         </div>
 
-        {/* Right Panel - Outputs */}
-        <div className="overflow-y-auto">
+        {/* Right Panel - Outputs (60% - 3 columns) */}
+        <div className="col-span-3 overflow-y-auto">
           <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
         </div>
       </div>

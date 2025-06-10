@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Calculator, Target, DollarSign, Calendar } from "lucide-react";
+import { EducationFundingInputs } from "./EducationFundingInputs";
 
 interface GoalInputPanelProps {
   goalId: string;
@@ -175,14 +176,34 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-xl font-semibold mb-2">Input Parameters</h2>
-        <p className="text-gray-600">Configure the specific inputs for this goal</p>
-      </div>
-
-      {goalId === "college" && renderCollegeInputs()}
-      {goalId === "retirement" && renderRetirementInputs()}
-      {(goalId !== "college" && goalId !== "retirement") && renderDefaultInputs()}
+      {goalId === "education-funding" && <EducationFundingInputs />}
+      {goalId === "college" && (
+        <>
+          <div>
+            <h2 className="text-xl font-semibold mb-2">Input Parameters</h2>
+            <p className="text-gray-600">Configure the specific inputs for this goal</p>
+          </div>
+          {renderCollegeInputs()}
+        </>
+      )}
+      {goalId === "retirement" && (
+        <>
+          <div>
+            <h2 className="text-xl font-semibold mb-2">Input Parameters</h2>
+            <p className="text-gray-600">Configure the specific inputs for this goal</p>
+          </div>
+          {renderRetirementInputs()}
+        </>
+      )}
+      {(goalId !== "college" && goalId !== "retirement" && goalId !== "education-funding") && (
+        <>
+          <div>
+            <h2 className="text-xl font-semibold mb-2">Input Parameters</h2>
+            <p className="text-gray-600">Configure the specific inputs for this goal</p>
+          </div>
+          {renderDefaultInputs()}
+        </>
+      )}
     </div>
   );
 };
