@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -6,7 +5,6 @@ import { ArrowLeft, GraduationCap, Home, Car, PiggyBank } from "lucide-react";
 import { useState } from "react";
 import { GoalInputPanel } from "./GoalInputPanel";
 import { GoalOutputPanel } from "./GoalOutputPanel";
-
 const goalConfigs = {
   college: {
     title: "College Planning",
@@ -39,20 +37,18 @@ const goalConfigs = {
     outputs: ["Funding Strategy", "Savings Analysis", "Tax Benefits", "Timeline Projections"]
   }
 };
-
 interface GoalDetailViewProps {
   goalId: string;
   onBack: () => void;
 }
-
-export const GoalDetailView = ({ goalId, onBack }: GoalDetailViewProps) => {
+export const GoalDetailView = ({
+  goalId,
+  onBack
+}: GoalDetailViewProps) => {
   const [selectedOutput, setSelectedOutput] = useState("Funding Strategy");
-  
   const config = goalConfigs[goalId as keyof typeof goalConfigs] || goalConfigs.college;
   const IconComponent = config.icon;
-
-  return (
-    <div className="h-full flex flex-col p-6">
+  return <div className="h-full flex flex-col p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
@@ -66,7 +62,7 @@ export const GoalDetailView = ({ goalId, onBack }: GoalDetailViewProps) => {
             </div>
             <div>
               <h1 className="text-2xl font-semibold">{config.title}</h1>
-              <p className="text-gray-600">Configure inputs and view analysis</p>
+              <p className="text-gray-600">Project retirement for clients who aren't at or near retirement age yet</p>
             </div>
           </div>
         </div>
@@ -79,11 +75,9 @@ export const GoalDetailView = ({ goalId, onBack }: GoalDetailViewProps) => {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {config.outputs.map((output) => (
-                <SelectItem key={output} value={output}>
+              {config.outputs.map(output => <SelectItem key={output} value={output}>
                   {output}
-                </SelectItem>
-              ))}
+                </SelectItem>)}
             </SelectContent>
           </Select>
         </div>
@@ -101,6 +95,5 @@ export const GoalDetailView = ({ goalId, onBack }: GoalDetailViewProps) => {
           <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
