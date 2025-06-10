@@ -35,18 +35,21 @@ export const EducationFundingInputs = () => {
       </div>
 
       <Tabs defaultValue="personal" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="personal" className="flex items-center gap-2">
-            <Users className="h-4 w-4" />
-            Personal
+        <TabsList className="w-full justify-start">
+          <TabsTrigger value="personal" className="flex items-center gap-1.5 sm:gap-2">
+            <Users className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+            <span className="hidden sm:inline">Personal</span>
+            <span className="sm:hidden">Info</span>
           </TabsTrigger>
-          <TabsTrigger value="education" className="flex items-center gap-2">
-            <GraduationCap className="h-4 w-4" />
-            Education
+          <TabsTrigger value="education" className="flex items-center gap-1.5 sm:gap-2">
+            <GraduationCap className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+            <span className="hidden sm:inline">Education</span>
+            <span className="sm:hidden">Edu</span>
           </TabsTrigger>
-          <TabsTrigger value="assumptions" className="flex items-center gap-2">
-            <Settings className="h-4 w-4" />
-            Assumptions
+          <TabsTrigger value="assumptions" className="flex items-center gap-1.5 sm:gap-2">
+            <Settings className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+            <span className="hidden sm:inline">Assumptions</span>
+            <span className="sm:hidden">Calc</span>
           </TabsTrigger>
         </TabsList>
 
