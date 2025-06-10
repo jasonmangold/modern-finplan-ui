@@ -1,6 +1,7 @@
 
 import * as React from "react"
 import * as TabsPrimitive from "@radix-ui/react-tabs"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
@@ -9,16 +10,84 @@ const Tabs = TabsPrimitive.Root
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.List
-    ref={ref}
-    className={cn(
-      "inline-flex h-10 items-center justify-start rounded-md bg-muted p-1 text-muted-foreground w-full overflow-x-auto scrollbar-thin",
-      className
-    )}
-    {...props}
-  />
-))
+>(({ className, ...props }, ref) => {
+  const [showLeftArrow, setShowLeftArrow] = React.useState(false)
+  const [showRightArrow, setShowRightArrow] = React.useState(false)
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null)
+
+  const checkScroll = React.useCallback(() => {
+    const container = scrollContainerRef.current
+    if (container) {
+      setShowLeftArrow(container.scrollLeft > 0)
+      setShowRightArrow(
+        container.scrollLeft < container.scrollWidth - container.clientWidth
+      )
+    }
+  }, [])
+
+  React.useEffect(() => {
+    const container = scrollContainerRef.current
+    if (container) {
+      checkScroll()
+      container.addEventListener('scroll', checkScroll)
+      window.addEventListener('resize', checkScroll)
+      
+      return () => {
+        container.removeEventListener('scroll', checkScroll)
+        window.removeEventListener('resize', checkScroll)
+      }
+    }
+  }, [checkScroll])
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -100, behavior: 'smooth' })
+    }
+  }
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 100, behavior: 'smooth' })
+    }
+  }
+
+  return (
+    <div className="relative w-full">
+      {showLeftArrow && (
+        <button
+          onClick={scrollLeft}
+          className="absolute left-0 top-0 z-10 h-10 w-8 bg-gradient-to-r from-muted to-transparent flex items-center justify-start pl-1"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+      )}
+      
+      <div
+        ref={scrollContainerRef}
+        className="overflow-x-auto scrollbar-none"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        <TabsPrimitive.List
+          ref={ref}
+          className={cn(
+            "inline-flex h-10 items-center justify-start rounded-md bg-muted p-1 text-muted-foreground min-w-full",
+            className
+          )}
+          {...props}
+        />
+      </div>
+
+      {showRightArrow && (
+        <button
+          onClick={scrollRight}
+          className="absolute right-0 top-0 z-10 h-10 w-8 bg-gradient-to-l from-muted to-transparent flex items-center justify-end pr-1"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </button>
+      )}
+    </div>
+  )
+})
 TabsList.displayName = TabsPrimitive.List.displayName
 
 const TabsTrigger = React.forwardRef<
@@ -28,7 +97,7 @@ const TabsTrigger = React.forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-1.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm flex-shrink-0 min-w-fit",
+      "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm flex-shrink-0 min-w-fit",
       className
     )}
     {...props}

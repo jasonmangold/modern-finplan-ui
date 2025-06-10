@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -30,26 +29,22 @@ export const EducationFundingInputs = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold mb-2">Education Funding Analysis</h2>
-        <p className="text-gray-600">Configure education planning parameters with shared inputs</p>
+        <h2 className="text-xl font-semibold mb-2">Analysis Inputs</h2>
       </div>
 
       <Tabs defaultValue="personal" className="w-full">
         <TabsList className="w-full justify-start">
-          <TabsTrigger value="personal" className="flex items-center gap-1">
-            <Users className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-            <span className="hidden md:inline">Personal</span>
-            <span className="md:hidden text-xs">Info</span>
+          <TabsTrigger value="personal" className="flex items-center gap-2">
+            <Users className="h-4 w-4 flex-shrink-0" />
+            <span>Personal</span>
           </TabsTrigger>
-          <TabsTrigger value="education" className="flex items-center gap-1">
-            <GraduationCap className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-            <span className="hidden md:inline">Education</span>
-            <span className="md:hidden text-xs">Edu</span>
+          <TabsTrigger value="education" className="flex items-center gap-2">
+            <GraduationCap className="h-4 w-4 flex-shrink-0" />
+            <span>Education</span>
           </TabsTrigger>
-          <TabsTrigger value="assumptions" className="flex items-center gap-1">
-            <Settings className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-            <span className="hidden md:inline">Assumptions</span>
-            <span className="md:hidden text-xs">Calc</span>
+          <TabsTrigger value="assumptions" className="flex items-center gap-2">
+            <Settings className="h-4 w-4 flex-shrink-0" />
+            <span>Assumptions</span>
           </TabsTrigger>
         </TabsList>
 

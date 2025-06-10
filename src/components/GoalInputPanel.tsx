@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -184,8 +183,7 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
       {goalId === "college" && (
         <>
           <div>
-            <h2 className="text-xl font-semibold mb-2">Input Parameters</h2>
-            <p className="text-gray-600">Configure the specific inputs for this goal</p>
+            <h2 className="text-xl font-semibold mb-2">Analysis Inputs</h2>
           </div>
           {renderCollegeInputs()}
         </>
@@ -193,8 +191,7 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
       {(goalId !== "college" && goalId !== "retirement" && goalId !== "education-funding" && goalId !== "retirement-accumulation" && goalId !== "survivor-needs") && (
         <>
           <div>
-            <h2 className="text-xl font-semibold mb-2">Input Parameters</h2>
-            <p className="text-gray-600">Configure the specific inputs for this goal</p>
+            <h2 className="text-xl font-semibold mb-2">Analysis Inputs</h2>
           </div>
           {renderDefaultInputs()}
         </>
