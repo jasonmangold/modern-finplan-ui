@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -6,6 +7,7 @@ import { Slider } from "@/components/ui/slider";
 import { Calculator, Target, DollarSign, Calendar } from "lucide-react";
 import { EducationFundingInputs } from "./EducationFundingInputs";
 import { RetirementAccumulationInputs } from "./RetirementAccumulationInputs";
+import { SurvivorNeedsInputs } from "./SurvivorNeedsInputs";
 
 interface GoalInputPanelProps {
   goalId: string;
@@ -178,6 +180,7 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
       {goalId === "education-funding" && <EducationFundingInputs />}
       {goalId === "retirement-accumulation" && <RetirementAccumulationInputs />}
       {goalId === "retirement" && <RetirementAccumulationInputs />}
+      {goalId === "survivor-needs" && <SurvivorNeedsInputs />}
       {goalId === "college" && (
         <>
           <div>
@@ -187,7 +190,7 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
           {renderCollegeInputs()}
         </>
       )}
-      {(goalId !== "college" && goalId !== "retirement" && goalId !== "education-funding" && goalId !== "retirement-accumulation") && (
+      {(goalId !== "college" && goalId !== "retirement" && goalId !== "education-funding" && goalId !== "retirement-accumulation" && goalId !== "survivor-needs") && (
         <>
           <div>
             <h2 className="text-xl font-semibold mb-2">Input Parameters</h2>

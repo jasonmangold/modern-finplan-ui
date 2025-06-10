@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface FormSection {
@@ -12,13 +11,86 @@ interface ClientData {
   data: Record<string, any>;
 }
 
+interface SharedInputs {
+  // Personal data shared across goals
+  client1Name: string;
+  client1DateOfBirth: string;
+  client1RetirementAge: string;
+  client2Name: string;
+  client2DateOfBirth: string;
+  client2RetirementAge: string;
+  isMarried: boolean;
+  hasClient2: boolean;
+  
+  // Children data from Education Funding
+  children: Array<{
+    name: string;
+    dateOfBirth: string;
+  }>;
+  
+  // Education data
+  schoolName: string;
+  annualTuitionCost: string;
+  ageWhenSchoolBegins: string;
+  numberOfYearsInSchool: string;
+  percentageToFund: string;
+  amountCurrentlySaved: string;
+  plannedMonthlySavings: string;
+  
+  // Income Sources shared data
+  client1EmploymentIncome: string;
+  client2EmploymentIncome: string;
+  client1SocialSecurity: string;
+  client2SocialSecurity: string;
+  client1SSStartAge: string;
+  client2SSStartAge: string;
+  otherIncomeSources: Array<{
+    name: string;
+    type: string;
+    owner: string;
+    startAge: string;
+    amount: string;
+    frequency: string;
+    valueType: string;
+    payableFor: string;
+    endAge: string;
+    inflationRate: string;
+    percentAvailableToSurvivors: string;
+  }>;
+  
+  // Capital shared data
+  client1RetirementBalance: string;
+  client2RetirementBalance: string;
+  client1MonthlyContributions: string;
+  client2MonthlyContributions: string;
+  client1CompanyMatch: string;
+  client2CompanyMatch: string;
+  client1AnnualIncrease: string;
+  client2AnnualIncrease: string;
+  client1ROR: string;
+  client2ROR: string;
+  
+  // Assumptions shared data
+  analysisDate: string;
+  client1MortalityAge: string;
+  client2MortalityAge: string;
+  inflationRate: string;
+  client1EmploymentInflationRate: string;
+  client2EmploymentInflationRate: string;
+  educationInflationRate: string;
+  educationROR: string;
+  ssBenefitInflationRate: string;
+}
+
 interface FormContextType {
   sections: FormSection[];
   formData: Record<string, any>;
+  sharedInputs: SharedInputs;
   activeTab: string;
   updateSectionCompletion: (sectionId: string, completed: boolean) => void;
   getCompletionPercentage: () => number;
   updateFormData: (field: string, value: any) => void;
+  updateSharedInput: (field: keyof SharedInputs, value: any) => void;
   clearAllData: () => void;
   loadClientData: (clientName: string) => void;
   setActiveTab: (tabId: string) => void;
@@ -67,9 +139,55 @@ const predefinedClients: Record<string, ClientData> = {
   }
 };
 
+const initialSharedInputs: SharedInputs = {
+  client1Name: '',
+  client1DateOfBirth: '',
+  client1RetirementAge: '67',
+  client2Name: '',
+  client2DateOfBirth: '',
+  client2RetirementAge: '67',
+  isMarried: false,
+  hasClient2: false,
+  children: [],
+  schoolName: '',
+  annualTuitionCost: '',
+  ageWhenSchoolBegins: '18',
+  numberOfYearsInSchool: '4',
+  percentageToFund: '100',
+  amountCurrentlySaved: '',
+  plannedMonthlySavings: '',
+  client1EmploymentIncome: '',
+  client2EmploymentIncome: '',
+  client1SocialSecurity: '',
+  client2SocialSecurity: '',
+  client1SSStartAge: '67',
+  client2SSStartAge: '67',
+  otherIncomeSources: [],
+  client1RetirementBalance: '',
+  client2RetirementBalance: '',
+  client1MonthlyContributions: '',
+  client2MonthlyContributions: '',
+  client1CompanyMatch: '',
+  client2CompanyMatch: '',
+  client1AnnualIncrease: '',
+  client2AnnualIncrease: '',
+  client1ROR: '',
+  client2ROR: '',
+  analysisDate: new Date().toISOString().split('T')[0],
+  client1MortalityAge: '90',
+  client2MortalityAge: '90',
+  inflationRate: '3.0%',
+  client1EmploymentInflationRate: '3.0%',
+  client2EmploymentInflationRate: '3.0%',
+  educationInflationRate: '5.0%',
+  educationROR: '7.0%',
+  ssBenefitInflationRate: '2.5%'
+};
+
 export const FormProvider = ({ children }: { children: ReactNode }) => {
   const [sections, setSections] = useState<FormSection[]>(initialSections);
   const [formData, setFormData] = useState<Record<string, any>>({});
+  const [sharedInputs, setSharedInputs] = useState<SharedInputs>(initialSharedInputs);
   const [activeTab, setActiveTab] = useState<string>("personal");
 
   const updateSectionCompletion = (sectionId: string, completed: boolean) => {
@@ -84,8 +202,13 @@ export const FormProvider = ({ children }: { children: ReactNode }) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const updateSharedInput = (field: keyof SharedInputs, value: any) => {
+    setSharedInputs(prev => ({ ...prev, [field]: value }));
+  };
+
   const clearAllData = () => {
     setFormData({});
+    setSharedInputs(initialSharedInputs);
     setSections(initialSections.map(section => ({ ...section, completed: false })));
   };
 
@@ -122,10 +245,12 @@ export const FormProvider = ({ children }: { children: ReactNode }) => {
     <FormContext.Provider value={{ 
       sections, 
       formData,
+      sharedInputs,
       activeTab,
       updateSectionCompletion, 
       getCompletionPercentage,
       updateFormData,
+      updateSharedInput,
       clearAllData,
       loadClientData,
       setActiveTab
@@ -142,3 +267,5 @@ export const useFormContext = () => {
   }
   return context;
 };
+
+export default FormProvider;
