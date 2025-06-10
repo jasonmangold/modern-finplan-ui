@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,26 +6,21 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { Users, DollarSign, PiggyBank, TrendingUp, Settings, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
-
 export const RetirementAccumulationInputs = () => {
   const [hasClient2, setHasClient2] = useState(false);
   const [isMarried, setIsMarried] = useState(false);
   const [incomeSourcesCount, setIncomeSourcesCount] = useState(1);
-
   const addIncomeSource = () => {
     if (incomeSourcesCount < 5) {
       setIncomeSourcesCount(incomeSourcesCount + 1);
     }
   };
-
   const removeIncomeSource = (index: number) => {
     if (incomeSourcesCount > 1) {
       setIncomeSourcesCount(incomeSourcesCount - 1);
     }
   };
-
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       <div>
         <h2 className="text-xl font-semibold mb-2">Retirement Accumulation Inputs</h2>
         <p className="text-gray-600">Configure your retirement planning parameters</p>
@@ -79,29 +73,16 @@ export const RetirementAccumulationInputs = () => {
 
               <div className="flex items-center gap-4">
                 <div className="flex items-center space-x-2">
-                  <input 
-                    type="checkbox" 
-                    id="married" 
-                    checked={isMarried}
-                    onChange={(e) => setIsMarried(e.target.checked)}
-                    className="rounded border-gray-300"
-                  />
+                  <input type="checkbox" id="married" checked={isMarried} onChange={e => setIsMarried(e.target.checked)} className="rounded border-gray-300" />
                   <Label htmlFor="married" className="text-sm">Married</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <input 
-                    type="checkbox" 
-                    id="hasClient2" 
-                    checked={hasClient2}
-                    onChange={(e) => setHasClient2(e.target.checked)}
-                    className="rounded border-gray-300"
-                  />
+                  <input type="checkbox" id="hasClient2" checked={hasClient2} onChange={e => setHasClient2(e.target.checked)} className="rounded border-gray-300" />
                   <Label htmlFor="hasClient2" className="text-sm">Add Client 2</Label>
                 </div>
               </div>
 
-              {hasClient2 && (
-                <div className="grid grid-cols-3 gap-4 p-4 border rounded-lg bg-gray-50/50">
+              {hasClient2 && <div className="grid grid-cols-3 gap-4 p-4 border rounded-lg bg-gray-50/50">
                   <div>
                     <Label className="text-sm">Client 2 Name</Label>
                     <Input placeholder="Enter client 2 name" className="mt-1" />
@@ -114,8 +95,7 @@ export const RetirementAccumulationInputs = () => {
                     <Label className="text-sm">Retirement Age</Label>
                     <Input defaultValue="67" className="mt-1" />
                   </div>
-                </div>
-              )}
+                </div>}
             </CardContent>
           </Card>
         </TabsContent>
@@ -165,12 +145,10 @@ export const RetirementAccumulationInputs = () => {
                   <Label className="text-sm">Client 1 Employment Income</Label>
                   <Input placeholder="$150,000" className="mt-1" />
                 </div>
-                {hasClient2 && (
-                  <div>
+                {hasClient2 && <div>
                     <Label className="text-sm">Client 2 Employment Income</Label>
                     <Input placeholder="$120,000" className="mt-1" />
-                  </div>
-                )}
+                  </div>}
               </div>
             </CardContent>
           </Card>
@@ -190,8 +168,7 @@ export const RetirementAccumulationInputs = () => {
                   <Input defaultValue="67" className="mt-1" />
                 </div>
               </div>
-              {hasClient2 && (
-                <div className="grid grid-cols-2 gap-4">
+              {hasClient2 && <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label className="text-sm">Client 2 Social Security</Label>
                     <Input placeholder="$2,500" className="mt-1" />
@@ -200,8 +177,7 @@ export const RetirementAccumulationInputs = () => {
                     <Label className="text-sm">Start Age</Label>
                     <Input defaultValue="67" className="mt-1" />
                   </div>
-                </div>
-              )}
+                </div>}
             </CardContent>
           </Card>
 
@@ -209,33 +185,21 @@ export const RetirementAccumulationInputs = () => {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-lg">Other Income Sources</CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={addIncomeSource}
-                  disabled={incomeSourcesCount >= 5}
-                  className="flex items-center gap-2"
-                >
+                <Button variant="outline" size="sm" onClick={addIncomeSource} disabled={incomeSourcesCount >= 5} className="flex items-center gap-2">
                   <Plus className="h-4 w-4" />
                   Add Source
                 </Button>
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
-              {Array.from({ length: incomeSourcesCount }, (_, index) => (
-                <div key={index} className="p-4 border rounded-lg bg-gray-50/50 space-y-4">
+              {Array.from({
+              length: incomeSourcesCount
+            }, (_, index) => <div key={index} className="p-4 border rounded-lg bg-gray-50/50 space-y-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-medium">Income Source {index + 1}</h4>
-                    {incomeSourcesCount > 1 && (
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        onClick={() => removeIncomeSource(index)}
-                        className="text-red-600 hover:text-red-700"
-                      >
+                    {incomeSourcesCount > 1 && <Button variant="ghost" size="sm" onClick={() => removeIncomeSource(index)} className="text-red-600 hover:text-red-700">
                         <Trash2 className="h-4 w-4" />
-                      </Button>
-                    )}
+                      </Button>}
                   </div>
                   <div className="grid grid-cols-4 gap-4">
                     <div>
@@ -326,8 +290,7 @@ export const RetirementAccumulationInputs = () => {
                       <Input defaultValue="100" className="mt-1" />
                     </div>
                   </div>
-                </div>
-              ))}
+                </div>)}
             </CardContent>
           </Card>
         </TabsContent>
@@ -362,8 +325,7 @@ export const RetirementAccumulationInputs = () => {
                     <Input defaultValue="7.0" className="mt-1" />
                   </div>
                 </div>
-                {hasClient2 && (
-                  <div className="space-y-4">
+                {hasClient2 && <div className="space-y-4">
                     <h4 className="font-medium">Client 2</h4>
                     <div>
                       <Label className="text-sm">Retirement Balance</Label>
@@ -385,8 +347,7 @@ export const RetirementAccumulationInputs = () => {
                       <Label className="text-sm">Rate of Return (%)</Label>
                       <Input defaultValue="7.0" className="mt-1" />
                     </div>
-                  </div>
-                )}
+                  </div>}
               </div>
             </CardContent>
           </Card>
@@ -430,45 +391,41 @@ export const RetirementAccumulationInputs = () => {
                   <Label className="text-sm">Client 1 Mortality Age</Label>
                   <Input defaultValue="90" className="mt-1" />
                 </div>
-                {hasClient2 && (
-                  <div>
+                {hasClient2 && <div>
                     <Label className="text-sm">Client 2 Mortality Age</Label>
                     <Input defaultValue="90" className="mt-1" />
-                  </div>
-                )}
+                  </div>}
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-sm">Inflation Rate (%)</Label>
+                  <Label className="text-sm">Inflation Rate</Label>
                   <Input defaultValue="3.0" className="mt-1" />
                 </div>
                 <div>
-                  <Label className="text-sm">Social Security Benefit Inflation Rate (%)</Label>
+                  <Label className="text-sm">Social Security Benefit Inflation Rate</Label>
                   <Input defaultValue="2.5" className="mt-1" />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-sm">Client 1 Employment Inflation Rate (%)</Label>
+                  <Label className="text-sm">Client 1 Employment Inflation Rate</Label>
                   <Input defaultValue="3.0" className="mt-1" />
                 </div>
-                {hasClient2 && (
-                  <div>
+                {hasClient2 && <div>
                     <Label className="text-sm">Client 2 Employment Inflation Rate (%)</Label>
                     <Input defaultValue="3.0" className="mt-1" />
-                  </div>
-                )}
+                  </div>}
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-sm">Assumed Rate of Return During Retirement (%)</Label>
+                  <Label className="text-sm">Assumed Rate of Return During Retirement</Label>
                   <Input defaultValue="5.0" className="mt-1" />
                 </div>
                 <div>
-                  <Label className="text-sm">Solution Rate of Return (%)</Label>
+                  <Label className="text-sm">Solution Rate of Return</Label>
                   <Input defaultValue="6.0" className="mt-1" />
                 </div>
               </div>
@@ -481,6 +438,5 @@ export const RetirementAccumulationInputs = () => {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
-  );
+    </div>;
 };
