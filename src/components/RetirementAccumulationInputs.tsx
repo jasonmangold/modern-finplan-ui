@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -43,31 +42,30 @@ export const RetirementAccumulationInputs = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold mb-2">Retirement Accumulation Analysis</h2>
-        <p className="text-gray-600">Configure your retirement planning parameters with shared inputs</p>
+        <h2 className="text-xl font-semibold mb-2">Analysis Inputs</h2>
       </div>
 
       <Tabs defaultValue="personal" className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="personal" className="flex items-center gap-2">
-            <Users className="h-4 w-4" />
-            Personal
+        <TabsList className="w-full justify-start">
+          <TabsTrigger value="personal" className="flex items-center gap-2 flex-shrink-0">
+            <Users className="h-4 w-4 flex-shrink-0" />
+            <span>Personal</span>
           </TabsTrigger>
-          <TabsTrigger value="income-needs" className="flex items-center gap-2">
-            <Heart className="h-4 w-4" />
-            Income Needs
+          <TabsTrigger value="income-needs" className="flex items-center gap-2 flex-shrink-0">
+            <Heart className="h-4 w-4 flex-shrink-0" />
+            <span>Income Needs</span>
           </TabsTrigger>
-          <TabsTrigger value="income-sources" className="flex items-center gap-2">
-            <DollarSign className="h-4 w-4" />
-            Income Sources
+          <TabsTrigger value="income-sources" className="flex items-center gap-2 flex-shrink-0">
+            <DollarSign className="h-4 w-4 flex-shrink-0" />
+            <span>Income Sources</span>
           </TabsTrigger>
-          <TabsTrigger value="capital" className="flex items-center gap-2">
-            <DollarSign className="h-4 w-4" />
-            Capital
+          <TabsTrigger value="capital" className="flex items-center gap-2 flex-shrink-0">
+            <DollarSign className="h-4 w-4 flex-shrink-0" />
+            <span>Capital</span>
           </TabsTrigger>
-          <TabsTrigger value="assumptions" className="flex items-center gap-2">
-            <Settings className="h-4 w-4" />
-            Assumptions
+          <TabsTrigger value="assumptions" className="flex items-center gap-2 flex-shrink-0">
+            <Settings className="h-4 w-4 flex-shrink-0" />
+            <span>Assumptions</span>
           </TabsTrigger>
         </TabsList>
 
