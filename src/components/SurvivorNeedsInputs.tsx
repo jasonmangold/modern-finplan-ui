@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,14 +7,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Users, DollarSign, GraduationCap, Settings, Heart, AlertTriangle, Plus, Trash2 } from "lucide-react";
 import { useFormContext } from "@/contexts/FormContext";
-import { useState } from "react";
 
 export const SurvivorNeedsInputs = () => {
   const { sharedInputs, updateSharedInput } = useFormContext();
-  const [showError, setShowError] = useState(false);
-  
-  // Check if analysis can run
-  const canRunAnalysis = sharedInputs.hasClient2 || sharedInputs.children.length > 0;
   
   const addChild = () => {
     const newChildren = [...sharedInputs.children, { name: '', dateOfBirth: '' }];
@@ -67,20 +61,6 @@ export const SurvivorNeedsInputs = () => {
         <h2 className="text-xl font-semibold mb-2">Survivor Needs Analysis</h2>
         <p className="text-gray-600">Configure your survivor planning parameters with shared inputs</p>
       </div>
-
-      {!canRunAnalysis && (
-        <Card className="border-red-200 bg-red-50">
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-2 text-red-700">
-              <AlertTriangle className="h-5 w-5" />
-              <span className="font-medium">Analysis Error</span>
-            </div>
-            <p className="text-red-600 mt-2">
-              This analysis requires either a second client or dependents to be entered. Please add Client 2 or children information to proceed.
-            </p>
-          </CardContent>
-        </Card>
-      )}
 
       <Tabs defaultValue="personal" className="w-full">
         <TabsList className="grid w-full grid-cols-6">

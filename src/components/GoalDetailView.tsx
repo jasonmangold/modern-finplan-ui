@@ -1,46 +1,69 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, GraduationCap, Home, Car, PiggyBank } from "lucide-react";
+import { ArrowLeft, GraduationCap, Home, Car, PiggyBank, Shield } from "lucide-react";
 import { useState } from "react";
 import { GoalInputPanel } from "./GoalInputPanel";
 import { GoalOutputPanel } from "./GoalOutputPanel";
+
 const goalConfigs = {
   college: {
     title: "College Planning",
     icon: GraduationCap,
     color: "text-blue-600",
+    description: "Plan for higher education expenses",
     outputs: ["Funding Strategy", "529 Plan Analysis", "Tax Benefits", "Timeline Projections"]
   },
   retirement: {
     title: "Retirement Planning",
     icon: PiggyBank,
     color: "text-green-600",
+    description: "Project retirement for clients who aren't at or near retirement age yet",
+    outputs: ["Accumulation Analysis", "Withdrawal Strategy", "Social Security Optimization", "Tax Planning"]
+  },
+  "retirement-accumulation": {
+    title: "Retirement Accumulation",
+    icon: PiggyBank,
+    color: "text-green-600",
+    description: "Project retirement for clients who aren't at or near retirement age yet",
     outputs: ["Accumulation Analysis", "Withdrawal Strategy", "Social Security Optimization", "Tax Planning"]
   },
   home: {
     title: "Home Purchase",
     icon: Home,
     color: "text-orange-600",
+    description: "Plan for home purchase and financing",
     outputs: ["Affordability Analysis", "Down Payment Strategy", "Mortgage Comparison", "Timeline Planning"]
   },
   "debt-payoff": {
     title: "Debt Payoff",
     icon: Car,
     color: "text-red-600",
+    description: "Create debt elimination strategies",
     outputs: ["Payoff Strategy", "Consolidation Options", "Interest Savings", "Cash Flow Impact"]
   },
   "education-funding": {
     title: "Education Funding",
     icon: GraduationCap,
     color: "text-purple-600",
+    description: "Plan for education expenses and funding strategies",
     outputs: ["Funding Strategy", "Savings Analysis", "Tax Benefits", "Timeline Projections"]
+  },
+  "survivor-needs": {
+    title: "Survivor Needs Analysis",
+    icon: Shield,
+    color: "text-red-600",
+    description: "Analyze insurance needs for survivors",
+    outputs: ["Life Insurance Analysis", "Income Replacement", "Capital Needs", "Timeline Projections"]
   }
 };
+
 interface GoalDetailViewProps {
   goalId: string;
   onBack: () => void;
 }
+
 export const GoalDetailView = ({
   goalId,
   onBack
@@ -48,7 +71,9 @@ export const GoalDetailView = ({
   const [selectedOutput, setSelectedOutput] = useState("Funding Strategy");
   const config = goalConfigs[goalId as keyof typeof goalConfigs] || goalConfigs.college;
   const IconComponent = config.icon;
-  return <div className="h-full flex flex-col p-6">
+
+  return (
+    <div className="h-full flex flex-col p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
@@ -62,7 +87,7 @@ export const GoalDetailView = ({
             </div>
             <div>
               <h1 className="text-2xl font-semibold">{config.title}</h1>
-              <p className="text-gray-600">Project retirement for clients who aren't at or near retirement age yet</p>
+              <p className="text-gray-600">{config.description}</p>
             </div>
           </div>
         </div>
@@ -75,9 +100,11 @@ export const GoalDetailView = ({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {config.outputs.map(output => <SelectItem key={output} value={output}>
+              {config.outputs.map(output => (
+                <SelectItem key={output} value={output}>
                   {output}
-                </SelectItem>)}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -95,5 +122,6 @@ export const GoalDetailView = ({
           <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
