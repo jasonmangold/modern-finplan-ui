@@ -1,12 +1,13 @@
 
 import { useState, useEffect } from "react";
-import { Search, Bell, User } from "lucide-react";
+import { Search, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { TopNavigation } from "./TopNavigation";
 import { ToastSave } from "@/components/ui/toast-save";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ClientFileManager } from "./ClientFileManager";
 
 export const Header = () => {
   const [saveState, setSaveState] = useState<"initial" | "loading" | "success">("initial");
@@ -14,8 +15,10 @@ export const Header = () => {
   const [lastSavedTime, setLastSavedTime] = useState<string | null>(null);
   const [isFirstSave, setIsFirstSave] = useState(true);
   const [showClientDialog, setShowClientDialog] = useState(false);
+  const [showClientManager, setShowClientManager] = useState(false);
   const [clientFiles, setClientFiles] = useState<string[]>(["No Client Selected"]);
   const [selectedClient, setSelectedClient] = useState("No Client Selected");
+  const [clientSearch, setClientSearch] = useState("");
   const [newClientData, setNewClientData] = useState({
     title: "",
     description: "",
@@ -84,6 +87,10 @@ export const Header = () => {
     console.log("Reset changes");
   };
 
+  const filteredClients = clientFiles.filter(client =>
+    client.toLowerCase().includes(clientSearch.toLowerCase())
+  );
+
   return (
     <>
       <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200/60 sticky top-0 z-50">
@@ -98,9 +105,26 @@ export const Header = () => {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {clientFiles.map(client => (
+                  <div className="p-2 border-b">
+                    <Input
+                      placeholder="Search clients..."
+                      value={clientSearch}
+                      onChange={(e) => setClientSearch(e.target.value)}
+                      className="h-8"
+                    />
+                  </div>
+                  {filteredClients.map(client => (
                     <SelectItem key={client} value={client}>{client}</SelectItem>
                   ))}
+                  <div className="border-t mt-1 pt-1">
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                      onClick={() => setShowClientManager(true)}
+                    >
+                      View All Files
+                    </Button>
+                  </div>
                 </SelectContent>
               </Select>
               {(hasUnsavedChanges || lastSavedTime) && (
@@ -138,9 +162,6 @@ export const Header = () => {
                   className="pl-10 w-64 border-gray-200 bg-gray-50/50 hover:bg-white transition-colors focus:bg-white"
                 />
               </div>
-              <Button variant="ghost" size="icon" className="hover:bg-gray-100 rounded-lg">
-                <Bell className="h-5 w-5 text-gray-600" />
-              </Button>
               <Button variant="ghost" size="icon" className="hover:bg-gray-100 rounded-lg">
                 <User className="h-5 w-5 text-gray-600" />
               </Button>
@@ -197,6 +218,15 @@ export const Header = () => {
           </div>
         </DialogContent>
       </Dialog>
+
+      <ClientFileManager 
+        open={showClientManager} 
+        onOpenChange={setShowClientManager}
+        clientFiles={clientFiles}
+        setClientFiles={setClientFiles}
+        selectedClient={selectedClient}
+        setSelectedClient={setSelectedClient}
+      />
     </>
   );
 };
