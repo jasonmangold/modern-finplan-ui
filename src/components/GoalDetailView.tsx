@@ -6,6 +6,7 @@ import { ArrowLeft, GraduationCap, Home, Car, PiggyBank, Shield } from "lucide-r
 import { useState } from "react";
 import { GoalInputPanel } from "./GoalInputPanel";
 import { GoalOutputPanel } from "./GoalOutputPanel";
+import { RetirementAnalysisOutput } from "./RetirementAnalysisOutput";
 
 const goalConfigs = {
   college: {
@@ -13,49 +14,66 @@ const goalConfigs = {
     icon: GraduationCap,
     color: "text-blue-600",
     description: "Plan for higher education expenses",
-    outputs: ["Funding Strategy", "529 Plan Analysis", "Tax Benefits", "Timeline Projections"]
+    outputs: ["Funding Strategy", "529 Plan Analysis", "Tax Benefits", "Timeline Projections"],
+    defaultOutput: "Funding Strategy"
   },
   retirement: {
     title: "Retirement Planning",
     icon: PiggyBank,
     color: "text-green-600",
     description: "Project retirement for clients who aren't at or near retirement age yet",
-    outputs: ["Accumulation Analysis", "Withdrawal Strategy", "Social Security Optimization", "Tax Planning"]
+    outputs: ["Accumulation Analysis", "Withdrawal Strategy", "Social Security Optimization", "Tax Planning"],
+    defaultOutput: "Accumulation Analysis"
   },
   "retirement-accumulation": {
     title: "Retirement Accumulation",
     icon: PiggyBank,
     color: "text-green-600",
     description: "Project retirement for clients who aren't at or near retirement age yet",
-    outputs: ["Accumulation Analysis", "Withdrawal Strategy", "Social Security Optimization", "Tax Planning"]
+    outputs: [
+      "Retirement Analysis",
+      "Retirement Social Security Optimizer", 
+      "Capital Available for Retirement",
+      "Achieving Your Retirement Goals",
+      "Alternatives to Achieving Retirement Goals",
+      "Retirement Timeline",
+      "Retirement Analysis Detail",
+      "Progress Toward Retirement Goals",
+      "Retirement Needs Analysis Data- Fact Finder"
+    ],
+    defaultOutput: "Retirement Analysis"
   },
   home: {
     title: "Home Purchase",
     icon: Home,
     color: "text-orange-600",
     description: "Plan for home purchase and financing",
-    outputs: ["Affordability Analysis", "Down Payment Strategy", "Mortgage Comparison", "Timeline Planning"]
+    outputs: ["Affordability Analysis", "Down Payment Strategy", "Mortgage Comparison", "Timeline Planning"],
+    defaultOutput: "Affordability Analysis"
   },
   "debt-payoff": {
     title: "Debt Payoff",
     icon: Car,
     color: "text-red-600",
     description: "Create debt elimination strategies",
-    outputs: ["Payoff Strategy", "Consolidation Options", "Interest Savings", "Cash Flow Impact"]
+    outputs: ["Payoff Strategy", "Consolidation Options", "Interest Savings", "Cash Flow Impact"],
+    defaultOutput: "Payoff Strategy"
   },
   "education-funding": {
     title: "Education Funding",
     icon: GraduationCap,
     color: "text-purple-600",
     description: "Plan for education expenses and funding strategies",
-    outputs: ["Funding Strategy", "Savings Analysis", "Tax Benefits", "Timeline Projections"]
+    outputs: ["Funding Strategy", "Savings Analysis", "Tax Benefits", "Timeline Projections"],
+    defaultOutput: "Funding Strategy"
   },
   "survivor-needs": {
     title: "Survivor Needs Analysis",
     icon: Shield,
     color: "text-red-600",
     description: "Analyze insurance needs for survivors",
-    outputs: ["Life Insurance Analysis", "Income Replacement", "Capital Needs", "Timeline Projections"]
+    outputs: ["Life Insurance Analysis", "Income Replacement", "Capital Needs", "Timeline Projections"],
+    defaultOutput: "Life Insurance Analysis"
   }
 };
 
@@ -68,8 +86,8 @@ export const GoalDetailView = ({
   goalId,
   onBack
 }: GoalDetailViewProps) => {
-  const [selectedOutput, setSelectedOutput] = useState("Funding Strategy");
   const config = goalConfigs[goalId as keyof typeof goalConfigs] || goalConfigs.college;
+  const [selectedOutput, setSelectedOutput] = useState(config.defaultOutput);
   const IconComponent = config.icon;
 
   return (
@@ -96,7 +114,7 @@ export const GoalDetailView = ({
         <div className="flex items-center gap-3">
           <span className="text-sm font-medium text-gray-700">View:</span>
           <Select value={selectedOutput} onValueChange={setSelectedOutput}>
-            <SelectTrigger className="w-48">
+            <SelectTrigger className="w-64">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -119,7 +137,11 @@ export const GoalDetailView = ({
 
         {/* Right Panel - Outputs (60% - 3 columns) */}
         <div className="col-span-3 overflow-y-auto">
-          <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
+          {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? (
+            <RetirementAnalysisOutput />
+          ) : (
+            <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
+          )}
         </div>
       </div>
     </div>
