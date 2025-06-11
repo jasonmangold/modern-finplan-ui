@@ -45,7 +45,7 @@ const Analysis = () => {
                   { label: "Comprehensive Input", value: "comprehensive" },
                   { label: "Goals-Based Planning", value: "goals-based" }
                 ]}
-                defaultValue="goals-based"
+                defaultValue={viewMode}
                 onValueChange={handleViewModeChange}
               />
             </div>
