@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download, FileText, Presentation } from "lucide-react";
@@ -11,10 +10,9 @@ const generateRetirementData = () => {
     let socialSecurity = 0;
     let appliedAssets = 0;
     let shortfall = 0;
-    
     if (age >= 67) {
       socialSecurity = 5279; // Combined SS benefits ($2,853 + $2,426)
-      
+
       if (age <= 77) {
         // Ages 67-77: Need $9,000, have $5,779 from SS + rental
         appliedAssets = Math.max(0, 9000 - 5779);
@@ -29,7 +27,6 @@ const generateRetirementData = () => {
         shortfall = 6000 - 5779;
       }
     }
-    
     data.push({
       age: age,
       socialSecurity,
@@ -40,9 +37,7 @@ const generateRetirementData = () => {
   }
   return data;
 };
-
 const retirementYearlyData = generateRetirementData();
-
 export const RetirementAnalysisOutput = () => {
   return <div className="space-y-6">
       {/* Header */}
@@ -62,7 +57,7 @@ export const RetirementAnalysisOutput = () => {
           
           {/* Income Goals Section */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-lg border-b pb-2">Income Goals</h3>
+            <h3 className="font-semibold text-lg border-b pb-2 text-blue-900">Income Goals</h3>
             <p className="text-sm leading-relaxed">
               You have indicated that you would like to have the following monthly retirement income:<sup>1</sup>
             </p>
@@ -152,25 +147,18 @@ export const RetirementAnalysisOutput = () => {
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={retirementYearlyData}>
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis 
-                        dataKey="age" 
-                        tick={{ fontSize: 10 }}
-                        interval={1}
-                      />
-                      <YAxis 
-                        tick={{ fontSize: 12 }}
-                        tickFormatter={value => `$${(value/1000).toFixed(0)}k`}
-                      />
-                      <Tooltip 
-                        formatter={(value, name) => {
-                          const formatName = name === 'socialSecurity' ? 'Social Security' : 
-                                           name === 'appliedAssets' ? 'Applied Assets' : 
-                                           'Shortfall';
-                          return [`$${value.toLocaleString()}`, formatName];
-                        }}
-                        labelFormatter={(age) => `Age ${age}`}
-                        labelStyle={{ color: '#374151' }}
-                      />
+                      <XAxis dataKey="age" tick={{
+                      fontSize: 10
+                    }} interval={1} />
+                      <YAxis tick={{
+                      fontSize: 12
+                    }} tickFormatter={value => `$${(value / 1000).toFixed(0)}k`} />
+                      <Tooltip formatter={(value, name) => {
+                      const formatName = name === 'socialSecurity' ? 'Social Security' : name === 'appliedAssets' ? 'Applied Assets' : 'Shortfall';
+                      return [`$${value.toLocaleString()}`, formatName];
+                    }} labelFormatter={age => `Age ${age}`} labelStyle={{
+                      color: '#374151'
+                    }} />
                       <Bar dataKey="socialSecurity" stackId="income" fill="#22C55E" name="socialSecurity" />
                       <Bar dataKey="appliedAssets" stackId="income" fill="#FCD34D" name="appliedAssets" />
                       <Bar dataKey="shortfall" stackId="income" fill="#EF4444" name="shortfall" />
