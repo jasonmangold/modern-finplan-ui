@@ -78,7 +78,7 @@ export const RetirementAnalysisOutput = () => {
           <div className="grid grid-cols-2 gap-8">
             {/* Income Sources Section */}
             <div className="space-y-4">
-              <h3 className="font-semibold text-lg border-b pb-2">Income Sources</h3>
+              <h3 className="font-semibold text-lg border-b pb-2 text-blue-900">Income Sources</h3>
               <p className="text-sm leading-relaxed">
                 To support your retirement goals you have the following monthly sources:
               </p>
@@ -106,7 +106,7 @@ export const RetirementAnalysisOutput = () => {
 
             {/* Assets Available at Retirement Section */}
             <div className="space-y-4">
-              <h3 className="font-semibold text-lg border-b pb-2">Assets Available at Retirement</h3>
+              <h3 className="font-semibold text-lg border-b pb-2 text-blue-900">Assets Available at Retirement</h3>
               <div className="space-y-2 ml-4 text-sm">
                 <div className="flex justify-between">
                   <span>Paul retirement assets -</span>
@@ -126,7 +126,7 @@ export const RetirementAnalysisOutput = () => {
 
           {/* Results Section */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-lg border-b pb-2">Results</h3>
+            <h3 className="font-semibold text-lg border-b pb-2 text-blue-900">Results</h3>
             <div className="space-y-4">
               <p className="text-sm font-medium">According to the analysis:</p>
               
