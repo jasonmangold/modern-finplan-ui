@@ -1,30 +1,34 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download, FileText, Presentation } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-
-const retirementIncomeData = [
-  { age: "67-77", income: 9000, label: "Age 67-77" },
-  { age: "77-82", income: 7000, label: "Age 77-82" },
-  { age: "82+", income: 6000, label: "Age 82+" }
-];
-
+const retirementIncomeData = [{
+  age: "67-77",
+  income: 9000,
+  label: "Age 67-77"
+}, {
+  age: "77-82",
+  income: 7000,
+  label: "Age 77-82"
+}, {
+  age: "82+",
+  income: 6000,
+  label: "Age 82+"
+}];
 export const RetirementAnalysisOutput = () => {
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-semibold">Retirement Analysis</h2>
-          <p className="text-gray-600">Comprehensive retirement planning analysis</p>
+          
         </div>
       </div>
 
       {/* Main Analysis Content */}
       <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Analysis Results</CardTitle>
+        <CardHeader className="px-0 mx-0 py-[5px]">
+          
         </CardHeader>
         <CardContent className="space-y-8">
           
@@ -117,23 +121,16 @@ export const RetirementAnalysisOutput = () => {
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={retirementIncomeData}>
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis 
-                        dataKey="label" 
-                        tick={{ fontSize: 12 }}
-                      />
-                      <YAxis 
-                        tick={{ fontSize: 12 }}
-                        tickFormatter={(value) => `$${value.toLocaleString()}`}
-                      />
-                      <Tooltip 
-                        formatter={(value) => [`$${value.toLocaleString()}`, 'Monthly Income']}
-                        labelStyle={{ color: '#374151' }}
-                      />
-                      <Bar 
-                        dataKey="income" 
-                        fill="#3B82F6" 
-                        radius={[4, 4, 0, 0]}
-                      />
+                      <XAxis dataKey="label" tick={{
+                      fontSize: 12
+                    }} />
+                      <YAxis tick={{
+                      fontSize: 12
+                    }} tickFormatter={value => `$${value.toLocaleString()}`} />
+                      <Tooltip formatter={value => [`$${value.toLocaleString()}`, 'Monthly Income']} labelStyle={{
+                      color: '#374151'
+                    }} />
+                      <Bar dataKey="income" fill="#3B82F6" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -166,6 +163,5 @@ export const RetirementAnalysisOutput = () => {
           Generate Report
         </Button>
       </div>
-    </div>
-  );
+    </div>;
 };
