@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { TopNavigation } from "./TopNavigation";
 import { ToastSave } from "@/components/ui/toast-save";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ClientFileManager } from "./ClientFileManager";
 
 export const Header = () => {
@@ -16,6 +16,7 @@ export const Header = () => {
   const [isFirstSave, setIsFirstSave] = useState(true);
   const [showClientDialog, setShowClientDialog] = useState(false);
   const [showClientManager, setShowClientManager] = useState(false);
+  const [showResetDialog, setShowResetDialog] = useState(false);
   const [clientFiles, setClientFiles] = useState<string[]>(["No Client Selected"]);
   const [selectedClient, setSelectedClient] = useState("No Client Selected");
   const [clientSearch, setClientSearch] = useState("");
@@ -82,8 +83,13 @@ export const Header = () => {
   };
 
   const handleReset = () => {
+    setShowResetDialog(true);
+  };
+
+  const confirmReset = () => {
     setHasUnsavedChanges(false);
     setSaveState("initial");
+    setShowResetDialog(false);
     console.log("Reset changes");
   };
 
@@ -215,6 +221,28 @@ export const Header = () => {
                 Save Client File
               </Button>
             </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showResetDialog} onOpenChange={setShowResetDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Discard Changes</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to discard your changes? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-end gap-2 pt-4">
+            <Button variant="outline" onClick={() => setShowResetDialog(false)}>
+              No
+            </Button>
+            <Button 
+              onClick={confirmReset}
+              variant="destructive"
+            >
+              Yes
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
