@@ -1,11 +1,13 @@
 
 import { useState } from "react";
-import { ViewModeToggle } from "@/components/ViewModeToggle";
+import { AnimatedTabs } from "@/components/ui/animated-tabs";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { ComprehensiveInputMode } from "@/components/ComprehensiveInputMode";
 import { GoalsBasedMode } from "@/components/GoalsBasedMode";
 import { GoalDetailView } from "@/components/GoalDetailView";
 import { FinancialFitnessScore } from "@/components/FinancialFitnessScore";
 import { FormProvider } from "@/contexts/FormContext";
+import { Award } from "lucide-react";
 
 const Analysis = () => {
   const [viewMode, setViewMode] = useState<"comprehensive" | "goals-based" | "fitness-score">("goals-based");
@@ -27,6 +29,10 @@ const Analysis = () => {
     setViewMode("goals-based");
   };
 
+  const handleViewModeChange = (value: string) => {
+    setViewMode(value as "comprehensive" | "goals-based");
+  };
+
   return (
     <FormProvider>
       <div className="h-[calc(100vh-4rem)] overflow-hidden">
@@ -34,9 +40,13 @@ const Analysis = () => {
           {/* View Mode Toggle - centered and only show when not in goal detail or fitness score */}
           {!selectedGoal && viewMode !== "fitness-score" && (
             <div className="flex justify-center py-4 border-b bg-background">
-              <ViewModeToggle 
-                viewMode={viewMode as "comprehensive" | "goals-based"} 
-                onViewModeChange={setViewMode}
+              <AnimatedTabs 
+                tabs={[
+                  { label: "Comprehensive Input", value: "comprehensive" },
+                  { label: "Goals-Based Planning", value: "goals-based" }
+                ]}
+                defaultValue={viewMode}
+                onValueChange={handleViewModeChange}
               />
             </div>
           )}

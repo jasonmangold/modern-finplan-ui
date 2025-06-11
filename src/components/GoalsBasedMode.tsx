@@ -1,7 +1,6 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { 
   GraduationCap, 
   Shield, 
@@ -220,14 +219,15 @@ export const GoalsBasedMode = ({ onGoalSelect, onShowFitnessScore }: GoalsBasedM
             {completedGoals} of {planningGoals.length} goals in progress
           </p>
         </div>
-        <Button 
-          variant="outline" 
+        <ShimmerButton 
           className="flex items-center gap-2"
           onClick={onShowFitnessScore}
+          shimmerColor="#000000"
+          shimmerDuration="2s"
         >
           <Award className="h-4 w-4" />
           Financial Fitness Score
-        </Button>
+        </ShimmerButton>
       </div>
 
       {/* Goals Grid - Full Screen with proper spacing */}
