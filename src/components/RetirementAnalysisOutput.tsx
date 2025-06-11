@@ -1,8 +1,14 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Download, FileText, Presentation } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
+const retirementIncomeData = [
+  { age: "67-77", income: 9000, label: "Age 67-77" },
+  { age: "77-82", income: 7000, label: "Age 77-82" },
+  { age: "82+", income: 6000, label: "Age 82+" }
+];
 
 export const RetirementAnalysisOutput = () => {
   return (
@@ -20,146 +26,125 @@ export const RetirementAnalysisOutput = () => {
         <CardHeader>
           <CardTitle className="text-lg">Analysis Results</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Analysis Summary Section */}
+        <CardContent className="space-y-8">
+          
+          {/* Income Goals Section */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-lg border-b pb-2">Analysis Summary</h3>
-            
-            <div className="grid grid-cols-2 gap-6">
-              <div>
-                <h4 className="font-medium mb-3">Current Situation</h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span>Current Age:</span>
-                    <span className="font-medium">45</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Retirement Age:</span>
-                    <span className="font-medium">67</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Years to Retirement:</span>
-                    <span className="font-medium">22</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Current Retirement Balance:</span>
-                    <span className="font-medium">$350,000</span>
-                  </div>
-                </div>
+            <h3 className="font-semibold text-lg border-b pb-2">Income Goals</h3>
+            <p className="text-sm leading-relaxed">
+              You have indicated that you would like to have the following monthly retirement income:<sup>1</sup>
+            </p>
+            <div className="space-y-3 ml-4">
+              <div className="text-sm">
+                <span className="font-medium">At Paul's age 67 and Sally's age 65</span> - 93.91% of current income, or <span className="font-semibold text-green-600">$9,000</span>.
               </div>
-
-              <div>
-                <h4 className="font-medium mb-3">Projected Results</h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span>Projected Balance at Retirement:</span>
-                    <span className="font-medium text-green-600">$1,247,850</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Monthly Income Needed:</span>
-                    <span className="font-medium">$8,000</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Monthly Income Available:</span>
-                    <span className="font-medium text-green-600">$8,247</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Monthly Surplus/(Deficit):</span>
-                    <span className="font-medium text-green-600">$247</span>
-                  </div>
-                </div>
+              <div className="text-sm">
+                <span className="font-medium">At Paul's age 77 and Sally's age 75</span> - 73.04% of current income, or <span className="font-semibold text-green-600">$7,000</span>.
+              </div>
+              <div className="text-sm">
+                <span className="font-medium">At Paul's age 82 and Sally's age 80</span> - 62.61% of current income, or <span className="font-semibold text-green-600">$6,000</span>.
               </div>
             </div>
           </div>
 
           {/* Income Sources Section */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-lg border-b pb-2">Retirement Income Sources</h3>
+            <h3 className="font-semibold text-lg border-b pb-2">Income Sources</h3>
+            <p className="text-sm leading-relaxed">
+              To support your retirement goals you have the following monthly sources:
+            </p>
             
-            <div className="space-y-3">
-              <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                <span className="font-medium">Social Security</span>
-                <span className="font-medium">$2,800/month</span>
+            <div className="space-y-4 ml-4">
+              <div>
+                <h4 className="font-medium text-base mb-2">Earned Income</h4>
+                <p className="text-sm ml-4">Sally's employment income from age 65 until age 67</p>
               </div>
-              <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                <span className="font-medium">401(k) Withdrawals</span>
-                <span className="font-medium">$4,200/month</span>
+              
+              <div>
+                <h4 className="font-medium text-base mb-2">Social Security</h4>
+                <div className="space-y-1 ml-4 text-sm">
+                  <div>Social Security benefits at Paul's age 67 - <span className="font-semibold">$2,853</span></div>
+                  <div>Social Security benefits at Sally's age 67 - <span className="font-semibold">$2,426</span></div>
+                </div>
               </div>
-              <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                <span className="font-medium">IRA Withdrawals</span>
-                <span className="font-medium">$1,247/month</span>
-              </div>
-              <div className="flex justify-between items-center p-3 bg-blue-50 rounded border border-blue-200">
-                <span className="font-semibold">Total Monthly Income</span>
-                <span className="font-semibold text-blue-600">$8,247/month</span>
+              
+              <div>
+                <h4 className="font-medium text-base mb-2">Other Income</h4>
+                <p className="text-sm ml-4">Rental Income beginning at Paul's age 67 - <span className="font-semibold">$500</span></p>
               </div>
             </div>
           </div>
 
-          {/* Recommendations Section */}
+          {/* Assets Available at Retirement Section */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-lg border-b pb-2">Recommendations</h3>
-            
-            <div className="space-y-3">
-              <div className="flex items-start gap-3 p-3 bg-green-50 rounded border border-green-200">
-                <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-                <div>
-                  <p className="font-medium text-green-800">On Track for Retirement Goals</p>
-                  <p className="text-sm text-green-700">Your current savings rate is sufficient to meet your retirement income needs.</p>
-                </div>
+            <h3 className="font-semibold text-lg border-b pb-2">Assets Available at Retirement</h3>
+            <div className="space-y-2 ml-4 text-sm">
+              <div className="flex justify-between">
+                <span>Paul retirement assets -</span>
+                <span className="font-semibold">$860,051</span>
               </div>
-              
-              <div className="flex items-start gap-3 p-3 bg-blue-50 rounded border border-blue-200">
-                <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
-                <div>
-                  <p className="font-medium text-blue-800">Consider Maximizing Tax-Advantaged Accounts</p>
-                  <p className="text-sm text-blue-700">Increase 401(k) contributions to take full advantage of employer matching and tax benefits.</p>
-                </div>
+              <div className="flex justify-between">
+                <span>Sally retirement assets -</span>
+                <span className="font-semibold">$670,667</span>
               </div>
-              
-              <div className="flex items-start gap-3 p-3 bg-yellow-50 rounded border border-yellow-200">
-                <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2"></div>
-                <div>
-                  <p className="font-medium text-yellow-800">Review Social Security Strategy</p>
-                  <p className="text-sm text-yellow-700">Consider delaying Social Security benefits to age 70 for maximum benefit amount.</p>
-                </div>
+              <div className="flex justify-between">
+                <span>Other assets -</span>
+                <span className="font-semibold">$72,444</span>
               </div>
             </div>
           </div>
 
-          {/* Key Assumptions Section */}
+          {/* Results Section */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-lg border-b pb-2">Key Assumptions</h3>
-            
-            <div className="grid grid-cols-2 gap-6">
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span>Investment Return:</span>
-                  <span className="font-medium">7.0%</span>
+            <h3 className="font-semibold text-lg border-b pb-2">Results</h3>
+            <div className="space-y-4">
+              <p className="text-sm font-medium">According to the analysis:</p>
+              
+              <div className="space-y-3 ml-4 text-sm">
+                <div className="p-3 bg-red-50 rounded border border-red-200">
+                  <span className="text-red-800 font-medium">Your funds will be depleted at Paul's age 83.</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Inflation Rate:</span>
-                  <span className="font-medium">3.0%</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Life Expectancy:</span>
-                  <span className="font-medium">90 years</span>
+                
+                <div className="p-3 bg-yellow-50 rounded border border-yellow-200">
+                  <span className="text-yellow-800">Your current savings of <span className="font-semibold">$550</span> will need to be increased by <span className="font-semibold">$636</span> with the additional monthly savings earning a rate of return of <span className="font-semibold">5.00%</span>.</span>
                 </div>
               </div>
-              
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span>Income Replacement:</span>
-                  <span className="font-medium">80%</span>
+
+              {/* Bar Chart */}
+              <div className="mt-6">
+                <h4 className="font-medium text-base mb-4">Retirement Income by Age Period</h4>
+                <div className="h-64 w-full">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={retirementIncomeData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis 
+                        dataKey="label" 
+                        tick={{ fontSize: 12 }}
+                      />
+                      <YAxis 
+                        tick={{ fontSize: 12 }}
+                        tickFormatter={(value) => `$${value.toLocaleString()}`}
+                      />
+                      <Tooltip 
+                        formatter={(value) => [`$${value.toLocaleString()}`, 'Monthly Income']}
+                        labelStyle={{ color: '#374151' }}
+                      />
+                      <Bar 
+                        dataKey="income" 
+                        fill="#3B82F6" 
+                        radius={[4, 4, 0, 0]}
+                      />
+                    </BarChart>
+                  </ResponsiveContainer>
                 </div>
-                <div className="flex justify-between">
-                  <span>Social Security Start:</span>
-                  <span className="font-medium">Age 67</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Tax Rate in Retirement:</span>
-                  <span className="font-medium">22%</span>
-                </div>
+              </div>
+
+              <div className="mt-4 p-3 bg-blue-50 rounded border border-blue-200">
+                <span className="text-blue-800">An additional <span className="font-semibold">$436,248</span> will be required at retirement to meet your goals.</span>
+              </div>
+
+              <div className="mt-6 text-xs text-gray-500 italic">
+                Values shown in this presentation are hypothetical and not a promise of future performance.
               </div>
             </div>
           </div>
