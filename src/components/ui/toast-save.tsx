@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
 
-interface ToastSaveProps extends React.HTMLAttributes<HTMLDivElement> {
-  state: "initial" | "loading" | "success"
+interface ToastSaveProps {
+  state?: "initial" | "loading" | "success"
   onReset?: () => void
   onSave?: () => void
   loadingText?: string
@@ -17,6 +17,7 @@ interface ToastSaveProps extends React.HTMLAttributes<HTMLDivElement> {
   initialText?: string
   resetText?: string
   saveText?: string
+  className?: string
 }
 
 const InfoIcon = () => (
@@ -63,7 +64,6 @@ export function ToastSave({
   resetText = "Reset",
   saveText = "Save",
   className,
-  ...props
 }: ToastSaveProps) {
   return (
     <motion.div
@@ -78,7 +78,6 @@ export function ToastSave({
       initial={false}
       animate={{ width: "auto" }}
       transition={springConfig}
-      {...props}
     >
       <div className="flex h-full items-center justify-between px-3">
         <AnimatePresence mode="wait">
