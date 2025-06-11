@@ -1,10 +1,9 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown, Download, Search, Filter, X, ArrowLeft, Eye, FileText, FolderOpen } from "lucide-react";
 import { ReportViewer } from "@/components/ReportViewer";
@@ -30,6 +29,7 @@ const Education = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
   const [expandedSubfolders, setExpandedSubfolders] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState("report-library");
 
   const allReports = educationCategories.flatMap(cat => cat.reports);
   const filteredReports = selectedCategory === "all" 
@@ -111,250 +111,260 @@ const Education = () => {
     );
   }
 
-  return (
-    <div className="p-6 max-w-7xl mx-auto">
-      {/* Top Tabs */}
-      <Tabs defaultValue="report-library" className="mb-6">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="report-library" className="flex items-center gap-2">
-            <FileText className="h-4 w-4" />
-            Report Library
-          </TabsTrigger>
-          <TabsTrigger value="client-forms" className="flex items-center gap-2">
-            <FileText className="h-4 w-4" />
-            Client Interaction Forms
-          </TabsTrigger>
-          <TabsTrigger value="worksheets" className="flex items-center gap-2">
-            <FileText className="h-4 w-4" />
-            Worksheets
-          </TabsTrigger>
-          <TabsTrigger value="advisor-support" className="flex items-center gap-2">
-            <FileText className="h-4 w-4" />
-            Advisor Support
-          </TabsTrigger>
-        </TabsList>
+  const tabs = [
+    { label: "Report Library", value: "report-library" },
+    { label: "Client Interaction Forms", value: "client-forms" },
+    { label: "Worksheets", value: "worksheets" },
+    { label: "Advisor Support", value: "advisor-support" }
+  ];
 
-        <TabsContent value="report-library" className="space-y-6">
-          {/* Header */}
-          <div className="mb-6">
-            <div className="flex items-center justify-between mb-4">
-              <h1 className="text-2xl font-semibold flex items-center gap-2">
-                <FileText className="h-6 w-6" />
-                Report Library (600+ Reports)
-              </h1>
-              <Button 
-                variant="outline" 
-                className="flex items-center gap-2"
-                onClick={() => setFiltersVisible(!filtersVisible)}
-              >
-                <Filter className="h-4 w-4" />
-                {filtersVisible ? 'Hide Filters' : 'Show Filters'}
-              </Button>
-            </div>
-
-            {/* Search */}
-            <div className="relative max-w-md mb-6">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <Input 
-                placeholder="Search reports..." 
-                value={searchTerm} 
-                onChange={(e) => setSearchTerm(e.target.value)} 
-                className="pl-10"
-              />
-            </div>
-
-            {/* Filters */}
-            {filtersVisible && (
-              <div className="mb-6">
-                <div className="grid grid-cols-2 gap-8">
-                  <div>
-                    <h3 className="font-medium text-sm mb-3">Format</h3>
-                    <div className="flex gap-4">
-                      {formatOptions.map(format => (
-                        <div key={format} className="flex items-center space-x-2">
-                          <Checkbox 
-                            id={format} 
-                            checked={selectedFormats.includes(format)}
-                            onCheckedChange={(checked) => {
-                              if (checked) {
-                                setSelectedFormats(prev => [...prev, format]);
-                              } else {
-                                setSelectedFormats(prev => prev.filter(f => f !== format));
-                              }
-                            }}
-                          />
-                          <label htmlFor={format} className="text-sm">{format}</label>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <h3 className="font-medium text-sm mb-3">Topics</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {topicTags.map(topic => (
-                        <button
-                          key={topic}
-                          onClick={() => handleTopicToggle(topic)}
-                          className={`px-3 py-1 rounded-full text-xs border transition-colors ${
-                            selectedTopics.includes(topic)
-                              ? 'bg-blue-100 text-blue-700 border-blue-200'
-                              : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-200'
-                          }`}
-                        >
-                          {topic}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Main Content */}
-          <div className="space-y-4">
-            {educationCategories.map(category => (
-              <div key={category.name} className="border rounded-lg">
-                <button
-                  onClick={() => toggleCategoryExpansion(category.name)}
-                  className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "report-library":
+        return (
+          <div className="space-y-6">
+            {/* Header */}
+            <div className="mb-6">
+              <div className="flex items-center justify-between mb-4">
+                <h1 className="text-2xl font-semibold flex items-center gap-2">
+                  <FileText className="h-6 w-6" />
+                  Report Library (600+ Reports)
+                </h1>
+                <Button 
+                  variant="outline" 
+                  className="flex items-center gap-2"
+                  onClick={() => setFiltersVisible(!filtersVisible)}
                 >
-                  <div className="flex items-center gap-3">
-                    <FolderOpen className="h-5 w-5 text-blue-600" />
-                    <span className="font-medium">{category.name}</span>
-                    <span className="text-sm text-gray-500">{category.count} reports</span>
-                  </div>
-                  <ChevronDown className={`h-4 w-4 transition-transform ${
-                    expandedCategories.includes(category.name) ? 'rotate-180' : ''
-                  }`} />
-                </button>
-                
-                {expandedCategories.includes(category.name) && (
-                  <div className="border-t">
-                    {/* Subcategory headers based on the category */}
-                    {category.name === "Retirement" && (
-                      <>
-                        <Collapsible>
-                          <CollapsibleTrigger className="w-full px-4 py-3 bg-gray-50 border-b flex items-center justify-between hover:bg-gray-100 transition-colors">
-                            <span className="text-sm font-medium">Retirement Planning Basics</span>
-                            <ChevronDown className="h-4 w-4" />
-                          </CollapsibleTrigger>
-                          <CollapsibleContent>
-                            <div className="px-8 py-4 grid grid-cols-2 gap-4">
-                              {["401(k) vs IRA: Understanding Your Options", "Required Minimum Distributions (RMDs)", "Tax-Deferred vs Tax-Free Retirement Accounts"].map(report => (
-                                <div key={report} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50">
-                                  <div className="flex items-center gap-3">
-                                    <Checkbox 
-                                      checked={selectedItems.includes(report)} 
-                                      onCheckedChange={() => handleItemSelection(report)} 
-                                    />
-                                    <FileText className="h-4 w-4 text-gray-400" />
-                                    <span className="text-sm">{report}</span>
-                                  </div>
-                                  <div className="flex items-center gap-2">
-                                    <Button variant="ghost" size="sm">
-                                      <Eye className="h-4 w-4" />
-                                    </Button>
-                                    <Button variant="ghost" size="sm" onClick={() => handleDownload(report)}>
-                                      <Download className="h-4 w-4" />
-                                    </Button>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </CollapsibleContent>
-                        </Collapsible>
-                        
-                        <Collapsible>
-                          <CollapsibleTrigger className="w-full px-4 py-3 bg-gray-50 border-b flex items-center justify-between hover:bg-gray-100 transition-colors">
-                            <span className="text-sm font-medium">Advanced Retirement Strategies</span>
-                            <ChevronDown className="h-4 w-4" />
-                          </CollapsibleTrigger>
-                          <CollapsibleContent>
-                            <div className="px-8 py-4 grid grid-cols-2 gap-4">
-                              {["Social Security Benefits Explained", "Retirement Income Strategies"].map(report => (
-                                <div key={report} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50">
-                                  <div className="flex items-center gap-3">
-                                    <Checkbox 
-                                      checked={selectedItems.includes(report)} 
-                                      onCheckedChange={() => handleItemSelection(report)} 
-                                    />
-                                    <FileText className="h-4 w-4 text-gray-400" />
-                                    <span className="text-sm">{report}</span>
-                                  </div>
-                                  <div className="flex items-center gap-2">
-                                    <Button variant="ghost" size="sm">
-                                      <Eye className="h-4 w-4" />
-                                    </Button>
-                                    <Button variant="ghost" size="sm" onClick={() => handleDownload(report)}>
-                                      <Download className="h-4 w-4" />
-                                    </Button>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </CollapsibleContent>
-                        </Collapsible>
-                      </>
-                    )}
-                    
-                    {/* For other categories, show simple report list in 2-column grid */}
-                    {category.name !== "Retirement" && (
-                      <div className="p-4 grid grid-cols-2 gap-4">
-                        {category.reports.map(report => (
-                          <div key={report} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50">
-                            <div className="flex items-center gap-3">
-                              <Checkbox 
-                                checked={selectedItems.includes(report)} 
-                                onCheckedChange={() => handleItemSelection(report)} 
-                              />
-                              <FileText className="h-4 w-4 text-gray-400" />
-                              <span className="text-sm">{report}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Button variant="ghost" size="sm">
-                                <Eye className="h-4 w-4" />
-                              </Button>
-                              <Button variant="ghost" size="sm" onClick={() => handleDownload(report)}>
-                                <Download className="h-4 w-4" />
-                              </Button>
-                            </div>
+                  <Filter className="h-4 w-4" />
+                  {filtersVisible ? 'Hide Filters' : 'Show Filters'}
+                </Button>
+              </div>
+
+              {/* Search */}
+              <div className="relative max-w-md mb-6">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Input 
+                  placeholder="Search reports..." 
+                  value={searchTerm} 
+                  onChange={(e) => setSearchTerm(e.target.value)} 
+                  className="pl-10"
+                />
+              </div>
+
+              {/* Filters */}
+              {filtersVisible && (
+                <div className="mb-6">
+                  <div className="grid grid-cols-2 gap-8">
+                    <div>
+                      <h3 className="font-medium text-sm mb-3">Format</h3>
+                      <div className="flex gap-4">
+                        {formatOptions.map(format => (
+                          <div key={format} className="flex items-center space-x-2">
+                            <Checkbox 
+                              id={format} 
+                              checked={selectedFormats.includes(format)}
+                              onCheckedChange={(checked) => {
+                                if (checked) {
+                                  setSelectedFormats(prev => [...prev, format]);
+                                } else {
+                                  setSelectedFormats(prev => prev.filter(f => f !== format));
+                                }
+                              }}
+                            />
+                            <label htmlFor={format} className="text-sm">{format}</label>
                           </div>
                         ))}
                       </div>
-                    )}
+                    </div>
+                    
+                    <div>
+                      <h3 className="font-medium text-sm mb-3">Topics</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {topicTags.map(topic => (
+                          <button
+                            key={topic}
+                            onClick={() => handleTopicToggle(topic)}
+                            className={`px-3 py-1 rounded-full text-xs border transition-colors ${
+                              selectedTopics.includes(topic)
+                                ? 'bg-blue-100 text-blue-700 border-blue-200'
+                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-200'
+                            }`}
+                          >
+                            {topic}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </TabsContent>
+                </div>
+              )}
+            </div>
 
-        <TabsContent value="client-forms" className="space-y-6">
+            {/* Main Content */}
+            <div className="space-y-4">
+              {educationCategories.map(category => (
+                <div key={category.name} className="border rounded-lg">
+                  <button
+                    onClick={() => toggleCategoryExpansion(category.name)}
+                    className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <FolderOpen className="h-5 w-5 text-blue-600" />
+                      <span className="font-medium">{category.name}</span>
+                      <span className="text-sm text-gray-500">{category.count} reports</span>
+                    </div>
+                    <ChevronDown className={`h-4 w-4 transition-transform ${
+                      expandedCategories.includes(category.name) ? 'rotate-180' : ''
+                    }`} />
+                  </button>
+                  
+                  {expandedCategories.includes(category.name) && (
+                    <div className="border-t">
+                      {/* Subcategory headers based on the category */}
+                      {category.name === "Retirement" && (
+                        <>
+                          <Collapsible>
+                            <CollapsibleTrigger className="w-full px-4 py-3 bg-gray-50 border-b flex items-center justify-between hover:bg-gray-100 transition-colors">
+                              <span className="text-sm font-medium">Retirement Planning Basics</span>
+                              <ChevronDown className="h-4 w-4" />
+                            </CollapsibleTrigger>
+                            <CollapsibleContent>
+                              <div className="px-8 py-4 grid grid-cols-2 gap-4">
+                                {["401(k) vs IRA: Understanding Your Options", "Required Minimum Distributions (RMDs)", "Tax-Deferred vs Tax-Free Retirement Accounts"].map(report => (
+                                  <div key={report} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50">
+                                    <div className="flex items-center gap-3">
+                                      <Checkbox 
+                                        checked={selectedItems.includes(report)} 
+                                        onCheckedChange={() => handleItemSelection(report)} 
+                                      />
+                                      <FileText className="h-4 w-4 text-gray-400" />
+                                      <span className="text-sm">{report}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      <Button variant="ghost" size="sm">
+                                        <Eye className="h-4 w-4" />
+                                      </Button>
+                                      <Button variant="ghost" size="sm" onClick={() => handleDownload(report)}>
+                                        <Download className="h-4 w-4" />
+                                      </Button>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </CollapsibleContent>
+                          </Collapsible>
+                          
+                          <Collapsible>
+                            <CollapsibleTrigger className="w-full px-4 py-3 bg-gray-50 border-b flex items-center justify-between hover:bg-gray-100 transition-colors">
+                              <span className="text-sm font-medium">Advanced Retirement Strategies</span>
+                              <ChevronDown className="h-4 w-4" />
+                            </CollapsibleTrigger>
+                            <CollapsibleContent>
+                              <div className="px-8 py-4 grid grid-cols-2 gap-4">
+                                {["Social Security Benefits Explained", "Retirement Income Strategies"].map(report => (
+                                  <div key={report} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50">
+                                    <div className="flex items-center gap-3">
+                                      <Checkbox 
+                                        checked={selectedItems.includes(report)} 
+                                        onCheckedChange={() => handleItemSelection(report)} 
+                                      />
+                                      <FileText className="h-4 w-4 text-gray-400" />
+                                      <span className="text-sm">{report}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      <Button variant="ghost" size="sm">
+                                        <Eye className="h-4 w-4" />
+                                      </Button>
+                                      <Button variant="ghost" size="sm" onClick={() => handleDownload(report)}>
+                                        <Download className="h-4 w-4" />
+                                      </Button>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </CollapsibleContent>
+                          </Collapsible>
+                        </>
+                      )}
+                      
+                      {/* For other categories, show simple report list in 2-column grid */}
+                      {category.name !== "Retirement" && (
+                        <div className="p-4 grid grid-cols-2 gap-4">
+                          {category.reports.map(report => (
+                            <div key={report} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50">
+                              <div className="flex items-center gap-3">
+                                <Checkbox 
+                                  checked={selectedItems.includes(report)} 
+                                  onCheckedChange={() => handleItemSelection(report)} 
+                                />
+                                <FileText className="h-4 w-4 text-gray-400" />
+                                <span className="text-sm">{report}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Button variant="ghost" size="sm">
+                                  <Eye className="h-4 w-4" />
+                                </Button>
+                                <Button variant="ghost" size="sm" onClick={() => handleDownload(report)}>
+                                  <Download className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+
+      case "client-forms":
+        return (
           <div className="text-center py-12">
             <FileText className="h-12 w-12 mx-auto text-gray-300 mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">Client Interaction Forms</h3>
             <p className="text-gray-500">Coming soon - interactive forms for client meetings</p>
           </div>
-        </TabsContent>
+        );
 
-        <TabsContent value="worksheets" className="space-y-6">
+      case "worksheets":
+        return (
           <div className="text-center py-12">
             <FileText className="h-12 w-12 mx-auto text-gray-300 mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">Worksheets</h3>
             <p className="text-gray-500">Coming soon - calculation worksheets and planning tools</p>
           </div>
-        </TabsContent>
+        );
 
-        <TabsContent value="advisor-support" className="space-y-6">
+      case "advisor-support":
+        return (
           <div className="text-center py-12">
             <FileText className="h-12 w-12 mx-auto text-gray-300 mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">Advisor Support</h3>
             <p className="text-gray-500">Coming soon - training materials and support resources</p>
           </div>
-        </TabsContent>
-      </Tabs>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="p-6 max-w-7xl mx-auto">
+      {/* Animated Tabs */}
+      <div className="mb-6 flex justify-center">
+        <AnimatedTabs
+          tabs={tabs}
+          defaultValue="report-library"
+          onValueChange={setActiveTab}
+        />
+      </div>
+
+      {/* Tab Content */}
+      {renderTabContent()}
     </div>
   );
 };
