@@ -1,11 +1,31 @@
 
+import { useState } from "react";
 import { Search, Bell, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { TopNavigation } from "./TopNavigation";
+import { ToastSave } from "@/components/ui/toast-save";
 
 export const Header = () => {
+  const [saveState, setSaveState] = useState<"initial" | "loading" | "success">("initial");
+
+  const handleSave = () => {
+    setSaveState("loading");
+    // Simulate save operation
+    setTimeout(() => {
+      setSaveState("success");
+      setTimeout(() => {
+        setSaveState("initial");
+      }, 2000);
+    }, 1500);
+  };
+
+  const handleReset = () => {
+    setSaveState("initial");
+    console.log("Reset changes");
+  };
+
   return (
     <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200/60 sticky top-0 z-50">
       <div className="h-16 flex items-center justify-between px-8">
@@ -23,9 +43,16 @@ export const Header = () => {
                 <SelectItem value="paul-sally">Paul Johnson & Sally Johnson</SelectItem>
               </SelectContent>
             </Select>
-            <Button variant="outline" size="sm" className="modern-button border-gray-200 hover:bg-gray-50">
-              Save
-            </Button>
+            <ToastSave
+              state={saveState}
+              onSave={handleSave}
+              onReset={handleReset}
+              saveText="Save"
+              resetText="Reset"
+              loadingText="Saving..."
+              successText="Saved!"
+              initialText="Unsaved changes"
+            />
             <Button variant="outline" size="sm" className="modern-button bg-green-50 text-green-700 border-green-200 hover:bg-green-100">
               New Client
             </Button>

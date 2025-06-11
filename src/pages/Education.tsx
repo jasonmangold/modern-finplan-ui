@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,11 +10,118 @@ import { ChevronDown, Download, Search, Filter, X, ArrowLeft, Eye, FileText, Fol
 import { ReportViewer } from "@/components/ReportViewer";
 
 const educationCategories = [
-  { name: "Retirement", count: 15, reports: ["401(k) vs IRA: Understanding Your Options", "Required Minimum Distributions (RMDs)", "Tax-Deferred vs Tax-Free Retirement Accounts", "Social Security Benefits Explained", "Retirement Income Strategies"] },
-  { name: "Life Insurance", count: 10, reports: ["Life Insurance Basics", "Term vs Whole Life", "Life Insurance Needs Analysis"] },
-  { name: "College", count: 10, reports: ["529 College Savings Plans", "Education Tax Credits", "Student Loan Strategies"] },
-  { name: "Disability", count: 5, reports: ["Disability Insurance Basics", "Social Security Disability", "Short vs Long Term Disability"] },
-  { name: "Long-Term Care", count: 5, reports: ["Long-Term Care Planning", "LTC Insurance Options", "Medicaid Planning"] }
+  { 
+    name: "Personal Finance", 
+    count: 25, 
+    reports: ["Personal Budgeting Basics", "Emergency Fund Planning", "Debt Management Strategies", "Credit Score Improvement", "Financial Goal Setting"],
+    subfolders: ["Budgeting", "Emergency Planning", "Debt Management", "Credit Basics", "Goal Setting"]
+  },
+  { 
+    name: "Health and Medical", 
+    count: 18, 
+    reports: ["Health Savings Accounts (HSAs)", "Medical Insurance Planning", "Healthcare Cost Management", "Medicare Basics", "Health-Related Tax Deductions"],
+    subfolders: ["HSA Planning", "Medical Insurance", "Healthcare Costs", "Medicare", "Medical Tax Benefits"]
+  },
+  { 
+    name: "Income Taxes", 
+    count: 22, 
+    reports: ["Tax Planning Strategies", "Deduction Maximization", "Tax-Advantaged Accounts", "Year-End Tax Planning", "Tax Loss Harvesting"],
+    subfolders: ["Tax Planning", "Deductions", "Tax-Advantaged Savings", "Year-End Strategies", "Investment Taxes"]
+  },
+  { 
+    name: "Home Ownership", 
+    count: 15, 
+    reports: ["First-Time Home Buying", "Mortgage Planning", "Home Refinancing", "Property Tax Planning", "Home Equity Strategies"],
+    subfolders: ["Home Buying", "Mortgages", "Refinancing", "Property Taxes", "Home Equity"]
+  },
+  { 
+    name: "Investments", 
+    count: 30, 
+    reports: ["Investment Basics", "Portfolio Diversification", "Risk Management", "Investment Account Types", "Asset Allocation Strategies"],
+    subfolders: ["Investment Basics", "Portfolio Management", "Risk Assessment", "Account Types", "Asset Allocation"]
+  },
+  { 
+    name: "Retirement Planning", 
+    count: 35, 
+    reports: ["401(k) vs IRA: Understanding Your Options", "Required Minimum Distributions (RMDs)", "Tax-Deferred vs Tax-Free Retirement Accounts", "Social Security Benefits Explained", "Retirement Income Strategies"],
+    subfolders: ["Retirement Basics", "Account Types", "Distribution Planning", "Income Strategies", "Social Security"]
+  },
+  { 
+    name: "Education Funding", 
+    count: 12, 
+    reports: ["529 College Savings Plans", "Education Tax Credits", "Student Loan Strategies", "Educational Savings Options", "Financial Aid Planning"],
+    subfolders: ["529 Plans", "Tax Credits", "Student Loans", "Savings Options", "Financial Aid"]
+  },
+  { 
+    name: "Life Insurance", 
+    count: 20, 
+    reports: ["Life Insurance Basics", "Term vs Whole Life", "Life Insurance Needs Analysis", "Policy Comparison", "Beneficiary Planning"],
+    subfolders: ["Insurance Basics", "Policy Types", "Needs Analysis", "Policy Comparison", "Beneficiary Planning"]
+  },
+  { 
+    name: "Property and Casualty", 
+    count: 14, 
+    reports: ["Home Insurance Planning", "Auto Insurance Optimization", "Umbrella Insurance", "Property Protection", "Liability Coverage"],
+    subfolders: ["Home Insurance", "Auto Insurance", "Umbrella Coverage", "Property Protection", "Liability Planning"]
+  },
+  { 
+    name: "Social Security", 
+    count: 16, 
+    reports: ["Social Security Claiming Strategies", "Spousal Benefits", "Survivor Benefits", "Social Security and Taxes", "Maximizing Benefits"],
+    subfolders: ["Claiming Strategies", "Spousal Benefits", "Survivor Benefits", "Tax Planning", "Benefit Maximization"]
+  },
+  { 
+    name: "Estate Planning", 
+    count: 24, 
+    reports: ["Will and Trust Basics", "Estate Tax Planning", "Beneficiary Designations", "Power of Attorney", "Estate Planning for Families"],
+    subfolders: ["Wills and Trusts", "Estate Taxes", "Beneficiary Planning", "Legal Documents", "Family Planning"]
+  },
+  { 
+    name: "Business Planning", 
+    count: 19, 
+    reports: ["Business Entity Selection", "Business Insurance", "Succession Planning", "Key Person Insurance", "Business Valuation"],
+    subfolders: ["Entity Selection", "Business Insurance", "Succession Planning", "Key Person Coverage", "Business Valuation"]
+  },
+  { 
+    name: "Charitable Planning", 
+    count: 11, 
+    reports: ["Charitable Giving Strategies", "Donor-Advised Funds", "Charitable Remainder Trusts", "Tax Benefits of Giving", "Planned Giving"],
+    subfolders: ["Giving Strategies", "Donor-Advised Funds", "Charitable Trusts", "Tax Benefits", "Planned Giving"]
+  }
+];
+
+const clientInteractionForms = [
+  "Agenda for Discussion",
+  "Beneficiary Audit Checklist", 
+  "Business Events Checklist",
+  "Business Owner Planning Needs",
+  "Client Referral",
+  "Divorce Checklist",
+  "Financial Review Checklist",
+  "Life Events Checklist",
+  "Planning Task List",
+  "Receipt for Documents"
+];
+
+const worksheetReports = [
+  "Business Valuation",
+  "Capital Needs Analysis Worksheet",
+  "Federal Estate Tax Worksheet",
+  "Odds of Disability",
+  "Personal Alternative Minimum Tax",
+  "The Personal Budget Worksheet",
+  "Personal Net Worth",
+  "Taxation of Social Security Benefits",
+  "The Real Rate of Return Worksheet",
+  "When to Refinance Your Home"
+];
+
+const advisorSupportFolders = [
+  { 
+    name: "Planning Tools Reference", 
+    count: 8,
+    reports: ["Planning Software Guide", "Calculation Tools", "Reference Materials", "Best Practices", "Compliance Guidelines"]
+  }
 ];
 
 const formatOptions = ["One-Pagers", "Detailed Reports"];
@@ -220,98 +328,39 @@ const Education = () => {
                   
                   {expandedCategories.includes(category.name) && (
                     <div className="border-t">
-                      {/* Subcategory headers based on the category */}
-                      {category.name === "Retirement" && (
-                        <>
-                          <Collapsible>
-                            <CollapsibleTrigger className="w-full px-4 py-3 bg-gray-50 border-b flex items-center justify-between hover:bg-gray-100 transition-colors">
-                              <span className="text-sm font-medium">Retirement Planning Basics</span>
-                              <ChevronDown className="h-4 w-4" />
-                            </CollapsibleTrigger>
-                            <CollapsibleContent>
-                              <div className="px-8 py-4 grid grid-cols-2 gap-4">
-                                {["401(k) vs IRA: Understanding Your Options", "Required Minimum Distributions (RMDs)", "Tax-Deferred vs Tax-Free Retirement Accounts"].map(report => (
-                                  <div key={report} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50">
-                                    <div className="flex items-center gap-3">
-                                      <Checkbox 
-                                        checked={selectedItems.includes(report)} 
-                                        onCheckedChange={() => handleItemSelection(report)} 
-                                      />
-                                      <FileText className="h-4 w-4 text-gray-400" />
-                                      <span className="text-sm">{report}</span>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                      <Button variant="ghost" size="sm">
-                                        <Eye className="h-4 w-4" />
-                                      </Button>
-                                      <Button variant="ghost" size="sm" onClick={() => handleDownload(report)}>
-                                        <Download className="h-4 w-4" />
-                                      </Button>
-                                    </div>
+                      {/* Subfolders */}
+                      {category.subfolders && category.subfolders.map(subfolder => (
+                        <Collapsible key={subfolder}>
+                          <CollapsibleTrigger className="w-full px-4 py-3 bg-gray-50 border-b flex items-center justify-between hover:bg-gray-100 transition-colors">
+                            <span className="text-sm font-medium">{subfolder}</span>
+                            <ChevronDown className="h-4 w-4" />
+                          </CollapsibleTrigger>
+                          <CollapsibleContent>
+                            <div className="px-8 py-4 grid grid-cols-2 gap-4">
+                              {category.reports.slice(0, 2).map(report => (
+                                <div key={report} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50">
+                                  <div className="flex items-center gap-3">
+                                    <Checkbox 
+                                      checked={selectedItems.includes(report)} 
+                                      onCheckedChange={() => handleItemSelection(report)} 
+                                    />
+                                    <FileText className="h-4 w-4 text-gray-400" />
+                                    <span className="text-sm">{report}</span>
                                   </div>
-                                ))}
-                              </div>
-                            </CollapsibleContent>
-                          </Collapsible>
-                          
-                          <Collapsible>
-                            <CollapsibleTrigger className="w-full px-4 py-3 bg-gray-50 border-b flex items-center justify-between hover:bg-gray-100 transition-colors">
-                              <span className="text-sm font-medium">Advanced Retirement Strategies</span>
-                              <ChevronDown className="h-4 w-4" />
-                            </CollapsibleTrigger>
-                            <CollapsibleContent>
-                              <div className="px-8 py-4 grid grid-cols-2 gap-4">
-                                {["Social Security Benefits Explained", "Retirement Income Strategies"].map(report => (
-                                  <div key={report} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50">
-                                    <div className="flex items-center gap-3">
-                                      <Checkbox 
-                                        checked={selectedItems.includes(report)} 
-                                        onCheckedChange={() => handleItemSelection(report)} 
-                                      />
-                                      <FileText className="h-4 w-4 text-gray-400" />
-                                      <span className="text-sm">{report}</span>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                      <Button variant="ghost" size="sm">
-                                        <Eye className="h-4 w-4" />
-                                      </Button>
-                                      <Button variant="ghost" size="sm" onClick={() => handleDownload(report)}>
-                                        <Download className="h-4 w-4" />
-                                      </Button>
-                                    </div>
+                                  <div className="flex items-center gap-2">
+                                    <Button variant="ghost" size="sm">
+                                      <Eye className="h-4 w-4" />
+                                    </Button>
+                                    <Button variant="ghost" size="sm" onClick={() => handleDownload(report)}>
+                                      <Download className="h-4 w-4" />
+                                    </Button>
                                   </div>
-                                ))}
-                              </div>
-                            </CollapsibleContent>
-                          </Collapsible>
-                        </>
-                      )}
-                      
-                      {/* For other categories, show simple report list in 2-column grid */}
-                      {category.name !== "Retirement" && (
-                        <div className="p-4 grid grid-cols-2 gap-4">
-                          {category.reports.map(report => (
-                            <div key={report} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50">
-                              <div className="flex items-center gap-3">
-                                <Checkbox 
-                                  checked={selectedItems.includes(report)} 
-                                  onCheckedChange={() => handleItemSelection(report)} 
-                                />
-                                <FileText className="h-4 w-4 text-gray-400" />
-                                <span className="text-sm">{report}</span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <Button variant="ghost" size="sm">
-                                  <Eye className="h-4 w-4" />
-                                </Button>
-                                <Button variant="ghost" size="sm" onClick={() => handleDownload(report)}>
-                                  <Download className="h-4 w-4" />
-                                </Button>
-                              </div>
+                                </div>
+                              ))}
                             </div>
-                          ))}
-                        </div>
-                      )}
+                          </CollapsibleContent>
+                        </Collapsible>
+                      ))}
                     </div>
                   )}
                 </div>
@@ -322,28 +371,125 @@ const Education = () => {
 
       case "client-forms":
         return (
-          <div className="text-center py-12">
-            <FileText className="h-12 w-12 mx-auto text-gray-300 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Client Interaction Forms</h3>
-            <p className="text-gray-500">Coming soon - interactive forms for client meetings</p>
+          <div className="space-y-6">
+            <div className="mb-6">
+              <h1 className="text-2xl font-semibold flex items-center gap-2">
+                <FileText className="h-6 w-6" />
+                Client Interaction Forms
+              </h1>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {clientInteractionForms.map(form => (
+                <div key={form} className="flex items-center justify-between p-4 border rounded hover:bg-gray-50">
+                  <div className="flex items-center gap-3">
+                    <Checkbox 
+                      checked={selectedItems.includes(form)} 
+                      onCheckedChange={() => handleItemSelection(form)} 
+                    />
+                    <FileText className="h-4 w-4 text-gray-400" />
+                    <span className="text-sm font-medium">{form}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button variant="ghost" size="sm">
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={() => handleDownload(form)}>
+                      <Download className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         );
 
       case "worksheets":
         return (
-          <div className="text-center py-12">
-            <FileText className="h-12 w-12 mx-auto text-gray-300 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Worksheets</h3>
-            <p className="text-gray-500">Coming soon - calculation worksheets and planning tools</p>
+          <div className="space-y-6">
+            <div className="mb-6">
+              <h1 className="text-2xl font-semibold flex items-center gap-2">
+                <FileText className="h-6 w-6" />
+                Worksheets
+              </h1>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {worksheetReports.map(worksheet => (
+                <div key={worksheet} className="flex items-center justify-between p-4 border rounded hover:bg-gray-50">
+                  <div className="flex items-center gap-3">
+                    <Checkbox 
+                      checked={selectedItems.includes(worksheet)} 
+                      onCheckedChange={() => handleItemSelection(worksheet)} 
+                    />
+                    <FileText className="h-4 w-4 text-gray-400" />
+                    <span className="text-sm font-medium">{worksheet}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button variant="ghost" size="sm">
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={() => handleDownload(worksheet)}>
+                      <Download className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         );
 
       case "advisor-support":
         return (
-          <div className="text-center py-12">
-            <FileText className="h-12 w-12 mx-auto text-gray-300 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Advisor Support</h3>
-            <p className="text-gray-500">Coming soon - training materials and support resources</p>
+          <div className="space-y-6">
+            <div className="mb-6">
+              <h1 className="text-2xl font-semibold flex items-center gap-2">
+                <FileText className="h-6 w-6" />
+                Advisor Support
+              </h1>
+            </div>
+            <div className="space-y-4">
+              {advisorSupportFolders.map(folder => (
+                <div key={folder.name} className="border rounded-lg">
+                  <button
+                    onClick={() => toggleCategoryExpansion(folder.name)}
+                    className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <FolderOpen className="h-5 w-5 text-blue-600" />
+                      <span className="font-medium">{folder.name}</span>
+                      <span className="text-sm text-gray-500">{folder.count} resources</span>
+                    </div>
+                    <ChevronDown className={`h-4 w-4 transition-transform ${
+                      expandedCategories.includes(folder.name) ? 'rotate-180' : ''
+                    }`} />
+                  </button>
+                  
+                  {expandedCategories.includes(folder.name) && (
+                    <div className="border-t p-4 grid grid-cols-2 gap-4">
+                      {folder.reports.map(report => (
+                        <div key={report} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50">
+                          <div className="flex items-center gap-3">
+                            <Checkbox 
+                              checked={selectedItems.includes(report)} 
+                              onCheckedChange={() => handleItemSelection(report)} 
+                            />
+                            <FileText className="h-4 w-4 text-gray-400" />
+                            <span className="text-sm">{report}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Button variant="ghost" size="sm">
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                            <Button variant="ghost" size="sm" onClick={() => handleDownload(report)}>
+                              <Download className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         );
 
