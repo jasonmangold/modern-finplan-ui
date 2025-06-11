@@ -1,4 +1,3 @@
-
 import * as React from "react"
 import * as TabsPrimitive from "@radix-ui/react-tabs"
 import { ChevronLeft, ChevronRight } from "lucide-react"
@@ -56,9 +55,9 @@ const TabsList = React.forwardRef<
       {showLeftArrow && (
         <button
           onClick={scrollLeft}
-          className="absolute left-0 top-0 z-10 h-10 w-8 bg-gradient-to-r from-muted to-transparent flex items-center justify-start pl-1"
+          className="absolute left-0 top-0 z-20 h-10 w-12 bg-gradient-to-r from-background via-background/90 to-transparent flex items-center justify-center shadow-lg border-r border-border/50"
         >
-          <ChevronLeft className="h-4 w-4" />
+          <ChevronLeft className="h-5 w-5 text-foreground" />
         </button>
       )}
       
@@ -80,9 +79,9 @@ const TabsList = React.forwardRef<
       {showRightArrow && (
         <button
           onClick={scrollRight}
-          className="absolute right-0 top-0 z-10 h-10 w-8 bg-gradient-to-l from-muted to-transparent flex items-center justify-end pr-1"
+          className="absolute right-0 top-0 z-20 h-10 w-12 bg-gradient-to-l from-background via-background/90 to-transparent flex items-center justify-center shadow-lg border-l border-border/50"
         >
-          <ChevronRight className="h-4 w-4" />
+          <ChevronRight className="h-5 w-5 text-foreground" />
         </button>
       )}
     </div>
