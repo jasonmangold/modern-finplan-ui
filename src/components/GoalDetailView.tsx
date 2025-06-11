@@ -2,7 +2,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, GraduationCap, Home, Car, PiggyBank, Shield } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { ArrowLeft, GraduationCap, Home, Car, PiggyBank, Shield, Check } from "lucide-react";
 import { useState } from "react";
 import { GoalInputPanel } from "./GoalInputPanel";
 import { GoalOutputPanel } from "./GoalOutputPanel";
@@ -88,7 +89,16 @@ export const GoalDetailView = ({
 }: GoalDetailViewProps) => {
   const config = goalConfigs[goalId as keyof typeof goalConfigs] || goalConfigs.college;
   const [selectedOutput, setSelectedOutput] = useState(config.defaultOutput);
+  const [selectedForPresentation, setSelectedForPresentation] = useState<string[]>([]);
   const IconComponent = config.icon;
+
+  const handlePresentationToggle = (outputType: string) => {
+    setSelectedForPresentation(prev => 
+      prev.includes(outputType)
+        ? prev.filter(item => item !== outputType)
+        : [...prev, outputType]
+    );
+  };
 
   return (
     <div className="h-full flex flex-col p-6">
@@ -110,7 +120,7 @@ export const GoalDetailView = ({
           </div>
         </div>
         
-        {/* Output Selector */}
+        {/* Output Selector with Presentation Selection */}
         <div className="flex items-center gap-3">
           <span className="text-sm font-medium text-gray-700">View:</span>
           <Select value={selectedOutput} onValueChange={setSelectedOutput}>
@@ -119,8 +129,18 @@ export const GoalDetailView = ({
             </SelectTrigger>
             <SelectContent>
               {config.outputs.map(output => (
-                <SelectItem key={output} value={output}>
-                  {output}
+                <SelectItem key={output} value={output} className="flex items-center justify-between">
+                  <div className="flex items-center gap-3 w-full">
+                    <Checkbox
+                      checked={selectedForPresentation.includes(output)}
+                      onCheckedChange={() => handlePresentationToggle(output)}
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                    <span className="flex-1">{output}</span>
+                    {selectedForPresentation.includes(output) && (
+                      <Check className="h-4 w-4 text-green-600" />
+                    )}
+                  </div>
                 </SelectItem>
               ))}
             </SelectContent>
@@ -138,7 +158,7 @@ export const GoalDetailView = ({
         {/* Right Panel - Outputs (60% - 3 columns) */}
         <div className="col-span-3 overflow-y-auto">
           {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? (
-            <RetirementAnalysisOutput />
+            <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} />
           ) : (
             <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
           )}

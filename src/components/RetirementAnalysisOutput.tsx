@@ -38,13 +38,17 @@ const generateRetirementData = () => {
   return data;
 };
 const retirementYearlyData = generateRetirementData();
-export const RetirementAnalysisOutput = () => {
+export const RetirementAnalysisOutput = ({ selectedForPresentation = [] }: { selectedForPresentation?: string[] }) => {
+  const isSelectedForPresentation = selectedForPresentation.includes("Retirement Analysis");
+
   return <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-semibold">Retirement Analysis</h2>
-          
+          {isSelectedForPresentation && (
+            <span className="text-sm text-green-600 font-medium">✓ Selected for Presentation</span>
+          )}
         </div>
       </div>
 
@@ -193,19 +197,15 @@ export const RetirementAnalysisOutput = () => {
         </CardContent>
       </Card>
 
-      {/* Action Buttons */}
+      {/* Action Buttons - Removed Generate Report */}
       <div className="flex gap-3">
         <Button variant="outline" className="flex items-center gap-2">
           <Download className="h-4 w-4" />
           Export PDF
         </Button>
-        <Button variant="outline" className="flex items-center gap-2">
+        <Button className="flex items-center gap-2">
           <Presentation className="h-4 w-4" />
           Add to Presentation
-        </Button>
-        <Button className="flex items-center gap-2">
-          <FileText className="h-4 w-4" />
-          Generate Report
         </Button>
       </div>
     </div>;

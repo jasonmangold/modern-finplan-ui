@@ -12,6 +12,7 @@ export interface AnimatedTabsProps {
  
 export function AnimatedTabs({ tabs, defaultValue, onValueChange }: AnimatedTabsProps) {
   const [activeTab, setActiveTab] = useState(defaultValue || tabs[0].value);
+  const [isInitialized, setIsInitialized] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const activeTabRef = useRef<HTMLButtonElement>(null);
 
@@ -19,11 +20,19 @@ export function AnimatedTabs({ tabs, defaultValue, onValueChange }: AnimatedTabs
     setActiveTab(value);
     onValueChange?.(value);
   };
+
+  // Initialize without animation
+  useEffect(() => {
+    if (defaultValue && !isInitialized) {
+      setActiveTab(defaultValue);
+      setIsInitialized(true);
+    }
+  }, [defaultValue, isInitialized]);
  
   useEffect(() => {
     const container = containerRef.current;
  
-    if (container && activeTab) {
+    if (container && activeTab && isInitialized) {
       const activeTabElement = activeTabRef.current;
  
       if (activeTabElement) {
@@ -39,13 +48,17 @@ export function AnimatedTabs({ tabs, defaultValue, onValueChange }: AnimatedTabs
         ).toFixed()}% round 17px)`;
       }
     }
-  }, [activeTab]);
+  }, [activeTab, isInitialized]);
  
   return (
     <div className="relative bg-secondary/50 border border-primary/10 mx-auto flex w-fit flex-col items-center rounded-full py-2 px-4">
       <div
         ref={containerRef}
-        className="absolute z-10 w-full overflow-hidden [clip-path:inset(0px_75%_0px_0%_round_17px)] [transition:clip-path_0.25s_ease]"
+        className={`absolute z-10 w-full overflow-hidden ${
+          isInitialized 
+            ? '[clip-path:inset(0px_75%_0px_0%_round_17px)] [transition:clip-path_0.25s_ease]'
+            : '[clip-path:inset(0px_50%_0px_50%_round_17px)]'
+        }`}
       >
         <div className="relative flex w-full justify-center bg-primary">
           {tabs.map((tab) => (

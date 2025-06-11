@@ -236,16 +236,8 @@ const Education = () => {
               <div className="flex items-center justify-between mb-4">
                 <h1 className="text-2xl font-semibold flex items-center gap-2">
                   <FileText className="h-6 w-6" />
-                  Report Library (600+ Reports)
+                  Report Library
                 </h1>
-                <Button 
-                  variant="outline" 
-                  className="flex items-center gap-2"
-                  onClick={() => setFiltersVisible(!filtersVisible)}
-                >
-                  <Filter className="h-4 w-4" />
-                  {filtersVisible ? 'Hide Filters' : 'Show Filters'}
-                </Button>
               </div>
 
               {/* Search */}
@@ -259,59 +251,79 @@ const Education = () => {
                 />
               </div>
 
-              {/* Filters */}
-              {filtersVisible && (
-                <div className="mb-6">
-                  <div className="grid grid-cols-2 gap-8">
-                    <div>
-                      <h3 className="font-medium text-sm mb-3">Format</h3>
-                      <div className="flex gap-4">
-                        {formatOptions.map(format => (
-                          <div key={format} className="flex items-center space-x-2">
-                            <Checkbox 
-                              id={format} 
-                              checked={selectedFormats.includes(format)}
-                              onCheckedChange={(checked) => {
-                                if (checked) {
-                                  setSelectedFormats(prev => [...prev, format]);
-                                } else {
-                                  setSelectedFormats(prev => prev.filter(f => f !== format));
-                                }
-                              }}
-                            />
-                            <label htmlFor={format} className="text-sm">{format}</label>
-                          </div>
-                        ))}
-                      </div>
+              {/* Enhanced Filters Card */}
+              <Card className="border shadow-sm">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Filter className="h-4 w-4 text-primary" />
+                      <CardTitle className="text-sm">Filters</CardTitle>
                     </div>
-                    
-                    <div>
-                      <h3 className="font-medium text-sm mb-3">Topics</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {topicTags.map(topic => (
-                          <button
-                            key={topic}
-                            onClick={() => handleTopicToggle(topic)}
-                            className={`px-3 py-1 rounded-full text-xs border transition-colors ${
-                              selectedTopics.includes(topic)
-                                ? 'bg-blue-100 text-blue-700 border-blue-200'
-                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-200'
-                            }`}
-                          >
-                            {topic}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      className="flex items-center gap-2 text-sm"
+                      onClick={() => setFiltersVisible(!filtersVisible)}
+                    >
+                      {filtersVisible ? 'Hide' : 'Show'}
+                      <ChevronDown className={`h-4 w-4 transition-transform ${filtersVisible ? 'rotate-180' : ''}`} />
+                    </Button>
                   </div>
-                </div>
-              )}
+                </CardHeader>
+                
+                {filtersVisible && (
+                  <CardContent className="pt-0">
+                    <div className="grid grid-cols-2 gap-8">
+                      <div>
+                        <h3 className="font-medium text-sm mb-3">Format</h3>
+                        <div className="flex gap-4">
+                          {formatOptions.map(format => (
+                            <div key={format} className="flex items-center space-x-2">
+                              <Checkbox 
+                                id={format} 
+                                checked={selectedFormats.includes(format)}
+                                onCheckedChange={(checked) => {
+                                  if (checked) {
+                                    setSelectedFormats(prev => [...prev, format]);
+                                  } else {
+                                    setSelectedFormats(prev => prev.filter(f => f !== format));
+                                  }
+                                }}
+                              />
+                              <label htmlFor={format} className="text-sm">{format}</label>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <h3 className="font-medium text-sm mb-3">Topics</h3>
+                        <div className="flex flex-wrap gap-2">
+                          {topicTags.map(topic => (
+                            <button
+                              key={topic}
+                              onClick={() => handleTopicToggle(topic)}
+                              className={`px-3 py-1 rounded-full text-xs border transition-colors ${
+                                selectedTopics.includes(topic)
+                                  ? 'bg-blue-100 text-blue-700 border-blue-200'
+                                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-200'
+                              }`}
+                            >
+                              {topic}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                )}
+              </Card>
             </div>
 
             {/* Main Content */}
             <div className="space-y-4">
               {educationCategories.map(category => (
-                <div key={category.name} className="border rounded-lg">
+                <div key={category.name} className="border rounded-lg transition-all duration-200">
                   <button
                     onClick={() => toggleCategoryExpansion(category.name)}
                     className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
@@ -321,24 +333,24 @@ const Education = () => {
                       <span className="font-medium">{category.name}</span>
                       <span className="text-sm text-gray-500">{category.count} reports</span>
                     </div>
-                    <ChevronDown className={`h-4 w-4 transition-transform ${
+                    <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${
                       expandedCategories.includes(category.name) ? 'rotate-180' : ''
                     }`} />
                   </button>
                   
                   {expandedCategories.includes(category.name) && (
-                    <div className="border-t">
+                    <div className="border-t animate-fade-in">
                       {/* Subfolders */}
                       {category.subfolders && category.subfolders.map(subfolder => (
                         <Collapsible key={subfolder}>
                           <CollapsibleTrigger className="w-full px-4 py-3 bg-gray-50 border-b flex items-center justify-between hover:bg-gray-100 transition-colors">
                             <span className="text-sm font-medium">{subfolder}</span>
-                            <ChevronDown className="h-4 w-4" />
+                            <ChevronDown className="h-4 w-4 transition-transform duration-200" />
                           </CollapsibleTrigger>
-                          <CollapsibleContent>
+                          <CollapsibleContent className="animate-accordion-down">
                             <div className="px-8 py-4 grid grid-cols-2 gap-4">
                               {category.reports.slice(0, 2).map(report => (
-                                <div key={report} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50">
+                                <div key={report} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors">
                                   <div className="flex items-center gap-3">
                                     <Checkbox 
                                       checked={selectedItems.includes(report)} 
