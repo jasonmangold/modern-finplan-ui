@@ -7,13 +7,22 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Settings, Eye, Edit3, GripVertical, Trash2 } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { FileText, Settings, Eye, Edit3, GripVertical, Trash2, ChevronDown, ChevronRight, Template, Plus } from "lucide-react";
 import { useState } from "react";
 
 interface PresentationItem {
   id: string;
   name: string;
   source: "Analysis" | "Education" | "Calculators";
+}
+
+interface Template {
+  id: string;
+  name: string;
+  description: string;
+  reports: PresentationItem[];
+  thumbnail: string;
 }
 
 const presentationItems: PresentationItem[] = [
@@ -23,6 +32,42 @@ const presentationItems: PresentationItem[] = [
   { id: "4", name: "Retirement Timeline", source: "Calculators" },
   { id: "5", name: "Retirement Fact Finder", source: "Education" },
   { id: "6", name: "Graph", source: "Analysis" }
+];
+
+const templates: Template[] = [
+  {
+    id: "1",
+    name: "Retirement Planning Complete",
+    description: "Comprehensive retirement analysis with all key reports",
+    reports: [
+      { id: "1", name: "Capital Available", source: "Analysis" },
+      { id: "2", name: "Social Security Optimizer", source: "Calculators" },
+      { id: "4", name: "Retirement Timeline", source: "Calculators" },
+      { id: "5", name: "Retirement Fact Finder", source: "Education" }
+    ],
+    thumbnail: "/placeholder.svg"
+  },
+  {
+    id: "2", 
+    name: "Quick Analysis",
+    description: "Essential analysis reports for client meetings",
+    reports: [
+      { id: "1", name: "Capital Available", source: "Analysis" },
+      { id: "6", name: "Graph", source: "Analysis" }
+    ],
+    thumbnail: "/placeholder.svg"
+  },
+  {
+    id: "3",
+    name: "Education Focus",
+    description: "Educational materials and calculators for client understanding",
+    reports: [
+      { id: "5", name: "Retirement Fact Finder", source: "Education" },
+      { id: "2", name: "Social Security Optimizer", source: "Calculators" },
+      { id: "4", name: "Retirement Timeline", source: "Calculators" }
+    ],
+    thumbnail: "/placeholder.svg"
+  }
 ];
 
 const titlePageDesigns = [
@@ -42,6 +87,7 @@ const Presentation = () => {
   const [items, setItems] = useState(presentationItems);
   const [draggedItem, setDraggedItem] = useState<string | null>(null);
   const [dropIndicator, setDropIndicator] = useState<number | null>(null);
+  const [isTemplatesOpen, setIsTemplatesOpen] = useState(false);
   
   // Presentation Options State
   const [presentationOptions, setPresentationOptions] = useState({
@@ -70,11 +116,20 @@ const Presentation = () => {
 
   const handleDragOver = (e: React.DragEvent, index: number) => {
     e.preventDefault();
-    setDropIndicator(index);
+    if (draggedItem) {
+      setDropIndicator(index);
+    }
   };
 
-  const handleDragLeave = () => {
-    setDropIndicator(null);
+  const handleDragLeave = (e: React.DragEvent) => {
+    // Only clear if we're leaving the container entirely
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX;
+    const y = e.clientY;
+    
+    if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
+      setDropIndicator(null);
+    }
   };
 
   const handleDrop = (e: React.DragEvent, dropIndex: number) => {
@@ -93,8 +148,18 @@ const Presentation = () => {
     setDropIndicator(null);
   };
 
+  const handleDragEnd = () => {
+    // Clean up any stuck states
+    setDraggedItem(null);
+    setDropIndicator(null);
+  };
+
   const removeItem = (itemId: string) => {
     setItems(items.filter(item => item.id !== itemId));
+  };
+
+  const loadTemplate = (template: Template) => {
+    setItems(template.reports);
   };
 
   const getSourceColor = (source: string) => {
@@ -224,6 +289,69 @@ const Presentation = () => {
         </div>
       </div>
 
+      {/* Templates Section */}
+      <Card className="border-gray-200 shadow-sm">
+        <Collapsible open={isTemplatesOpen} onOpenChange={setIsTemplatesOpen}>
+          <CollapsibleTrigger asChild>
+            <CardHeader className="cursor-pointer hover:bg-gray-50/50 transition-colors">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Template className="h-5 w-5 text-purple-600" />
+                  <CardTitle className="text-lg text-gray-900">Presentation Templates</CardTitle>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                    {templates.length} templates available
+                  </span>
+                  {isTemplatesOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                </div>
+              </div>
+            </CardHeader>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <CardContent className="pt-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {templates.map((template) => (
+                  <div
+                    key={template.id}
+                    className="border border-gray-200 rounded-xl p-4 hover:border-purple-300 hover:shadow-md transition-all duration-200"
+                  >
+                    <div className="aspect-[4/3] bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
+                      <span className="text-xs text-gray-500">Template Preview</span>
+                    </div>
+                    <h3 className="font-semibold text-gray-900 mb-2">{template.name}</h3>
+                    <p className="text-sm text-gray-600 mb-3">{template.description}</p>
+                    <div className="flex flex-wrap gap-1 mb-4">
+                      {template.reports.slice(0, 3).map((report) => (
+                        <Badge
+                          key={report.id}
+                          className={`text-xs ${getSourceColor(report.source)}`}
+                        >
+                          {report.source}
+                        </Badge>
+                      ))}
+                      {template.reports.length > 3 && (
+                        <Badge className="text-xs bg-gray-100 text-gray-600">
+                          +{template.reports.length - 3}
+                        </Badge>
+                      )}
+                    </div>
+                    <Button
+                      onClick={() => loadTemplate(template)}
+                      className="w-full bg-purple-600 hover:bg-purple-700"
+                      size="sm"
+                    >
+                      <Plus className="h-4 w-4 mr-2" />
+                      Use Template
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </CollapsibleContent>
+        </Collapsible>
+      </Card>
+
       {/* Enhanced Reports Section */}
       <div className="smooth-card p-6">
         <div className="flex items-center justify-between mb-6">
@@ -236,21 +364,23 @@ const Presentation = () => {
           </span>
         </div>
         
-        <div className="space-y-2 mb-8">
+        <div 
+          className="space-y-2 mb-8"
+          onDragLeave={handleDragLeave}
+        >
           {items.map((item, index) => (
             <div key={item.id}>
+              {/* Simple blue line drop indicator */}
               {dropIndicator === index && (
-                <div className="h-1 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-400 rounded-full animate-pulse mb-2" />
+                <div className="h-0.5 bg-blue-500 rounded-full mb-2" />
               )}
               <div
                 draggable
                 onDragStart={(e) => handleDragStart(e, item.id)}
                 onDragOver={(e) => handleDragOver(e, index)}
-                onDragLeave={handleDragLeave}
                 onDrop={(e) => handleDrop(e, index)}
-                className={`flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50/50 transition-all duration-200 group cursor-move ${
-                  draggedItem === item.id ? 'rotate-2 scale-105 shadow-lg z-10' : ''
-                }`}
+                onDragEnd={handleDragEnd}
+                className="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50/50 transition-all duration-200 group cursor-move"
               >
                 <div className="flex items-center gap-4">
                   <GripVertical className="h-5 w-5 text-gray-400 group-hover:text-gray-600" />
@@ -281,8 +411,9 @@ const Presentation = () => {
               </div>
             </div>
           ))}
+          {/* Drop indicator for end of list */}
           {dropIndicator === items.length && (
-            <div className="h-1 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-400 rounded-full animate-pulse" />
+            <div className="h-0.5 bg-blue-500 rounded-full" />
           )}
         </div>
 
