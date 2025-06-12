@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -8,7 +7,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { FileText, Settings, Eye, Edit3, GripVertical, Trash2, ChevronDown, ChevronRight, Layers, Plus } from "lucide-react";
+import { FileText, Settings, Eye, Edit3, GripVertical, Trash2, ChevronDown, ChevronRight, Layers, Plus, Upload, User, Building } from "lucide-react";
+import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { useState } from "react";
 
 interface PresentationItem {
@@ -87,7 +87,43 @@ const Presentation = () => {
   const [items, setItems] = useState(presentationItems);
   const [draggedItem, setDraggedItem] = useState<string | null>(null);
   const [dropIndicator, setDropIndicator] = useState<number | null>(null);
-  const [isTemplatesOpen, setIsTemplatesOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("presentation");
+  
+  // Company Information State
+  const [companyInfo, setCompanyInfo] = useState({
+    advisorName: "",
+    designations: "",
+    title: "",
+    companyName: "",
+    address: "",
+    phone: "",
+    mobile: "",
+    fax: "",
+    email: "",
+    website: "",
+    logo: null as File | null,
+    advisorPhoto: null as File | null
+  });
+
+  // Presentation Defaults State (same structure as presentation options)
+  const [presentationDefaults, setPresentationDefaults] = useState({
+    titlePage: true,
+    tableOfContents: true,
+    personalProfile: false,
+    recordOfReports: true,
+    disclaimer: false,
+    disclosure: false,
+    disclaimerPosition: "beginning",
+    header: false,
+    headerText: "",
+    footer: false,
+    footerText: "",
+    pageNumbers: false,
+    pageNumberFormat: "page-x",
+    presentationDate: true,
+    presentationDateText: new Date().toLocaleDateString(),
+    selectedTitlePage: 1
+  });
   
   // Presentation Options State
   const [presentationOptions, setPresentationOptions] = useState({
@@ -160,6 +196,7 @@ const Presentation = () => {
 
   const loadTemplate = (template: Template) => {
     setItems(template.reports);
+    setActiveTab("presentation"); // Switch to presentation tab after loading template
   };
 
   const getSourceColor = (source: string) => {
@@ -170,6 +207,23 @@ const Presentation = () => {
       default: return "bg-gray-100 text-gray-700 border-gray-200";
     }
   };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>, field: 'logo' | 'advisorPhoto') => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setCompanyInfo(prev => ({
+        ...prev,
+        [field]: file
+      }));
+    }
+  };
+
+  const tabs = [
+    { label: "Presentation", value: "presentation" },
+    { label: "Templates", value: "templates" },
+    { label: "Company Information", value: "company" },
+    { label: "Presentation Defaults", value: "defaults" }
+  ];
 
   return (
     <div className="p-8 max-w-6xl mx-auto space-y-8">
@@ -289,314 +343,694 @@ const Presentation = () => {
         </div>
       </div>
 
-      {/* Templates Section */}
-      <Card className="border-gray-200 shadow-sm">
-        <Collapsible open={isTemplatesOpen} onOpenChange={setIsTemplatesOpen}>
-          <CollapsibleTrigger asChild>
-            <CardHeader className="cursor-pointer hover:bg-gray-50/50 transition-colors">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Layers className="h-5 w-5 text-purple-600" />
-                  <CardTitle className="text-lg text-gray-900">Presentation Templates</CardTitle>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-                    {templates.length} templates available
-                  </span>
-                  {isTemplatesOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-                </div>
-              </div>
-            </CardHeader>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <CardContent className="pt-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {templates.map((template) => (
-                  <div
-                    key={template.id}
-                    className="border border-gray-200 rounded-xl p-4 hover:border-purple-300 hover:shadow-md transition-all duration-200"
-                  >
-                    <div className="aspect-[4/3] bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
-                      <span className="text-xs text-gray-500">Template Preview</span>
+      {/* Animated Tabs */}
+      <div className="flex justify-center">
+        <AnimatedTabs
+          tabs={tabs}
+          defaultValue={activeTab}
+          onValueChange={setActiveTab}
+        />
+      </div>
+
+      {/* Tab Content */}
+      {activeTab === "presentation" && (
+        <div className="smooth-card p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <FileText className="h-5 w-5 text-blue-600" />
+              <h3 className="text-lg font-semibold text-gray-900">Presentation Reports</h3>
+            </div>
+            <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+              {items.length} reports selected
+            </span>
+          </div>
+          
+          <div 
+            className="space-y-2 mb-8"
+            onDragLeave={handleDragLeave}
+          >
+            {items.map((item, index) => (
+              <div key={item.id}>
+                {/* Simple blue line drop indicator */}
+                {dropIndicator === index && (
+                  <div className="h-0.5 bg-blue-500 rounded-full mb-2" />
+                )}
+                <div
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, item.id)}
+                  onDragOver={(e) => handleDragOver(e, index)}
+                  onDrop={(e) => handleDrop(e, index)}
+                  onDragEnd={handleDragEnd}
+                  className="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50/50 transition-all duration-200 group cursor-move"
+                >
+                  <div className="flex items-center gap-4">
+                    <GripVertical className="h-5 w-5 text-gray-400 group-hover:text-gray-600" />
+                    <span className="flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-600 rounded-lg text-sm font-semibold">
+                      {index + 1}
+                    </span>
+                    <div className="flex items-center gap-3">
+                      <span className="font-medium text-blue-700">{item.name}</span>
+                      <Badge className={`text-xs ${getSourceColor(item.source)}`}>
+                        {item.source}
+                      </Badge>
                     </div>
-                    <h3 className="font-semibold text-gray-900 mb-2">{template.name}</h3>
-                    <p className="text-sm text-gray-600 mb-3">{template.description}</p>
-                    <div className="flex flex-wrap gap-1 mb-4">
-                      {template.reports.slice(0, 3).map((report) => (
-                        <Badge
-                          key={report.id}
-                          className={`text-xs ${getSourceColor(report.source)}`}
-                        >
-                          {report.source}
-                        </Badge>
-                      ))}
-                      {template.reports.length > 3 && (
-                        <Badge className="text-xs bg-gray-100 text-gray-600">
-                          +{template.reports.length - 3}
-                        </Badge>
-                      )}
-                    </div>
+                  </div>
+                  <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-all">
                     <Button
-                      onClick={() => loadTemplate(template)}
-                      className="w-full bg-purple-600 hover:bg-purple-700"
                       size="sm"
+                      variant="outline"
+                      className="modern-button text-red-600 border-red-200 hover:bg-red-50"
+                      onClick={() => removeItem(item.id)}
                     >
-                      <Plus className="h-4 w-4 mr-2" />
-                      Use Template
+                      <Trash2 className="h-4 w-4" />
+                      Remove
+                    </Button>
+                    <Button size="sm" className="modern-button bg-green-600 text-white hover:bg-green-700">
+                      Edit Inputs
                     </Button>
                   </div>
-                ))}
+                </div>
               </div>
-            </CardContent>
-          </CollapsibleContent>
-        </Collapsible>
-      </Card>
-
-      {/* Enhanced Reports Section */}
-      <div className="smooth-card p-6">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <FileText className="h-5 w-5 text-blue-600" />
-            <h3 className="text-lg font-semibold text-gray-900">Presentation Reports</h3>
+            ))}
+            {/* Drop indicator for end of list */}
+            {dropIndicator === items.length && (
+              <div className="h-0.5 bg-blue-500 rounded-full" />
+            )}
           </div>
-          <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-            {items.length} reports selected
-          </span>
-        </div>
-        
-        <div 
-          className="space-y-2 mb-8"
-          onDragLeave={handleDragLeave}
-        >
-          {items.map((item, index) => (
-            <div key={item.id}>
-              {/* Simple blue line drop indicator */}
-              {dropIndicator === index && (
-                <div className="h-0.5 bg-blue-500 rounded-full mb-2" />
-              )}
-              <div
-                draggable
-                onDragStart={(e) => handleDragStart(e, item.id)}
-                onDragOver={(e) => handleDragOver(e, index)}
-                onDrop={(e) => handleDrop(e, index)}
-                onDragEnd={handleDragEnd}
-                className="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50/50 transition-all duration-200 group cursor-move"
-              >
-                <div className="flex items-center gap-4">
-                  <GripVertical className="h-5 w-5 text-gray-400 group-hover:text-gray-600" />
-                  <span className="flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-600 rounded-lg text-sm font-semibold">
-                    {index + 1}
-                  </span>
-                  <div className="flex items-center gap-3">
-                    <span className="font-medium text-blue-700">{item.name}</span>
-                    <Badge className={`text-xs ${getSourceColor(item.source)}`}>
-                      {item.source}
-                    </Badge>
-                  </div>
-                </div>
-                <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-all">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="modern-button text-red-600 border-red-200 hover:bg-red-50"
-                    onClick={() => removeItem(item.id)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                    Remove
-                  </Button>
-                  <Button size="sm" className="modern-button bg-green-600 text-white hover:bg-green-700">
-                    Edit Inputs
-                  </Button>
-                </div>
-              </div>
-            </div>
-          ))}
-          {/* Drop indicator for end of list */}
-          {dropIndicator === items.length && (
-            <div className="h-0.5 bg-blue-500 rounded-full" />
-          )}
-        </div>
 
-        {/* Action Buttons */}
-        <div className="bg-gradient-to-r from-gray-50 to-blue-50/50 rounded-xl p-8 text-center border border-gray-200/50">
-          <div className="max-w-md mx-auto space-y-4">
-            <h4 className="text-lg font-semibold text-gray-900">Ready to generate your presentation?</h4>
-            <p className="text-gray-600">Create a professional financial analysis presentation for your client.</p>
-            <div className="flex justify-center gap-4 pt-2">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button className="modern-button bg-green-600 text-white hover:bg-green-700 px-6">
-                    <Settings className="h-4 w-4" />
-                    Presentation Options
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
-                  <DialogHeader>
-                    <DialogTitle className="text-xl font-semibold">Presentation Options</DialogTitle>
-                  </DialogHeader>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-4">
-                    {/* Left Column - General Options */}
-                    <div className="space-y-6">
-                      <div>
-                        <h3 className="text-lg font-medium mb-4">General Options</h3>
-                        <div className="space-y-3">
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="titlePage" checked={presentationOptions.titlePage} />
-                            <Label htmlFor="titlePage">Title Page</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="tableOfContents" checked={presentationOptions.tableOfContents} />
-                            <Label htmlFor="tableOfContents">Table of Contents</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="personalProfile" checked={presentationOptions.personalProfile} />
-                            <Label htmlFor="personalProfile">Personal Profile Page</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="recordOfReports" checked={presentationOptions.recordOfReports} />
-                            <Label htmlFor="recordOfReports">Record of Reports</Label>
+          {/* Action Buttons */}
+          <div className="bg-gradient-to-r from-gray-50 to-blue-50/50 rounded-xl p-8 text-center border border-gray-200/50">
+            <div className="max-w-md mx-auto space-y-4">
+              <h4 className="text-lg font-semibold text-gray-900">Ready to generate your presentation?</h4>
+              <p className="text-gray-600">Create a professional financial analysis presentation for your client.</p>
+              <div className="flex justify-center gap-4 pt-2">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button className="modern-button bg-green-600 text-white hover:bg-green-700 px-6">
+                      <Settings className="h-4 w-4" />
+                      Presentation Options
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+                    <DialogHeader>
+                      <DialogTitle className="text-xl font-semibold">Presentation Options</DialogTitle>
+                    </DialogHeader>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-4">
+                      {/* Left Column - General Options */}
+                      <div className="space-y-6">
+                        <div>
+                          <h3 className="text-lg font-medium mb-4">General Options</h3>
+                          <div className="space-y-3">
+                            <div className="flex items-center space-x-2">
+                              <Checkbox id="titlePage" checked={presentationOptions.titlePage} />
+                              <Label htmlFor="titlePage">Title Page</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <Checkbox id="tableOfContents" checked={presentationOptions.tableOfContents} />
+                              <Label htmlFor="tableOfContents">Table of Contents</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <Checkbox id="personalProfile" checked={presentationOptions.personalProfile} />
+                              <Label htmlFor="personalProfile">Personal Profile Page</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <Checkbox id="recordOfReports" checked={presentationOptions.recordOfReports} />
+                              <Label htmlFor="recordOfReports">Record of Reports</Label>
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div>
-                        <h3 className="text-lg font-medium mb-4">Legal & Compliance</h3>
-                        <div className="space-y-3">
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="disclaimer" checked={presentationOptions.disclaimer} />
-                            <Label htmlFor="disclaimer">Disclaimer</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox id="disclosure" checked={presentationOptions.disclosure} />
-                            <Label htmlFor="disclosure">Disclosure</Label>
-                          </div>
-                          <div className="ml-6">
-                            <RadioGroup value={presentationOptions.disclaimerPosition} className="flex gap-4">
-                              <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="beginning" id="beginning" />
-                                <Label htmlFor="beginning">Beginning</Label>
-                              </div>
-                              <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="end" id="end" />
-                                <Label htmlFor="end">End</Label>
-                              </div>
-                            </RadioGroup>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div>
-                        <h3 className="text-lg font-medium mb-4">Page Layout</h3>
-                        <div className="space-y-4">
-                          <div className="space-y-2">
+                        <div>
+                          <h3 className="text-lg font-medium mb-4">Legal & Compliance</h3>
+                          <div className="space-y-3">
                             <div className="flex items-center space-x-2">
-                              <Checkbox id="header" checked={presentationOptions.header} />
-                              <Label htmlFor="header">Header</Label>
+                              <Checkbox id="disclaimer" checked={presentationOptions.disclaimer} />
+                              <Label htmlFor="disclaimer">Disclaimer</Label>
                             </div>
-                            {presentationOptions.header && (
-                              <Input
-                                placeholder="Enter header text"
-                                value={presentationOptions.headerText}
-                                className="ml-6"
-                              />
-                            )}
-                          </div>
-                          
-                          <div className="space-y-2">
                             <div className="flex items-center space-x-2">
-                              <Checkbox id="footer" checked={presentationOptions.footer} />
-                              <Label htmlFor="footer">Footer</Label>
+                              <Checkbox id="disclosure" checked={presentationOptions.disclosure} />
+                              <Label htmlFor="disclosure">Disclosure</Label>
                             </div>
-                            {presentationOptions.footer && (
-                              <Input
-                                placeholder="Enter footer text"
-                                value={presentationOptions.footerText}
-                                className="ml-6"
-                              />
-                            )}
-                          </div>
-
-                          <div className="space-y-2">
-                            <div className="flex items-center space-x-2">
-                              <Checkbox id="pageNumbers" checked={presentationOptions.pageNumbers} />
-                              <Label htmlFor="pageNumbers">Page Numbers</Label>
-                            </div>
-                            {presentationOptions.pageNumbers && (
-                              <RadioGroup value={presentationOptions.pageNumberFormat} className="ml-6 space-y-2">
+                            <div className="ml-6">
+                              <RadioGroup value={presentationOptions.disclaimerPosition} className="flex gap-4">
                                 <div className="flex items-center space-x-2">
-                                  <RadioGroupItem value="page-x" id="page-x" />
-                                  <Label htmlFor="page-x">Page X</Label>
+                                  <RadioGroupItem value="beginning" id="beginning" />
+                                  <Label htmlFor="beginning">Beginning</Label>
                                 </div>
                                 <div className="flex items-center space-x-2">
-                                  <RadioGroupItem value="page-x-of-y" id="page-x-of-y" />
-                                  <Label htmlFor="page-x-of-y">Page X of Y</Label>
+                                  <RadioGroupItem value="end" id="end" />
+                                  <Label htmlFor="end">End</Label>
                                 </div>
                               </RadioGroup>
-                            )}
-                          </div>
-
-                          <div className="space-y-2">
-                            <div className="flex items-center space-x-2">
-                              <Checkbox id="presentationDate" checked={presentationOptions.presentationDate} />
-                              <Label htmlFor="presentationDate">Presentation Date</Label>
                             </div>
-                            {presentationOptions.presentationDate && (
-                              <Input
-                                type="date"
-                                value={presentationOptions.presentationDateText}
-                                className="ml-6"
-                              />
-                            )}
                           </div>
                         </div>
-                      </div>
-                    </div>
 
-                    {/* Right Column - Title Page Designs */}
-                    <div className="space-y-6">
-                      <div>
-                        <h3 className="text-lg font-medium mb-4">Title Page Design</h3>
-                        <div className="grid grid-cols-2 gap-4">
-                          {titlePageDesigns.map((design) => (
-                            <div
-                              key={design.id}
-                              className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
-                                presentationOptions.selectedTitlePage === design.id
-                                  ? 'border-blue-500 bg-blue-50'
-                                  : 'border-gray-200 hover:border-gray-300'
-                              }`}
-                            >
-                              <div className="aspect-[4/3] bg-gray-100 rounded mb-2 flex items-center justify-center">
-                                <span className="text-xs text-gray-500">Preview</span>
+                        <div>
+                          <h3 className="text-lg font-medium mb-4">Page Layout</h3>
+                          <div className="space-y-4">
+                            <div className="space-y-2">
+                              <div className="flex items-center space-x-2">
+                                <Checkbox id="header" checked={presentationOptions.header} />
+                                <Label htmlFor="header">Header</Label>
                               </div>
-                              <p className="text-sm font-medium text-center">{design.name}</p>
+                              {presentationOptions.header && (
+                                <Input
+                                  placeholder="Enter header text"
+                                  value={presentationOptions.headerText}
+                                  className="ml-6"
+                                />
+                              )}
                             </div>
-                          ))}
+                            
+                            <div className="space-y-2">
+                              <div className="flex items-center space-x-2">
+                                <Checkbox id="footer" checked={presentationOptions.footer} />
+                                <Label htmlFor="footer">Footer</Label>
+                              </div>
+                              {presentationOptions.footer && (
+                                <Input
+                                  placeholder="Enter footer text"
+                                  value={presentationOptions.footerText}
+                                  className="ml-6"
+                                />
+                              )}
+                            </div>
+
+                            <div className="space-y-2">
+                              <div className="flex items-center space-x-2">
+                                <Checkbox id="pageNumbers" checked={presentationOptions.pageNumbers} />
+                                <Label htmlFor="pageNumbers">Page Numbers</Label>
+                              </div>
+                              {presentationOptions.pageNumbers && (
+                                <RadioGroup value={presentationOptions.pageNumberFormat} className="ml-6 space-y-2">
+                                  <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="page-x" id="page-x" />
+                                    <Label htmlFor="page-x">Page X</Label>
+                                  </div>
+                                  <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="page-x-of-y" id="page-x-of-y" />
+                                    <Label htmlFor="page-x-of-y">Page X of Y</Label>
+                                  </div>
+                                </RadioGroup>
+                              )}
+                            </div>
+
+                            <div className="space-y-2">
+                              <div className="flex items-center space-x-2">
+                                <Checkbox id="presentationDate" checked={presentationOptions.presentationDate} />
+                                <Label htmlFor="presentationDate">Presentation Date</Label>
+                              </div>
+                              {presentationOptions.presentationDate && (
+                                <Input
+                                  type="date"
+                                  value={presentationOptions.presentationDateText}
+                                  className="ml-6"
+                                />
+                              )}
+                            </div>
+                          </div>
                         </div>
                       </div>
 
-                      <div className="flex gap-3 pt-4">
-                        <Button className="flex-1 bg-blue-600 hover:bg-blue-700">
-                          Apply Settings
-                        </Button>
-                        <Button variant="outline" className="flex-1">
-                          Preview
-                        </Button>
+                      {/* Right Column - Title Page Designs */}
+                      <div className="space-y-6">
+                        <div>
+                          <h3 className="text-lg font-medium mb-4">Title Page Design</h3>
+                          <div className="grid grid-cols-2 gap-4">
+                            {titlePageDesigns.map((design) => (
+                              <div
+                                key={design.id}
+                                className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                                  presentationOptions.selectedTitlePage === design.id
+                                    ? 'border-blue-500 bg-blue-50'
+                                    : 'border-gray-200 hover:border-gray-300'
+                                }`}
+                              >
+                                <div className="aspect-[4/3] bg-gray-100 rounded mb-2 flex items-center justify-center">
+                                  <span className="text-xs text-gray-500">Preview</span>
+                                </div>
+                                <p className="text-sm font-medium text-center">{design.name}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="flex gap-3 pt-4">
+                          <Button className="flex-1 bg-blue-600 hover:bg-blue-700">
+                            Apply Settings
+                          </Button>
+                          <Button variant="outline" className="flex-1">
+                            Preview
+                          </Button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
-              
-              <Button className="modern-button bg-blue-600 text-white hover:bg-blue-700 px-6">
-                <Eye className="h-4 w-4" />
-                Preview Presentation
-              </Button>
+                  </DialogContent>
+                </Dialog>
+                
+                <Button className="modern-button bg-blue-600 text-white hover:bg-blue-700 px-6">
+                  <Eye className="h-4 w-4" />
+                  Preview Presentation
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+      )}
+
+      {activeTab === "templates" && (
+        <Card className="border-gray-200 shadow-sm">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <Layers className="h-5 w-5 text-purple-600" />
+              <CardTitle className="text-lg text-gray-900">Presentation Templates</CardTitle>
+              <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                {templates.length} templates available
+              </span>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {templates.map((template) => (
+                <div
+                  key={template.id}
+                  className="border border-gray-200 rounded-xl p-4 hover:border-purple-300 hover:shadow-md transition-all duration-200"
+                >
+                  <div className="aspect-[4/3] bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
+                    <span className="text-xs text-gray-500">Template Preview</span>
+                  </div>
+                  <h3 className="font-semibold text-gray-900 mb-2">{template.name}</h3>
+                  <p className="text-sm text-gray-600 mb-3">{template.description}</p>
+                  <div className="flex flex-wrap gap-1 mb-4">
+                    {template.reports.slice(0, 3).map((report) => (
+                      <Badge
+                        key={report.id}
+                        className={`text-xs ${getSourceColor(report.source)}`}
+                      >
+                        {report.source}
+                      </Badge>
+                    ))}
+                    {template.reports.length > 3 && (
+                      <Badge className="text-xs bg-gray-100 text-gray-600">
+                        +{template.reports.length - 3}
+                      </Badge>
+                    )}
+                  </div>
+                  <Button
+                    onClick={() => loadTemplate(template)}
+                    className="w-full bg-purple-600 hover:bg-purple-700"
+                    size="sm"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Use Template
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {activeTab === "company" && (
+        <Card className="border-gray-200 shadow-sm">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <Building className="h-5 w-5 text-blue-600" />
+              <CardTitle className="text-lg text-gray-900">Company Information</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Left Column - Personal Info */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium text-gray-900">Personal Information</h3>
+                <div>
+                  <Label htmlFor="advisorName">Advisor Name</Label>
+                  <Input
+                    id="advisorName"
+                    value={companyInfo.advisorName}
+                    onChange={(e) => setCompanyInfo(prev => ({ ...prev, advisorName: e.target.value }))}
+                    placeholder="Enter advisor name"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="designations">Designations</Label>
+                  <Input
+                    id="designations"
+                    value={companyInfo.designations}
+                    onChange={(e) => setCompanyInfo(prev => ({ ...prev, designations: e.target.value }))}
+                    placeholder="e.g., CFP®, ChFC®, CLU®"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="title">Title</Label>
+                  <Input
+                    id="title"
+                    value={companyInfo.title}
+                    onChange={(e) => setCompanyInfo(prev => ({ ...prev, title: e.target.value }))}
+                    placeholder="e.g., Financial Advisor, Wealth Manager"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="advisorPhoto">Advisor Photo</Label>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      id="advisorPhoto"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleFileUpload(e, 'advisorPhoto')}
+                      className="hidden"
+                    />
+                    <Button
+                      variant="outline"
+                      onClick={() => document.getElementById('advisorPhoto')?.click()}
+                      className="w-full"
+                    >
+                      <Upload className="h-4 w-4 mr-2" />
+                      {companyInfo.advisorPhoto ? companyInfo.advisorPhoto.name : 'Upload Photo'}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column - Company Info */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium text-gray-900">Company Information</h3>
+                <div>
+                  <Label htmlFor="companyName">Company Name</Label>
+                  <Input
+                    id="companyName"
+                    value={companyInfo.companyName}
+                    onChange={(e) => setCompanyInfo(prev => ({ ...prev, companyName: e.target.value }))}
+                    placeholder="Enter company name"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="companyAddress">Address</Label>
+                  <Input
+                    id="companyAddress"
+                    value={companyInfo.address}
+                    onChange={(e) => setCompanyInfo(prev => ({ ...prev, address: e.target.value }))}
+                    placeholder="Enter company address"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <Label htmlFor="companyPhone">Phone</Label>
+                    <Input
+                      id="companyPhone"
+                      value={companyInfo.phone}
+                      onChange={(e) => setCompanyInfo(prev => ({ ...prev, phone: e.target.value }))}
+                      placeholder="Phone number"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="companyMobile">Mobile</Label>
+                    <Input
+                      id="companyMobile"
+                      value={companyInfo.mobile}
+                      onChange={(e) => setCompanyInfo(prev => ({ ...prev, mobile: e.target.value }))}
+                      placeholder="Mobile number"
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <Label htmlFor="companyFax">Fax</Label>
+                    <Input
+                      id="companyFax"
+                      value={companyInfo.fax}
+                      onChange={(e) => setCompanyInfo(prev => ({ ...prev, fax: e.target.value }))}
+                      placeholder="Fax number"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="companyEmail">Email</Label>
+                    <Input
+                      id="companyEmail"
+                      type="email"
+                      value={companyInfo.email}
+                      onChange={(e) => setCompanyInfo(prev => ({ ...prev, email: e.target.value }))}
+                      placeholder="Email address"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="companyWebsite">Website</Label>
+                  <Input
+                    id="companyWebsite"
+                    value={companyInfo.website}
+                    onChange={(e) => setCompanyInfo(prev => ({ ...prev, website: e.target.value }))}
+                    placeholder="www.yourcompany.com"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="companyLogo">Company Logo</Label>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      id="companyLogo"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleFileUpload(e, 'logo')}
+                      className="hidden"
+                    />
+                    <Button
+                      variant="outline"
+                      onClick={() => document.getElementById('companyLogo')?.click()}
+                      className="w-full"
+                    >
+                      <Upload className="h-4 w-4 mr-2" />
+                      {companyInfo.logo ? companyInfo.logo.name : 'Upload Logo'}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 pt-4 border-t">
+              <Button variant="outline">Cancel</Button>
+              <Button className="bg-blue-600 hover:bg-blue-700">Save Company Information</Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {activeTab === "defaults" && (
+        <Card className="border-gray-200 shadow-sm">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <Settings className="h-5 w-5 text-green-600" />
+              <CardTitle className="text-lg text-gray-900">Presentation Defaults</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-4">
+              {/* Left Column - General Options */}
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-medium mb-4">General Options</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox 
+                        id="defaultTitlePage" 
+                        checked={presentationDefaults.titlePage}
+                        onCheckedChange={(checked) => setPresentationDefaults(prev => ({ ...prev, titlePage: checked as boolean }))}
+                      />
+                      <Label htmlFor="defaultTitlePage">Title Page</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox 
+                        id="defaultTableOfContents" 
+                        checked={presentationDefaults.tableOfContents}
+                        onCheckedChange={(checked) => setPresentationDefaults(prev => ({ ...prev, tableOfContents: checked as boolean }))}
+                      />
+                      <Label htmlFor="defaultTableOfContents">Table of Contents</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox 
+                        id="defaultPersonalProfile" 
+                        checked={presentationDefaults.personalProfile}
+                        onCheckedChange={(checked) => setPresentationDefaults(prev => ({ ...prev, personalProfile: checked as boolean }))}
+                      />
+                      <Label htmlFor="defaultPersonalProfile">Personal Profile Page</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox 
+                        id="defaultRecordOfReports" 
+                        checked={presentationDefaults.recordOfReports}
+                        onCheckedChange={(checked) => setPresentationDefaults(prev => ({ ...prev, recordOfReports: checked as boolean }))}
+                      />
+                      <Label htmlFor="defaultRecordOfReports">Record of Reports</Label>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-medium mb-4">Legal & Compliance</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox 
+                        id="defaultDisclaimer" 
+                        checked={presentationDefaults.disclaimer}
+                        onCheckedChange={(checked) => setPresentationDefaults(prev => ({ ...prev, disclaimer: checked as boolean }))}
+                      />
+                      <Label htmlFor="defaultDisclaimer">Disclaimer</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox 
+                        id="defaultDisclosure" 
+                        checked={presentationDefaults.disclosure}
+                        onCheckedChange={(checked) => setPresentationDefaults(prev => ({ ...prev, disclosure: checked as boolean }))}
+                      />
+                      <Label htmlFor="defaultDisclosure">Disclosure</Label>
+                    </div>
+                    <div className="ml-6">
+                      <RadioGroup 
+                        value={presentationDefaults.disclaimerPosition} 
+                        className="flex gap-4"
+                        onValueChange={(value) => setPresentationDefaults(prev => ({ ...prev, disclaimerPosition: value }))}
+                      >
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="beginning" id="defaultBeginning" />
+                          <Label htmlFor="defaultBeginning">Beginning</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="end" id="defaultEnd" />
+                          <Label htmlFor="defaultEnd">End</Label>
+                        </div>
+                      </RadioGroup>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-medium mb-4">Page Layout</h3>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="defaultHeader" 
+                          checked={presentationDefaults.header}
+                          onCheckedChange={(checked) => setPresentationDefaults(prev => ({ ...prev, header: checked as boolean }))}
+                        />
+                        <Label htmlFor="defaultHeader">Header</Label>
+                      </div>
+                      {presentationDefaults.header && (
+                        <Input
+                          placeholder="Enter header text"
+                          value={presentationDefaults.headerText}
+                          onChange={(e) => setPresentationDefaults(prev => ({ ...prev, headerText: e.target.value }))}
+                          className="ml-6"
+                        />
+                      )}
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="defaultFooter" 
+                          checked={presentationDefaults.footer}
+                          onCheckedChange={(checked) => setPresentationDefaults(prev => ({ ...prev, footer: checked as boolean }))}
+                        />
+                        <Label htmlFor="defaultFooter">Footer</Label>
+                      </div>
+                      {presentationDefaults.footer && (
+                        <Input
+                          placeholder="Enter footer text"
+                          value={presentationDefaults.footerText}
+                          onChange={(e) => setPresentationDefaults(prev => ({ ...prev, footerText: e.target.value }))}
+                          className="ml-6"
+                        />
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="defaultPageNumbers" 
+                          checked={presentationDefaults.pageNumbers}
+                          onCheckedChange={(checked) => setPresentationDefaults(prev => ({ ...prev, pageNumbers: checked as boolean }))}
+                        />
+                        <Label htmlFor="defaultPageNumbers">Page Numbers</Label>
+                      </div>
+                      {presentationDefaults.pageNumbers && (
+                        <RadioGroup 
+                          value={presentationDefaults.pageNumberFormat} 
+                          className="ml-6 space-y-2"
+                          onValueChange={(value) => setPresentationDefaults(prev => ({ ...prev, pageNumberFormat: value }))}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="page-x" id="defaultPageX" />
+                            <Label htmlFor="defaultPageX">Page X</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="page-x-of-y" id="defaultPageXofY" />
+                            <Label htmlFor="defaultPageXofY">Page X of Y</Label>
+                          </div>
+                        </RadioGroup>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="defaultPresentationDate" 
+                          checked={presentationDefaults.presentationDate}
+                          onCheckedChange={(checked) => setPresentationDefaults(prev => ({ ...prev, presentationDate: checked as boolean }))}
+                        />
+                        <Label htmlFor="defaultPresentationDate">Presentation Date</Label>
+                      </div>
+                      {presentationDefaults.presentationDate && (
+                        <Input
+                          type="date"
+                          value={presentationDefaults.presentationDateText}
+                          onChange={(e) => setPresentationDefaults(prev => ({ ...prev, presentationDateText: e.target.value }))}
+                          className="ml-6"
+                        />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column - Title Page Designs */}
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-medium mb-4">Default Title Page Design</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    {titlePageDesigns.map((design) => (
+                      <div
+                        key={design.id}
+                        className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                          presentationDefaults.selectedTitlePage === design.id
+                            ? 'border-blue-500 bg-blue-50'
+                            : 'border-gray-200 hover:border-gray-300'
+                        }`}
+                        onClick={() => setPresentationDefaults(prev => ({ ...prev, selectedTitlePage: design.id }))}
+                      >
+                        <div className="aspect-[4/3] bg-gray-100 rounded mb-2 flex items-center justify-center">
+                          <span className="text-xs text-gray-500">Preview</span>
+                        </div>
+                        <p className="text-sm font-medium text-center">{design.name}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-4">
+                  <Button className="flex-1 bg-green-600 hover:bg-green-700">
+                    Save Defaults
+                  </Button>
+                  <Button variant="outline" className="flex-1">
+                    Reset to System Defaults
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };
