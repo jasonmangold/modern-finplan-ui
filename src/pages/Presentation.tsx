@@ -8,7 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { FileText, Settings, Eye, Edit3, GripVertical, Trash2, ChevronDown, ChevronRight, Template, Plus } from "lucide-react";
+import { FileText, Settings, Eye, Edit3, GripVertical, Trash2, ChevronDown, ChevronRight, Layers, Plus } from "lucide-react";
 import { useState } from "react";
 
 interface PresentationItem {
@@ -296,7 +296,7 @@ const Presentation = () => {
             <CardHeader className="cursor-pointer hover:bg-gray-50/50 transition-colors">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <Template className="h-5 w-5 text-purple-600" />
+                  <Layers className="h-5 w-5 text-purple-600" />
                   <CardTitle className="text-lg text-gray-900">Presentation Templates</CardTitle>
                 </div>
                 <div className="flex items-center gap-2">
