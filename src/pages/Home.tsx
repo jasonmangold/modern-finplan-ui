@@ -63,36 +63,28 @@ const Home = () => {
   ]);
 
   const [draggedItem, setDraggedItem] = useState(null);
-  const [dragOverItem, setDragOverItem] = useState(null);
-  const [dragOverPosition, setDragOverPosition] = useState(null);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [dropIndicator, setDropIndicator] = useState(null);
 
   const handleDragStart = (e, sectionId) => {
     setDraggedItem(sectionId);
-    const rect = e.currentTarget.getBoundingClientRect();
-    setDragOffset({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    });
+    e.dataTransfer.effectAllowed = 'move';
     
-    // Create a semi-transparent drag image
+    // Enhanced drag image
     const dragImage = e.currentTarget.cloneNode(true);
-    dragImage.style.opacity = '0.8';
-    dragImage.style.transform = 'rotate(2deg)';
-    dragImage.style.boxShadow = '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)';
+    dragImage.style.opacity = '0.9';
+    dragImage.style.transform = 'rotate(3deg) scale(1.05)';
+    dragImage.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25)';
+    dragImage.style.borderRadius = '12px';
     document.body.appendChild(dragImage);
     dragImage.style.position = 'absolute';
     dragImage.style.top = '-1000px';
-    e.dataTransfer.setDragImage(dragImage, dragOffset.x, dragOffset.y);
+    e.dataTransfer.setDragImage(dragImage, 150, 50);
     
-    // Remove the temporary drag image after a short delay
     setTimeout(() => {
       if (document.body.contains(dragImage)) {
         document.body.removeChild(dragImage);
       }
     }, 0);
-    
-    e.dataTransfer.effectAllowed = 'move';
   };
 
   const handleDragOver = (e) => {
@@ -100,26 +92,33 @@ const Home = () => {
     e.dataTransfer.dropEffect = 'move';
   };
 
-  const handleDragEnter = (e, targetSectionId, position = 'middle') => {
+  const getDropPosition = (e, targetElement) => {
+    const rect = targetElement.getBoundingClientRect();
+    const midY = rect.top + rect.height / 2;
+    return e.clientY < midY ? 'before' : 'after';
+  };
+
+  const handleDragEnter = (e, targetSectionId) => {
     e.preventDefault();
     if (draggedItem && draggedItem !== targetSectionId) {
-      setDragOverItem(targetSectionId);
-      setDragOverPosition(position);
+      const position = getDropPosition(e, e.currentTarget);
+      setDropIndicator({ sectionId: targetSectionId, position });
     }
   };
 
   const handleDragLeave = (e) => {
-    // Only clear drag over if we're leaving the entire card area
     if (!e.currentTarget.contains(e.relatedTarget)) {
-      setDragOverItem(null);
-      setDragOverPosition(null);
+      setDropIndicator(null);
     }
   };
 
-  const handleDrop = (e, targetSectionId, position = 'middle') => {
+  const handleDrop = (e, targetSectionId) => {
     e.preventDefault();
     if (draggedItem && draggedItem !== targetSectionId) {
+      const position = getDropPosition(e, e.currentTarget);
       const newSections = [...sections];
+      
+      // Find indices
       const draggedIndex = newSections.findIndex(s => s.id === draggedItem);
       const targetIndex = newSections.findIndex(s => s.id === targetSectionId);
       const targetSection = newSections[targetIndex];
@@ -127,37 +126,33 @@ const Home = () => {
       // Remove dragged item
       const [draggedSection] = newSections.splice(draggedIndex, 1);
       
-      // Calculate new position based on drop position
+      // Calculate insertion index
       let insertIndex = targetIndex;
       if (draggedIndex < targetIndex) {
-        // If dragging down, adjust for the removed item
         insertIndex = targetIndex;
       }
       
-      if (position === 'bottom') {
+      if (position === 'after') {
         insertIndex += 1;
       }
       
-      // Update the column of the dragged section to match the target
+      // Update column and insert
       draggedSection.column = targetSection.column;
-      
-      // Insert at calculated position
       newSections.splice(insertIndex, 0, draggedSection);
       
       setSections(newSections);
     }
+    
     setDraggedItem(null);
-    setDragOverItem(null);
-    setDragOverPosition(null);
+    setDropIndicator(null);
   };
 
   const handleDragEnd = () => {
     setDraggedItem(null);
-    setDragOverItem(null);
-    setDragOverPosition(null);
+    setDropIndicator(null);
   };
 
-  // Group sections by column with smooth transitions
+  // Group sections by column
   const groupedSections = sections.reduce((acc, section) => {
     if (!acc[section.column]) acc[section.column] = [];
     acc[section.column].push(section);
@@ -166,57 +161,32 @@ const Home = () => {
 
   const renderSection = (section) => {
     const isDragging = draggedItem === section.id;
-    const isDragOverTop = dragOverItem === section.id && dragOverPosition === 'top';
-    const isDragOverBottom = dragOverItem === section.id && dragOverPosition === 'bottom';
+    const isDropTarget = dropIndicator?.sectionId === section.id;
+    const showBeforeIndicator = isDropTarget && dropIndicator.position === 'before';
+    const showAfterIndicator = isDropTarget && dropIndicator.position === 'after';
     
     const sectionProps = {
       draggable: true,
       onDragStart: (e) => handleDragStart(e, section.id),
       onDragOver: handleDragOver,
+      onDragEnter: (e) => handleDragEnter(e, section.id),
+      onDragLeave: handleDragLeave,
+      onDrop: (e) => handleDrop(e, section.id),
       onDragEnd: handleDragEnd,
-      className: `relative transition-all duration-200 ease-in-out transform ${
+      className: `relative transition-all duration-300 ease-out ${
         isDragging 
-          ? 'opacity-50 scale-105 rotate-1 z-50 shadow-2xl' 
-          : 'hover:shadow-md'
-      } ${
-        isDragOverTop ? 'border-t-4 border-blue-500' : ''
-      } ${
-        isDragOverBottom ? 'border-b-4 border-blue-500' : ''
+          ? 'opacity-40 scale-105 rotate-2 z-50 shadow-2xl ring-2 ring-blue-400' 
+          : 'hover:shadow-lg hover:-translate-y-1'
       }`
     };
-
-    // Add drop zones
-    const dropZoneProps = {
-      onDragEnter: (e) => e.preventDefault(),
-      onDragOver: (e) => e.preventDefault(),
-      onDrop: (e) => e.preventDefault()
-    };
-
-    const topDropZone = (
-      <div
-        className="absolute -top-2 left-0 right-0 h-4 z-10"
-        onDragEnter={(e) => handleDragEnter(e, section.id, 'top')}
-        onDragLeave={handleDragLeave}
-        onDrop={(e) => handleDrop(e, section.id, 'top')}
-        {...dropZoneProps}
-      />
-    );
-
-    const bottomDropZone = (
-      <div
-        className="absolute -bottom-2 left-0 right-0 h-4 z-10"
-        onDragEnter={(e) => handleDragEnter(e, section.id, 'bottom')}
-        onDragLeave={handleDragLeave}
-        onDrop={(e) => handleDrop(e, section.id, 'bottom')}
-        {...dropZoneProps}
-      />
-    );
 
     switch (section.component) {
       case 'RecentClients':
         return (
           <div key={section.id} className="relative">
-            {topDropZone}
+            {showBeforeIndicator && (
+              <div className="absolute -top-2 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full animate-pulse shadow-lg z-20" />
+            )}
             <Card {...sectionProps}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
                 <CardTitle className="text-lg flex items-center gap-2">
@@ -250,14 +220,18 @@ const Home = () => {
                 ))}
               </CardContent>
             </Card>
-            {bottomDropZone}
+            {showAfterIndicator && (
+              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full animate-pulse shadow-lg z-20" />
+            )}
           </div>
         );
 
       case 'FavoriteReports':
         return (
           <div key={section.id} className="relative">
-            {topDropZone}
+            {showBeforeIndicator && (
+              <div className="absolute -top-2 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full animate-pulse shadow-lg z-20" />
+            )}
             <Card {...sectionProps}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
                 <CardTitle className="text-lg flex items-center gap-2">
@@ -283,14 +257,18 @@ const Home = () => {
                 ))}
               </CardContent>
             </Card>
-            {bottomDropZone}
+            {showAfterIndicator && (
+              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full animate-pulse shadow-lg z-20" />
+            )}
           </div>
         );
 
       case 'LearnImprove':
         return (
           <div key={section.id} className="relative">
-            {topDropZone}
+            {showBeforeIndicator && (
+              <div className="absolute -top-2 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full animate-pulse shadow-lg z-20" />
+            )}
             <Card {...sectionProps}>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
@@ -318,14 +296,18 @@ const Home = () => {
                 </div>
               </CardContent>
             </Card>
-            {bottomDropZone}
+            {showAfterIndicator && (
+              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full animate-pulse shadow-lg z-20" />
+            )}
           </div>
         );
 
       case 'Webinars':
         return (
           <div key={section.id} className="relative">
-            {topDropZone}
+            {showBeforeIndicator && (
+              <div className="absolute -top-2 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full animate-pulse shadow-lg z-20" />
+            )}
             <Card {...sectionProps}>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
@@ -348,14 +330,18 @@ const Home = () => {
                 ))}
               </CardContent>
             </Card>
-            {bottomDropZone}
+            {showAfterIndicator && (
+              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full animate-pulse shadow-lg z-20" />
+            )}
           </div>
         );
 
       case 'TwoMinuteTips':
         return (
           <div key={section.id} className="relative">
-            {topDropZone}
+            {showBeforeIndicator && (
+              <div className="absolute -top-2 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full animate-pulse shadow-lg z-20" />
+            )}
             <Card {...sectionProps}>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
@@ -378,14 +364,18 @@ const Home = () => {
                 ))}
               </CardContent>
             </Card>
-            {bottomDropZone}
+            {showAfterIndicator && (
+              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full animate-pulse shadow-lg z-20" />
+            )}
           </div>
         );
 
       case 'MakeSuggestion':
         return (
           <div key={section.id} className="relative">
-            {topDropZone}
+            {showBeforeIndicator && (
+              <div className="absolute -top-2 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full animate-pulse shadow-lg z-20" />
+            )}
             <Card {...sectionProps}>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
@@ -403,14 +393,18 @@ const Home = () => {
                 </Button>
               </CardContent>
             </Card>
-            {bottomDropZone}
+            {showAfterIndicator && (
+              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full animate-pulse shadow-lg z-20" />
+            )}
           </div>
         );
 
       case 'WhatsNew':
         return (
           <div key={section.id} className="relative">
-            {topDropZone}
+            {showBeforeIndicator && (
+              <div className="absolute -top-2 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full animate-pulse shadow-lg z-20" />
+            )}
             <Card {...sectionProps}>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
@@ -432,7 +426,9 @@ const Home = () => {
                 </div>
               </CardContent>
             </Card>
-            {bottomDropZone}
+            {showAfterIndicator && (
+              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full animate-pulse shadow-lg z-20" />
+            )}
           </div>
         );
 
@@ -472,7 +468,7 @@ const Home = () => {
               </Button>
             ) : (
               <>
-                <Button variant="outline" className="border-white text-white hover:bg-white hover:text-blue-700">
+                <Button variant="outline" className="border-blue-300 text-white hover:bg-blue-600 hover:border-blue-200">
                   <ChevronDown className="h-4 w-4 mr-2" />
                   Switch Client
                 </Button>
