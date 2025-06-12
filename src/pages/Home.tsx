@@ -1,12 +1,30 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { User, FileText, Play, Calendar, Lightbulb, Star, MoreHorizontal, Clock, ArrowRight } from "lucide-react";
+import { 
+  User, 
+  FileText, 
+  Play, 
+  Calendar, 
+  Lightbulb, 
+  Star, 
+  MoreHorizontal, 
+  Clock, 
+  ArrowRight,
+  ChevronDown,
+  Folder,
+  GraduationCap,
+  Video,
+  Zap,
+  Sparkles,
+  MessageSquarePlus,
+  TrendingUp
+} from "lucide-react";
 
 const Home = () => {
   const userName = "Jason"; // This would come from user context in a real app
   const isFirstTime = false; // This would be determined by user session data
+  const currentClient = "Anderson Family – Retirement Plan"; // Current client work
 
   const recentClients = [
     { name: "John Doe", lastUpdated: "2 hours ago", status: "active" },
@@ -39,6 +57,14 @@ const Home = () => {
             <h1 className="text-2xl font-bold mb-2">
               {isFirstTime ? "Welcome to eAdvisys!" : `Welcome back, ${userName}!`}
             </h1>
+            {!isFirstTime && currentClient && (
+              <div className="flex items-center gap-2 mb-4">
+                <Folder className="h-4 w-4 text-blue-200" />
+                <p className="text-blue-100 text-sm">
+                  You're working on: <span className="text-white font-medium cursor-pointer hover:underline">{currentClient}</span>
+                </p>
+              </div>
+            )}
             <p className="text-blue-100 mb-4">
               {isFirstTime 
                 ? "Let's get you started with your financial advisory toolkit" 
@@ -52,13 +78,16 @@ const Home = () => {
                 Take a Quick Tour
               </Button>
             ) : (
-              <Button variant="secondary" className="bg-white text-blue-700 hover:bg-blue-50">
-                Resume Last Client
-              </Button>
+              <>
+                <Button variant="outline" className="border-blue-400 text-white hover:bg-blue-600">
+                  <ChevronDown className="h-4 w-4 mr-2" />
+                  Switch Client
+                </Button>
+                <Button variant="secondary" className="bg-white text-blue-700 hover:bg-blue-50">
+                  Resume Working
+                </Button>
+              </>
             )}
-            <Button variant="outline" className="border-blue-400 text-white hover:bg-blue-600">
-              Watch What's New
-            </Button>
           </div>
         </div>
       </div>
@@ -134,7 +163,8 @@ const Home = () => {
           <Card>
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
-                🎓 Learn & Improve
+                <GraduationCap className="h-5 w-5 text-blue-600" />
+                Learn & Improve
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -164,7 +194,8 @@ const Home = () => {
           <Card>
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
-                🎥 Upcoming Webinars
+                <Video className="h-5 w-5 text-purple-600" />
+                Upcoming Webinars
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -185,7 +216,10 @@ const Home = () => {
           {/* Two Minute Tips */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">⚡ Two Minute Tips</CardTitle>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Zap className="h-5 w-5 text-yellow-500" />
+                Two Minute Tips
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {twoMinuteTips.map((tip, index) => (
@@ -209,7 +243,7 @@ const Home = () => {
           <Card>
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
-                <Lightbulb className="h-5 w-5 text-yellow-500" />
+                <MessageSquarePlus className="h-5 w-5 text-green-600" />
                 Got an Idea?
               </CardTitle>
             </CardHeader>
@@ -226,7 +260,10 @@ const Home = () => {
           {/* Try This Next */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">💡 Try This Next</CardTitle>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <TrendingUp className="h-5 w-5 text-purple-600" />
+                Try This Next
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="p-4 bg-purple-50 rounded-lg">
@@ -254,7 +291,10 @@ const Home = () => {
           {/* What's New */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">🆕 What's New</CardTitle>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Sparkles className="h-5 w-5 text-blue-600" />
+                What's New
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="border-l-4 border-blue-500 pl-4">
