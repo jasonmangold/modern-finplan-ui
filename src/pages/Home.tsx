@@ -1,8 +1,7 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { 
   User, 
   FileText, 
@@ -51,28 +50,68 @@ const Home = () => {
     { title: "Budgeting Basics", duration: "1:45" }
   ];
 
-  // Initial section order
+  // Updated default section order as requested
   const [sections, setSections] = useState([
     { id: 'recent-clients', column: 0, title: 'Recent Clients', component: 'RecentClients' },
     { id: 'favorite-reports', column: 0, title: 'Favorite Reports', component: 'FavoriteReports' },
+    { id: 'whats-new', column: 1, title: "What's New", component: 'WhatsNew' },
     { id: 'learn-improve', column: 1, title: 'Learn & Improve', component: 'LearnImprove' },
-    { id: 'webinars', column: 1, title: 'Upcoming Webinars', component: 'Webinars' },
     { id: 'two-minute-tips', column: 1, title: 'Two Minute Tips', component: 'TwoMinuteTips' },
+    { id: 'webinars', column: 2, title: 'Upcoming Webinars', component: 'Webinars' },
     { id: 'make-suggestion', column: 2, title: 'Got an Idea?', component: 'MakeSuggestion' },
-    { id: 'try-next', column: 2, title: 'Try This Next', component: 'TryNext' },
-    { id: 'whats-new', column: 2, title: "What's New", component: 'WhatsNew' }
+    { id: 'try-next', column: 2, title: 'Try This Next', component: 'TryNext' }
   ]);
 
   const [draggedItem, setDraggedItem] = useState(null);
+  const [dragOverItem, setDragOverItem] = useState(null);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const dragElementRef = useRef(null);
 
   const handleDragStart = (e, sectionId) => {
     setDraggedItem(sectionId);
+    const rect = e.currentTarget.getBoundingClientRect();
+    setDragOffset({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    });
+    
+    // Create a semi-transparent drag image
+    const dragImage = e.currentTarget.cloneNode(true);
+    dragImage.style.opacity = '0.8';
+    dragImage.style.transform = 'rotate(2deg)';
+    dragImage.style.boxShadow = '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)';
+    document.body.appendChild(dragImage);
+    dragImage.style.position = 'absolute';
+    dragImage.style.top = '-1000px';
+    e.dataTransfer.setDragImage(dragImage, dragOffset.x, dragOffset.y);
+    
+    // Remove the temporary drag image after a short delay
+    setTimeout(() => {
+      if (document.body.contains(dragImage)) {
+        document.body.removeChild(dragImage);
+      }
+    }, 0);
+    
     e.dataTransfer.effectAllowed = 'move';
   };
 
   const handleDragOver = (e) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
+  };
+
+  const handleDragEnter = (e, targetSectionId) => {
+    e.preventDefault();
+    if (draggedItem && draggedItem !== targetSectionId) {
+      setDragOverItem(targetSectionId);
+    }
+  };
+
+  const handleDragLeave = (e) => {
+    // Only clear drag over if we're leaving the entire card area
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      setDragOverItem(null);
+    }
   };
 
   const handleDrop = (e, targetSectionId) => {
@@ -82,15 +121,22 @@ const Home = () => {
       const draggedIndex = newSections.findIndex(s => s.id === draggedItem);
       const targetIndex = newSections.findIndex(s => s.id === targetSectionId);
       
-      // Swap positions
-      [newSections[draggedIndex], newSections[targetIndex]] = [newSections[targetIndex], newSections[draggedIndex]];
+      // Remove dragged item and insert at target position
+      const [draggedSection] = newSections.splice(draggedIndex, 1);
+      newSections.splice(targetIndex, 0, draggedSection);
       
       setSections(newSections);
     }
     setDraggedItem(null);
+    setDragOverItem(null);
   };
 
-  // Group sections by column
+  const handleDragEnd = () => {
+    setDraggedItem(null);
+    setDragOverItem(null);
+  };
+
+  // Group sections by column with smooth transitions
   const groupedSections = sections.reduce((acc, section) => {
     if (!acc[section.column]) acc[section.column] = [];
     acc[section.column].push(section);
@@ -99,13 +145,23 @@ const Home = () => {
 
   const renderSection = (section) => {
     const isDragging = draggedItem === section.id;
+    const isDragOver = dragOverItem === section.id;
     
     const sectionProps = {
       draggable: true,
       onDragStart: (e) => handleDragStart(e, section.id),
       onDragOver: handleDragOver,
+      onDragEnter: (e) => handleDragEnter(e, section.id),
+      onDragLeave: handleDragLeave,
       onDrop: (e) => handleDrop(e, section.id),
-      className: `relative ${isDragging ? 'opacity-50' : ''}`
+      onDragEnd: handleDragEnd,
+      className: `relative transition-all duration-200 ease-in-out transform ${
+        isDragging 
+          ? 'opacity-50 scale-105 rotate-1 z-50 shadow-2xl' 
+          : isDragOver 
+            ? 'scale-105 shadow-lg border-2 border-blue-300 border-dashed' 
+            : 'hover:shadow-md'
+      }`
     };
 
     switch (section.component) {
@@ -373,7 +429,7 @@ const Home = () => {
               </Button>
             ) : (
               <>
-                <Button variant="outline" className="border-blue-300 text-blue-100 hover:bg-blue-600 hover:text-white bg-transparent">
+                <Button variant="outline" className="border-blue-300 text-white hover:bg-blue-600 hover:text-white bg-blue-500 border-2">
                   <ChevronDown className="h-4 w-4 mr-2" />
                   Switch Client
                 </Button>
