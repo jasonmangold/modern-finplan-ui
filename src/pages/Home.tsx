@@ -64,35 +64,27 @@ const Home = () => {
 
   const [draggedItem, setDraggedItem] = useState(null);
   const [dragOverItem, setDragOverItem] = useState(null);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const dragElementRef = useRef(null);
+  const [dragPosition, setDragPosition] = useState(null);
 
   const handleDragStart = (e, sectionId) => {
     setDraggedItem(sectionId);
-    const rect = e.currentTarget.getBoundingClientRect();
-    setDragOffset({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    });
+    e.dataTransfer.effectAllowed = 'move';
     
-    // Create a semi-transparent drag image
+    // Create a more visible drag image
     const dragImage = e.currentTarget.cloneNode(true);
     dragImage.style.opacity = '0.8';
     dragImage.style.transform = 'rotate(2deg)';
-    dragImage.style.boxShadow = '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)';
+    dragImage.style.boxShadow = '0 20px 25px -5px rgb(0 0 0 / 0.2)';
     document.body.appendChild(dragImage);
     dragImage.style.position = 'absolute';
     dragImage.style.top = '-1000px';
-    e.dataTransfer.setDragImage(dragImage, dragOffset.x, dragOffset.y);
+    e.dataTransfer.setDragImage(dragImage, 150, 75);
     
-    // Remove the temporary drag image after a short delay
     setTimeout(() => {
       if (document.body.contains(dragImage)) {
         document.body.removeChild(dragImage);
       }
     }, 0);
-    
-    e.dataTransfer.effectAllowed = 'move';
   };
 
   const handleDragOver = (e) => {
@@ -103,50 +95,114 @@ const Home = () => {
   const handleDragEnter = (e, targetSectionId) => {
     e.preventDefault();
     if (draggedItem && draggedItem !== targetSectionId) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const mouseY = e.clientY;
+      const elementMiddle = rect.top + rect.height / 2;
+      const position = mouseY < elementMiddle ? 'before' : 'after';
+      
       setDragOverItem(targetSectionId);
+      setDragPosition(position);
     }
   };
 
   const handleDragLeave = (e) => {
-    // Only clear drag over if we're leaving the entire card area
     if (!e.currentTarget.contains(e.relatedTarget)) {
       setDragOverItem(null);
+      setDragPosition(null);
     }
   };
 
   const handleDrop = (e, targetSectionId) => {
     e.preventDefault();
+    
     if (draggedItem && draggedItem !== targetSectionId) {
       const newSections = [...sections];
       const draggedIndex = newSections.findIndex(s => s.id === draggedItem);
       const targetIndex = newSections.findIndex(s => s.id === targetSectionId);
       
-      // Remove dragged item and insert at target position
-      const [draggedSection] = newSections.splice(draggedIndex, 1);
-      newSections.splice(targetIndex, 0, draggedSection);
-      
-      setSections(newSections);
+      if (draggedIndex !== -1 && targetIndex !== -1) {
+        // Remove the dragged item from its current position
+        const [draggedSection] = newSections.splice(draggedIndex, 1);
+        
+        // Calculate the correct insertion index
+        let insertIndex = targetIndex;
+        
+        // If we removed an item before the target, adjust the target index
+        if (draggedIndex < targetIndex) {
+          insertIndex = targetIndex;
+        } else {
+          insertIndex = targetIndex + 1;
+        }
+        
+        // If dropping after the target, increment by 1
+        if (dragPosition === 'after') {
+          insertIndex = Math.min(insertIndex, newSections.length);
+        } else {
+          // If dropping before, use the current target position
+          insertIndex = Math.max(0, insertIndex - 1);
+        }
+        
+        // Insert the dragged section at the calculated position
+        newSections.splice(insertIndex, 0, draggedSection);
+        
+        setSections(newSections);
+      }
     }
+    
     setDraggedItem(null);
     setDragOverItem(null);
+    setDragPosition(null);
   };
 
   const handleDragEnd = () => {
     setDraggedItem(null);
     setDragOverItem(null);
+    setDragPosition(null);
   };
 
-  // Group sections by column with smooth transitions
-  const groupedSections = sections.reduce((acc, section) => {
-    if (!acc[section.column]) acc[section.column] = [];
-    acc[section.column].push(section);
-    return acc;
-  }, {});
+  // Create a flat list for rendering with drag indicators
+  const sectionsWithDropZones = [];
+  sections.forEach((section, index) => {
+    const isDragging = draggedItem === section.id;
+    const isDropTarget = dragOverItem === section.id;
+    
+    // Add drop indicator before if needed
+    if (isDropTarget && dragPosition === 'before') {
+      sectionsWithDropZones.push({
+        type: 'drop-indicator',
+        id: `drop-before-${section.id}`,
+        position: 'before'
+      });
+    }
+    
+    // Add the actual section
+    sectionsWithDropZones.push({
+      type: 'section',
+      ...section,
+      isDragging,
+      isDropTarget: isDropTarget && dragPosition === 'after'
+    });
+    
+    // Add drop indicator after if needed
+    if (isDropTarget && dragPosition === 'after') {
+      sectionsWithDropZones.push({
+        type: 'drop-indicator',
+        id: `drop-after-${section.id}`,
+        position: 'after'
+      });
+    }
+  });
 
   const renderSection = (section) => {
-    const isDragging = draggedItem === section.id;
-    const isDragOver = dragOverItem === section.id;
-    
+    if (section.type === 'drop-indicator') {
+      return (
+        <div
+          key={section.id}
+          className="h-2 bg-blue-400 rounded-full mx-4 animate-pulse transition-all duration-200"
+        />
+      );
+    }
+
     const sectionProps = {
       draggable: true,
       onDragStart: (e) => handleDragStart(e, section.id),
@@ -155,12 +211,12 @@ const Home = () => {
       onDragLeave: handleDragLeave,
       onDrop: (e) => handleDrop(e, section.id),
       onDragEnd: handleDragEnd,
-      className: `relative transition-all duration-200 ease-in-out transform ${
-        isDragging 
-          ? 'opacity-50 scale-105 rotate-1 z-50 shadow-2xl' 
-          : isDragOver 
-            ? 'scale-105 shadow-lg border-2 border-blue-300 border-dashed' 
-            : 'hover:shadow-md'
+      className: `relative transition-all duration-200 ease-in-out transform cursor-move ${
+        section.isDragging 
+          ? 'opacity-30 scale-95 rotate-1 z-50 shadow-2xl' 
+          : section.isDropTarget 
+            ? 'scale-102 shadow-lg' 
+            : 'hover:shadow-md hover:scale-101'
       }`
     };
 
@@ -429,7 +485,7 @@ const Home = () => {
               </Button>
             ) : (
               <>
-                <Button variant="outline" className="border-blue-300 text-white hover:bg-blue-600 hover:text-white bg-blue-500 border-2">
+                <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 hover:text-white bg-transparent border-2">
                   <ChevronDown className="h-4 w-4 mr-2" />
                   Switch Client
                 </Button>
@@ -442,22 +498,9 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Main Content: Modular Dashboard (3 Columns) */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column */}
-        <div className="space-y-6">
-          {groupedSections[0]?.map(section => renderSection(section))}
-        </div>
-
-        {/* Center Column */}
-        <div className="space-y-6">
-          {groupedSections[1]?.map(section => renderSection(section))}
-        </div>
-
-        {/* Right Column */}
-        <div className="space-y-6">
-          {groupedSections[2]?.map(section => renderSection(section))}
-        </div>
+      {/* Main Content: Single Column with Drag & Drop */}
+      <div className="space-y-4 max-w-4xl mx-auto">
+        {sectionsWithDropZones.map(section => renderSection(section))}
       </div>
     </div>
   );
