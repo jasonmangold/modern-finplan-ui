@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -88,7 +87,7 @@ const Presentation = () => {
   const [items, setItems] = useState(presentationItems);
   const [draggedItem, setDraggedItem] = useState<string | null>(null);
   const [dropIndicator, setDropIndicator] = useState<number | null>(null);
-  const [activeTab, setActiveTab] = useState("presentation");
+  const [activeTab, setActiveTab] = useState("Presentation");
   
   // Company Information State
   const [companyInfo, setCompanyInfo] = useState({
@@ -197,7 +196,7 @@ const Presentation = () => {
 
   const loadTemplate = (template: Template) => {
     setItems(template.reports);
-    setActiveTab("presentation"); // Switch to presentation tab after loading template
+    setActiveTab("Presentation"); // Switch to presentation tab after loading template
   };
 
   const getSourceColor = (source: string) => {
@@ -220,141 +219,143 @@ const Presentation = () => {
   };
 
   const tabs = [
-    { label: "Presentation", value: "presentation" },
-    { label: "Templates", value: "templates" },
-    { label: "Company Information", value: "company" },
-    { label: "Presentation Defaults", value: "defaults" }
+    { label: "Presentation" },
+    { label: "Templates" },
+    { label: "Company Information" },
+    { label: "Presentation Defaults" }
   ];
 
   return (
     <div className="p-8 max-w-6xl mx-auto space-y-8">
-      {/* Modern Header Section */}
-      <div className="bg-gradient-to-r from-blue-50 via-white to-blue-50 rounded-2xl p-8 border border-blue-100/50">
-        <div className="flex items-start justify-between">
-          <div className="space-y-6">
-            <div className="flex items-center gap-4">
-              {isEditingTitle ? (
-                <div className="flex items-center gap-2">
-                  <Input
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    className="text-3xl font-bold h-12"
-                    onBlur={() => setIsEditingTitle(false)}
-                    onKeyDown={(e) => e.key === 'Enter' && setIsEditingTitle(false)}
-                    autoFocus
-                  />
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setIsEditingTitle(false)}
-                    className="text-green-600 hover:text-green-800"
-                  >
-                    Save
-                  </Button>
-                </div>
-              ) : (
-                <>
-                  <h1 className="text-3xl font-bold text-gray-900 text-balance">{title}</h1>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="modern-button text-blue-600 hover:text-blue-800 hover:bg-blue-50"
-                    onClick={() => setIsEditingTitle(true)}
-                  >
-                    <Edit3 className="h-4 w-4" />
-                    Edit
-                  </Button>
-                </>
-              )}
-            </div>
-            
-            <div className="space-y-3">
-              <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">Prepared For</p>
-              {isEditingClient ? (
-                <div className="space-y-4 p-4 bg-white rounded-lg border">
-                  <div>
-                    <Label htmlFor="clientName">Client Name</Label>
-                    <Input
-                      id="clientName"
-                      value={clientName}
-                      onChange={(e) => setClientName(e.target.value)}
-                      placeholder="Enter client name"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="clientPhone">Phone Number</Label>
-                    <Input
-                      id="clientPhone"
-                      value={clientPhone}
-                      onChange={(e) => setClientPhone(e.target.value)}
-                      placeholder="Enter phone number"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="clientAddress">Address</Label>
-                    <Input
-                      id="clientAddress"
-                      value={clientAddress}
-                      onChange={(e) => setClientAddress(e.target.value)}
-                      placeholder="Enter address"
-                    />
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      onClick={() => setIsEditingClient(false)}
-                      className="bg-green-600 hover:bg-green-700"
-                    >
-                      Save
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setIsEditingClient(false)}
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex items-center gap-4">
-                  <div className="space-y-1">
-                    <h2 className="text-xl font-semibold text-gray-800">{clientName}</h2>
-                    {clientPhone && <p className="text-sm text-gray-600">{clientPhone}</p>}
-                    {clientAddress && <p className="text-sm text-gray-600">{clientAddress}</p>}
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="modern-button text-blue-600 hover:text-blue-800 hover:bg-blue-50"
-                    onClick={() => setIsEditingClient(true)}
-                  >
-                    <Edit3 className="h-4 w-4" />
-                    Edit
-                  </Button>
-                </div>
-              )}
-            </div>
-          </div>
-          
-          <div className="text-right space-y-1">
-            <p className="text-sm text-gray-500">Created: {new Date().toLocaleDateString()}</p>
-            <p className="text-sm text-gray-500">Last Updated: {new Date().toLocaleDateString()}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Animated Tabs */}
+      {/* Animated Tabs - Moved to top */}
       <div className="flex justify-center">
         <AnimatedTabs
           tabs={tabs}
-          defaultValue={activeTab}
-          onValueChange={setActiveTab}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
         />
       </div>
 
+      {/* Modern Header Section - Only show on Presentation tab */}
+      {activeTab === "Presentation" && (
+        <div className="bg-gradient-to-r from-blue-50 via-white to-blue-50 rounded-2xl p-8 border border-blue-100/50">
+          <div className="flex items-start justify-between">
+            <div className="space-y-6">
+              <div className="flex items-center gap-4">
+                {isEditingTitle ? (
+                  <div className="flex items-center gap-2">
+                    <Input
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      className="text-3xl font-bold h-12"
+                      onBlur={() => setIsEditingTitle(false)}
+                      onKeyDown={(e) => e.key === 'Enter' && setIsEditingTitle(false)}
+                      autoFocus
+                    />
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setIsEditingTitle(false)}
+                      className="text-green-600 hover:text-green-800"
+                    >
+                      Save
+                    </Button>
+                  </div>
+                ) : (
+                  <>
+                    <h1 className="text-3xl font-bold text-gray-900 text-balance">{title}</h1>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="modern-button text-blue-600 hover:text-blue-800 hover:bg-blue-50"
+                      onClick={() => setIsEditingTitle(true)}
+                    >
+                      <Edit3 className="h-4 w-4" />
+                      Edit
+                    </Button>
+                  </>
+                )}
+              </div>
+              
+              <div className="space-y-3">
+                <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">Prepared For</p>
+                {isEditingClient ? (
+                  <div className="space-y-4 p-4 bg-white rounded-lg border">
+                    <div>
+                      <Label htmlFor="clientName">Client Name</Label>
+                      <Input
+                        id="clientName"
+                        value={clientName}
+                        onChange={(e) => setClientName(e.target.value)}
+                        placeholder="Enter client name"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="clientPhone">Phone Number</Label>
+                      <Input
+                        id="clientPhone"
+                        value={clientPhone}
+                        onChange={(e) => setClientPhone(e.target.value)}
+                        placeholder="Enter phone number"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="clientAddress">Address</Label>
+                      <Input
+                        id="clientAddress"
+                        value={clientAddress}
+                        onChange={(e) => setClientAddress(e.target.value)}
+                        placeholder="Enter address"
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        onClick={() => setIsEditingClient(false)}
+                        className="bg-green-600 hover:bg-green-700"
+                      >
+                        Save
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setIsEditingClient(false)}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-4">
+                    <div className="space-y-1">
+                      <h2 className="text-xl font-semibold text-gray-800">{clientName}</h2>
+                      {clientPhone && <p className="text-sm text-gray-600">{clientPhone}</p>}
+                      {clientAddress && <p className="text-sm text-gray-600">{clientAddress}</p>}
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="modern-button text-blue-600 hover:text-blue-800 hover:bg-blue-50"
+                      onClick={() => setIsEditingClient(true)}
+                    >
+                      <Edit3 className="h-4 w-4" />
+                      Edit
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            <div className="text-right space-y-1">
+              <p className="text-sm text-gray-500">Created: {new Date().toLocaleDateString()}</p>
+              <p className="text-sm text-gray-500">Last Updated: {new Date().toLocaleDateString()}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Tab Content */}
-      {activeTab === "presentation" && (
+      {activeTab === "Presentation" && (
         <div className="smooth-card p-6">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
@@ -601,7 +602,7 @@ const Presentation = () => {
         </div>
       )}
 
-      {activeTab === "templates" && (
+      {activeTab === "Templates" && (
         <Card className="border-gray-200 shadow-sm">
           <CardHeader>
             <div className="flex items-center gap-3">
@@ -654,7 +655,7 @@ const Presentation = () => {
         </Card>
       )}
 
-      {activeTab === "company" && (
+      {activeTab === "Company Information" && (
         <Card className="border-gray-200 shadow-sm">
           <CardHeader>
             <div className="flex items-center gap-3">
@@ -818,7 +819,7 @@ const Presentation = () => {
         </Card>
       )}
 
-      {activeTab === "defaults" && (
+      {activeTab === "Presentation Defaults" && (
         <Card className="border-gray-200 shadow-sm">
           <CardHeader>
             <div className="flex items-center gap-3">
