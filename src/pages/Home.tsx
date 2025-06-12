@@ -1,8 +1,7 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { 
   User, 
   FileText, 
@@ -35,11 +34,19 @@ const Home = () => {
     { name: "Mike Johnson", lastUpdated: "3 days ago", status: "active" }
   ];
 
-  const favoriteReports = [
+  // Load favorite reports from localStorage (including calculator favorites)
+  const [favoriteReports, setFavoriteReports] = useState([
     { name: "Fast Facts", type: "Reference" },
     { name: "Federal Income Tax Tables", type: "Tax" },
     { name: "Retirement Calculator", type: "Planning" }
-  ];
+  ]);
+
+  useEffect(() => {
+    const homePageFavorites = JSON.parse(localStorage.getItem('home-favorite-reports') || '[]');
+    if (homePageFavorites.length > 0) {
+      setFavoriteReports(prev => [...prev, ...homePageFavorites]);
+    }
+  }, []);
 
   const upcomingWebinars = [
     { title: "Retirement Planning 101", date: "Dec 15", time: "2:00 PM" },
@@ -468,7 +475,7 @@ const Home = () => {
               </Button>
             ) : (
               <>
-                <Button variant="outline" className="border-blue-300 text-white hover:bg-blue-600 hover:border-blue-200">
+                <Button variant="outline" className="border-blue-300 text-blue-100 hover:bg-blue-600 hover:border-blue-200 hover:text-white">
                   <ChevronDown className="h-4 w-4 mr-2" />
                   Switch Client
                 </Button>
