@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -50,7 +51,7 @@ const Home = () => {
     { title: "Budgeting Basics", duration: "1:45" }
   ];
 
-  // Updated default section order as requested
+  // Default section order as requested
   const [sections, setSections] = useState([
     { id: 'recent-clients', column: 0, title: 'Recent Clients', component: 'RecentClients' },
     { id: 'favorite-reports', column: 0, title: 'Favorite Reports', component: 'FavoriteReports' },
@@ -58,14 +59,13 @@ const Home = () => {
     { id: 'learn-improve', column: 1, title: 'Learn & Improve', component: 'LearnImprove' },
     { id: 'two-minute-tips', column: 1, title: 'Two Minute Tips', component: 'TwoMinuteTips' },
     { id: 'webinars', column: 2, title: 'Upcoming Webinars', component: 'Webinars' },
-    { id: 'make-suggestion', column: 2, title: 'Got an Idea?', component: 'MakeSuggestion' },
-    { id: 'try-next', column: 2, title: 'Try This Next', component: 'TryNext' }
+    { id: 'make-suggestion', column: 2, title: 'Got an Idea?', component: 'MakeSuggestion' }
   ]);
 
   const [draggedItem, setDraggedItem] = useState(null);
   const [dragOverItem, setDragOverItem] = useState(null);
+  const [dragOverPosition, setDragOverPosition] = useState(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const dragElementRef = useRef(null);
 
   const handleDragStart = (e, sectionId) => {
     setDraggedItem(sectionId);
@@ -100,10 +100,11 @@ const Home = () => {
     e.dataTransfer.dropEffect = 'move';
   };
 
-  const handleDragEnter = (e, targetSectionId) => {
+  const handleDragEnter = (e, targetSectionId, position = 'middle') => {
     e.preventDefault();
     if (draggedItem && draggedItem !== targetSectionId) {
       setDragOverItem(targetSectionId);
+      setDragOverPosition(position);
     }
   };
 
@@ -111,29 +112,49 @@ const Home = () => {
     // Only clear drag over if we're leaving the entire card area
     if (!e.currentTarget.contains(e.relatedTarget)) {
       setDragOverItem(null);
+      setDragOverPosition(null);
     }
   };
 
-  const handleDrop = (e, targetSectionId) => {
+  const handleDrop = (e, targetSectionId, position = 'middle') => {
     e.preventDefault();
     if (draggedItem && draggedItem !== targetSectionId) {
       const newSections = [...sections];
       const draggedIndex = newSections.findIndex(s => s.id === draggedItem);
       const targetIndex = newSections.findIndex(s => s.id === targetSectionId);
+      const targetSection = newSections[targetIndex];
       
-      // Remove dragged item and insert at target position
+      // Remove dragged item
       const [draggedSection] = newSections.splice(draggedIndex, 1);
-      newSections.splice(targetIndex, 0, draggedSection);
+      
+      // Calculate new position based on drop position
+      let insertIndex = targetIndex;
+      if (draggedIndex < targetIndex) {
+        // If dragging down, adjust for the removed item
+        insertIndex = targetIndex;
+      }
+      
+      if (position === 'bottom') {
+        insertIndex += 1;
+      }
+      
+      // Update the column of the dragged section to match the target
+      draggedSection.column = targetSection.column;
+      
+      // Insert at calculated position
+      newSections.splice(insertIndex, 0, draggedSection);
       
       setSections(newSections);
     }
     setDraggedItem(null);
     setDragOverItem(null);
+    setDragOverPosition(null);
   };
 
   const handleDragEnd = () => {
     setDraggedItem(null);
     setDragOverItem(null);
+    setDragOverPosition(null);
   };
 
   // Group sections by column with smooth transitions
@@ -145,252 +166,274 @@ const Home = () => {
 
   const renderSection = (section) => {
     const isDragging = draggedItem === section.id;
-    const isDragOver = dragOverItem === section.id;
+    const isDragOverTop = dragOverItem === section.id && dragOverPosition === 'top';
+    const isDragOverBottom = dragOverItem === section.id && dragOverPosition === 'bottom';
     
     const sectionProps = {
       draggable: true,
       onDragStart: (e) => handleDragStart(e, section.id),
       onDragOver: handleDragOver,
-      onDragEnter: (e) => handleDragEnter(e, section.id),
-      onDragLeave: handleDragLeave,
-      onDrop: (e) => handleDrop(e, section.id),
       onDragEnd: handleDragEnd,
       className: `relative transition-all duration-200 ease-in-out transform ${
         isDragging 
           ? 'opacity-50 scale-105 rotate-1 z-50 shadow-2xl' 
-          : isDragOver 
-            ? 'scale-105 shadow-lg border-2 border-blue-300 border-dashed' 
-            : 'hover:shadow-md'
+          : 'hover:shadow-md'
+      } ${
+        isDragOverTop ? 'border-t-4 border-blue-500' : ''
+      } ${
+        isDragOverBottom ? 'border-b-4 border-blue-500' : ''
       }`
     };
+
+    // Add drop zones
+    const dropZoneProps = {
+      onDragEnter: (e) => e.preventDefault(),
+      onDragOver: (e) => e.preventDefault(),
+      onDrop: (e) => e.preventDefault()
+    };
+
+    const topDropZone = (
+      <div
+        className="absolute -top-2 left-0 right-0 h-4 z-10"
+        onDragEnter={(e) => handleDragEnter(e, section.id, 'top')}
+        onDragLeave={handleDragLeave}
+        onDrop={(e) => handleDrop(e, section.id, 'top')}
+        {...dropZoneProps}
+      />
+    );
+
+    const bottomDropZone = (
+      <div
+        className="absolute -bottom-2 left-0 right-0 h-4 z-10"
+        onDragEnter={(e) => handleDragEnter(e, section.id, 'bottom')}
+        onDragLeave={handleDragLeave}
+        onDrop={(e) => handleDrop(e, section.id, 'bottom')}
+        {...dropZoneProps}
+      />
+    );
 
     switch (section.component) {
       case 'RecentClients':
         return (
-          <Card key={section.id} {...sectionProps}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-              <CardTitle className="text-lg flex items-center gap-2">
-                <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
-                <User className="h-5 w-5 text-blue-600" />
-                Recent Clients
-              </CardTitle>
-              <Button variant="ghost" size="sm" className="text-blue-600">
-                See all <ArrowRight className="h-4 w-4 ml-1" />
-              </Button>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {recentClients.map((client, index) => (
-                <div key={index} className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 transition-colors">
-                  <div className="flex-1">
-                    <div className="font-medium">{client.name}</div>
-                    <div className="text-sm text-gray-500 flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      {client.lastUpdated}
+          <div key={section.id} className="relative">
+            {topDropZone}
+            <Card {...sectionProps}>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
+                  <User className="h-5 w-5 text-blue-600" />
+                  Recent Clients
+                </CardTitle>
+                <Button variant="ghost" size="sm" className="text-blue-600">
+                  See all <ArrowRight className="h-4 w-4 ml-1" />
+                </Button>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {recentClients.map((client, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 transition-colors">
+                    <div className="flex-1">
+                      <div className="font-medium">{client.name}</div>
+                      <div className="text-sm text-gray-500 flex items-center gap-1">
+                        <Clock className="h-3 w-3" />
+                        {client.lastUpdated}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant={client.status === 'active' ? 'default' : 'secondary'} className="text-xs">
+                        {client.status}
+                      </Badge>
+                      <Button variant="ghost" size="sm">
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Badge variant={client.status === 'active' ? 'default' : 'secondary'} className="text-xs">
-                      {client.status}
-                    </Badge>
-                    <Button variant="ghost" size="sm">
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+                ))}
+              </CardContent>
+            </Card>
+            {bottomDropZone}
+          </div>
         );
 
       case 'FavoriteReports':
         return (
-          <Card key={section.id} {...sectionProps}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-              <CardTitle className="text-lg flex items-center gap-2">
-                <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
-                <Star className="h-5 w-5 text-yellow-500" />
-                Favorite Reports
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {favoriteReports.map((report, index) => (
-                <div key={index} className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 transition-colors cursor-pointer">
-                  <div className="flex items-center gap-3">
-                    <FileText className="h-4 w-4 text-blue-600" />
-                    <div>
-                      <div className="font-medium">{report.name}</div>
-                      <div className="text-sm text-gray-500">{report.type}</div>
+          <div key={section.id} className="relative">
+            {topDropZone}
+            <Card {...sectionProps}>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
+                  <Star className="h-5 w-5 text-yellow-500" />
+                  Favorite Reports
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {favoriteReports.map((report, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 transition-colors cursor-pointer">
+                    <div className="flex items-center gap-3">
+                      <FileText className="h-4 w-4 text-blue-600" />
+                      <div>
+                        <div className="font-medium">{report.name}</div>
+                        <div className="text-sm text-gray-500">{report.type}</div>
+                      </div>
                     </div>
+                    <Button size="sm" variant="outline">
+                      Open
+                    </Button>
                   </div>
-                  <Button size="sm" variant="outline">
-                    Open
-                  </Button>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+                ))}
+              </CardContent>
+            </Card>
+            {bottomDropZone}
+          </div>
         );
 
       case 'LearnImprove':
         return (
-          <Card key={section.id} {...sectionProps}>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
-                <GraduationCap className="h-5 w-5 text-blue-600" />
-                Learn & Improve
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="p-4 bg-blue-50 rounded-lg">
-                <h3 className="font-semibold mb-2">Getting Started Tour</h3>
-                <p className="text-sm text-gray-600 mb-3">Learn the basics in just 2 minutes</p>
-                <Button className="w-full">
-                  <Play className="h-4 w-4 mr-2" />
-                  Take 2-Minute Tour
-                </Button>
-              </div>
-              <div className="p-4 bg-green-50 rounded-lg">
-                <h3 className="font-semibold mb-2">Schedule Training</h3>
-                <p className="text-sm text-gray-600 mb-3">Book personalized training session</p>
-                <Button variant="outline" className="w-full">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  Book Training
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          <div key={section.id} className="relative">
+            {topDropZone}
+            <Card {...sectionProps}>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
+                  <GraduationCap className="h-5 w-5 text-blue-600" />
+                  Learn & Improve
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="p-4 bg-blue-50 rounded-lg">
+                  <h3 className="font-semibold mb-2">Getting Started Tour</h3>
+                  <p className="text-sm text-gray-600 mb-3">Learn the basics in just 2 minutes</p>
+                  <Button className="w-full">
+                    <Play className="h-4 w-4 mr-2" />
+                    Take 2-Minute Tour
+                  </Button>
+                </div>
+                <div className="p-4 bg-green-50 rounded-lg">
+                  <h3 className="font-semibold mb-2">Schedule Training</h3>
+                  <p className="text-sm text-gray-600 mb-3">Book personalized training session</p>
+                  <Button variant="outline" className="w-full">
+                    <Calendar className="h-4 w-4 mr-2" />
+                    Book Training
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+            {bottomDropZone}
+          </div>
         );
 
       case 'Webinars':
         return (
-          <Card key={section.id} {...sectionProps}>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
-                <Video className="h-5 w-5 text-purple-600" />
-                Upcoming Webinars
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {upcomingWebinars.map((webinar, index) => (
-                <div key={index} className="flex items-center justify-between p-3 rounded-lg border">
-                  <div>
-                    <div className="font-medium">{webinar.title}</div>
-                    <div className="text-sm text-gray-500">{webinar.date} at {webinar.time}</div>
+          <div key={section.id} className="relative">
+            {topDropZone}
+            <Card {...sectionProps}>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
+                  <Video className="h-5 w-5 text-purple-600" />
+                  Upcoming Webinars
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {upcomingWebinars.map((webinar, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 rounded-lg border">
+                    <div>
+                      <div className="font-medium">{webinar.title}</div>
+                      <div className="text-sm text-gray-500">{webinar.date} at {webinar.time}</div>
+                    </div>
+                    <Button size="sm" variant="outline">
+                      Join
+                    </Button>
                   </div>
-                  <Button size="sm" variant="outline">
-                    Join
-                  </Button>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+                ))}
+              </CardContent>
+            </Card>
+            {bottomDropZone}
+          </div>
         );
 
       case 'TwoMinuteTips':
         return (
-          <Card key={section.id} {...sectionProps}>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
-                <Zap className="h-5 w-5 text-yellow-500" />
-                Two Minute Tips
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {twoMinuteTips.map((tip, index) => (
-                <div key={index} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-gray-50 transition-colors cursor-pointer">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <Play className="h-5 w-5 text-blue-600" />
+          <div key={section.id} className="relative">
+            {topDropZone}
+            <Card {...sectionProps}>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
+                  <Zap className="h-5 w-5 text-yellow-500" />
+                  Two Minute Tips
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {twoMinuteTips.map((tip, index) => (
+                  <div key={index} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-gray-50 transition-colors cursor-pointer">
+                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <Play className="h-5 w-5 text-blue-600" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-medium">{tip.title}</div>
+                      <div className="text-sm text-gray-500">{tip.duration}</div>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <div className="font-medium">{tip.title}</div>
-                    <div className="text-sm text-gray-500">{tip.duration}</div>
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+                ))}
+              </CardContent>
+            </Card>
+            {bottomDropZone}
+          </div>
         );
 
       case 'MakeSuggestion':
         return (
-          <Card key={section.id} {...sectionProps}>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
-                <MessageSquarePlus className="h-5 w-5 text-green-600" />
-                Got an Idea?
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-600 mb-4">
-                Help us improve eAdvisys with your feedback and suggestions.
-              </p>
-              <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white">
-                Make a Suggestion
-              </Button>
-            </CardContent>
-          </Card>
-        );
-
-      case 'TryNext':
-        return (
-          <Card key={section.id} {...sectionProps}>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
-                <TrendingUp className="h-5 w-5 text-purple-600" />
-                Try This Next
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="p-4 bg-purple-50 rounded-lg">
-                <h3 className="font-semibold mb-2">Create a Proposal</h3>
-                <p className="text-sm text-gray-600 mb-3">
-                  You recently worked with John Doe. Ready to create a proposal?
+          <div key={section.id} className="relative">
+            {topDropZone}
+            <Card {...sectionProps}>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
+                  <MessageSquarePlus className="h-5 w-5 text-green-600" />
+                  Got an Idea?
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-600 mb-4">
+                  Help us improve eAdvisys with your feedback and suggestions.
                 </p>
-                <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
-                  Start Proposal
+                <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white">
+                  Make a Suggestion
                 </Button>
-              </div>
-              <div className="p-4 bg-orange-50 rounded-lg">
-                <h3 className="font-semibold mb-2">Update Tax Tables</h3>
-                <p className="text-sm text-gray-600 mb-3">
-                  2025 tax tables are now available for your calculations.
-                </p>
-                <Button size="sm" variant="outline">
-                  View Updates
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+            {bottomDropZone}
+          </div>
         );
 
       case 'WhatsNew':
         return (
-          <Card key={section.id} {...sectionProps}>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
-                <Sparkles className="h-5 w-5 text-blue-600" />
-                What's New
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="border-l-4 border-blue-500 pl-4">
-                <h4 className="font-medium">Enhanced Goal Planning</h4>
-                <p className="text-sm text-gray-600">New visualizations for retirement goals</p>
-                <span className="text-xs text-blue-600">Dec 10, 2024</span>
-              </div>
-              <div className="border-l-4 border-green-500 pl-4">
-                <h4 className="font-medium">Improved PDF Exports</h4>
-                <p className="text-sm text-gray-600">Faster generation with better formatting</p>
-                <span className="text-xs text-green-600">Dec 8, 2024</span>
-              </div>
-            </CardContent>
-          </Card>
+          <div key={section.id} className="relative">
+            {topDropZone}
+            <Card {...sectionProps}>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
+                  <Sparkles className="h-5 w-5 text-blue-600" />
+                  What's New
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="border-l-4 border-blue-500 pl-4">
+                  <h4 className="font-medium">Enhanced Goal Planning</h4>
+                  <p className="text-sm text-gray-600">New visualizations for retirement goals</p>
+                  <span className="text-xs text-blue-600">Dec 10, 2024</span>
+                </div>
+                <div className="border-l-4 border-green-500 pl-4">
+                  <h4 className="font-medium">Improved PDF Exports</h4>
+                  <p className="text-sm text-gray-600">Faster generation with better formatting</p>
+                  <span className="text-xs text-green-600">Dec 8, 2024</span>
+                </div>
+              </CardContent>
+            </Card>
+            {bottomDropZone}
+          </div>
         );
 
       default:
@@ -429,7 +472,7 @@ const Home = () => {
               </Button>
             ) : (
               <>
-                <Button variant="outline" className="border-blue-300 text-white hover:bg-blue-600 hover:text-white bg-blue-500 border-2">
+                <Button variant="outline" className="border-white text-white hover:bg-white hover:text-blue-700">
                   <ChevronDown className="h-4 w-4 mr-2" />
                   Switch Client
                 </Button>
