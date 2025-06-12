@@ -1,6 +1,8 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
 import { 
   User, 
   FileText, 
@@ -18,13 +20,14 @@ import {
   Zap,
   Sparkles,
   MessageSquarePlus,
-  TrendingUp
+  TrendingUp,
+  GripVertical
 } from "lucide-react";
 
 const Home = () => {
-  const userName = "Jason"; // This would come from user context in a real app
-  const isFirstTime = false; // This would be determined by user session data
-  const currentClient = "Anderson Family – Retirement Plan"; // Current client work
+  const userName = "Jason";
+  const isFirstTime = false;
+  const currentClient = "Anderson Family – Retirement Plan";
 
   const recentClients = [
     { name: "John Doe", lastUpdated: "2 hours ago", status: "active" },
@@ -47,6 +50,297 @@ const Home = () => {
     { title: "Setting up 529 Plans", duration: "2:15" },
     { title: "Budgeting Basics", duration: "1:45" }
   ];
+
+  // Initial section order
+  const [sections, setSections] = useState([
+    { id: 'recent-clients', column: 0, title: 'Recent Clients', component: 'RecentClients' },
+    { id: 'favorite-reports', column: 0, title: 'Favorite Reports', component: 'FavoriteReports' },
+    { id: 'learn-improve', column: 1, title: 'Learn & Improve', component: 'LearnImprove' },
+    { id: 'webinars', column: 1, title: 'Upcoming Webinars', component: 'Webinars' },
+    { id: 'two-minute-tips', column: 1, title: 'Two Minute Tips', component: 'TwoMinuteTips' },
+    { id: 'make-suggestion', column: 2, title: 'Got an Idea?', component: 'MakeSuggestion' },
+    { id: 'try-next', column: 2, title: 'Try This Next', component: 'TryNext' },
+    { id: 'whats-new', column: 2, title: "What's New", component: 'WhatsNew' }
+  ]);
+
+  const [draggedItem, setDraggedItem] = useState(null);
+
+  const handleDragStart = (e, sectionId) => {
+    setDraggedItem(sectionId);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  };
+
+  const handleDrop = (e, targetSectionId) => {
+    e.preventDefault();
+    if (draggedItem && draggedItem !== targetSectionId) {
+      const newSections = [...sections];
+      const draggedIndex = newSections.findIndex(s => s.id === draggedItem);
+      const targetIndex = newSections.findIndex(s => s.id === targetSectionId);
+      
+      // Swap positions
+      [newSections[draggedIndex], newSections[targetIndex]] = [newSections[targetIndex], newSections[draggedIndex]];
+      
+      setSections(newSections);
+    }
+    setDraggedItem(null);
+  };
+
+  // Group sections by column
+  const groupedSections = sections.reduce((acc, section) => {
+    if (!acc[section.column]) acc[section.column] = [];
+    acc[section.column].push(section);
+    return acc;
+  }, {});
+
+  const renderSection = (section) => {
+    const isDragging = draggedItem === section.id;
+    
+    const sectionProps = {
+      draggable: true,
+      onDragStart: (e) => handleDragStart(e, section.id),
+      onDragOver: handleDragOver,
+      onDrop: (e) => handleDrop(e, section.id),
+      className: `relative ${isDragging ? 'opacity-50' : ''}`
+    };
+
+    switch (section.component) {
+      case 'RecentClients':
+        return (
+          <Card key={section.id} {...sectionProps}>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+              <CardTitle className="text-lg flex items-center gap-2">
+                <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
+                <User className="h-5 w-5 text-blue-600" />
+                Recent Clients
+              </CardTitle>
+              <Button variant="ghost" size="sm" className="text-blue-600">
+                See all <ArrowRight className="h-4 w-4 ml-1" />
+              </Button>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {recentClients.map((client, index) => (
+                <div key={index} className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 transition-colors">
+                  <div className="flex-1">
+                    <div className="font-medium">{client.name}</div>
+                    <div className="text-sm text-gray-500 flex items-center gap-1">
+                      <Clock className="h-3 w-3" />
+                      {client.lastUpdated}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Badge variant={client.status === 'active' ? 'default' : 'secondary'} className="text-xs">
+                      {client.status}
+                    </Badge>
+                    <Button variant="ghost" size="sm">
+                      <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        );
+
+      case 'FavoriteReports':
+        return (
+          <Card key={section.id} {...sectionProps}>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+              <CardTitle className="text-lg flex items-center gap-2">
+                <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
+                <Star className="h-5 w-5 text-yellow-500" />
+                Favorite Reports
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {favoriteReports.map((report, index) => (
+                <div key={index} className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 transition-colors cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <FileText className="h-4 w-4 text-blue-600" />
+                    <div>
+                      <div className="font-medium">{report.name}</div>
+                      <div className="text-sm text-gray-500">{report.type}</div>
+                    </div>
+                  </div>
+                  <Button size="sm" variant="outline">
+                    Open
+                  </Button>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        );
+
+      case 'LearnImprove':
+        return (
+          <Card key={section.id} {...sectionProps}>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
+                <GraduationCap className="h-5 w-5 text-blue-600" />
+                Learn & Improve
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="p-4 bg-blue-50 rounded-lg">
+                <h3 className="font-semibold mb-2">Getting Started Tour</h3>
+                <p className="text-sm text-gray-600 mb-3">Learn the basics in just 2 minutes</p>
+                <Button className="w-full">
+                  <Play className="h-4 w-4 mr-2" />
+                  Take 2-Minute Tour
+                </Button>
+              </div>
+              <div className="p-4 bg-green-50 rounded-lg">
+                <h3 className="font-semibold mb-2">Schedule Training</h3>
+                <p className="text-sm text-gray-600 mb-3">Book personalized training session</p>
+                <Button variant="outline" className="w-full">
+                  <Calendar className="h-4 w-4 mr-2" />
+                  Book Training
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        );
+
+      case 'Webinars':
+        return (
+          <Card key={section.id} {...sectionProps}>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
+                <Video className="h-5 w-5 text-purple-600" />
+                Upcoming Webinars
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {upcomingWebinars.map((webinar, index) => (
+                <div key={index} className="flex items-center justify-between p-3 rounded-lg border">
+                  <div>
+                    <div className="font-medium">{webinar.title}</div>
+                    <div className="text-sm text-gray-500">{webinar.date} at {webinar.time}</div>
+                  </div>
+                  <Button size="sm" variant="outline">
+                    Join
+                  </Button>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        );
+
+      case 'TwoMinuteTips':
+        return (
+          <Card key={section.id} {...sectionProps}>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
+                <Zap className="h-5 w-5 text-yellow-500" />
+                Two Minute Tips
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {twoMinuteTips.map((tip, index) => (
+                <div key={index} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-gray-50 transition-colors cursor-pointer">
+                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <Play className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-medium">{tip.title}</div>
+                    <div className="text-sm text-gray-500">{tip.duration}</div>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        );
+
+      case 'MakeSuggestion':
+        return (
+          <Card key={section.id} {...sectionProps}>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
+                <MessageSquarePlus className="h-5 w-5 text-green-600" />
+                Got an Idea?
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-gray-600 mb-4">
+                Help us improve eAdvisys with your feedback and suggestions.
+              </p>
+              <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white">
+                Make a Suggestion
+              </Button>
+            </CardContent>
+          </Card>
+        );
+
+      case 'TryNext':
+        return (
+          <Card key={section.id} {...sectionProps}>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
+                <TrendingUp className="h-5 w-5 text-purple-600" />
+                Try This Next
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="p-4 bg-purple-50 rounded-lg">
+                <h3 className="font-semibold mb-2">Create a Proposal</h3>
+                <p className="text-sm text-gray-600 mb-3">
+                  You recently worked with John Doe. Ready to create a proposal?
+                </p>
+                <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
+                  Start Proposal
+                </Button>
+              </div>
+              <div className="p-4 bg-orange-50 rounded-lg">
+                <h3 className="font-semibold mb-2">Update Tax Tables</h3>
+                <p className="text-sm text-gray-600 mb-3">
+                  2025 tax tables are now available for your calculations.
+                </p>
+                <Button size="sm" variant="outline">
+                  View Updates
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        );
+
+      case 'WhatsNew':
+        return (
+          <Card key={section.id} {...sectionProps}>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <GripVertical className="h-4 w-4 text-gray-400 cursor-move" />
+                <Sparkles className="h-5 w-5 text-blue-600" />
+                What's New
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="border-l-4 border-blue-500 pl-4">
+                <h4 className="font-medium">Enhanced Goal Planning</h4>
+                <p className="text-sm text-gray-600">New visualizations for retirement goals</p>
+                <span className="text-xs text-blue-600">Dec 10, 2024</span>
+              </div>
+              <div className="border-l-4 border-green-500 pl-4">
+                <h4 className="font-medium">Improved PDF Exports</h4>
+                <p className="text-sm text-gray-600">Faster generation with better formatting</p>
+                <span className="text-xs text-green-600">Dec 8, 2024</span>
+              </div>
+            </CardContent>
+          </Card>
+        );
+
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="p-6 space-y-6 max-w-7xl mx-auto">
@@ -79,7 +373,7 @@ const Home = () => {
               </Button>
             ) : (
               <>
-                <Button variant="outline" className="border-blue-400 text-white hover:bg-blue-600">
+                <Button variant="outline" className="border-blue-300 text-blue-100 hover:bg-blue-600 hover:text-white bg-transparent">
                   <ChevronDown className="h-4 w-4 mr-2" />
                   Switch Client
                 </Button>
@@ -94,222 +388,19 @@ const Home = () => {
 
       {/* Main Content: Modular Dashboard (3 Columns) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        {/* Left Column - Quick Access */}
+        {/* Left Column */}
         <div className="space-y-6">
-          {/* Recent Clients */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-              <CardTitle className="text-lg flex items-center gap-2">
-                <User className="h-5 w-5 text-blue-600" />
-                Recent Clients
-              </CardTitle>
-              <Button variant="ghost" size="sm" className="text-blue-600">
-                See all <ArrowRight className="h-4 w-4 ml-1" />
-              </Button>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {recentClients.map((client, index) => (
-                <div key={index} className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 transition-colors">
-                  <div className="flex-1">
-                    <div className="font-medium">{client.name}</div>
-                    <div className="text-sm text-gray-500 flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      {client.lastUpdated}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Badge variant={client.status === 'active' ? 'default' : 'secondary'} className="text-xs">
-                      {client.status}
-                    </Badge>
-                    <Button variant="ghost" size="sm">
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-
-          {/* Favorite Reports */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Star className="h-5 w-5 text-yellow-500" />
-                Favorite Reports
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {favoriteReports.map((report, index) => (
-                <div key={index} className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 transition-colors cursor-pointer">
-                  <div className="flex items-center gap-3">
-                    <FileText className="h-4 w-4 text-blue-600" />
-                    <div>
-                      <div className="font-medium">{report.name}</div>
-                      <div className="text-sm text-gray-500">{report.type}</div>
-                    </div>
-                  </div>
-                  <Button size="sm" variant="outline">
-                    Open
-                  </Button>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+          {groupedSections[0]?.map(section => renderSection(section))}
         </div>
 
-        {/* Center Column - Learning & Training */}
+        {/* Center Column */}
         <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <GraduationCap className="h-5 w-5 text-blue-600" />
-                Learn & Improve
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {/* Getting Started Tour */}
-              <div className="p-4 bg-blue-50 rounded-lg">
-                <h3 className="font-semibold mb-2">Getting Started Tour</h3>
-                <p className="text-sm text-gray-600 mb-3">Learn the basics in just 2 minutes</p>
-                <Button className="w-full">
-                  <Play className="h-4 w-4 mr-2" />
-                  Take 2-Minute Tour
-                </Button>
-              </div>
-
-              {/* Schedule Training */}
-              <div className="p-4 bg-green-50 rounded-lg">
-                <h3 className="font-semibold mb-2">Schedule Training</h3>
-                <p className="text-sm text-gray-600 mb-3">Book personalized training session</p>
-                <Button variant="outline" className="w-full">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  Book Training
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Webinars */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Video className="h-5 w-5 text-purple-600" />
-                Upcoming Webinars
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {upcomingWebinars.map((webinar, index) => (
-                <div key={index} className="flex items-center justify-between p-3 rounded-lg border">
-                  <div>
-                    <div className="font-medium">{webinar.title}</div>
-                    <div className="text-sm text-gray-500">{webinar.date} at {webinar.time}</div>
-                  </div>
-                  <Button size="sm" variant="outline">
-                    Join
-                  </Button>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-
-          {/* Two Minute Tips */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Zap className="h-5 w-5 text-yellow-500" />
-                Two Minute Tips
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {twoMinuteTips.map((tip, index) => (
-                <div key={index} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-gray-50 transition-colors cursor-pointer">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <Play className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-medium">{tip.title}</div>
-                    <div className="text-sm text-gray-500">{tip.duration}</div>
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+          {groupedSections[1]?.map(section => renderSection(section))}
         </div>
 
-        {/* Right Column - Suggestions & Updates */}
+        {/* Right Column */}
         <div className="space-y-6">
-          {/* Make a Suggestion */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <MessageSquarePlus className="h-5 w-5 text-green-600" />
-                Got an Idea?
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-600 mb-4">
-                Help us improve eAdvisys with your feedback and suggestions.
-              </p>
-              <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white">
-                Make a Suggestion
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Try This Next */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <TrendingUp className="h-5 w-5 text-purple-600" />
-                Try This Next
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="p-4 bg-purple-50 rounded-lg">
-                <h3 className="font-semibold mb-2">Create a Proposal</h3>
-                <p className="text-sm text-gray-600 mb-3">
-                  You recently worked with John Doe. Ready to create a proposal?
-                </p>
-                <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
-                  Start Proposal
-                </Button>
-              </div>
-              
-              <div className="p-4 bg-orange-50 rounded-lg">
-                <h3 className="font-semibold mb-2">Update Tax Tables</h3>
-                <p className="text-sm text-gray-600 mb-3">
-                  2025 tax tables are now available for your calculations.
-                </p>
-                <Button size="sm" variant="outline">
-                  View Updates
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* What's New */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Sparkles className="h-5 w-5 text-blue-600" />
-                What's New
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="border-l-4 border-blue-500 pl-4">
-                <h4 className="font-medium">Enhanced Goal Planning</h4>
-                <p className="text-sm text-gray-600">New visualizations for retirement goals</p>
-                <span className="text-xs text-blue-600">Dec 10, 2024</span>
-              </div>
-              
-              <div className="border-l-4 border-green-500 pl-4">
-                <h4 className="font-medium">Improved PDF Exports</h4>
-                <p className="text-sm text-gray-600">Faster generation with better formatting</p>
-                <span className="text-xs text-green-600">Dec 8, 2024</span>
-              </div>
-            </CardContent>
-          </Card>
+          {groupedSections[2]?.map(section => renderSection(section))}
         </div>
       </div>
     </div>
