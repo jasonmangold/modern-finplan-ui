@@ -9,6 +9,8 @@ import { ToastSave } from "@/components/ui/toast-save";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ClientFileManager } from "./ClientFileManager";
 import { SettingsDialog } from "./SettingsDialog";
+import { useSearch } from "@/contexts/SearchContext";
+import { useLocation } from "react-router-dom";
 
 export const Header = () => {
   const [saveState, setSaveState] = useState<"initial" | "loading" | "success">("initial");
@@ -27,6 +29,19 @@ export const Header = () => {
     notes: ""
   });
   const [showSettings, setShowSettings] = useState(false);
+  const [localSearchTerm, setLocalSearchTerm] = useState("");
+
+  const { globalSearchTerm, setGlobalSearchTerm } = useSearch();
+  const location = useLocation();
+
+  // Update global search when local search changes (with debounce)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setGlobalSearchTerm(localSearchTerm);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [localSearchTerm, setGlobalSearchTerm]);
 
   // Listen for changes in inputs or checkboxes
   useEffect(() => {
@@ -153,6 +168,14 @@ export const Header = () => {
     console.log("Logout clicked");
   };
 
+  // Determine search placeholder based on current page
+  const getSearchPlaceholder = () => {
+    if (location.pathname === '/education') {
+      return 'Search reports...';
+    }
+    return 'Search...';
+  };
+
   return (
     <>
       <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200/60 sticky top-0 z-50">
@@ -246,9 +269,21 @@ export const Header = () => {
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <Input 
-                  placeholder="Search..." 
+                  placeholder={getSearchPlaceholder()}
+                  value={localSearchTerm}
+                  onChange={(e) => setLocalSearchTerm(e.target.value)}
                   className="pl-10 w-64 border-gray-200 bg-gray-50/50 hover:bg-white transition-colors focus:bg-white"
                 />
+                {localSearchTerm && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setLocalSearchTerm("")}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0"
+                  >
+                    <X className="h-3 w-3" />
+                  </Button>
+                )}
               </div>
               
               <DropdownMenu>

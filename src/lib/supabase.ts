@@ -12,6 +12,7 @@ export type EducationRecord = {
   Folder: string
   Subfolder: string
   Format?: string
+  FormNumber?: string
   file_path?: string
   created_at?: string
 }

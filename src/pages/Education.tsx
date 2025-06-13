@@ -8,6 +8,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { ChevronDown, Search, Filter, Eye, FileText, FolderOpen, X, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { ReportViewer } from "@/components/ReportViewer";
 import { useEducationCategories, useEducationSearch, useEducationData } from "@/hooks/useEducationData";
+import { useSearch } from "@/contexts/SearchContext";
 
 const clientInteractionForms = ["Agenda for Discussion", "Beneficiary Audit Checklist", "Business Events Checklist", "Business Owner Planning Needs", "Client Referral", "Divorce Checklist", "Financial Review Checklist", "Life Events Checklist", "Planning Task List", "Receipt for Documents"];
 const worksheetReports = ["Business Valuation", "Capital Needs Analysis Worksheet", "Federal Estate Tax Worksheet", "Odds of Disability", "Personal Alternative Minimum Tax", "The Personal Budget Worksheet", "Personal Net Worth", "Taxation of Social Security Benefits", "The Real Rate of Return Worksheet", "When to Refinance Your Home"];
@@ -22,7 +23,7 @@ const topicTags = ["Retirement", "Life Insurance", "College", "Disability", "Lon
 
 const Education = () => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [localSearchTerm, setLocalSearchTerm] = useState("");
   const [filtersVisible, setFiltersVisible] = useState(true);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [selectedFormats, setSelectedFormats] = useState<string[]>([]);
@@ -36,10 +37,23 @@ const Education = () => {
   const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0);
   const scrollPositionRef = useRef<number>(0);
 
-  // Use Supabase data for Report Library tab - now with format filtering
+  // Use global search context
+  const { globalSearchTerm } = useSearch();
+  
+  // Combine local and global search terms
+  const effectiveSearchTerm = localSearchTerm || globalSearchTerm;
+
+  // Use Supabase data for Report Library tab - now with format filtering and search
   const { data: educationCategories, isLoading, error } = useEducationCategories(selectedFormats);
-  const { data: searchResults } = useEducationSearch(searchTerm, selectedFormats);
+  const { data: searchResults } = useEducationSearch(effectiveSearchTerm, selectedFormats);
   const { data: educationData } = useEducationData();
+
+  // Sync with global search when on Education page
+  useEffect(() => {
+    if (globalSearchTerm && !localSearchTerm) {
+      setLocalSearchTerm(globalSearchTerm);
+    }
+  }, [globalSearchTerm, localSearchTerm]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -109,6 +123,15 @@ const Education = () => {
       );
     }
 
+    // Apply search filter if there's a search term
+    if (effectiveSearchTerm) {
+      const searchLower = effectiveSearchTerm.toLowerCase();
+      filtered = filtered.filter(record =>
+        record.DocumentTitle.toLowerCase().includes(searchLower) ||
+        record.FormNumber?.toLowerCase().includes(searchLower)
+      );
+    }
+
     return filtered;
   };
 
@@ -126,6 +149,15 @@ const Education = () => {
       );
     }
 
+    // Apply search filter if there's a search term
+    if (effectiveSearchTerm) {
+      const searchLower = effectiveSearchTerm.toLowerCase();
+      filtered = filtered.filter(record =>
+        record.DocumentTitle.toLowerCase().includes(searchLower) ||
+        record.FormNumber?.toLowerCase().includes(searchLower)
+      );
+    }
+
     return filtered;
   };
 
@@ -136,7 +168,11 @@ const Education = () => {
   const clearAllFilters = () => {
     setSelectedTopics([]);
     setSelectedFormats([]);
+    setLocalSearchTerm("");
   };
+
+  // Check if we should show search results instead of categories
+  const showingSearchResults = effectiveSearchTerm.length > 0;
 
   if (selectedPDF) {
     return (
@@ -161,82 +197,94 @@ const Education = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <Input 
                 placeholder="Search reports..." 
-                value={searchTerm} 
-                onChange={e => setSearchTerm(e.target.value)} 
+                value={localSearchTerm} 
+                onChange={e => setLocalSearchTerm(e.target.value)} 
                 className="pl-10 h-8 text-xs" 
               />
             </div>
 
             {/* Report Categories */}
             <div className="space-y-2">
-              {educationCategories?.map(category => (
-                <div key={category.name} className="border rounded-md">
-                  <button 
-                    onClick={() => toggleCategoryExpansion(category.name)}
-                    className="w-full p-2 flex items-center justify-between hover:bg-gray-100 transition-colors text-left"
-                  >
-                    <div className="flex items-center gap-2">
-                      <FolderOpen className="h-4 w-4 text-blue-600" />
-                      <span className="text-sm font-medium">{category.name}</span>
-                    </div>
-                    <ChevronDown className={`h-3 w-3 transition-transform ${expandedCategories.includes(category.name) ? 'rotate-180' : ''}`} />
-                  </button>
-                  
-                  {expandedCategories.includes(category.name) && (
-                    <div className="border-t bg-white">
-                      {/* Subfolders */}
-                      {category.subfolders && category.subfolders.map(subfolder => (
-                        <Collapsible key={subfolder} open={expandedSubfolders.includes(subfolder)} onOpenChange={(open) => {
-                          if (open) {
-                            setExpandedSubfolders(prev => [...prev, subfolder]);
-                          } else {
-                            setExpandedSubfolders(prev => prev.filter(sub => sub !== subfolder));
-                          }
-                        }}>
-                          <CollapsibleTrigger className="w-full px-3 py-2 bg-gray-50 border-b flex items-center justify-between hover:bg-gray-100 transition-colors">
-                            <span className="text-xs font-medium">{subfolder}</span>
-                            <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${expandedSubfolders.includes(subfolder) ? 'rotate-180' : ''}`} />
-                          </CollapsibleTrigger>
-                          <CollapsibleContent className="animate-accordion-down">
-                            <div className="px-1 py-1 space-y-1">
-                              {getReportsForSubfolder(category.name, subfolder).map(report => (
-                                <button
-                                  key={report.id}
-                                  onClick={() => handleReportClick(report)}
-                                  className={`w-full p-2 text-left text-xs hover:bg-blue-50 transition-colors border-b last:border-b-0 ${
-                                    selectedPDF?.title === report.DocumentTitle ? 'bg-blue-100 text-blue-700' : 'text-gray-700'
-                                  }`}
-                                >
-                                  <div className="flex items-center gap-2">
-                                    <FileText className="h-3 w-3" />
-                                    <span className="truncate">{report.DocumentTitle}</span>
-                                  </div>
-                                </button>
-                              ))}
+              {educationCategories?.map(category => {
+                const categoryHasResults = getDirectReports(category.name).length > 0 || 
+                  category.subfolders.some(subfolder => getReportsForSubfolder(category.name, subfolder).length > 0);
+                
+                if (!categoryHasResults) return null;
+                
+                return (
+                  <div key={category.name} className="border rounded-md">
+                    <button 
+                      onClick={() => toggleCategoryExpansion(category.name)}
+                      className="w-full p-2 flex items-center justify-between hover:bg-gray-100 transition-colors text-left"
+                    >
+                      <div className="flex items-center gap-2">
+                        <FolderOpen className="h-4 w-4 text-blue-600" />
+                        <span className="text-sm font-medium">{category.name}</span>
+                      </div>
+                      <ChevronDown className={`h-3 w-3 transition-transform ${expandedCategories.includes(category.name) ? 'rotate-180' : ''}`} />
+                    </button>
+                    
+                    {expandedCategories.includes(category.name) && (
+                      <div className="border-t bg-white">
+                        {/* Subfolders */}
+                        {category.subfolders && category.subfolders.map(subfolder => {
+                          const subfolderReports = getReportsForSubfolder(category.name, subfolder);
+                          if (subfolderReports.length === 0) return null;
+                          
+                          return (
+                            <Collapsible key={subfolder} open={expandedSubfolders.includes(subfolder)} onOpenChange={(open) => {
+                              if (open) {
+                                setExpandedSubfolders(prev => [...prev, subfolder]);
+                              } else {
+                                setExpandedSubfolders(prev => prev.filter(sub => sub !== subfolder));
+                              }
+                            }}>
+                              <CollapsibleTrigger className="w-full px-3 py-2 bg-gray-50 border-b flex items-center justify-between hover:bg-gray-100 transition-colors">
+                                <span className="text-xs font-medium">{subfolder}</span>
+                                <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${expandedSubfolders.includes(subfolder) ? 'rotate-180' : ''}`} />
+                              </CollapsibleTrigger>
+                              <CollapsibleContent className="animate-accordion-down">
+                                <div className="px-1 py-1 space-y-1">
+                                  {subfolderReports.map(report => (
+                                    <button
+                                      key={report.id}
+                                      onClick={() => handleReportClick(report)}
+                                      className={`w-full p-2 text-left text-xs hover:bg-blue-50 transition-colors border-b last:border-b-0 ${
+                                        selectedPDF?.title === report.DocumentTitle ? 'bg-blue-100 text-blue-700' : 'text-gray-700'
+                                      }`}
+                                    >
+                                      <div className="flex items-center gap-2">
+                                        <FileText className="h-3 w-3" />
+                                        <span className="truncate">{report.DocumentTitle}</span>
+                                      </div>
+                                    </button>
+                                  ))}
+                                </div>
+                              </CollapsibleContent>
+                            </Collapsible>
+                          );
+                        })}
+                        
+                        {/* Direct reports in category (no subfolder) */}
+                        {getDirectReports(category.name).map(report => (
+                          <button
+                            key={report.id}
+                            onClick={() => handleReportClick(report)}
+                            className={`w-full p-2 text-left text-xs hover:bg-blue-50 transition-colors border-b last:border-b-0 ${
+                              selectedPDF?.title === report.DocumentTitle ? 'bg-blue-100 text-blue-700' : 'text-gray-700'
+                            }`}
+                          >
+                            <div className="flex items-center gap-2">
+                              <FileText className="h-3 w-3" />
+                              <span className="truncate">{report.DocumentTitle}</span>
                             </div>
-                          </CollapsibleContent>
-                        </Collapsible>
-                      ))}
-                      
-                      {/* Direct reports in category (no subfolder) */}
-                      {getDirectReports(category.name).map(report => (
-                        <button
-                          key={report.id}
-                          onClick={() => handleReportClick(report)}
-                          className={`w-full p-2 text-left text-xs hover:bg-blue-50 transition-colors border-b last:border-b-0 ${
-                            selectedPDF?.title === report.DocumentTitle ? 'bg-blue-100 text-blue-700' : 'text-gray-700'
-                          }`}
-                        >
-                          <div className="flex items-center gap-2">
-                            <FileText className="h-3 w-3" />
-                            <span className="truncate">{report.DocumentTitle}</span>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -325,7 +373,16 @@ const Education = () => {
           </div>;
         }
 
-        if (!educationCategories || educationCategories.length === 0) {
+        if (showingSearchResults && (!searchResults || searchResults.length === 0)) {
+          return <div className="text-center py-12">
+            <div className="text-gray-500">No reports found</div>
+            <p className="text-gray-400 mt-2">
+              No reports match your search for "{effectiveSearchTerm}"
+            </p>
+          </div>;
+        }
+
+        if (!showingSearchResults && (!educationCategories || educationCategories.length === 0)) {
           return <div className="text-center py-12">
             <div className="text-gray-500">No education data found</div>
             <p className="text-gray-400 mt-2">
@@ -351,7 +408,22 @@ const Education = () => {
               {/* Search */}
               <div className="relative max-w-md mb-6">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <Input placeholder="Search reports..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-10" />
+                <Input 
+                  placeholder="Search reports by title or form number..." 
+                  value={localSearchTerm} 
+                  onChange={e => setLocalSearchTerm(e.target.value)} 
+                  className="pl-10" 
+                />
+                {localSearchTerm && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setLocalSearchTerm("")}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0"
+                  >
+                    <X className="h-3 w-3" />
+                  </Button>
+                )}
               </div>
 
               {/* Enhanced Filters Card */}
@@ -411,7 +483,7 @@ const Education = () => {
                       </div>
                     </div>
                     
-                    {(selectedFormats.length > 0 || selectedTopics.length > 0) && (
+                    {(selectedFormats.length > 0 || selectedTopics.length > 0 || effectiveSearchTerm) && (
                       <div className="mt-4 pt-4 border-t">
                         <Button variant="outline" size="sm" onClick={clearAllFilters}>
                           Clear All Filters
@@ -423,90 +495,124 @@ const Education = () => {
               </Card>
             </div>
 
-            {/* Main Content - Dynamic from Supabase */}
-            <div className="space-y-4">
-              {educationCategories.map(category => (
-                <div key={category.name} className="border rounded-lg transition-all duration-200 hover:shadow-md">
-                  <button onClick={() => toggleCategoryExpansion(category.name)} className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-                    <div className="flex items-center gap-3">
-                      <FolderOpen className="h-5 w-5 text-blue-600" />
-                      <span className="font-medium">{category.name}</span>
-                      <span className="text-sm text-gray-500">{category.count} reports</span>
-                    </div>
-                    <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedCategories.includes(category.name) ? 'rotate-180' : ''}`} />
-                  </button>
-                  
-                  {expandedCategories.includes(category.name) && (
-                    <div className="border-t animate-fade-in">
-                      {/* Subfolders */}
-                      {category.subfolders && category.subfolders.map(subfolder => {
-                        const subfolderReports = getReportsForSubfolder(category.name, subfolder);
-                        if (subfolderReports.length === 0) return null;
-                        
-                        return (
-                          <Collapsible key={subfolder} open={expandedSubfolders.includes(subfolder)} onOpenChange={(open) => {
-                            if (open) {
-                              setExpandedSubfolders(prev => [...prev, subfolder]);
-                            } else {
-                              setExpandedSubfolders(prev => prev.filter(sub => sub !== subfolder));
-                            }
-                          }}>
-                            <CollapsibleTrigger className="w-full px-4 py-3 bg-gray-50 border-b flex items-center justify-between hover:bg-gray-100 transition-colors">
-                              <span className="text-sm font-medium">{subfolder}</span>
-                              <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedSubfolders.includes(subfolder) ? 'rotate-180' : ''}`} />
-                            </CollapsibleTrigger>
-                            <CollapsibleContent className="animate-accordion-down">
-                              <div className="px-8 py-4 grid grid-cols-2 gap-4">
-                                {subfolderReports.map(report => (
-                                  <div key={report.id} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors group">
-                                    <div className="flex items-center gap-3">
-                                      <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
-                                      <FileText className="h-4 w-4 text-gray-400" />
-                                      <button 
-                                        onClick={() => handleReportClick(report)}
-                                        className="text-sm hover:text-blue-600 transition-colors text-left"
-                                      >
-                                        {report.DocumentTitle}
-                                      </button>
-                                    </div>
-                                    <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)} className="opacity-0 group-hover:opacity-100 transition-opacity">
-                                      <Eye className="h-4 w-4" />
-                                    </Button>
-                                  </div>
-                                ))}
-                              </div>
-                            </CollapsibleContent>
-                          </Collapsible>
-                        );
-                      })}
-                      
-                      {/* Direct reports in category (no subfolder) */}
-                      {getDirectReports(category.name).length > 0 && (
-                        <div className="px-8 py-4 grid grid-cols-2 gap-4">
-                          {getDirectReports(category.name).map(report => (
-                            <div key={report.id} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors group">
-                              <div className="flex items-center gap-3">
-                                <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
-                                <FileText className="h-4 w-4 text-gray-400" />
-                                <button 
-                                  onClick={() => handleReportClick(report)}
-                                  className="text-sm hover:text-blue-600 transition-colors text-left"
-                                >
-                                  {report.DocumentTitle}
-                                </button>
-                              </div>
-                              <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)} className="opacity-0 group-hover:opacity-100 transition-opacity">
-                                <Eye className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )}
+            {/* Main Content - Show search results or categories */}
+            {showingSearchResults ? (
+              <div className="space-y-4">
+                <div className="mb-4">
+                  <h2 className="text-lg font-medium">Search Results for "{effectiveSearchTerm}"</h2>
+                  <p className="text-gray-500 text-sm">{searchResults?.length || 0} reports found</p>
                 </div>
-              ))}
-            </div>
+                <div className="grid grid-cols-2 gap-4">
+                  {searchResults?.map(report => (
+                    <div key={report.id} className="flex items-center justify-between p-4 border rounded hover:bg-gray-50 transition-colors group">
+                      <div className="flex items-center gap-3 flex-1">
+                        <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
+                        <FileText className="h-4 w-4 text-gray-400" />
+                        <div className="flex-1">
+                          <button 
+                            onClick={() => handleReportClick(report)}
+                            className="text-sm hover:text-blue-600 transition-colors text-left block"
+                          >
+                            {report.DocumentTitle}
+                          </button>
+                          {report.FormNumber && (
+                            <p className="text-xs text-gray-500 mt-1">Form: {report.FormNumber}</p>
+                          )}
+                          <p className="text-xs text-gray-400">{report.Folder}{report.Subfolder ? ` > ${report.Subfolder}` : ''}</p>
+                        </div>
+                      </div>
+                      <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)} className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {educationCategories.map(category => (
+                  <div key={category.name} className="border rounded-lg transition-all duration-200 hover:shadow-md">
+                    <button onClick={() => toggleCategoryExpansion(category.name)} className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                      <div className="flex items-center gap-3">
+                        <FolderOpen className="h-5 w-5 text-blue-600" />
+                        <span className="font-medium">{category.name}</span>
+                        <span className="text-sm text-gray-500">{category.count} reports</span>
+                      </div>
+                      <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedCategories.includes(category.name) ? 'rotate-180' : ''}`} />
+                    </button>
+                    
+                    {expandedCategories.includes(category.name) && (
+                      <div className="border-t animate-fade-in">
+                        {/* Subfolders */}
+                        {category.subfolders && category.subfolders.map(subfolder => {
+                          const subfolderReports = getReportsForSubfolder(category.name, subfolder);
+                          if (subfolderReports.length === 0) return null;
+                          
+                          return (
+                            <Collapsible key={subfolder} open={expandedSubfolders.includes(subfolder)} onOpenChange={(open) => {
+                              if (open) {
+                                setExpandedSubfolders(prev => [...prev, subfolder]);
+                              } else {
+                                setExpandedSubfolders(prev => prev.filter(sub => sub !== subfolder));
+                              }
+                            }}>
+                              <CollapsibleTrigger className="w-full px-4 py-3 bg-gray-50 border-b flex items-center justify-between hover:bg-gray-100 transition-colors">
+                                <span className="text-sm font-medium">{subfolder}</span>
+                                <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedSubfolders.includes(subfolder) ? 'rotate-180' : ''}`} />
+                              </CollapsibleTrigger>
+                              <CollapsibleContent className="animate-accordion-down">
+                                <div className="px-8 py-4 grid grid-cols-2 gap-4">
+                                  {subfolderReports.map(report => (
+                                    <div key={report.id} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors group">
+                                      <div className="flex items-center gap-3">
+                                        <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
+                                        <FileText className="h-4 w-4 text-gray-400" />
+                                        <button 
+                                          onClick={() => handleReportClick(report)}
+                                          className="text-sm hover:text-blue-600 transition-colors text-left"
+                                        >
+                                          {report.DocumentTitle}
+                                        </button>
+                                      </div>
+                                      <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)} className="opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <Eye className="h-4 w-4" />
+                                      </Button>
+                                    </div>
+                                  ))}
+                                </div>
+                              </CollapsibleContent>
+                            </Collapsible>
+                          );
+                        })}
+                        
+                        {/* Direct reports in category (no subfolder) */}
+                        {getDirectReports(category.name).length > 0 && (
+                          <div className="px-8 py-4 grid grid-cols-2 gap-4">
+                            {getDirectReports(category.name).map(report => (
+                              <div key={report.id} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors group">
+                                <div className="flex items-center gap-3">
+                                  <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
+                                  <FileText className="h-4 w-4 text-gray-400" />
+                                  <button 
+                                    onClick={() => handleReportClick(report)}
+                                    className="text-sm hover:text-blue-600 transition-colors text-left"
+                                  >
+                                    {report.DocumentTitle}
+                                  </button>
+                                </div>
+                                <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)} className="opacity-0 group-hover:opacity-100 transition-opacity">
+                                  <Eye className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         );
 
