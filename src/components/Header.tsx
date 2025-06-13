@@ -89,7 +89,7 @@ export const Header = () => {
     const inputs = document.querySelectorAll('input');
     const textareas = document.querySelectorAll('textarea');
     const selects = document.querySelectorAll('select');
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]') as NodeListOf<HTMLInputElement>;
     
     inputs.forEach(input => {
       if (input.type !== 'checkbox' && input.type !== 'radio') {
