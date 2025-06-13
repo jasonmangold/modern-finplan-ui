@@ -1,13 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown, Download, Search, Filter, ArrowLeft, Eye, FileText, FolderOpen } from "lucide-react";
+import { ChevronDown, Search, Filter, Eye, FileText, FolderOpen, X, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { ReportViewer } from "@/components/ReportViewer";
-import { PDFViewer } from "@/components/PDFViewer";
 import { useEducationCategories, useEducationSearch, useEducationData } from "@/hooks/useEducationData";
 
 const clientInteractionForms = ["Agenda for Discussion", "Beneficiary Audit Checklist", "Business Events Checklist", "Business Owner Planning Needs", "Client Referral", "Divorce Checklist", "Financial Review Checklist", "Life Events Checklist", "Planning Task List", "Receipt for Documents"];
@@ -33,35 +32,35 @@ const Education = () => {
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
   const [expandedSubfolders, setExpandedSubfolders] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState("report-library");
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   // Use Supabase data for Report Library tab
   const { data: educationCategories, isLoading, error } = useEducationCategories();
   const { data: searchResults } = useEducationSearch(searchTerm);
   const { data: educationData } = useEducationData();
 
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        if (selectedPDF || selectedReport) {
+          handleBackToReports();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [selectedPDF, selectedReport]);
+
   const handleItemSelection = (item: string) => {
     setSelectedItems(prev => prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]);
   };
 
-  const handleDownload = (reportTitle: string) => {
-    console.log(`Downloading: ${reportTitle}`);
-  };
-
-  const handleTopicToggle = (topic: string) => {
-    setSelectedTopics(prev => prev.includes(topic) ? prev.filter(t => t !== topic) : [...prev, topic]);
-  };
-
-  const clearAllFilters = () => {
-    setSelectedTopics([]);
-    setSelectedFormats([]);
-  };
-
   const handleReportClick = (report: any) => {
-    // Check both file_pdf and file_path columns for PDF URL
-    const pdfUrl = report.file_pdf || report.file_path;
-    
-    if (pdfUrl) {
-      setSelectedPDF({ url: pdfUrl, title: report.DocumentTitle });
+    // Only check file_path column for PDF URL
+    if (report.file_path) {
+      setSelectedPDF({ url: report.file_path, title: report.DocumentTitle });
     } else {
       // Fallback to existing report viewer for specific hardcoded reports
       if (report.DocumentTitle === "The Need for Financial Planning") {
@@ -89,7 +88,6 @@ const Education = () => {
     setExpandedSubfolders(prev => prev.includes(subfolderName) ? prev.filter(sub => sub !== subfolderName) : [...prev, subfolderName]);
   };
 
-  // Get reports for a specific folder and subfolder
   const getReportsForSubfolder = (folderName: string, subfolderName: string) => {
     if (!educationData) return [];
     return educationData.filter(record => 
@@ -97,7 +95,6 @@ const Education = () => {
     );
   };
 
-  // Get reports directly in a folder (no subfolder)
   const getDirectReports = (folderName: string) => {
     if (!educationData) return [];
     return educationData.filter(record => 
@@ -105,24 +102,135 @@ const Education = () => {
     );
   };
 
+  const handleTopicToggle = (topic: string) => {
+    setSelectedTopics(prev => prev.includes(topic) ? prev.filter(t => t !== topic) : [...prev, topic]);
+  };
+
+  const clearAllFilters = () => {
+    setSelectedTopics([]);
+    setSelectedFormats([]);
+  };
+
   if (selectedPDF) {
-    return <PDFViewer 
-      pdfUrl={selectedPDF.url} 
-      title={selectedPDF.title} 
-      onBack={handleBackToReports} 
-    />;
+    return (
+      <div className="flex h-screen w-full">
+        {/* Collapsible Sidebar */}
+        <div className={`transition-all duration-300 ease-in-out border-r bg-gray-50/50 ${sidebarCollapsed ? 'w-0' : 'w-80'} overflow-hidden`}>
+          <div className="p-4 h-full overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-semibold text-sm text-gray-700">Reports</h3>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setSidebarCollapsed(true)}
+                className="h-8 w-8 p-0"
+              >
+                <PanelLeftClose className="h-4 w-4" />
+              </Button>
+            </div>
+            
+            {/* Quick search */}
+            <div className="relative mb-4">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Input 
+                placeholder="Search reports..." 
+                value={searchTerm} 
+                onChange={e => setSearchTerm(e.target.value)} 
+                className="pl-10 h-8 text-xs" 
+              />
+            </div>
+
+            {/* Report Categories */}
+            <div className="space-y-2">
+              {educationCategories?.map(category => (
+                <div key={category.name} className="border rounded-md">
+                  <button 
+                    onClick={() => toggleCategoryExpansion(category.name)}
+                    className="w-full p-2 flex items-center justify-between hover:bg-gray-100 transition-colors text-left"
+                  >
+                    <div className="flex items-center gap-2">
+                      <FolderOpen className="h-4 w-4 text-blue-600" />
+                      <span className="text-sm font-medium">{category.name}</span>
+                    </div>
+                    <ChevronDown className={`h-3 w-3 transition-transform ${expandedCategories.includes(category.name) ? 'rotate-180' : ''}`} />
+                  </button>
+                  
+                  {expandedCategories.includes(category.name) && (
+                    <div className="border-t bg-white">
+                      {getDirectReports(category.name).map(report => (
+                        <button
+                          key={report.id}
+                          onClick={() => handleReportClick(report)}
+                          className={`w-full p-2 text-left text-xs hover:bg-blue-50 transition-colors border-b last:border-b-0 ${
+                            selectedPDF?.title === report.DocumentTitle ? 'bg-blue-100 text-blue-700' : 'text-gray-700'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <FileText className="h-3 w-3" />
+                            <span className="truncate">{report.DocumentTitle}</span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* PDF Viewer */}
+        <div className="flex-1 flex flex-col">
+          {/* Header */}
+          <div className="border-b bg-white p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              {sidebarCollapsed && (
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setSidebarCollapsed(false)}
+                  className="h-8 w-8 p-0"
+                >
+                  <PanelLeftOpen className="h-4 w-4" />
+                </Button>
+              )}
+              <h1 className="font-semibold text-lg truncate">{selectedPDF.title}</h1>
+            </div>
+            <Button 
+              variant="outline" 
+              onClick={handleBackToReports} 
+              className="flex items-center gap-2"
+            >
+              <X className="h-4 w-4" />
+              Close
+            </Button>
+          </div>
+
+          {/* PDF Content */}
+          <div className="flex-1 bg-gray-100">
+            <iframe
+              src={selectedPDF.url}
+              className="w-full h-full border-0"
+              title={`PDF: ${selectedPDF.title}`}
+            />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (selectedReport) {
-    return <div className="p-8 max-w-7xl mx-auto">
+    return (
+      <div className="p-8 max-w-7xl mx-auto">
         <div className="mb-6">
           <Button variant="outline" onClick={handleBackToReports} className="flex items-center gap-2">
-            <ArrowLeft className="h-4 w-4" />
+            <X className="h-4 w-4" />
             Back to Reports
           </Button>
         </div>
         <ReportViewer reportId={selectedReport} />
-      </div>;
+      </div>
+    );
   }
 
   const tabs = [{
@@ -162,7 +270,8 @@ const Education = () => {
           </div>;
         }
 
-        return <div className="space-y-6">
+        return (
+          <div className="space-y-6">
             {/* Header */}
             <div className="mb-6">
               <div className="flex items-center justify-between mb-4">
@@ -193,40 +302,47 @@ const Education = () => {
                   </div>
                 </CardHeader>
                 
-                {filtersVisible && <CardContent className="pt-0">
+                {filtersVisible && (
+                  <CardContent className="pt-0">
                     <div className="grid grid-cols-2 gap-8">
                       <div>
                         <h3 className="font-medium text-sm mb-3">Format</h3>
                         <div className="flex gap-4">
-                          {formatOptions.map(format => <div key={format} className="flex items-center space-x-2">
+                          {formatOptions.map(format => (
+                            <div key={format} className="flex items-center space-x-2">
                               <Checkbox id={format} checked={selectedFormats.includes(format)} onCheckedChange={checked => {
-                          if (checked) {
-                            setSelectedFormats(prev => [...prev, format]);
-                          } else {
-                            setSelectedFormats(prev => prev.filter(f => f !== format));
-                          }
-                        }} />
+                                if (checked) {
+                                  setSelectedFormats(prev => [...prev, format]);
+                                } else {
+                                  setSelectedFormats(prev => prev.filter(f => f !== format));
+                                }
+                              }} />
                               <label htmlFor={format} className="text-sm">{format}</label>
-                            </div>)}
+                            </div>
+                          ))}
                         </div>
                       </div>
                       
                       <div>
                         <h3 className="font-medium text-sm mb-3">Topics</h3>
                         <div className="flex flex-wrap gap-2">
-                          {topicTags.map(topic => <button key={topic} onClick={() => handleTopicToggle(topic)} className={`px-3 py-1 rounded-full text-xs border transition-colors ${selectedTopics.includes(topic) ? 'bg-blue-100 text-blue-700 border-blue-200' : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-200'}`}>
+                          {topicTags.map(topic => (
+                            <button key={topic} onClick={() => handleTopicToggle(topic)} className={`px-3 py-1 rounded-full text-xs border transition-colors ${selectedTopics.includes(topic) ? 'bg-blue-100 text-blue-700 border-blue-200' : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-200'}`}>
                               {topic}
-                            </button>)}
+                            </button>
+                          ))}
                         </div>
                       </div>
                     </div>
-                  </CardContent>}
+                  </CardContent>
+                )}
               </Card>
             </div>
 
             {/* Main Content - Dynamic from Supabase */}
             <div className="space-y-4">
-              {educationCategories.map(category => <div key={category.name} className="border rounded-lg transition-all duration-200">
+              {educationCategories.map(category => (
+                <div key={category.name} className="border rounded-lg transition-all duration-200 hover:shadow-md">
                   <button onClick={() => toggleCategoryExpansion(category.name)} className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
                     <div className="flex items-center gap-3">
                       <FolderOpen className="h-5 w-5 text-blue-600" />
@@ -236,9 +352,11 @@ const Education = () => {
                     <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedCategories.includes(category.name) ? 'rotate-180' : ''}`} />
                   </button>
                   
-                  {expandedCategories.includes(category.name) && <div className="border-t animate-fade-in">
+                  {expandedCategories.includes(category.name) && (
+                    <div className="border-t animate-fade-in">
                       {/* Subfolders */}
-                      {category.subfolders && category.subfolders.map(subfolder => <Collapsible key={subfolder} open={expandedSubfolders.includes(subfolder)} onOpenChange={(open) => {
+                      {category.subfolders && category.subfolders.map(subfolder => (
+                        <Collapsible key={subfolder} open={expandedSubfolders.includes(subfolder)} onOpenChange={(open) => {
                           if (open) {
                             setExpandedSubfolders(prev => [...prev, subfolder]);
                           } else {
@@ -251,7 +369,8 @@ const Education = () => {
                           </CollapsibleTrigger>
                           <CollapsibleContent className="animate-accordion-down">
                             <div className="px-8 py-4 grid grid-cols-2 gap-4">
-                              {getReportsForSubfolder(category.name, subfolder).map(report => <div key={report.id} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors">
+                              {getReportsForSubfolder(category.name, subfolder).map(report => (
+                                <div key={report.id} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors group">
                                   <div className="flex items-center gap-3">
                                     <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
                                     <FileText className="h-4 w-4 text-gray-400" />
@@ -262,49 +381,49 @@ const Education = () => {
                                       {report.DocumentTitle}
                                     </button>
                                   </div>
-                                  <div className="flex items-center gap-2">
-                                    <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)}>
-                                      <Eye className="h-4 w-4" />
-                                    </Button>
-                                    <Button variant="ghost" size="sm" onClick={() => handleDownload(report.DocumentTitle)}>
-                                      <Download className="h-4 w-4" />
-                                    </Button>
-                                  </div>
-                                </div>)}
+                                  <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)} className="opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <Eye className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              ))}
                             </div>
                           </CollapsibleContent>
-                        </Collapsible>)}
+                        </Collapsible>
+                      ))}
                       
                       {/* Direct reports in category (no subfolder) */}
-                      {getDirectReports(category.name).length > 0 && <div className="px-8 py-4 grid grid-cols-2 gap-4">
-                        {getDirectReports(category.name).map(report => <div key={report.id} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors">
-                            <div className="flex items-center gap-3">
-                              <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
-                              <FileText className="h-4 w-4 text-gray-400" />
-                              <button 
-                                onClick={() => handleReportClick(report)}
-                                className="text-sm hover:text-blue-600 transition-colors text-left"
-                              >
-                                {report.DocumentTitle}
-                              </button>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)}>
+                      {getDirectReports(category.name).length > 0 && (
+                        <div className="px-8 py-4 grid grid-cols-2 gap-4">
+                          {getDirectReports(category.name).map(report => (
+                            <div key={report.id} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors group">
+                              <div className="flex items-center gap-3">
+                                <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
+                                <FileText className="h-4 w-4 text-gray-400" />
+                                <button 
+                                  onClick={() => handleReportClick(report)}
+                                  className="text-sm hover:text-blue-600 transition-colors text-left"
+                                >
+                                  {report.DocumentTitle}
+                                </button>
+                              </div>
+                              <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)} className="opacity-0 group-hover:opacity-100 transition-opacity">
                                 <Eye className="h-4 w-4" />
                               </Button>
-                              <Button variant="ghost" size="sm" onClick={() => handleDownload(report.DocumentTitle)}>
-                                <Download className="h-4 w-4" />
-                              </Button>
                             </div>
-                          </div>)}
-                      </div>}
-                    </div>}
-                </div>)}
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
-          </div>;
+          </div>
+        );
 
       case "client-forms":
-        return <div className="space-y-6">
+        return (
+          <div className="space-y-6">
             <div className="mb-6">
               <h1 className="text-2xl font-semibold flex items-center gap-2">
                 <FileText className="h-6 w-6" />
@@ -312,25 +431,24 @@ const Education = () => {
               </h1>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              {clientInteractionForms.map(form => <div key={form} className="flex items-center justify-between p-4 border rounded hover:bg-gray-50">
+              {clientInteractionForms.map(form => (
+                <div key={form} className="flex items-center justify-between p-4 border rounded hover:bg-gray-50">
                   <div className="flex items-center gap-3">
                     <Checkbox checked={selectedItems.includes(form)} onCheckedChange={() => handleItemSelection(form)} />
                     <FileText className="h-4 w-4 text-gray-400" />
                     <span className="text-sm font-medium">{form}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="sm">
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="sm" onClick={() => handleDownload(form)}>
-                      <Download className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>)}
+                  <Button variant="ghost" size="sm">
+                    <Eye className="h-4 w-4" />
+                  </Button>
+                </div>
+              ))}
             </div>
-          </div>;
+          </div>
+        );
       case "worksheets":
-        return <div className="space-y-6">
+        return (
+          <div className="space-y-6">
             <div className="mb-6">
               <h1 className="text-2xl font-semibold flex items-center gap-2">
                 <FileText className="h-6 w-6" />
@@ -338,25 +456,24 @@ const Education = () => {
               </h1>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              {worksheetReports.map(worksheet => <div key={worksheet} className="flex items-center justify-between p-4 border rounded hover:bg-gray-50">
+              {worksheetReports.map(worksheet => (
+                <div key={worksheet} className="flex items-center justify-between p-4 border rounded hover:bg-gray-50">
                   <div className="flex items-center gap-3">
                     <Checkbox checked={selectedItems.includes(worksheet)} onCheckedChange={() => handleItemSelection(worksheet)} />
                     <FileText className="h-4 w-4 text-gray-400" />
                     <span className="text-sm font-medium">{worksheet}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="sm">
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="sm" onClick={() => handleDownload(worksheet)}>
-                      <Download className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>)}
+                  <Button variant="ghost" size="sm">
+                    <Eye className="h-4 w-4" />
+                  </Button>
+                </div>
+              ))}
             </div>
-          </div>;
+          </div>
+        );
       case "advisor-support":
-        return <div className="space-y-6">
+        return (
+          <div className="space-y-6">
             <div className="mb-6">
               <h1 className="text-2xl font-semibold flex items-center gap-2">
                 <FileText className="h-6 w-6" />
@@ -364,7 +481,8 @@ const Education = () => {
               </h1>
             </div>
             <div className="space-y-4">
-              {advisorSupportFolders.map(folder => <div key={folder.name} className="border rounded-lg">
+              {advisorSupportFolders.map(folder => (
+                <div key={folder.name} className="border rounded-lg">
                   <button onClick={() => toggleCategoryExpansion(folder.name)} className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
                     <div className="flex items-center gap-3">
                       <FolderOpen className="h-5 w-5 text-blue-600" />
@@ -374,32 +492,34 @@ const Education = () => {
                     <ChevronDown className={`h-4 w-4 transition-transform ${expandedCategories.includes(folder.name) ? 'rotate-180' : ''}`} />
                   </button>
                   
-                  {expandedCategories.includes(folder.name) && <div className="border-t p-4 grid grid-cols-2 gap-4">
-                      {folder.reports.map(report => <div key={report} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50">
+                  {expandedCategories.includes(folder.name) && (
+                    <div className="border-t p-4 grid grid-cols-2 gap-4">
+                      {folder.reports.map(report => (
+                        <div key={report} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50">
                           <div className="flex items-center gap-3">
                             <Checkbox checked={selectedItems.includes(report)} onCheckedChange={() => handleItemSelection(report)} />
                             <FileText className="h-4 w-4 text-gray-400" />
                             <span className="text-sm">{report}</span>
                           </div>
-                          <div className="flex items-center gap-2">
-                            <Button variant="ghost" size="sm">
-                              <Eye className="h-4 w-4" />
-                            </Button>
-                            <Button variant="ghost" size="sm" onClick={() => handleDownload(report)}>
-                              <Download className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </div>)}
-                    </div>}
-                </div>)}
+                          <Button variant="ghost" size="sm">
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
-          </div>;
+          </div>
+        );
       default:
         return null;
     }
   };
 
-  return <div className="p-6 max-w-7xl mx-auto">
+  return (
+    <div className="p-6 max-w-7xl mx-auto">
       {/* Animated Tabs */}
       <div className="mb-6 flex justify-center">
         <AnimatedTabs tabs={tabs} defaultValue="report-library" onValueChange={setActiveTab} />
@@ -407,7 +527,8 @@ const Education = () => {
 
       {/* Tab Content */}
       {renderTabContent()}
-    </div>;
+    </div>
+  );
 };
 
 export default Education;

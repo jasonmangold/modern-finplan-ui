@@ -1,3 +1,4 @@
+
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = 'https://gmksmcjmrsedozzkfewq.supabase.co'
@@ -10,7 +11,6 @@ export type EducationRecord = {
   DocumentTitle: string
   Folder: string
   Subfolder: string
-  file_pdf?: string
   file_path?: string
   created_at?: string
 }
