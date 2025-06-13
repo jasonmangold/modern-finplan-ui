@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Search, User, HelpCircle, FileText, Settings, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -85,6 +84,40 @@ export const Header = () => {
     }
   };
 
+  const handleNewClient = () => {
+    // Clear all form inputs and uncheck reports
+    const inputs = document.querySelectorAll('input');
+    const textareas = document.querySelectorAll('textarea');
+    const selects = document.querySelectorAll('select');
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    
+    inputs.forEach(input => {
+      if (input.type !== 'checkbox' && input.type !== 'radio') {
+        input.value = '';
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    });
+    
+    textareas.forEach(textarea => {
+      textarea.value = '';
+      textarea.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    
+    checkboxes.forEach(checkbox => {
+      if (checkbox.checked) {
+        checkbox.checked = false;
+        checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    
+    // Reset to "No Client Selected"
+    setSelectedClient("No Client Selected");
+    setIsFirstSave(true);
+    setHasUnsavedChanges(false);
+    setSaveState("initial");
+    setLastSavedTime(null);
+  };
+
   const handleReset = () => {
     setShowResetDialog(true);
   };
@@ -144,6 +177,10 @@ export const Header = () => {
                   </div>
                   {/* Show "No Client Selected" option */}
                   <SelectItem value="No Client Selected">No Client Selected</SelectItem>
+                  {/* New Client option */}
+                  <SelectItem value="__new_client__" onSelect={handleNewClient}>
+                    <span className="text-blue-600 font-medium">+ New Client</span>
+                  </SelectItem>
                   {/* Show only last 3 recent clients */}
                   {recentClients.map(client => (
                     <SelectItem key={client} value={client}>{client}</SelectItem>
