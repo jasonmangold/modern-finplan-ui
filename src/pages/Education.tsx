@@ -38,7 +38,7 @@ const Education = () => {
   const scrollPositionRef = useRef<number>(0);
 
   // Use global search context
-  const { globalSearchTerm } = useSearch();
+  const { globalSearchTerm, setGlobalSearchTerm } = useSearch();
   
   // Combine local and global search terms
   const effectiveSearchTerm = localSearchTerm || globalSearchTerm;
@@ -54,6 +54,12 @@ const Education = () => {
       setLocalSearchTerm(globalSearchTerm);
     }
   }, [globalSearchTerm, localSearchTerm]);
+
+  // Clear search function
+  const clearSearch = () => {
+    setLocalSearchTerm("");
+    setGlobalSearchTerm("");
+  };
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -123,7 +129,7 @@ const Education = () => {
       );
     }
 
-    // Apply search filter if there's a search term
+    // Apply search filter if there's a search term - only search DocumentTitle and FormNumber
     if (effectiveSearchTerm) {
       const searchLower = effectiveSearchTerm.toLowerCase();
       filtered = filtered.filter(record =>
@@ -149,7 +155,7 @@ const Education = () => {
       );
     }
 
-    // Apply search filter if there's a search term
+    // Apply search filter if there's a search term - only search DocumentTitle and FormNumber
     if (effectiveSearchTerm) {
       const searchLower = effectiveSearchTerm.toLowerCase();
       filtered = filtered.filter(record =>
@@ -168,7 +174,7 @@ const Education = () => {
   const clearAllFilters = () => {
     setSelectedTopics([]);
     setSelectedFormats([]);
-    setLocalSearchTerm("");
+    clearSearch();
   };
 
   // Check if we should show search results instead of categories
@@ -373,30 +379,9 @@ const Education = () => {
           </div>;
         }
 
-        if (showingSearchResults && (!searchResults || searchResults.length === 0)) {
-          return <div className="text-center py-12">
-            <div className="text-gray-500">No reports found</div>
-            <p className="text-gray-400 mt-2">
-              No reports match your search for "{effectiveSearchTerm}"
-            </p>
-          </div>;
-        }
-
-        if (!showingSearchResults && (!educationCategories || educationCategories.length === 0)) {
-          return <div className="text-center py-12">
-            <div className="text-gray-500">No education data found</div>
-            <p className="text-gray-400 mt-2">
-              {selectedFormats.length > 0 
-                ? `No reports found matching the selected format(s): ${selectedFormats.join(', ')}`
-                : "Make sure your Education table has data"
-              }
-            </p>
-          </div>;
-        }
-
         return (
           <div className="space-y-6">
-            {/* Header */}
+            {/* Header - Always visible */}
             <div className="mb-6">
               <div className="flex items-center justify-between mb-4">
                 <h1 className="text-2xl font-semibold flex items-center gap-2">
@@ -405,7 +390,7 @@ const Education = () => {
                 </h1>
               </div>
 
-              {/* Search */}
+              {/* Search - Always visible */}
               <div className="relative max-w-md mb-6">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <Input 
@@ -418,7 +403,7 @@ const Education = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => setLocalSearchTerm("")}
+                    onClick={clearSearch}
                     className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0"
                   >
                     <X className="h-3 w-3" />
@@ -426,7 +411,7 @@ const Education = () => {
                 )}
               </div>
 
-              {/* Enhanced Filters Card */}
+              {/* Enhanced Filters Card - Always visible */}
               <Card className="border shadow-sm">
                 <CardHeader className="pb-3 py-[7px]">
                   <div className="flex items-center justify-between">
@@ -497,121 +482,146 @@ const Education = () => {
 
             {/* Main Content - Show search results or categories */}
             {showingSearchResults ? (
-              <div className="space-y-4">
-                <div className="mb-4">
-                  <h2 className="text-lg font-medium">Search Results for "{effectiveSearchTerm}"</h2>
-                  <p className="text-gray-500 text-sm">{searchResults?.length || 0} reports found</p>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  {searchResults?.map(report => (
-                    <div key={report.id} className="flex items-center justify-between p-4 border rounded hover:bg-gray-50 transition-colors group">
-                      <div className="flex items-center gap-3 flex-1">
-                        <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
-                        <FileText className="h-4 w-4 text-gray-400" />
-                        <div className="flex-1">
-                          <button 
-                            onClick={() => handleReportClick(report)}
-                            className="text-sm hover:text-blue-600 transition-colors text-left block"
-                          >
-                            {report.DocumentTitle}
-                          </button>
-                          {report.FormNumber && (
-                            <p className="text-xs text-gray-500 mt-1">Form: {report.FormNumber}</p>
-                          )}
-                          <p className="text-xs text-gray-400">{report.Folder}{report.Subfolder ? ` > ${report.Subfolder}` : ''}</p>
+              // Search Results
+              searchResults && searchResults.length > 0 ? (
+                <div className="space-y-4">
+                  <div className="mb-4">
+                    <h2 className="text-lg font-medium">Search Results for "{effectiveSearchTerm}"</h2>
+                    <p className="text-gray-500 text-sm">{searchResults.length} reports found</p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    {searchResults.map(report => (
+                      <div key={report.id} className="flex items-center justify-between p-4 border rounded hover:bg-gray-50 transition-colors group">
+                        <div className="flex items-center gap-3 flex-1">
+                          <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
+                          <FileText className="h-4 w-4 text-gray-400" />
+                          <div className="flex-1">
+                            <button 
+                              onClick={() => handleReportClick(report)}
+                              className="text-sm hover:text-blue-600 transition-colors text-left block"
+                            >
+                              {report.DocumentTitle}
+                            </button>
+                            {report.FormNumber && (
+                              <p className="text-xs text-gray-500 mt-1">Form: {report.FormNumber}</p>
+                            )}
+                            <p className="text-xs text-gray-400">{report.Folder}{report.Subfolder ? ` > ${report.Subfolder}` : ''}</p>
+                          </div>
                         </div>
+                        <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)} className="opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Eye className="h-4 w-4" />
+                        </Button>
                       </div>
-                      <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)} className="opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Eye className="h-4 w-4" />
-                      </Button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                // No search results found
+                <div className="text-center py-12">
+                  <div className="text-gray-500">No reports found</div>
+                  <p className="text-gray-400 mt-2">
+                    No reports match your search for "{effectiveSearchTerm}"
+                  </p>
+                </div>
+              )
+            ) : (
+              // Regular category view (no search)
+              educationCategories && educationCategories.length > 0 ? (
+                <div className="space-y-4">
+                  {educationCategories.map(category => (
+                    <div key={category.name} className="border rounded-lg transition-all duration-200 hover:shadow-md">
+                      <button onClick={() => toggleCategoryExpansion(category.name)} className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                        <div className="flex items-center gap-3">
+                          <FolderOpen className="h-5 w-5 text-blue-600" />
+                          <span className="font-medium">{category.name}</span>
+                          <span className="text-sm text-gray-500">{category.count} reports</span>
+                        </div>
+                        <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedCategories.includes(category.name) ? 'rotate-180' : ''}`} />
+                      </button>
+                      
+                      {expandedCategories.includes(category.name) && (
+                        <div className="border-t animate-fade-in">
+                          {/* Subfolders */}
+                          {category.subfolders && category.subfolders.map(subfolder => {
+                            const subfolderReports = getReportsForSubfolder(category.name, subfolder);
+                            if (subfolderReports.length === 0) return null;
+                            
+                            return (
+                              <Collapsible key={subfolder} open={expandedSubfolders.includes(subfolder)} onOpenChange={(open) => {
+                                if (open) {
+                                  setExpandedSubfolders(prev => [...prev, subfolder]);
+                                } else {
+                                  setExpandedSubfolders(prev => prev.filter(sub => sub !== subfolder));
+                                }
+                              }}>
+                                <CollapsibleTrigger className="w-full px-4 py-3 bg-gray-50 border-b flex items-center justify-between hover:bg-gray-100 transition-colors">
+                                  <span className="text-sm font-medium">{subfolder}</span>
+                                  <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedSubfolders.includes(subfolder) ? 'rotate-180' : ''}`} />
+                                </CollapsibleTrigger>
+                                <CollapsibleContent className="animate-accordion-down">
+                                  <div className="px-8 py-4 grid grid-cols-2 gap-4">
+                                    {subfolderReports.map(report => (
+                                      <div key={report.id} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors group">
+                                        <div className="flex items-center gap-3">
+                                          <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
+                                          <FileText className="h-4 w-4 text-gray-400" />
+                                          <button 
+                                            onClick={() => handleReportClick(report)}
+                                            className="text-sm hover:text-blue-600 transition-colors text-left"
+                                          >
+                                            {report.DocumentTitle}
+                                          </button>
+                                        </div>
+                                        <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)} className="opacity-0 group-hover:opacity-100 transition-opacity">
+                                          <Eye className="h-4 w-4" />
+                                        </Button>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </CollapsibleContent>
+                              </Collapsible>
+                            );
+                          })}
+                          
+                          {/* Direct reports in category (no subfolder) */}
+                          {getDirectReports(category.name).length > 0 && (
+                            <div className="px-8 py-4 grid grid-cols-2 gap-4">
+                              {getDirectReports(category.name).map(report => (
+                                <div key={report.id} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors group">
+                                  <div className="flex items-center gap-3">
+                                    <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
+                                    <FileText className="h-4 w-4 text-gray-400" />
+                                    <button 
+                                      onClick={() => handleReportClick(report)}
+                                      className="text-sm hover:text-blue-600 transition-colors text-left"
+                                    >
+                                      {report.DocumentTitle}
+                                    </button>
+                                  </div>
+                                  <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)} className="opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <Eye className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {educationCategories.map(category => (
-                  <div key={category.name} className="border rounded-lg transition-all duration-200 hover:shadow-md">
-                    <button onClick={() => toggleCategoryExpansion(category.name)} className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-                      <div className="flex items-center gap-3">
-                        <FolderOpen className="h-5 w-5 text-blue-600" />
-                        <span className="font-medium">{category.name}</span>
-                        <span className="text-sm text-gray-500">{category.count} reports</span>
-                      </div>
-                      <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedCategories.includes(category.name) ? 'rotate-180' : ''}`} />
-                    </button>
-                    
-                    {expandedCategories.includes(category.name) && (
-                      <div className="border-t animate-fade-in">
-                        {/* Subfolders */}
-                        {category.subfolders && category.subfolders.map(subfolder => {
-                          const subfolderReports = getReportsForSubfolder(category.name, subfolder);
-                          if (subfolderReports.length === 0) return null;
-                          
-                          return (
-                            <Collapsible key={subfolder} open={expandedSubfolders.includes(subfolder)} onOpenChange={(open) => {
-                              if (open) {
-                                setExpandedSubfolders(prev => [...prev, subfolder]);
-                              } else {
-                                setExpandedSubfolders(prev => prev.filter(sub => sub !== subfolder));
-                              }
-                            }}>
-                              <CollapsibleTrigger className="w-full px-4 py-3 bg-gray-50 border-b flex items-center justify-between hover:bg-gray-100 transition-colors">
-                                <span className="text-sm font-medium">{subfolder}</span>
-                                <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedSubfolders.includes(subfolder) ? 'rotate-180' : ''}`} />
-                              </CollapsibleTrigger>
-                              <CollapsibleContent className="animate-accordion-down">
-                                <div className="px-8 py-4 grid grid-cols-2 gap-4">
-                                  {subfolderReports.map(report => (
-                                    <div key={report.id} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors group">
-                                      <div className="flex items-center gap-3">
-                                        <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
-                                        <FileText className="h-4 w-4 text-gray-400" />
-                                        <button 
-                                          onClick={() => handleReportClick(report)}
-                                          className="text-sm hover:text-blue-600 transition-colors text-left"
-                                        >
-                                          {report.DocumentTitle}
-                                        </button>
-                                      </div>
-                                      <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)} className="opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <Eye className="h-4 w-4" />
-                                      </Button>
-                                    </div>
-                                  ))}
-                                </div>
-                              </CollapsibleContent>
-                            </Collapsible>
-                          );
-                        })}
-                        
-                        {/* Direct reports in category (no subfolder) */}
-                        {getDirectReports(category.name).length > 0 && (
-                          <div className="px-8 py-4 grid grid-cols-2 gap-4">
-                            {getDirectReports(category.name).map(report => (
-                              <div key={report.id} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors group">
-                                <div className="flex items-center gap-3">
-                                  <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
-                                  <FileText className="h-4 w-4 text-gray-400" />
-                                  <button 
-                                    onClick={() => handleReportClick(report)}
-                                    className="text-sm hover:text-blue-600 transition-colors text-left"
-                                  >
-                                    {report.DocumentTitle}
-                                  </button>
-                                </div>
-                                <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)} className="opacity-0 group-hover:opacity-100 transition-opacity">
-                                  <Eye className="h-4 w-4" />
-                                </Button>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+              ) : (
+                // No education data or filtered out
+                <div className="text-center py-12">
+                  <div className="text-gray-500">No education data found</div>
+                  <p className="text-gray-400 mt-2">
+                    {selectedFormats.length > 0 
+                      ? `No reports found matching the selected format(s): ${selectedFormats.join(', ')}`
+                      : "Make sure your Education table has data"
+                    }
+                  </p>
+                </div>
+              )
             )}
           </div>
         );

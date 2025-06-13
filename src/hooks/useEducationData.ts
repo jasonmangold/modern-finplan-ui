@@ -97,13 +97,11 @@ export const useEducationSearch = (searchTerm: string, selectedFormats: string[]
       )
     }
 
-    // Then apply search filter - now including FormNumber
+    // Then apply search filter - ONLY search DocumentTitle and FormNumber
     if (searchTerm) {
       const searchLower = searchTerm.toLowerCase()
       filtered = filtered.filter(record =>
         record.DocumentTitle.toLowerCase().includes(searchLower) ||
-        record.Folder.toLowerCase().includes(searchLower) ||
-        record.Subfolder?.toLowerCase().includes(searchLower) ||
         record.FormNumber?.toLowerCase().includes(searchLower)
       )
     }
