@@ -14,7 +14,7 @@ export const useEducationData = () => {
         .select('*')
         .order('Folder')
         .order('Subfolder')
-        .order('document_title')
+        .order('DocumentTitle')
 
       console.log('Supabase response:', { data, error })
 
@@ -51,7 +51,7 @@ export const useEducationCategories = () => {
       }
 
       const category = categoryMap.get(record.Folder)!
-      category.reports.push(record.document_title)
+      category.reports.push(record.DocumentTitle)
       if (record.Subfolder) {
         category.subfolders.add(record.Subfolder)
       }
@@ -78,7 +78,7 @@ export const useEducationSearch = (searchTerm: string) => {
     if (!educationData || !searchTerm) return educationData
 
     return educationData.filter(record =>
-      record.document_title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      record.DocumentTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
       record.Folder.toLowerCase().includes(searchTerm.toLowerCase()) ||
       record.Subfolder?.toLowerCase().includes(searchTerm.toLowerCase())
     )
