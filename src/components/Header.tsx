@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Search, User, HelpCircle, FileText, Settings, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -169,27 +170,35 @@ export const Header = () => {
                   </div>
                 </SelectContent>
               </Select>
-              {(hasUnsavedChanges || lastSavedTime) && (
-                <div className="flex items-center gap-3">
-                  {hasUnsavedChanges ? (
-                    <ToastSave
-                      state={saveState}
-                      onSave={handleSave}
-                      onReset={handleReset}
-                      saveText="Save"
-                      resetText="Reset"
-                      loadingText="Saving..."
-                      successText="Saved!"
-                      initialText="Unsaved changes"
-                      className="bg-blue-50 border-blue-200 text-blue-700"
-                    />
-                  ) : lastSavedTime ? (
-                    <div className="text-sm text-gray-500">
-                      Last saved: {lastSavedTime}
-                    </div>
-                  ) : null}
-                </div>
-              )}
+              <div className="flex items-center gap-3">
+                {hasUnsavedChanges ? (
+                  <ToastSave
+                    state={saveState}
+                    onSave={handleSave}
+                    onReset={handleReset}
+                    saveText="Save"
+                    resetText="Reset"
+                    loadingText="Saving..."
+                    successText="Saved!"
+                    initialText="Unsaved changes"
+                    className="bg-blue-50 border-blue-200 text-blue-700"
+                  />
+                ) : (
+                  <div className="flex items-center gap-3">
+                    <Button 
+                      onClick={handleSave}
+                      className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-full"
+                    >
+                      Save
+                    </Button>
+                    {lastSavedTime && (
+                      <div className="text-sm text-gray-500">
+                        Last saved: {lastSavedTime}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
