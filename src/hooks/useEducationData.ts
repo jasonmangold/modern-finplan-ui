@@ -31,18 +31,26 @@ export const useEducationData = () => {
   })
 }
 
-export const useEducationCategories = () => {
+export const useEducationCategories = (selectedFormats: string[] = []) => {
   const { data: educationData, ...rest } = useEducationData()
 
   const categories: EducationCategory[] = React.useMemo(() => {
     if (!educationData) return []
+
+    // Filter data by selected formats first
+    let filteredData = educationData
+    if (selectedFormats.length > 0) {
+      filteredData = educationData.filter(record => 
+        selectedFormats.includes(record.Format || '')
+      )
+    }
 
     const categoryMap = new Map<string, {
       reports: string[]
       subfolders: Set<string>
     }>()
 
-    educationData.forEach(record => {
+    filteredData.forEach(record => {
       if (!categoryMap.has(record.Folder)) {
         categoryMap.set(record.Folder, {
           reports: [],
@@ -57,13 +65,16 @@ export const useEducationCategories = () => {
       }
     })
 
-    return Array.from(categoryMap.entries()).map(([name, data]) => ({
-      name,
-      count: data.reports.length,
-      reports: data.reports,
-      subfolders: Array.from(data.subfolders)
-    }))
-  }, [educationData])
+    // Only return categories that have reports after filtering
+    return Array.from(categoryMap.entries())
+      .filter(([_, data]) => data.reports.length > 0)
+      .map(([name, data]) => ({
+        name,
+        count: data.reports.length,
+        reports: data.reports,
+        subfolders: Array.from(data.subfolders)
+      }))
+  }, [educationData, selectedFormats])
 
   return {
     data: categories,
@@ -71,18 +82,32 @@ export const useEducationCategories = () => {
   }
 }
 
-export const useEducationSearch = (searchTerm: string) => {
+export const useEducationSearch = (searchTerm: string, selectedFormats: string[] = []) => {
   const { data: educationData, ...rest } = useEducationData()
 
   const filteredData = React.useMemo(() => {
-    if (!educationData || !searchTerm) return educationData
+    if (!educationData) return educationData
 
-    return educationData.filter(record =>
-      record.DocumentTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      record.Folder.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      record.Subfolder?.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  }, [educationData, searchTerm])
+    let filtered = educationData
+
+    // Apply format filter first
+    if (selectedFormats.length > 0) {
+      filtered = filtered.filter(record => 
+        selectedFormats.includes(record.Format || '')
+      )
+    }
+
+    // Then apply search filter
+    if (searchTerm) {
+      filtered = filtered.filter(record =>
+        record.DocumentTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        record.Folder.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        record.Subfolder?.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    }
+
+    return filtered
+  }, [educationData, searchTerm, selectedFormats])
 
   return {
     data: filteredData,

@@ -36,9 +36,9 @@ const Education = () => {
   const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0);
   const scrollPositionRef = useRef<number>(0);
 
-  // Use Supabase data for Report Library tab
-  const { data: educationCategories, isLoading, error } = useEducationCategories();
-  const { data: searchResults } = useEducationSearch(searchTerm);
+  // Use Supabase data for Report Library tab - now with format filtering
+  const { data: educationCategories, isLoading, error } = useEducationCategories(selectedFormats);
+  const { data: searchResults } = useEducationSearch(searchTerm, selectedFormats);
   const { data: educationData } = useEducationData();
 
   // Keyboard shortcuts
@@ -74,17 +74,6 @@ const Education = () => {
     // Only check file_path column for PDF URL
     if (report.file_path) {
       setSelectedPDF({ url: report.file_path, title: report.DocumentTitle });
-    } else {
-      // Fallback to existing report viewer for specific hardcoded reports
-      if (report.DocumentTitle === "The Need for Financial Planning") {
-        setSelectedReport("retirement-planning");
-      } else if (report.DocumentTitle === "The Need for Retirement Planning (2)") {
-        setSelectedReport("retirement-planning-2");
-      } else if (report.DocumentTitle === "The Need for Retirement Planning (3)") {
-        setSelectedReport("retirement-planning-3");
-      } else if (report.DocumentTitle === "Up to Your Neck in Debt?") {
-        setSelectedReport("debt-management");
-      }
     }
   };
 
@@ -108,16 +97,36 @@ const Education = () => {
 
   const getReportsForSubfolder = (folderName: string, subfolderName: string) => {
     if (!educationData) return [];
-    return educationData.filter(record => 
+    
+    let filtered = educationData.filter(record => 
       record.Folder === folderName && record.Subfolder === subfolderName
     );
+
+    // Apply format filter
+    if (selectedFormats.length > 0) {
+      filtered = filtered.filter(record => 
+        selectedFormats.includes(record.Format || '')
+      );
+    }
+
+    return filtered;
   };
 
   const getDirectReports = (folderName: string) => {
     if (!educationData) return [];
-    return educationData.filter(record => 
+    
+    let filtered = educationData.filter(record => 
       record.Folder === folderName && (!record.Subfolder || record.Subfolder.trim() === '')
     );
+
+    // Apply format filter
+    if (selectedFormats.length > 0) {
+      filtered = filtered.filter(record => 
+        selectedFormats.includes(record.Format || '')
+      );
+    }
+
+    return filtered;
   };
 
   const handleTopicToggle = (topic: string) => {
@@ -319,7 +328,12 @@ const Education = () => {
         if (!educationCategories || educationCategories.length === 0) {
           return <div className="text-center py-12">
             <div className="text-gray-500">No education data found</div>
-            <p className="text-gray-400 mt-2">Make sure your Education table has data</p>
+            <p className="text-gray-400 mt-2">
+              {selectedFormats.length > 0 
+                ? `No reports found matching the selected format(s): ${selectedFormats.join(', ')}`
+                : "Make sure your Education table has data"
+              }
+            </p>
           </div>;
         }
 
@@ -347,6 +361,11 @@ const Education = () => {
                     <div className="flex items-center gap-2">
                       <Filter className="h-4 w-4 text-primary" />
                       <CardTitle className="text-sm">Filters</CardTitle>
+                      {(selectedFormats.length > 0 || selectedTopics.length > 0) && (
+                        <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                          {selectedFormats.length + selectedTopics.length} active
+                        </span>
+                      )}
                     </div>
                     <Button variant="ghost" size="sm" className="flex items-center gap-2 text-sm" onClick={() => setFiltersVisible(!filtersVisible)}>
                       {filtersVisible ? 'Hide' : 'Show'}
@@ -363,13 +382,17 @@ const Education = () => {
                         <div className="flex gap-4">
                           {formatOptions.map(format => (
                             <div key={format} className="flex items-center space-x-2">
-                              <Checkbox id={format} checked={selectedFormats.includes(format)} onCheckedChange={checked => {
-                                if (checked) {
-                                  setSelectedFormats(prev => [...prev, format]);
-                                } else {
-                                  setSelectedFormats(prev => prev.filter(f => f !== format));
-                                }
-                              }} />
+                              <Checkbox 
+                                id={format} 
+                                checked={selectedFormats.includes(format)} 
+                                onCheckedChange={checked => {
+                                  if (checked) {
+                                    setSelectedFormats(prev => [...prev, format]);
+                                  } else {
+                                    setSelectedFormats(prev => prev.filter(f => f !== format));
+                                  }
+                                }} 
+                              />
                               <label htmlFor={format} className="text-sm">{format}</label>
                             </div>
                           ))}
@@ -387,6 +410,14 @@ const Education = () => {
                         </div>
                       </div>
                     </div>
+                    
+                    {(selectedFormats.length > 0 || selectedTopics.length > 0) && (
+                      <div className="mt-4 pt-4 border-t">
+                        <Button variant="outline" size="sm" onClick={clearAllFilters}>
+                          Clear All Filters
+                        </Button>
+                      </div>
+                    )}
                   </CardContent>
                 )}
               </Card>
@@ -408,41 +439,46 @@ const Education = () => {
                   {expandedCategories.includes(category.name) && (
                     <div className="border-t animate-fade-in">
                       {/* Subfolders */}
-                      {category.subfolders && category.subfolders.map(subfolder => (
-                        <Collapsible key={subfolder} open={expandedSubfolders.includes(subfolder)} onOpenChange={(open) => {
-                          if (open) {
-                            setExpandedSubfolders(prev => [...prev, subfolder]);
-                          } else {
-                            setExpandedSubfolders(prev => prev.filter(sub => sub !== subfolder));
-                          }
-                        }}>
-                          <CollapsibleTrigger className="w-full px-4 py-3 bg-gray-50 border-b flex items-center justify-between hover:bg-gray-100 transition-colors">
-                            <span className="text-sm font-medium">{subfolder}</span>
-                            <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedSubfolders.includes(subfolder) ? 'rotate-180' : ''}`} />
-                          </CollapsibleTrigger>
-                          <CollapsibleContent className="animate-accordion-down">
-                            <div className="px-8 py-4 grid grid-cols-2 gap-4">
-                              {getReportsForSubfolder(category.name, subfolder).map(report => (
-                                <div key={report.id} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors group">
-                                  <div className="flex items-center gap-3">
-                                    <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
-                                    <FileText className="h-4 w-4 text-gray-400" />
-                                    <button 
-                                      onClick={() => handleReportClick(report)}
-                                      className="text-sm hover:text-blue-600 transition-colors text-left"
-                                    >
-                                      {report.DocumentTitle}
-                                    </button>
+                      {category.subfolders && category.subfolders.map(subfolder => {
+                        const subfolderReports = getReportsForSubfolder(category.name, subfolder);
+                        if (subfolderReports.length === 0) return null;
+                        
+                        return (
+                          <Collapsible key={subfolder} open={expandedSubfolders.includes(subfolder)} onOpenChange={(open) => {
+                            if (open) {
+                              setExpandedSubfolders(prev => [...prev, subfolder]);
+                            } else {
+                              setExpandedSubfolders(prev => prev.filter(sub => sub !== subfolder));
+                            }
+                          }}>
+                            <CollapsibleTrigger className="w-full px-4 py-3 bg-gray-50 border-b flex items-center justify-between hover:bg-gray-100 transition-colors">
+                              <span className="text-sm font-medium">{subfolder}</span>
+                              <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedSubfolders.includes(subfolder) ? 'rotate-180' : ''}`} />
+                            </CollapsibleTrigger>
+                            <CollapsibleContent className="animate-accordion-down">
+                              <div className="px-8 py-4 grid grid-cols-2 gap-4">
+                                {subfolderReports.map(report => (
+                                  <div key={report.id} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors group">
+                                    <div className="flex items-center gap-3">
+                                      <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
+                                      <FileText className="h-4 w-4 text-gray-400" />
+                                      <button 
+                                        onClick={() => handleReportClick(report)}
+                                        className="text-sm hover:text-blue-600 transition-colors text-left"
+                                      >
+                                        {report.DocumentTitle}
+                                      </button>
+                                    </div>
+                                    <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)} className="opacity-0 group-hover:opacity-100 transition-opacity">
+                                      <Eye className="h-4 w-4" />
+                                    </Button>
                                   </div>
-                                  <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)} className="opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <Eye className="h-4 w-4" />
-                                  </Button>
-                                </div>
-                              ))}
-                            </div>
-                          </CollapsibleContent>
-                        </Collapsible>
-                      ))}
+                                ))}
+                              </div>
+                            </CollapsibleContent>
+                          </Collapsible>
+                        );
+                      })}
                       
                       {/* Direct reports in category (no subfolder) */}
                       {getDirectReports(category.name).length > 0 && (
