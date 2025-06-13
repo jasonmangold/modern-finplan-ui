@@ -7,6 +7,8 @@ export const useEducationData = () => {
   return useQuery({
     queryKey: ['education-data'],
     queryFn: async (): Promise<EducationRecord[]> => {
+      console.log('Fetching education data from Supabase...')
+      
       const { data, error } = await supabase
         .from('Education')
         .select('*')
@@ -14,14 +16,18 @@ export const useEducationData = () => {
         .order('subfolder')
         .order('document_title')
 
+      console.log('Supabase response:', { data, error })
+
       if (error) {
+        console.error('Supabase error:', error)
         throw new Error(`Failed to fetch education data: ${error.message}`)
       }
 
+      console.log('Education data fetched successfully:', data)
       return data || []
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes (replaced cacheTime with gcTime)
+    gcTime: 10 * 60 * 1000, // 10 minutes
   })
 }
 
