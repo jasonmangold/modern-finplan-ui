@@ -8,7 +8,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 export type EducationRecord = {
   id: number
-  document_title: string
+  DocumentTitle: string
   Folder: string
   Subfolder: string
   created_at?: string
