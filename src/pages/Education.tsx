@@ -7,7 +7,7 @@ import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown, Download, Search, Filter, ArrowLeft, Eye, FileText, FolderOpen } from "lucide-react";
 import { ReportViewer } from "@/components/ReportViewer";
-import { useEducationCategories, useEducationSearch } from "@/hooks/useEducationData";
+import { useEducationCategories, useEducationSearch, useEducationData } from "@/hooks/useEducationData";
 
 const clientInteractionForms = ["Agenda for Discussion", "Beneficiary Audit Checklist", "Business Events Checklist", "Business Owner Planning Needs", "Client Referral", "Divorce Checklist", "Financial Review Checklist", "Life Events Checklist", "Planning Task List", "Receipt for Documents"];
 const worksheetReports = ["Business Valuation", "Capital Needs Analysis Worksheet", "Federal Estate Tax Worksheet", "Odds of Disability", "Personal Alternative Minimum Tax", "The Personal Budget Worksheet", "Personal Net Worth", "Taxation of Social Security Benefits", "The Real Rate of Return Worksheet", "When to Refinance Your Home"];
@@ -35,6 +35,7 @@ const Education = () => {
   // Use Supabase data for Report Library tab
   const { data: educationCategories, isLoading, error } = useEducationCategories();
   const { data: searchResults } = useEducationSearch(searchTerm);
+  const { data: educationData } = useEducationData();
 
   const handleItemSelection = (item: string) => {
     setSelectedItems(prev => prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]);
@@ -75,6 +76,22 @@ const Education = () => {
 
   const toggleSubfolderExpansion = (subfolderName: string) => {
     setExpandedSubfolders(prev => prev.includes(subfolderName) ? prev.filter(sub => sub !== subfolderName) : [...prev, subfolderName]);
+  };
+
+  // Get reports for a specific folder and subfolder
+  const getReportsForSubfolder = (folderName: string, subfolderName: string) => {
+    if (!educationData) return [];
+    return educationData.filter(record => 
+      record.Folder === folderName && record.Subfolder === subfolderName
+    );
+  };
+
+  // Get reports directly in a folder (no subfolder)
+  const getDirectReports = (folderName: string) => {
+    if (!educationData) return [];
+    return educationData.filter(record => 
+      record.Folder === folderName && (!record.Subfolder || record.Subfolder.trim() === '')
+    );
   };
 
   if (selectedReport) {
@@ -202,24 +219,30 @@ const Education = () => {
                   
                   {expandedCategories.includes(category.name) && <div className="border-t animate-fade-in">
                       {/* Subfolders */}
-                      {category.subfolders && category.subfolders.map(subfolder => <Collapsible key={subfolder}>
+                      {category.subfolders && category.subfolders.map(subfolder => <Collapsible key={subfolder} open={expandedSubfolders.includes(subfolder)} onOpenChange={(open) => {
+                          if (open) {
+                            setExpandedSubfolders(prev => [...prev, subfolder]);
+                          } else {
+                            setExpandedSubfolders(prev => prev.filter(sub => sub !== subfolder));
+                          }
+                        }}>
                           <CollapsibleTrigger className="w-full px-4 py-3 bg-gray-50 border-b flex items-center justify-between hover:bg-gray-100 transition-colors">
                             <span className="text-sm font-medium">{subfolder}</span>
-                            <ChevronDown className="h-4 w-4 transition-transform duration-200" />
+                            <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedSubfolders.includes(subfolder) ? 'rotate-180' : ''}`} />
                           </CollapsibleTrigger>
                           <CollapsibleContent className="animate-accordion-down">
                             <div className="px-8 py-4 grid grid-cols-2 gap-4">
-                              {category.reports.slice(0, 10).map(report => <div key={report} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors">
+                              {getReportsForSubfolder(category.name, subfolder).map(report => <div key={report.id} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors">
                                   <div className="flex items-center gap-3">
-                                    <Checkbox checked={selectedItems.includes(report)} onCheckedChange={() => handleItemSelection(report)} />
+                                    <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
                                     <FileText className="h-4 w-4 text-gray-400" />
-                                    <span className="text-sm">{report}</span>
+                                    <span className="text-sm">{report.DocumentTitle}</span>
                                   </div>
                                   <div className="flex items-center gap-2">
-                                    <Button variant="ghost" size="sm">
+                                    <Button variant="ghost" size="sm" onClick={() => handleReportClick(report.DocumentTitle)}>
                                       <Eye className="h-4 w-4" />
                                     </Button>
-                                    <Button variant="ghost" size="sm" onClick={() => handleDownload(report)}>
+                                    <Button variant="ghost" size="sm" onClick={() => handleDownload(report.DocumentTitle)}>
                                       <Download className="h-4 w-4" />
                                     </Button>
                                   </div>
@@ -229,18 +252,18 @@ const Education = () => {
                         </Collapsible>)}
                       
                       {/* Direct reports in category (no subfolder) */}
-                      {category.reports.length > 0 && <div className="px-8 py-4 grid grid-cols-2 gap-4">
-                        {category.reports.slice(0, 6).map(report => <div key={report} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors">
+                      {getDirectReports(category.name).length > 0 && <div className="px-8 py-4 grid grid-cols-2 gap-4">
+                        {getDirectReports(category.name).map(report => <div key={report.id} className="flex items-center justify-between p-3 border rounded hover:bg-gray-50 transition-colors">
                             <div className="flex items-center gap-3">
-                              <Checkbox checked={selectedItems.includes(report)} onCheckedChange={() => handleItemSelection(report)} />
+                              <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
                               <FileText className="h-4 w-4 text-gray-400" />
-                              <span className="text-sm">{report}</span>
+                              <span className="text-sm">{report.DocumentTitle}</span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <Button variant="ghost" size="sm">
+                              <Button variant="ghost" size="sm" onClick={() => handleReportClick(report.DocumentTitle)}>
                                 <Eye className="h-4 w-4" />
                               </Button>
-                              <Button variant="ghost" size="sm" onClick={() => handleDownload(report)}>
+                              <Button variant="ghost" size="sm" onClick={() => handleDownload(report.DocumentTitle)}>
                                 <Download className="h-4 w-4" />
                               </Button>
                             </div>
