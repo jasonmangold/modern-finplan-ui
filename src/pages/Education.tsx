@@ -57,8 +57,11 @@ const Education = () => {
   };
 
   const handleReportClick = (report: any) => {
-    if (report.file_pdf) {
-      setSelectedPDF({ url: report.file_pdf, title: report.DocumentTitle });
+    // Check both file_pdf and file_path columns for PDF URL
+    const pdfUrl = report.file_pdf || report.file_path;
+    
+    if (pdfUrl) {
+      setSelectedPDF({ url: pdfUrl, title: report.DocumentTitle });
     } else {
       // Fallback to existing report viewer for specific hardcoded reports
       if (report.DocumentTitle === "The Need for Financial Planning") {
