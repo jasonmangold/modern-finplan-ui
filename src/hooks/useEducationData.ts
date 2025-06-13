@@ -12,8 +12,8 @@ export const useEducationData = () => {
       const { data, error } = await supabase
         .from('Education')
         .select('*')
-        .order('folder')
-        .order('subfolder')
+        .order('Folder')
+        .order('Subfolder')
         .order('document_title')
 
       console.log('Supabase response:', { data, error })
@@ -43,17 +43,17 @@ export const useEducationCategories = () => {
     }>()
 
     educationData.forEach(record => {
-      if (!categoryMap.has(record.folder)) {
-        categoryMap.set(record.folder, {
+      if (!categoryMap.has(record.Folder)) {
+        categoryMap.set(record.Folder, {
           reports: [],
           subfolders: new Set()
         })
       }
 
-      const category = categoryMap.get(record.folder)!
+      const category = categoryMap.get(record.Folder)!
       category.reports.push(record.document_title)
-      if (record.subfolder) {
-        category.subfolders.add(record.subfolder)
+      if (record.Subfolder) {
+        category.subfolders.add(record.Subfolder)
       }
     })
 
@@ -79,8 +79,8 @@ export const useEducationSearch = (searchTerm: string) => {
 
     return educationData.filter(record =>
       record.document_title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      record.folder.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      record.subfolder?.toLowerCase().includes(searchTerm.toLowerCase())
+      record.Folder.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      record.Subfolder?.toLowerCase().includes(searchTerm.toLowerCase())
     )
   }, [educationData, searchTerm])
 

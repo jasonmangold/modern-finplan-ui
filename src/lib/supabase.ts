@@ -1,3 +1,4 @@
+
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = 'https://gmksmcjmrsedozzkfewq.supabase.co'
@@ -8,8 +9,8 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 export type EducationRecord = {
   id: number
   document_title: string
-  folder: string
-  subfolder: string
+  Folder: string
+  Subfolder: string
   created_at?: string
 }
 
