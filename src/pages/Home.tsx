@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -460,7 +459,7 @@ const Home = () => {
                 duration={1.2}
                 className="text-2xl font-bold mb-2 [--base-color:theme(colors.blue.200)] [--base-gradient-color:theme(colors.white)] dark:[--base-color:theme(colors.blue.300)] dark:[--base-gradient-color:theme(colors.blue.100)]"
               >
-                Welcome back, {userName}!
+                {`Welcome back, ${userName}!`}
               </TextShimmer>
             )}
             {!isFirstTime && currentClient && (
