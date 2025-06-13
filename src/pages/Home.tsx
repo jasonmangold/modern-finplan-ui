@@ -1,6 +1,8 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { TextShimmer } from "@/components/ui/text-shimmer";
 import { useState, useRef, useEffect } from "react";
 import { 
   User, 
@@ -450,9 +452,17 @@ const Home = () => {
       <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold mb-2">
-              {isFirstTime ? "Welcome to eAdvisys!" : `Welcome back, ${userName}!`}
-            </h1>
+            {isFirstTime ? (
+              <h1 className="text-2xl font-bold mb-2">Welcome to eAdvisys!</h1>
+            ) : (
+              <TextShimmer
+                as="h1"
+                duration={1.2}
+                className="text-2xl font-bold mb-2 [--base-color:theme(colors.blue.200)] [--base-gradient-color:theme(colors.white)] dark:[--base-color:theme(colors.blue.300)] dark:[--base-gradient-color:theme(colors.blue.100)]"
+              >
+                Welcome back, {userName}!
+              </TextShimmer>
+            )}
             {!isFirstTime && currentClient && (
               <div className="flex items-center gap-2 mb-4">
                 <Folder className="h-4 w-4 text-blue-200" />
