@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -33,6 +33,8 @@ const Education = () => {
   const [expandedSubfolders, setExpandedSubfolders] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState("report-library");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0);
+  const scrollPositionRef = useRef<number>(0);
 
   // Use Supabase data for Report Library tab
   const { data: educationCategories, isLoading, error } = useEducationCategories();
@@ -53,11 +55,22 @@ const Education = () => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [selectedPDF, selectedReport]);
 
+  // Scroll to top when PDF opens
+  useEffect(() => {
+    if (selectedPDF) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [selectedPDF]);
+
   const handleItemSelection = (item: string) => {
     setSelectedItems(prev => prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]);
   };
 
   const handleReportClick = (report: any) => {
+    // Save current scroll position
+    scrollPositionRef.current = window.scrollY;
+    setSavedScrollPosition(window.scrollY);
+    
     // Only check file_path column for PDF URL
     if (report.file_path) {
       setSelectedPDF({ url: report.file_path, title: report.DocumentTitle });
@@ -78,6 +91,11 @@ const Education = () => {
   const handleBackToReports = () => {
     setSelectedReport(null);
     setSelectedPDF(null);
+    
+    // Restore scroll position after a brief delay to ensure DOM is updated
+    setTimeout(() => {
+      window.scrollTo({ top: savedScrollPosition, behavior: 'smooth' });
+    }, 100);
   };
 
   const toggleCategoryExpansion = (categoryName: string) => {
@@ -157,6 +175,41 @@ const Education = () => {
                   
                   {expandedCategories.includes(category.name) && (
                     <div className="border-t bg-white">
+                      {/* Subfolders */}
+                      {category.subfolders && category.subfolders.map(subfolder => (
+                        <Collapsible key={subfolder} open={expandedSubfolders.includes(subfolder)} onOpenChange={(open) => {
+                          if (open) {
+                            setExpandedSubfolders(prev => [...prev, subfolder]);
+                          } else {
+                            setExpandedSubfolders(prev => prev.filter(sub => sub !== subfolder));
+                          }
+                        }}>
+                          <CollapsibleTrigger className="w-full px-3 py-2 bg-gray-50 border-b flex items-center justify-between hover:bg-gray-100 transition-colors">
+                            <span className="text-xs font-medium">{subfolder}</span>
+                            <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${expandedSubfolders.includes(subfolder) ? 'rotate-180' : ''}`} />
+                          </CollapsibleTrigger>
+                          <CollapsibleContent className="animate-accordion-down">
+                            <div className="px-1 py-1 space-y-1">
+                              {getReportsForSubfolder(category.name, subfolder).map(report => (
+                                <button
+                                  key={report.id}
+                                  onClick={() => handleReportClick(report)}
+                                  className={`w-full p-2 text-left text-xs hover:bg-blue-50 transition-colors border-b last:border-b-0 ${
+                                    selectedPDF?.title === report.DocumentTitle ? 'bg-blue-100 text-blue-700' : 'text-gray-700'
+                                  }`}
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <FileText className="h-3 w-3" />
+                                    <span className="truncate">{report.DocumentTitle}</span>
+                                  </div>
+                                </button>
+                              ))}
+                            </div>
+                          </CollapsibleContent>
+                        </Collapsible>
+                      ))}
+                      
+                      {/* Direct reports in category (no subfolder) */}
                       {getDirectReports(category.name).map(report => (
                         <button
                           key={report.id}
@@ -182,7 +235,7 @@ const Education = () => {
         {/* PDF Viewer */}
         <div className="flex-1 flex flex-col">
           {/* Header */}
-          <div className="border-b bg-white p-4 flex items-center justify-between">
+          <div className="border-b bg-white p-4 flex items-center justify-between sticky top-0 z-10">
             <div className="flex items-center gap-3">
               {sidebarCollapsed && (
                 <Button 
