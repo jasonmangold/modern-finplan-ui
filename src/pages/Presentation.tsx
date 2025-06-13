@@ -7,8 +7,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { FileText, Settings, Eye, Edit3, GripVertical, Trash2, ChevronDown, ChevronRight, Layers, Plus, Upload, User, Building } from "lucide-react";
+import { FileText, Settings, Eye, Edit3, GripVertical, Trash2, ChevronDown, ChevronRight, Layers, Plus, Upload, User, Building, Download, Import, Zap } from "lucide-react";
 import { AnimatedTabs } from "@/components/ui/animated-tabs";
+import { GoalSelectionDialog } from "@/components/GoalSelectionDialog";
+import { FastTrackInputDialog } from "@/components/FastTrackInputDialog";
 import { useState } from "react";
 
 interface PresentationItem {
@@ -22,7 +24,6 @@ interface Template {
   name: string;
   description: string;
   reports: PresentationItem[];
-  thumbnail: string;
 }
 
 const presentationItems: PresentationItem[] = [
@@ -44,8 +45,7 @@ const templates: Template[] = [
       { id: "2", name: "Social Security Optimizer", source: "Calculators" },
       { id: "4", name: "Retirement Timeline", source: "Calculators" },
       { id: "5", name: "Retirement Fact Finder", source: "Education" }
-    ],
-    thumbnail: "/placeholder.svg"
+    ]
   },
   {
     id: "2", 
@@ -54,8 +54,7 @@ const templates: Template[] = [
     reports: [
       { id: "1", name: "Capital Available", source: "Analysis" },
       { id: "6", name: "Graph", source: "Analysis" }
-    ],
-    thumbnail: "/placeholder.svg"
+    ]
   },
   {
     id: "3",
@@ -65,16 +64,15 @@ const templates: Template[] = [
       { id: "5", name: "Retirement Fact Finder", source: "Education" },
       { id: "2", name: "Social Security Optimizer", source: "Calculators" },
       { id: "4", name: "Retirement Timeline", source: "Calculators" }
-    ],
-    thumbnail: "/placeholder.svg"
+    ]
   }
 ];
 
 const titlePageDesigns = [
-  { id: 1, name: "Modern Blue", thumbnail: "/placeholder.svg" },
-  { id: 2, name: "Professional Gray", thumbnail: "/placeholder.svg" },
-  { id: 3, name: "Classic White", thumbnail: "/placeholder.svg" },
-  { id: 4, name: "Corporate Navy", thumbnail: "/placeholder.svg" }
+  { id: 1, name: "Modern Blue" },
+  { id: 2, name: "Professional Gray" },
+  { id: 3, name: "Classic White" },
+  { id: 4, name: "Corporate Navy" }
 ];
 
 const Presentation = () => {
@@ -144,6 +142,11 @@ const Presentation = () => {
     presentationDateText: new Date().toLocaleDateString(),
     selectedTitlePage: 1
   });
+
+  // Fast Track states
+  const [showGoalSelection, setShowGoalSelection] = useState(false);
+  const [showFastTrackInput, setShowFastTrackInput] = useState(false);
+  const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
 
   const handleDragStart = (e: React.DragEvent, itemId: string) => {
     setDraggedItem(itemId);
@@ -216,6 +219,90 @@ const Presentation = () => {
         [field]: file
       }));
     }
+  };
+
+  // Template export/import handlers
+  const handleExportTemplate = (template: Template) => {
+    const data = {
+      ...template,
+      exportDate: new Date().toISOString()
+    };
+    
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${template.name}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImportTemplate = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          try {
+            const templateData = JSON.parse(event.target?.result as string);
+            console.log("Imported template:", templateData);
+            // Here you would add the template to your templates array
+          } catch (error) {
+            console.error("Error importing template:", error);
+          }
+        };
+        reader.readAsText(file);
+      }
+    };
+    input.click();
+  };
+
+  // Fast Track handlers
+  const handleFastTrackClick = () => {
+    setShowGoalSelection(true);
+  };
+
+  const handleGoalsSelected = (goals: string[]) => {
+    setSelectedGoals(goals);
+    setShowFastTrackInput(true);
+  };
+
+  const handleCreatePresentation = () => {
+    // Auto-select reports based on selected goals
+    const goalToReportsMap: Record<string, PresentationItem[]> = {
+      retirement: [
+        { id: "1", name: "Capital Available", source: "Analysis" },
+        { id: "2", name: "Social Security Optimizer", source: "Calculators" },
+        { id: "4", name: "Retirement Timeline", source: "Calculators" }
+      ],
+      education: [
+        { id: "5", name: "Retirement Fact Finder", source: "Education" }
+      ],
+      // Add more mappings as needed
+    };
+
+    let newReports: PresentationItem[] = [];
+    selectedGoals.forEach(goal => {
+      if (goalToReportsMap[goal]) {
+        newReports = [...newReports, ...goalToReportsMap[goal]];
+      }
+    });
+
+    // Remove duplicates
+    const uniqueReports = newReports.filter((report, index, self) => 
+      index === self.findIndex(r => r.id === report.id)
+    );
+
+    setItems(uniqueReports);
+    setActiveTab("Presentation");
+  };
+
+  const handleBackToGoalSelection = () => {
+    setShowFastTrackInput(false);
+    setShowGoalSelection(true);
   };
 
   const tabs = [
@@ -605,24 +692,56 @@ const Presentation = () => {
       {activeTab === "Templates" && (
         <Card className="border-gray-200 shadow-sm">
           <CardHeader>
-            <div className="flex items-center gap-3">
-              <Layers className="h-5 w-5 text-purple-600" />
-              <CardTitle className="text-lg text-gray-900">Presentation Templates</CardTitle>
-              <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-                {templates.length} templates available
-              </span>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Layers className="h-5 w-5 text-purple-600" />
+                <CardTitle className="text-lg text-gray-900">Presentation Templates</CardTitle>
+                <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                  {templates.length} templates available
+                </span>
+              </div>
+              <div className="flex gap-2">
+                <Button 
+                  onClick={handleImportTemplate}
+                  variant="outline"
+                  className="bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100"
+                >
+                  <Import className="h-4 w-4 mr-2" />
+                  Import Template
+                </Button>
+              </div>
             </div>
           </CardHeader>
           <CardContent>
+            {/* Fast Track Button */}
+            <div className="mb-6 p-6 bg-gradient-to-r from-orange-50 to-yellow-50 border-2 border-orange-200 rounded-xl">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-xl font-bold text-orange-800 mb-2 flex items-center gap-2">
+                    <Zap className="h-6 w-6 text-orange-600" />
+                    Fast Track Presentation
+                  </h3>
+                  <p className="text-orange-700 mb-4">
+                    Quickly create a presentation by selecting your financial goals and inputting key data. 
+                    We'll automatically choose the best reports for your needs.
+                  </p>
+                </div>
+                <Button 
+                  onClick={handleFastTrackClick}
+                  className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold px-8 py-3 text-lg shadow-lg"
+                >
+                  <Zap className="h-5 w-5 mr-2" />
+                  Start Fast Track
+                </Button>
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {templates.map((template) => (
                 <div
                   key={template.id}
                   className="border border-gray-200 rounded-xl p-4 hover:border-purple-300 hover:shadow-md transition-all duration-200"
                 >
-                  <div className="aspect-[4/3] bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
-                    <span className="text-xs text-gray-500">Template Preview</span>
-                  </div>
                   <h3 className="font-semibold text-gray-900 mb-2">{template.name}</h3>
                   <p className="text-sm text-gray-600 mb-3">{template.description}</p>
                   <div className="flex flex-wrap gap-1 mb-4">
@@ -640,14 +759,23 @@ const Presentation = () => {
                       </Badge>
                     )}
                   </div>
-                  <Button
-                    onClick={() => loadTemplate(template)}
-                    className="w-full bg-purple-600 hover:bg-purple-700"
-                    size="sm"
-                  >
-                    <Plus className="h-4 w-4 mr-2" />
-                    Use Template
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={() => loadTemplate(template)}
+                      className="flex-1 bg-purple-600 hover:bg-purple-700"
+                      size="sm"
+                    >
+                      <Plus className="h-4 w-4 mr-2" />
+                      Use Template
+                    </Button>
+                    <Button
+                      onClick={() => handleExportTemplate(template)}
+                      variant="outline"
+                      size="sm"
+                    >
+                      <Download className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -1034,6 +1162,21 @@ const Presentation = () => {
           </CardContent>
         </Card>
       )}
+
+      {/* Fast Track Dialogs */}
+      <GoalSelectionDialog 
+        open={showGoalSelection}
+        onOpenChange={setShowGoalSelection}
+        onGoalsSelected={handleGoalsSelected}
+      />
+
+      <FastTrackInputDialog 
+        open={showFastTrackInput}
+        onOpenChange={setShowFastTrackInput}
+        selectedGoals={selectedGoals}
+        onCreatePresentation={handleCreatePresentation}
+        onBack={handleBackToGoalSelection}
+      />
     </div>
   );
 };
