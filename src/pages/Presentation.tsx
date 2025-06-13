@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -15,7 +14,7 @@ import { AnalysisVisualization } from "@/components/AnalysisVisualization";
 import { RetirementAnalysisOutput } from "@/components/RetirementAnalysisOutput";
 import { 
   Upload, Download, Eye, EyeOff, Settings, FileText, 
-  Presentation as PresentationIcon, Zap, Import, Export, Users
+  Presentation as PresentationIcon, Zap, Import, Users
 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -299,7 +298,7 @@ const Presentation = () => {
                   variant="outline"
                   className="flex items-center gap-2"
                 >
-                  <Export className="h-4 w-4" />
+                  <Download className="h-4 w-4" />
                   Export Template
                 </Button>
                 <Button 
