@@ -219,10 +219,10 @@ const Presentation = () => {
   };
 
   const tabs = [
-    { label: "Presentation" },
-    { label: "Templates" },
-    { label: "Company Information" },
-    { label: "Presentation Defaults" }
+    { label: "Presentation", value: "Presentation" },
+    { label: "Templates", value: "Templates" },
+    { label: "Company Information", value: "Company Information" },
+    { label: "Presentation Defaults", value: "Presentation Defaults" }
   ];
 
   return (
