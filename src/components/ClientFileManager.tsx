@@ -1,10 +1,19 @@
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Search, Upload, FileText, Trash2, Download } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Search, Upload, FileText, Trash2, Download, Copy, Edit3, Save, X } from "lucide-react";
+
+interface ClientFile {
+  name: string;
+  notes?: string;
+  description?: string;
+  lastModified: string;
+}
 
 interface ClientFileManagerProps {
   open: boolean;
@@ -24,9 +33,21 @@ export const ClientFileManager = ({
   setSelectedClient 
 }: ClientFileManagerProps) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [editingFile, setEditingFile] = useState<string | null>(null);
+  const [fileMetadata, setFileMetadata] = useState<Record<string, ClientFile>>({});
+  const [editForm, setEditForm] = useState({ name: "", notes: "", description: "" });
 
-  const filteredFiles = clientFiles.filter(file =>
-    file.toLowerCase().includes(searchTerm.toLowerCase())
+  // Convert string array to ClientFile objects
+  const clientFileObjects: ClientFile[] = clientFiles.map(fileName => ({
+    name: fileName,
+    notes: fileMetadata[fileName]?.notes || "",
+    description: fileMetadata[fileName]?.description || "",
+    lastModified: fileMetadata[fileName]?.lastModified || new Date().toLocaleDateString()
+  }));
+
+  const filteredFiles = clientFileObjects.filter(file =>
+    file.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    file.description?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleImportClient = () => {
@@ -64,17 +85,78 @@ export const ClientFileManager = ({
     input.click();
   };
 
+  const handleEditFile = (file: ClientFile) => {
+    setEditingFile(file.name);
+    setEditForm({
+      name: file.name,
+      notes: file.notes || "",
+      description: file.description || ""
+    });
+  };
+
+  const handleSaveEdit = () => {
+    if (editingFile && editForm.name) {
+      // Update the file name in the array if it changed
+      if (editForm.name !== editingFile) {
+        setClientFiles(prev => prev.map(name => name === editingFile ? editForm.name : name));
+        if (selectedClient === editingFile) {
+          setSelectedClient(editForm.name);
+        }
+      }
+      
+      // Update metadata
+      setFileMetadata(prev => ({
+        ...prev,
+        [editForm.name]: {
+          name: editForm.name,
+          notes: editForm.notes,
+          description: editForm.description,
+          lastModified: new Date().toLocaleDateString()
+        }
+      }));
+      
+      setEditingFile(null);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingFile(null);
+    setEditForm({ name: "", notes: "", description: "" });
+  };
+
   const handleDeleteFile = (fileName: string) => {
     if (fileName === "No Client Selected") return;
     setClientFiles(prev => prev.filter(file => file !== fileName));
     if (selectedClient === fileName) {
       setSelectedClient("No Client Selected");
     }
+    // Remove metadata
+    setFileMetadata(prev => {
+      const updated = { ...prev };
+      delete updated[fileName];
+      return updated;
+    });
   };
 
-  const handleExportFile = (fileName: string) => {
+  const handleDuplicateFile = (file: ClientFile) => {
+    const newName = `${file.name} (Copy)`;
+    setClientFiles(prev => [...prev, newName]);
+    setFileMetadata(prev => ({
+      ...prev,
+      [newName]: {
+        name: newName,
+        notes: file.notes || "",
+        description: file.description || "",
+        lastModified: new Date().toLocaleDateString()
+      }
+    }));
+  };
+
+  const handleExportFile = (file: ClientFile) => {
     const data = {
-      name: fileName,
+      name: file.name,
+      notes: file.notes,
+      description: file.description,
       exportDate: new Date().toISOString(),
       data: {} // This would contain actual client data
     };
@@ -83,17 +165,17 @@ export const ClientFileManager = ({
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${fileName}.json`;
+    a.download = `${file.name}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side="right" className="w-[600px] sm:max-w-[600px] overflow-y-auto">
+        <SheetHeader>
           <div className="flex items-center justify-between">
-            <DialogTitle className="text-xl font-semibold">Client File Manager</DialogTitle>
+            <SheetTitle className="text-xl font-semibold">Client File Manager</SheetTitle>
             <Button 
               onClick={handleImportClient}
               className="bg-green-600 hover:bg-green-700"
@@ -102,9 +184,9 @@ export const ClientFileManager = ({
               Import Client
             </Button>
           </div>
-        </DialogHeader>
+        </SheetHeader>
         
-        <div className="space-y-4">
+        <div className="space-y-4 mt-6">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <Input
@@ -123,55 +205,126 @@ export const ClientFileManager = ({
               </Badge>
             </div>
             
-            <div className="max-h-96 overflow-y-auto space-y-2">
+            <div className="space-y-3">
               {filteredFiles.map((file, index) => (
                 <div
                   key={index}
-                  className={`flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-colors ${
-                    file === selectedClient ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
+                  className={`border rounded-lg p-4 transition-colors ${
+                    file.name === selectedClient ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:bg-gray-50'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <FileText className="h-5 w-5 text-blue-600" />
-                    <div>
-                      <span className="font-medium">{file}</span>
-                      <p className="text-sm text-gray-500">Last modified: {new Date().toLocaleDateString()}</p>
+                  {editingFile === file.name ? (
+                    <div className="space-y-3">
+                      <div>
+                        <Label htmlFor="edit-name">Client Name</Label>
+                        <Input
+                          id="edit-name"
+                          value={editForm.name}
+                          onChange={(e) => setEditForm(prev => ({ ...prev, name: e.target.value }))}
+                          className="mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="edit-description">Description</Label>
+                        <Input
+                          id="edit-description"
+                          value={editForm.description}
+                          onChange={(e) => setEditForm(prev => ({ ...prev, description: e.target.value }))}
+                          placeholder="Brief description..."
+                          className="mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="edit-notes">Notes</Label>
+                        <Textarea
+                          id="edit-notes"
+                          value={editForm.notes}
+                          onChange={(e) => setEditForm(prev => ({ ...prev, notes: e.target.value }))}
+                          placeholder="Additional notes..."
+                          className="mt-1"
+                          rows={3}
+                        />
+                      </div>
+                      <div className="flex gap-2">
+                        <Button size="sm" onClick={handleSaveEdit} className="bg-green-600 hover:bg-green-700">
+                          <Save className="h-4 w-4 mr-1" />
+                          Save
+                        </Button>
+                        <Button size="sm" variant="outline" onClick={handleCancelEdit}>
+                          <X className="h-4 w-4 mr-1" />
+                          Cancel
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="flex items-center gap-2">
-                    {file !== selectedClient && (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => {
-                          setSelectedClient(file);
-                          onOpenChange(false);
-                        }}
-                      >
-                        Select
-                      </Button>
-                    )}
-                    {file !== "No Client Selected" && (
-                      <>
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={() => handleExportFile(file)}
-                        >
-                          <Download className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={() => handleDeleteFile(file)}
-                          className="text-red-600 hover:text-red-800"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </>
-                    )}
-                  </div>
+                  ) : (
+                    <>
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-center gap-3">
+                          <FileText className="h-5 w-5 text-blue-600 flex-shrink-0" />
+                          <div className="min-w-0">
+                            <div className="font-medium truncate">{file.name}</div>
+                            {file.description && (
+                              <p className="text-sm text-gray-600 mt-1">{file.description}</p>
+                            )}
+                            <p className="text-xs text-gray-500">Last modified: {file.lastModified}</p>
+                            {file.notes && (
+                              <p className="text-xs text-gray-600 mt-1 italic">"{file.notes}"</p>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center gap-1 flex-shrink-0">
+                          {file.name !== selectedClient && (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                setSelectedClient(file.name);
+                                onOpenChange(false);
+                              }}
+                            >
+                              Select
+                            </Button>
+                          )}
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleEditFile(file)}
+                            title="Edit"
+                          >
+                            <Edit3 className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleExportFile(file)}
+                            title="Export"
+                          >
+                            <Download className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleDuplicateFile(file)}
+                            title="Duplicate"
+                          >
+                            <Copy className="h-4 w-4" />
+                          </Button>
+                          {file.name !== "No Client Selected" && (
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => handleDeleteFile(file.name)}
+                              className="text-red-600 hover:text-red-800"
+                              title="Delete"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               ))}
             </div>
@@ -183,7 +336,7 @@ export const ClientFileManager = ({
             </Button>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 };

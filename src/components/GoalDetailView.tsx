@@ -92,11 +92,11 @@ export const GoalDetailView = ({
   const [selectedForPresentation, setSelectedForPresentation] = useState<string[]>([]);
   const IconComponent = config.icon;
 
-  const handlePresentationToggle = (outputType: string) => {
+  const handlePresentationToggle = (outputType: string, checked: boolean) => {
     setSelectedForPresentation(prev => 
-      prev.includes(outputType)
-        ? prev.filter(item => item !== outputType)
-        : [...prev, outputType]
+      checked
+        ? [...prev, outputType]
+        : prev.filter(item => item !== outputType)
     );
   };
 
@@ -129,11 +129,11 @@ export const GoalDetailView = ({
             </SelectTrigger>
             <SelectContent>
               {config.outputs.map(output => (
-                <SelectItem key={output} value={output} className="flex items-center justify-between">
-                  <div className="flex items-center gap-3 w-full">
+                <SelectItem key={output} value={output}>
+                  <div className="flex items-center gap-3 w-full py-1">
                     <Checkbox
                       checked={selectedForPresentation.includes(output)}
-                      onCheckedChange={() => handlePresentationToggle(output)}
+                      onCheckedChange={(checked) => handlePresentationToggle(output, checked as boolean)}
                       onClick={(e) => e.stopPropagation()}
                     />
                     <span className="flex-1">{output}</span>
