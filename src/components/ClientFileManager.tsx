@@ -3,11 +3,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Search, Upload, FileText, Trash2, Download, Copy, Edit3, Plus, X } from "lucide-react";
+import { Search, Upload, FileText, Trash2, Download, Copy, Edit3, Plus, ArrowUpDown, Calendar, BarChart3 } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface ClientFileManagerProps {
   open: boolean;
@@ -23,6 +24,7 @@ interface ClientFile {
   description?: string;
   notes?: string;
   lastModified: string;
+  reportsCount: number;
 }
 
 export const ClientFileManager = ({ 
@@ -36,16 +38,29 @@ export const ClientFileManager = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [editingFile, setEditingFile] = useState<string | null>(null);
   const [editForm, setEditForm] = useState({ name: "", description: "", notes: "" });
+  const [sortBy, setSortBy] = useState<"lastModified" | "reportsCount">("lastModified");
 
-  // Convert string array to file objects for demonstration
-  const fileObjects: ClientFile[] = clientFiles.map(name => ({
-    name,
-    description: name === "No Client Selected" ? "" : "Client financial planning data",
-    notes: name === "No Client Selected" ? "" : "Created on " + new Date().toLocaleDateString(),
-    lastModified: new Date().toLocaleDateString()
-  }));
+  // Convert string array to file objects, excluding "No Client Selected"
+  const fileObjects: ClientFile[] = clientFiles
+    .filter(name => name !== "No Client Selected")
+    .map((name, index) => ({
+      name,
+      description: "Client financial planning data",
+      notes: "Created on " + new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+      lastModified: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+      reportsCount: Math.floor(Math.random() * 15) + 1
+    }));
 
-  const filteredFiles = fileObjects.filter(file =>
+  // Sort files based on selected criteria
+  const sortedFiles = [...fileObjects].sort((a, b) => {
+    if (sortBy === "lastModified") {
+      return new Date(b.lastModified).getTime() - new Date(a.lastModified).getTime();
+    } else {
+      return b.reportsCount - a.reportsCount;
+    }
+  });
+
+  const filteredFiles = sortedFiles.filter(file =>
     file.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -85,7 +100,6 @@ export const ClientFileManager = ({
   };
 
   const handleDeleteFile = (fileName: string) => {
-    if (fileName === "No Client Selected") return;
     setClientFiles(prev => prev.filter(file => file !== fileName));
     if (selectedClient === fileName) {
       setSelectedClient("No Client Selected");
@@ -112,7 +126,6 @@ export const ClientFileManager = ({
   };
 
   const handleDuplicateFile = (fileName: string) => {
-    if (fileName === "No Client Selected") return;
     const newName = `${fileName} (Copy)`;
     setClientFiles(prev => [...prev, newName]);
   };
@@ -159,7 +172,7 @@ export const ClientFileManager = ({
   return (
     <>
       <Sheet open={open} onOpenChange={onOpenChange}>
-        <SheetContent className="w-[480px] sm:w-[540px] overflow-y-auto">
+        <SheetContent className="w-[600px] sm:w-[700px] overflow-y-auto">
           <SheetHeader className="space-y-4 pb-6">
             <div className="flex items-center justify-between">
               <SheetTitle className="text-2xl font-bold text-gray-900">Client Files</SheetTitle>
@@ -185,27 +198,52 @@ export const ClientFileManager = ({
               </Button>
             </div>
             
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <Input
-                placeholder="Search client files..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-gray-50 border-gray-200 focus:bg-white transition-colors"
-              />
+            <div className="flex gap-3">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Input
+                  placeholder="Search client files..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 bg-gray-50 border-gray-200 focus:bg-white transition-colors"
+                />
+              </div>
+              <Select value={sortBy} onValueChange={(value: "lastModified" | "reportsCount") => setSortBy(value)}>
+                <SelectTrigger className="w-44">
+                  <ArrowUpDown className="h-4 w-4 mr-2" />
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="lastModified">
+                    <div className="flex items-center">
+                      <Calendar className="h-4 w-4 mr-2" />
+                      Last Updated
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="reportsCount">
+                    <div className="flex items-center">
+                      <BarChart3 className="h-4 w-4 mr-2" />
+                      Reports Count
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </SheetHeader>
           
           <div className="space-y-3">
             <div className="flex items-center justify-between text-sm text-gray-600 px-1">
               <span>Current: <span className="font-medium text-blue-600">{selectedClient}</span></span>
+              <span className="text-xs">
+                Sorted by {sortBy === "lastModified" ? "Last Updated" : "Reports Count"}
+              </span>
             </div>
             
             <div className="space-y-2">
               {filteredFiles.map((file, index) => (
                 <div
                   key={index}
-                  className={`group p-4 border rounded-xl hover:shadow-md transition-all duration-200 ${
+                  className={`group p-3 border rounded-lg hover:shadow-sm transition-all duration-200 ${
                     file.name === selectedClient 
                       ? 'border-blue-500 bg-blue-50 shadow-sm' 
                       : 'border-gray-200 hover:border-gray-300 bg-white'
@@ -213,19 +251,22 @@ export const ClientFileManager = ({
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex items-start gap-3 flex-1">
-                      <div className={`p-2 rounded-lg ${
+                      <div className={`p-1.5 rounded-md ${
                         file.name === selectedClient 
                           ? 'bg-blue-100 text-blue-600' 
                           : 'bg-gray-100 text-gray-600'
                       }`}>
-                        <FileText className="h-4 w-4" />
+                        <FileText className="h-3.5 w-3.5" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-gray-900 truncate">{file.name}</h3>
+                        <h3 className="font-medium text-gray-900 truncate text-sm">{file.name}</h3>
                         {file.description && (
-                          <p className="text-sm text-gray-600 mt-1">{file.description}</p>
+                          <p className="text-xs text-gray-600 mt-0.5">{file.description}</p>
                         )}
-                        <p className="text-xs text-gray-500 mt-1">Modified: {file.lastModified}</p>
+                        <div className="flex items-center gap-4 mt-1">
+                          <p className="text-xs text-gray-500">Modified: {file.lastModified}</p>
+                          <p className="text-xs text-gray-500">{file.reportsCount} reports</p>
+                        </div>
                       </div>
                     </div>
                     
@@ -238,47 +279,43 @@ export const ClientFileManager = ({
                             setSelectedClient(file.name);
                             onOpenChange(false);
                           }}
-                          className="h-8 px-3 text-blue-600 hover:bg-blue-100"
+                          className="h-7 px-2 text-xs text-blue-600 hover:bg-blue-100"
                         >
                           Select
                         </Button>
                       )}
-                      {file.name !== "No Client Selected" && (
-                        <>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => handleEditFile(file.name)}
-                            className="h-8 w-8 p-0 hover:bg-gray-100"
-                          >
-                            <Edit3 className="h-3 w-3" />
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => handleDuplicateFile(file.name)}
-                            className="h-8 w-8 p-0 hover:bg-gray-100"
-                          >
-                            <Copy className="h-3 w-3" />
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => handleExportFile(file.name)}
-                            className="h-8 w-8 p-0 hover:bg-gray-100"
-                          >
-                            <Download className="h-3 w-3" />
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => handleDeleteFile(file.name)}
-                            className="h-8 w-8 p-0 text-red-600 hover:bg-red-50"
-                          >
-                            <Trash2 className="h-3 w-3" />
-                          </Button>
-                        </>
-                      )}
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => handleEditFile(file.name)}
+                        className="h-7 w-7 p-0 hover:bg-gray-100"
+                      >
+                        <Edit3 className="h-3 w-3" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => handleDuplicateFile(file.name)}
+                        className="h-7 w-7 p-0 hover:bg-gray-100"
+                      >
+                        <Copy className="h-3 w-3" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => handleExportFile(file.name)}
+                        className="h-7 w-7 p-0 hover:bg-gray-100"
+                      >
+                        <Download className="h-3 w-3" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => handleDeleteFile(file.name)}
+                        className="h-7 w-7 p-0 text-red-600 hover:bg-red-50"
+                      >
+                        <Trash2 className="h-3 w-3" />
+                      </Button>
                     </div>
                   </div>
                 </div>

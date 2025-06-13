@@ -95,7 +95,15 @@ export const Header = () => {
     console.log("Reset changes");
   };
 
-  const filteredClients = clientFiles.filter(client =>
+  // Get only last 3 recent clients (excluding "No Client Selected")
+  const recentClients = clientFiles
+    .filter(client => client !== "No Client Selected")
+    .slice(-3)
+    .reverse();
+
+  // Show all clients for search, excluding "No Client Selected"
+  const searchableClients = clientFiles.filter(client => client !== "No Client Selected");
+  const filteredClients = searchableClients.filter(client =>
     client.toLowerCase().includes(clientSearch.toLowerCase())
   );
 
@@ -133,9 +141,23 @@ export const Header = () => {
                       className="h-8"
                     />
                   </div>
-                  {filteredClients.map(client => (
+                  {/* Show "No Client Selected" option */}
+                  <SelectItem value="No Client Selected">No Client Selected</SelectItem>
+                  {/* Show only last 3 recent clients */}
+                  {recentClients.map(client => (
                     <SelectItem key={client} value={client}>{client}</SelectItem>
                   ))}
+                  {/* Show filtered search results if search is active */}
+                  {clientSearch && filteredClients.length > 0 && (
+                    <>
+                      <div className="border-t my-1 pt-1">
+                        <div className="px-2 py-1 text-xs font-medium text-gray-500">Search Results</div>
+                      </div>
+                      {filteredClients.map(client => (
+                        <SelectItem key={`search-${client}`} value={client}>{client}</SelectItem>
+                      ))}
+                    </>
+                  )}
                   <div className="border-t mt-1 pt-1">
                     <Button
                       variant="ghost"
