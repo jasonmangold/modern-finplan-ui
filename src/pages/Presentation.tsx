@@ -231,8 +231,8 @@ const Presentation = () => {
       <div className="flex justify-center">
         <AnimatedTabs
           tabs={tabs}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
+          defaultValue={activeTab}
+          onValueChange={setActiveTab}
         />
       </div>
 
