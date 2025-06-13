@@ -7,6 +7,7 @@ import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown, Download, Search, Filter, ArrowLeft, Eye, FileText, FolderOpen } from "lucide-react";
 import { ReportViewer } from "@/components/ReportViewer";
+import { PDFViewer } from "@/components/PDFViewer";
 import { useEducationCategories, useEducationSearch, useEducationData } from "@/hooks/useEducationData";
 
 const clientInteractionForms = ["Agenda for Discussion", "Beneficiary Audit Checklist", "Business Events Checklist", "Business Owner Planning Needs", "Client Referral", "Divorce Checklist", "Financial Review Checklist", "Life Events Checklist", "Planning Task List", "Receipt for Documents"];
@@ -27,6 +28,7 @@ const Education = () => {
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [selectedFormats, setSelectedFormats] = useState<string[]>([]);
   const [selectedReport, setSelectedReport] = useState<string | null>(null);
+  const [selectedPDF, setSelectedPDF] = useState<{ url: string; title: string } | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
   const [expandedSubfolders, setExpandedSubfolders] = useState<string[]>([]);
@@ -54,20 +56,26 @@ const Education = () => {
     setSelectedFormats([]);
   };
 
-  const handleReportClick = (reportTitle: string) => {
-    if (reportTitle === "The Need for Financial Planning") {
-      setSelectedReport("retirement-planning");
-    } else if (reportTitle === "The Need for Retirement Planning (2)") {
-      setSelectedReport("retirement-planning-2");
-    } else if (reportTitle === "The Need for Retirement Planning (3)") {
-      setSelectedReport("retirement-planning-3");
-    } else if (reportTitle === "Up to Your Neck in Debt?") {
-      setSelectedReport("debt-management");
+  const handleReportClick = (report: any) => {
+    if (report.file_pdf) {
+      setSelectedPDF({ url: report.file_pdf, title: report.DocumentTitle });
+    } else {
+      // Fallback to existing report viewer for specific hardcoded reports
+      if (report.DocumentTitle === "The Need for Financial Planning") {
+        setSelectedReport("retirement-planning");
+      } else if (report.DocumentTitle === "The Need for Retirement Planning (2)") {
+        setSelectedReport("retirement-planning-2");
+      } else if (report.DocumentTitle === "The Need for Retirement Planning (3)") {
+        setSelectedReport("retirement-planning-3");
+      } else if (report.DocumentTitle === "Up to Your Neck in Debt?") {
+        setSelectedReport("debt-management");
+      }
     }
   };
 
   const handleBackToReports = () => {
     setSelectedReport(null);
+    setSelectedPDF(null);
   };
 
   const toggleCategoryExpansion = (categoryName: string) => {
@@ -93,6 +101,14 @@ const Education = () => {
       record.Folder === folderName && (!record.Subfolder || record.Subfolder.trim() === '')
     );
   };
+
+  if (selectedPDF) {
+    return <PDFViewer 
+      pdfUrl={selectedPDF.url} 
+      title={selectedPDF.title} 
+      onBack={handleBackToReports} 
+    />;
+  }
 
   if (selectedReport) {
     return <div className="p-8 max-w-7xl mx-auto">
@@ -236,10 +252,15 @@ const Education = () => {
                                   <div className="flex items-center gap-3">
                                     <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
                                     <FileText className="h-4 w-4 text-gray-400" />
-                                    <span className="text-sm">{report.DocumentTitle}</span>
+                                    <button 
+                                      onClick={() => handleReportClick(report)}
+                                      className="text-sm hover:text-blue-600 transition-colors text-left"
+                                    >
+                                      {report.DocumentTitle}
+                                    </button>
                                   </div>
                                   <div className="flex items-center gap-2">
-                                    <Button variant="ghost" size="sm" onClick={() => handleReportClick(report.DocumentTitle)}>
+                                    <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)}>
                                       <Eye className="h-4 w-4" />
                                     </Button>
                                     <Button variant="ghost" size="sm" onClick={() => handleDownload(report.DocumentTitle)}>
@@ -257,10 +278,15 @@ const Education = () => {
                             <div className="flex items-center gap-3">
                               <Checkbox checked={selectedItems.includes(report.DocumentTitle)} onCheckedChange={() => handleItemSelection(report.DocumentTitle)} />
                               <FileText className="h-4 w-4 text-gray-400" />
-                              <span className="text-sm">{report.DocumentTitle}</span>
+                              <button 
+                                onClick={() => handleReportClick(report)}
+                                className="text-sm hover:text-blue-600 transition-colors text-left"
+                              >
+                                {report.DocumentTitle}
+                              </button>
                             </div>
                             <div className="flex items-center gap-2">
-                              <Button variant="ghost" size="sm" onClick={() => handleReportClick(report.DocumentTitle)}>
+                              <Button variant="ghost" size="sm" onClick={() => handleReportClick(report)}>
                                 <Eye className="h-4 w-4" />
                               </Button>
                               <Button variant="ghost" size="sm" onClick={() => handleDownload(report.DocumentTitle)}>

@@ -11,6 +11,7 @@ export type EducationRecord = {
   DocumentTitle: string
   Folder: string
   Subfolder: string
+  file_pdf?: string
   created_at?: string
 }
 
