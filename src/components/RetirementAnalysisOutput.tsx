@@ -120,21 +120,21 @@ export const RetirementAnalysisOutput = ({ selectedForPresentation = [] }: { sel
               
               <div className="space-y-4 ml-4">
                 <div>
-                  <h4 class="font-medium text-base mb-2">Earned Income</h4>
-                  <p class="text-sm ml-4">Sally's employment income from age 65 until age 67</p>
+                  <h4 className="font-medium text-base mb-2">Earned Income</h4>
+                  <p className="text-sm ml-4">Sally's employment income from age 65 until age 67</p>
                 </div>
                 
                 <div>
-                  <h4 class="font-medium text-base mb-2">Social Security</h4>
-                  <div class="space-y-1 ml-4 text-sm">
-                    <div>Social Security benefits at Paul's age 67 - <span class="font-semibold">$2,853</span></div>
-                    <div>Social Security benefits at Sally's age 67 - <span class="font-semibold">$2,426</span></div>
+                  <h4 className="font-medium text-base mb-2">Social Security</h4>
+                  <div className="space-y-1 ml-4 text-sm">
+                    <div>Social Security benefits at Paul's age 67 - <span className="font-semibold">$2,853</span></div>
+                    <div>Social Security benefits at Sally's age 67 - <span className="font-semibold">$2,426</span></div>
                   </div>
                 </div>
                 
                 <div>
-                  <h4 class="font-medium text-base mb-2">Other Income</h4>
-                  <p class="text-sm ml-4">Rental Income beginning at Paul's age 67 - <span class="font-semibold">$500</span></p>
+                  <h4 className="font-medium text-base mb-2">Other Income</h4>
+                  <p className="text-sm ml-4">Rental Income beginning at Paul's age 67 - <span className="font-semibold">$500</span></p>
                 </div>
               </div>
             </div>
