@@ -256,7 +256,7 @@ const Home = () => {
         {/* Modern mesh gradient and subtle dot-pattern overlay */}
         <div aria-hidden className="absolute inset-0 z-0">
           {/* Main mesh gradient */}
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-400 to-gray-600 opacity-95" />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-slate-200 to-gray-300 opacity-95" />
           {/* Subtle mesh/texture */}
           <svg
             className="absolute inset-0 w-full h-full opacity-15"
