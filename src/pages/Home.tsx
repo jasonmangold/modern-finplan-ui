@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -6,7 +5,7 @@ import {
   BarChart3, 
   Calculator, 
   FileText, 
-  PresentationChart, 
+  Presentation, 
   Users, 
   TrendingUp,
   Target,
@@ -41,7 +40,7 @@ const Home = () => {
     {
       title: "Create Presentation",
       description: "Build client presentations",
-      icon: PresentationChart,
+      icon: Presentation,
       href: "/presentation",
       color: "bg-orange-500 hover:bg-orange-600 dark:bg-orange-600 dark:hover:bg-orange-700"
     }
