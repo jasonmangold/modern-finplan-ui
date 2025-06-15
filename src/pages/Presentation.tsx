@@ -12,6 +12,7 @@ import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { GoalSelectionDialog } from "@/components/GoalSelectionDialog";
 import { FastTrackInputDialog } from "@/components/FastTrackInputDialog";
 import { useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
 
 interface PresentationItem {
   id: string;
@@ -100,7 +101,9 @@ const Presentation = () => {
     email: "",
     website: "",
     logo: null as File | null,
-    advisorPhoto: null as File | null
+    advisorPhoto: null as File | null,
+    disclaimer: "",
+    disclosure: ""
   });
 
   // Presentation Defaults State (same structure as presentation options)
@@ -692,24 +695,22 @@ const Presentation = () => {
       {activeTab === "Templates" && (
         <Card className="border-gray-200 shadow-sm">
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Layers className="h-5 w-5 text-purple-600" />
-                <CardTitle className="text-lg text-gray-900">Presentation Templates</CardTitle>
-                <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-                  {templates.length} templates available
-                </span>
-              </div>
-              <div className="flex gap-2">
-                <Button 
-                  onClick={handleImportTemplate}
-                  variant="outline"
-                  className="bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100"
-                >
-                  <Import className="h-4 w-4 mr-2" />
-                  Import Template
-                </Button>
-              </div>
+            <div className="flex items-center gap-3">
+              <Layers className="h-5 w-5 text-purple-600" />
+              <CardTitle className="text-lg text-gray-900">Presentation Templates</CardTitle>
+              <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                {templates.length} templates available
+              </span>
+            </div>
+            <div className="flex gap-2">
+              <Button 
+                onClick={handleImportTemplate}
+                variant="outline"
+                className="bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100"
+              >
+                <Import className="h-4 w-4 mr-2" />
+                Import Template
+              </Button>
             </div>
           </CardHeader>
           <CardContent>
@@ -936,6 +937,34 @@ const Presentation = () => {
                     </Button>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* New Disclaimer and Disclosure Editing Section */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t pt-6">
+              <div>
+                <Label htmlFor="company-disclaimer" className="font-semibold mb-1 block">
+                  Disclaimer
+                </Label>
+                <Textarea
+                  id="company-disclaimer"
+                  className="min-h-[80px]"
+                  placeholder="Enter your company disclaimer text here..."
+                  value={companyInfo.disclaimer}
+                  onChange={e => setCompanyInfo(prev => ({ ...prev, disclaimer: e.target.value }))}
+                />
+              </div>
+              <div>
+                <Label htmlFor="company-disclosure" className="font-semibold mb-1 block">
+                  Disclosure
+                </Label>
+                <Textarea
+                  id="company-disclosure"
+                  className="min-h-[80px]"
+                  placeholder="Enter your company disclosure text here..."
+                  value={companyInfo.disclosure}
+                  onChange={e => setCompanyInfo(prev => ({ ...prev, disclosure: e.target.value }))}
+                />
               </div>
             </div>
 
