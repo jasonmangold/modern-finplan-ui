@@ -1,6 +1,6 @@
 
 import React, { useRef, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, List, ListOrdered, X } from "lucide-react";
 
@@ -61,6 +61,9 @@ export const TextEditorModal: React.FC<TextEditorModalProps> = ({
               <Button variant="ghost" size="icon" className="ml-auto"><X className="w-5 h-5" /></Button>
             </DialogClose>
           </DialogTitle>
+          <DialogDescription>
+            Use the toolbar to format your text. Press Save to apply changes or Cancel to discard them.
+          </DialogDescription>
         </DialogHeader>
         <div>
           <div className="flex gap-2 mb-2 border rounded px-2 py-1 bg-gray-50">
