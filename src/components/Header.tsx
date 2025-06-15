@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Search, User, HelpCircle, FileText, Settings, LogOut, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -100,12 +101,14 @@ export const Header = () => {
   };
 
   const handleNewClient = () => {
-    // Clear all form inputs and uncheck reports
+    // Clear all form inputs across different pages
     const inputs = document.querySelectorAll('input');
     const textareas = document.querySelectorAll('textarea');
     const selects = document.querySelectorAll('select');
     const checkboxes = document.querySelectorAll('input[type="checkbox"]') as NodeListOf<HTMLInputElement>;
+    const radioButtons = document.querySelectorAll('input[type="radio"]') as NodeListOf<HTMLInputElement>;
     
+    // Clear text inputs and textareas
     inputs.forEach(input => {
       if (input.type !== 'checkbox' && input.type !== 'radio') {
         input.value = '';
@@ -118,14 +121,27 @@ export const Header = () => {
       textarea.dispatchEvent(new Event('input', { bubbles: true }));
     });
     
+    // Uncheck all checkboxes (including reports)
     checkboxes.forEach(checkbox => {
       if (checkbox.checked) {
         checkbox.checked = false;
         checkbox.dispatchEvent(new Event('change', { bubbles: true }));
       }
     });
+
+    // Uncheck all radio buttons
+    radioButtons.forEach(radio => {
+      if (radio.checked) {
+        radio.checked = false;
+        radio.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+
+    // Clear any React state that might be in forms
+    // Dispatch a custom event that components can listen to for clearing their state
+    window.dispatchEvent(new CustomEvent('clearAllFormData'));
     
-    // Reset to "No Client Selected"
+    // Reset client selection to "No Client Selected" and set first save state
     setSelectedClient("No Client Selected");
     setIsFirstSave(true);
     setHasUnsavedChanges(false);
@@ -176,6 +192,15 @@ export const Header = () => {
     return 'Search...';
   };
 
+  // Get the display value for the select trigger
+  const getSelectDisplayValue = () => {
+    // If it's first save or explicitly "No Client Selected", show "No Client Selected"
+    if (isFirstSave || selectedClient === "No Client Selected") {
+      return "No Client Selected";
+    }
+    return selectedClient;
+  };
+
   return (
     <>
       <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200/60 sticky top-0 z-50">
@@ -185,7 +210,7 @@ export const Header = () => {
               eAdvisys
             </div>
             <div className="flex items-center gap-3">
-              <Select value={selectedClient} onValueChange={setSelectedClient}>
+              <Select value={getSelectDisplayValue()} onValueChange={setSelectedClient}>
                 <SelectTrigger className="w-52 border-gray-200 bg-gray-50/50 hover:bg-gray-100/50 transition-colors">
                   <SelectValue />
                 </SelectTrigger>
@@ -202,7 +227,6 @@ export const Header = () => {
                   <SelectItem value="__new_client__" onSelect={handleNewClient}>
                     <span className="text-blue-600 font-medium">+ New Client</span>
                   </SelectItem>
-                  {/* Removed "No Client Selected" option from dropdown */}
                   {/* Show only last 3 recent clients */}
                   {recentClients.map(client => (
                     <SelectItem key={client} value={client}>{client}</SelectItem>
