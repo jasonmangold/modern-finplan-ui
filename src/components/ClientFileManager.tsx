@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -216,51 +217,51 @@ export const ClientFileManager = ({
           className="w-full max-w-[100vw] h-[100vh] sm:w-full sm:max-w-[100vw] sm:h-[100vh] p-0 rounded-none overflow-y-auto"
           side="right"
         >
-          <div className="w-full h-full flex flex-col bg-white">
+          <div className="w-full h-full flex flex-col bg-white dark:bg-gray-900">
             <SheetHeader className="space-y-4 pb-6 px-8 pt-8">
               <div className="flex items-center justify-between">
-                <SheetTitle className="text-2xl font-bold text-gray-900">Client Files</SheetTitle>
-                <Badge variant="outline" className="text-blue-600 border-blue-200 bg-blue-50">
+                <SheetTitle className="text-2xl font-bold text-gray-900 dark:text-gray-100">Client Files</SheetTitle>
+                <Badge variant="outline" className="text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20">
                   {filteredFiles.length} files
                 </Badge>
               </div>
               <div className="flex gap-3">
                 <Button 
                   onClick={handleImportClient}
-                  className="bg-green-600 hover:bg-green-700 text-white flex-1"
+                  className="bg-green-600 hover:bg-green-700 dark:bg-green-600 dark:hover:bg-green-700 text-white flex-1"
                 >
                   <Upload className="h-4 w-4 mr-2" />
                   Import
                 </Button>
                 <Button 
                   onClick={handleCreateNew}
-                  className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
+                  className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white flex-1"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   New Client
                 </Button>
               </div>
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 h-4 w-4" />
                 <Input
                   placeholder="Search client files..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 bg-gray-50 border-gray-200 focus:bg-white transition-colors"
+                  className="pl-10 bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 focus:bg-white dark:focus:bg-gray-800 transition-colors text-gray-900 dark:text-gray-100"
                 />
               </div>
             </SheetHeader>
             <div className="space-y-4 flex-1 flex flex-col px-8 pb-8 overflow-y-auto">
-              <div className="flex items-center justify-between text-sm text-gray-600 px-1">
-                <span>Current: <span className="font-medium text-blue-600">{selectedClient}</span></span>
+              <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 px-1">
+                <span>Current: <span className="font-medium text-blue-600 dark:text-blue-400">{selectedClient}</span></span>
               </div>
 
-              <div className="border rounded-lg flex-1 flex flex-col overflow-hidden">
+              <div className="border border-gray-200 dark:border-gray-700 rounded-lg flex-1 flex flex-col overflow-hidden">
                 <Table className="flex-1 min-h-0">
                   <TableHeader>
-                    <TableRow>
+                    <TableRow className="border-gray-200 dark:border-gray-700">
                       <TableHead 
-                        className="cursor-pointer hover:bg-gray-50 select-none"
+                        className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 select-none text-gray-900 dark:text-gray-100"
                         onClick={() => handleSort("name")}
                       >
                         <div className="flex items-center">
@@ -269,7 +270,7 @@ export const ClientFileManager = ({
                         </div>
                       </TableHead>
                       <TableHead 
-                        className="cursor-pointer hover:bg-gray-50 select-none"
+                        className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 select-none text-gray-900 dark:text-gray-100"
                         onClick={() => handleSort("lastModified")}
                       >
                         <div className="flex items-center">
@@ -278,7 +279,7 @@ export const ClientFileManager = ({
                         </div>
                       </TableHead>
                       <TableHead 
-                        className="cursor-pointer hover:bg-gray-50 select-none"
+                        className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 select-none text-gray-900 dark:text-gray-100"
                         onClick={() => handleSort("reportsCount")}
                       >
                         <div className="flex items-center">
@@ -286,38 +287,38 @@ export const ClientFileManager = ({
                           {getSortIcon("reportsCount")}
                         </div>
                       </TableHead>
-                      <TableHead className="w-48">Actions</TableHead>
+                      <TableHead className="w-48 text-gray-900 dark:text-gray-100">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredFiles.map((file, index) => (
                       <TableRow
                         key={index}
-                        className={`hover:bg-gray-50 ${
-                          file.name === selectedClient ? 'bg-blue-50' : ''
+                        className={`hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-200 dark:border-gray-700 ${
+                          file.name === selectedClient ? 'bg-blue-50 dark:bg-blue-900/20' : ''
                         }`}
                       >
                         <TableCell>
                           <div className="flex items-center gap-3">
                             <div className={`p-1.5 rounded-md ${
                               file.name === selectedClient 
-                                ? 'bg-blue-100 text-blue-600' 
-                                : 'bg-gray-100 text-gray-600'
+                                ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400' 
+                                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
                             }`}>
                               <FileText className="h-3.5 w-3.5" />
                             </div>
                             <div>
-                              <h3 className="font-medium text-gray-900 text-sm">{file.name}</h3>
+                              <h3 className="font-medium text-gray-900 dark:text-gray-100 text-sm">{file.name}</h3>
                               {file.description && (
-                                <p className="text-xs text-gray-600 mt-0.5">{file.description}</p>
+                                <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">{file.description}</p>
                               )}
                             </div>
                           </div>
                         </TableCell>
-                        <TableCell className="text-sm text-gray-600">
+                        <TableCell className="text-sm text-gray-600 dark:text-gray-400">
                           {file.lastModified}
                         </TableCell>
-                        <TableCell className="text-sm text-gray-600">
+                        <TableCell className="text-sm text-gray-600 dark:text-gray-400">
                           {file.reportsCount}
                         </TableCell>
                         <TableCell>
@@ -330,7 +331,7 @@ export const ClientFileManager = ({
                                   setSelectedClient(file.name);
                                   onOpenChange(false);
                                 }}
-                                className="h-7 px-2 text-xs text-blue-600 hover:bg-blue-100"
+                                className="h-7 px-2 text-xs text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/20"
                               >
                                 Select
                               </Button>
@@ -339,7 +340,7 @@ export const ClientFileManager = ({
                               size="sm"
                               variant="ghost"
                               onClick={() => handleEditFile(file.name)}
-                              className="h-7 w-7 p-0 hover:bg-gray-100"
+                              className="h-7 w-7 p-0 hover:bg-gray-100 dark:hover:bg-gray-800"
                               title="Edit"
                             >
                               <Edit3 className="h-3 w-3" />
@@ -348,7 +349,7 @@ export const ClientFileManager = ({
                               size="sm"
                               variant="ghost"
                               onClick={() => handleDuplicateFile(file.name)}
-                              className="h-7 w-7 p-0 hover:bg-gray-100"
+                              className="h-7 w-7 p-0 hover:bg-gray-100 dark:hover:bg-gray-800"
                               title="Duplicate"
                             >
                               <Copy className="h-3 w-3" />
@@ -357,7 +358,7 @@ export const ClientFileManager = ({
                               size="sm"
                               variant="ghost"
                               onClick={() => handleExportFile(file.name)}
-                              className="h-7 w-7 p-0 hover:bg-gray-100"
+                              className="h-7 w-7 p-0 hover:bg-gray-100 dark:hover:bg-gray-800"
                               title="Export"
                             >
                               <Download className="h-3 w-3" />
@@ -366,7 +367,7 @@ export const ClientFileManager = ({
                               size="sm"
                               variant="ghost"
                               onClick={() => handleDeleteFile(file.name)}
-                              className="h-7 w-7 p-0 text-red-600 hover:bg-red-50"
+                              className="h-7 w-7 p-0 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
                               title="Delete"
                             >
                               <Trash2 className="h-3 w-3" />
@@ -385,54 +386,55 @@ export const ClientFileManager = ({
 
       {/* Edit/Create Dialog */}
       <Dialog open={!!editingFile} onOpenChange={() => setEditingFile(null)}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700">
           <DialogHeader>
-            <DialogTitle>
+            <DialogTitle className="text-gray-900 dark:text-gray-100">
               {editingFile === "new" ? "Create New Client" : "Edit Client File"}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="name" className="text-sm font-medium">Client Name *</Label>
+              <Label htmlFor="name" className="text-sm font-medium text-gray-900 dark:text-gray-100">Client Name *</Label>
               <Input
                 id="name"
                 value={editForm.name}
                 onChange={(e) => setEditForm(prev => ({ ...prev, name: e.target.value }))}
                 placeholder="Enter client name"
-                className="mt-1"
+                className="mt-1 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100"
               />
             </div>
             <div>
-              <Label htmlFor="description" className="text-sm font-medium">Description</Label>
+              <Label htmlFor="description" className="text-sm font-medium text-gray-900 dark:text-gray-100">Description</Label>
               <Input
                 id="description"
                 value={editForm.description}
                 onChange={(e) => setEditForm(prev => ({ ...prev, description: e.target.value }))}
                 placeholder="Enter description (optional)"
-                className="mt-1"
+                className="mt-1 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100"
               />
             </div>
             <div>
-              <Label htmlFor="notes" className="text-sm font-medium">Notes</Label>
+              <Label htmlFor="notes" className="text-sm font-medium text-gray-900 dark:text-gray-100">Notes</Label>
               <Textarea
                 id="notes"
                 value={editForm.notes}
                 onChange={(e) => setEditForm(prev => ({ ...prev, notes: e.target.value }))}
                 placeholder="Enter notes (optional)"
-                className="mt-1 min-h-[80px]"
+                className="mt-1 min-h-[80px] bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100"
               />
             </div>
             <div className="flex justify-end gap-2 pt-4">
               <Button 
                 variant="outline" 
                 onClick={() => setEditingFile(null)}
+                className="border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800"
               >
                 Cancel
               </Button>
               <Button 
                 onClick={editingFile === "new" ? handleSaveNew : handleSaveEdit}
                 disabled={!editForm.name.trim()}
-                className="bg-blue-600 hover:bg-blue-700"
+                className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white"
               >
                 {editingFile === "new" ? "Create" : "Save Changes"}
               </Button>

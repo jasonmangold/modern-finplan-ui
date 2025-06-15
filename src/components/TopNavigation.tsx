@@ -19,8 +19,8 @@ export const TopNavigation = () => {
           className={({ isActive }) =>
             `py-2 px-3 rounded-md font-medium text-sm transition-colors ${
               isActive
-                ? 'bg-blue-100 text-blue-700'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300'
+                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800'
             }`
           }
         >

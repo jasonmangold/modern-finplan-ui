@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
@@ -31,8 +32,8 @@ const planningGoals = [
     description: "College and education planning",
     status: "529 Plan started • $50k target",
     completed: true,
-    color: "bg-blue-50 border-blue-200",
-    iconColor: "text-blue-600"
+    color: "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800",
+    iconColor: "text-blue-600 dark:text-blue-400"
   },
   {
     id: "survivor-needs",
@@ -41,8 +42,8 @@ const planningGoals = [
     description: "Life insurance and protection",
     status: "$500k coverage in place",
     completed: true,
-    color: "bg-green-50 border-green-200",
-    iconColor: "text-green-600"
+    color: "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800",
+    iconColor: "text-green-600 dark:text-green-400"
   },
   {
     id: "retirement-accumulation",
@@ -51,8 +52,8 @@ const planningGoals = [
     description: "Building retirement wealth",
     status: "$500k saved • On track",
     completed: true,
-    color: "bg-green-50 border-green-200",
-    iconColor: "text-green-600"
+    color: "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800",
+    iconColor: "text-green-600 dark:text-green-400"
   },
   {
     id: "retirement-distribution",
@@ -61,8 +62,8 @@ const planningGoals = [
     description: "Withdrawal strategy planning",
     status: "Strategy needed",
     completed: false,
-    color: "bg-orange-50 border-orange-200",
-    iconColor: "text-orange-600"
+    color: "bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800",
+    iconColor: "text-orange-600 dark:text-orange-400"
   },
   {
     id: "social-security",
@@ -71,8 +72,8 @@ const planningGoals = [
     description: "Optimization and timing",
     status: "Analysis pending",
     completed: false,
-    color: "bg-gray-50 border-gray-200",
-    iconColor: "text-gray-600"
+    color: "bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700",
+    iconColor: "text-gray-600 dark:text-gray-400"
   },
   {
     id: "disability",
@@ -81,8 +82,8 @@ const planningGoals = [
     description: "Income protection planning",
     status: "Not started",
     completed: false,
-    color: "bg-gray-50 border-gray-200",
-    iconColor: "text-gray-600"
+    color: "bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700",
+    iconColor: "text-gray-600 dark:text-gray-400"
   },
   {
     id: "critical-illness",
@@ -91,8 +92,8 @@ const planningGoals = [
     description: "Health crisis protection",
     status: "Not started",
     completed: false,
-    color: "bg-gray-50 border-gray-200",
-    iconColor: "text-gray-600"
+    color: "bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700",
+    iconColor: "text-gray-600 dark:text-gray-400"
   },
   {
     id: "long-term-care",
@@ -101,8 +102,8 @@ const planningGoals = [
     description: "Healthcare cost planning",
     status: "Analysis needed",
     completed: false,
-    color: "bg-purple-50 border-purple-200",
-    iconColor: "text-purple-600"
+    color: "bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800",
+    iconColor: "text-purple-600 dark:text-purple-400"
   },
   {
     id: "estate-analysis",
@@ -111,8 +112,8 @@ const planningGoals = [
     description: "Wealth transfer planning",
     status: "Will completed • Trust needed",
     completed: false,
-    color: "bg-purple-50 border-purple-200",
-    iconColor: "text-purple-600"
+    color: "bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800",
+    iconColor: "text-purple-600 dark:text-purple-400"
   },
   {
     id: "accumulation-funding",
@@ -121,8 +122,8 @@ const planningGoals = [
     description: "General savings goals",
     status: "Emergency fund complete",
     completed: true,
-    color: "bg-green-50 border-green-200",
-    iconColor: "text-green-600"
+    color: "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800",
+    iconColor: "text-green-600 dark:text-green-400"
   },
   {
     id: "asset-allocation",
@@ -131,8 +132,8 @@ const planningGoals = [
     description: "Investment portfolio strategy",
     status: "Rebalancing needed",
     completed: false,
-    color: "bg-orange-50 border-orange-200",
-    iconColor: "text-orange-600"
+    color: "bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800",
+    iconColor: "text-orange-600 dark:text-orange-400"
   },
   {
     id: "charitable-remainder-trust",
@@ -141,8 +142,8 @@ const planningGoals = [
     description: "Tax-efficient giving",
     status: "Not started",
     completed: false,
-    color: "bg-gray-50 border-gray-200",
-    iconColor: "text-gray-600"
+    color: "bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700",
+    iconColor: "text-gray-600 dark:text-gray-400"
   },
   {
     id: "personal-finance",
@@ -151,8 +152,8 @@ const planningGoals = [
     description: "Cash flow and budgeting",
     status: "Budget tracking active",
     completed: true,
-    color: "bg-green-50 border-green-200",
-    iconColor: "text-green-600"
+    color: "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800",
+    iconColor: "text-green-600 dark:text-green-400"
   },
   {
     id: "debt-repayment",
@@ -161,8 +162,8 @@ const planningGoals = [
     description: "Debt elimination strategy",
     status: "$23.5k total • 3.2 years",
     completed: false,
-    color: "bg-red-50 border-red-200",
-    iconColor: "text-red-600"
+    color: "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800",
+    iconColor: "text-red-600 dark:text-red-400"
   },
   {
     id: "business-continuation",
@@ -171,8 +172,8 @@ const planningGoals = [
     description: "Business succession planning",
     status: "Not applicable",
     completed: false,
-    color: "bg-gray-50 border-gray-200",
-    iconColor: "text-gray-600"
+    color: "bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700",
+    iconColor: "text-gray-600 dark:text-gray-400"
   },
   {
     id: "business-valuation",
@@ -181,8 +182,8 @@ const planningGoals = [
     description: "Asset valuation analysis",
     status: "Not applicable",
     completed: false,
-    color: "bg-gray-50 border-gray-200",
-    iconColor: "text-gray-600"
+    color: "bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700",
+    iconColor: "text-gray-600 dark:text-gray-400"
   },
   {
     id: "key-employee",
@@ -191,8 +192,8 @@ const planningGoals = [
     description: "Key person insurance",
     status: "Not applicable",
     completed: false,
-    color: "bg-gray-50 border-gray-200",
-    iconColor: "text-gray-600"
+    color: "bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700",
+    iconColor: "text-gray-600 dark:text-gray-400"
   }
 ];
 
@@ -210,12 +211,12 @@ export const GoalsBasedMode = ({ onGoalSelect, onShowFitnessScore }: GoalsBasedM
   const completedGoals = planningGoals.filter(goal => goal.completed).length;
 
   return (
-    <div className="h-full p-6 space-y-6">
+    <div className="h-full p-6 space-y-6 bg-background dark:bg-gray-900">
       {/* Header with Progress */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-semibold text-gray-900">Financial Goals</h2>
-          <p className="text-lg text-gray-600 mt-2">
+          <h2 className="text-3xl font-semibold text-gray-900 dark:text-gray-100">Financial Goals</h2>
+          <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
             {completedGoals} of {planningGoals.length} goals in progress
           </p>
         </div>
@@ -243,16 +244,16 @@ export const GoalsBasedMode = ({ onGoalSelect, onShowFitnessScore }: GoalsBasedM
               <CardHeader className="pb-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className={`p-3 rounded-lg bg-white ${goal.iconColor}`}>
+                    <div className={`p-3 rounded-lg bg-white dark:bg-gray-800 ${goal.iconColor}`}>
                       <IconComponent className="h-6 w-6" />
                     </div>
                     <div>
-                      <CardTitle className="text-lg">{goal.title}</CardTitle>
-                      <p className="text-sm text-gray-600 mt-1">{goal.description}</p>
+                      <CardTitle className="text-lg text-gray-900 dark:text-gray-100">{goal.title}</CardTitle>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{goal.description}</p>
                     </div>
                   </div>
                   {goal.completed && (
-                    <Badge variant="secondary" className="text-sm">
+                    <Badge variant="secondary" className="text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
                       Active
                     </Badge>
                   )}
@@ -260,8 +261,8 @@ export const GoalsBasedMode = ({ onGoalSelect, onShowFitnessScore }: GoalsBasedM
               </CardHeader>
               <CardContent className="pt-0">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-700">{goal.status}</p>
-                  <ArrowRight className="h-5 w-5 text-gray-400" />
+                  <p className="text-sm text-gray-700 dark:text-gray-300">{goal.status}</p>
+                  <ArrowRight className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 </div>
               </CardContent>
             </Card>
@@ -270,12 +271,12 @@ export const GoalsBasedMode = ({ onGoalSelect, onShowFitnessScore }: GoalsBasedM
       </div>
 
       {/* Switch Mode Prompt */}
-      <Card className="border-dashed border-2 border-blue-200 bg-blue-50">
+      <Card className="border-dashed border-2 border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20">
         <CardContent className="p-6 text-center">
-          <p className="text-lg text-blue-800 font-medium">
+          <p className="text-lg text-blue-800 dark:text-blue-200 font-medium">
             Want to review everything at once?
           </p>
-          <p className="text-sm text-blue-600 mt-2">
+          <p className="text-sm text-blue-600 dark:text-blue-400 mt-2">
             Switch to Comprehensive Mode to see all your client's data in one view.
           </p>
         </CardContent>

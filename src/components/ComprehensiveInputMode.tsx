@@ -20,21 +20,21 @@ export const ComprehensiveInputMode = ({ onSeeResults }: ComprehensiveInputModeP
   };
 
   return (
-    <div className="h-full flex gap-6 p-6">
+    <div className="h-full flex gap-6 p-6 bg-background dark:bg-gray-900">
       {/* Progress Sidebar - Compact layout */}
       <div className="w-80 flex flex-col">
         {/* Progress Section - Compact header and content */}
-        <Card className="flex-1 flex flex-col">
+        <Card className="flex-1 flex flex-col bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
           <CardHeader className="pb-3 flex-shrink-0">
-            <CardTitle className="text-lg">Input Progress</CardTitle>
+            <CardTitle className="text-lg text-gray-900 dark:text-gray-100">Input Progress</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col flex-1 space-y-4">
             <div className="space-y-3 flex-shrink-0">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-gray-600 dark:text-gray-400">
                   {completedSections} of {sections.length} completed
                 </span>
-                <span className="text-sm font-medium">{Math.round(completionPercentage)}%</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{Math.round(completionPercentage)}%</span>
               </div>
               <Progress value={completionPercentage} className="h-2" />
             </div>
@@ -43,15 +43,15 @@ export const ComprehensiveInputMode = ({ onSeeResults }: ComprehensiveInputModeP
               {sections.map((section) => (
                 <div 
                   key={section.id} 
-                  className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
+                  className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors"
                   onClick={() => handleSectionClick(section.id)}
                 >
                   {section.completed ? (
-                    <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0" />
+                    <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400 flex-shrink-0" />
                   ) : (
-                    <Circle className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                    <Circle className="h-4 w-4 text-gray-400 dark:text-gray-500 flex-shrink-0" />
                   )}
-                  <span className={`text-sm ${section.completed ? 'text-gray-900 font-medium' : 'text-gray-500'}`}>
+                  <span className={`text-sm ${section.completed ? 'text-gray-900 dark:text-gray-100 font-medium' : 'text-gray-500 dark:text-gray-400'}`}>
                     {section.label}
                   </span>
                 </div>
@@ -63,7 +63,7 @@ export const ComprehensiveInputMode = ({ onSeeResults }: ComprehensiveInputModeP
         {/* See Results Button - Fixed at bottom */}
         <Button 
           onClick={onSeeResults}
-          className="w-full flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2.5 mt-4"
+          className="w-full flex items-center gap-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white py-2.5 mt-4"
           size="lg"
         >
           <BarChart3 className="h-4 w-4" />

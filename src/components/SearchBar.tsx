@@ -22,12 +22,12 @@ export const SearchBar = ({ localSearchTerm, setLocalSearchTerm }: SearchBarProp
 
   return (
     <div className="relative">
-      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 h-4 w-4" />
       <Input 
         placeholder={getSearchPlaceholder()}
         value={localSearchTerm}
         onChange={(e) => setLocalSearchTerm(e.target.value)}
-        className="pl-10 w-64 border-gray-200 bg-gray-50/50 hover:bg-white transition-colors focus:bg-white"
+        className="pl-10 w-64 border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 transition-colors focus:bg-white dark:focus:bg-gray-800 text-gray-900 dark:text-gray-100"
       />
       {localSearchTerm && (
         <Button

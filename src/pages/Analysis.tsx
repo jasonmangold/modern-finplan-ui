@@ -39,7 +39,7 @@ const Analysis = () => {
         <div className="h-full flex flex-col">
           {/* View Mode Toggle - centered and only show when not in goal detail or fitness score */}
           {!selectedGoal && viewMode !== "fitness-score" && (
-            <div className="flex justify-center py-4 border-b bg-background">
+            <div className="flex justify-center py-4 border-b border-gray-200 dark:border-gray-700 bg-background dark:bg-gray-900">
               <AnimatedTabs 
                 tabs={[
                   { label: "Comprehensive Input", value: "comprehensive" },
@@ -52,7 +52,7 @@ const Analysis = () => {
           )}
           
           {/* Full Screen Content */}
-          <div className="flex-1 overflow-hidden">
+          <div className="flex-1 overflow-hidden bg-background dark:bg-gray-900">
             {selectedGoal ? (
               <GoalDetailView 
                 goalId={selectedGoal} 
