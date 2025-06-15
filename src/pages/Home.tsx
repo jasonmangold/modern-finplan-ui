@@ -321,36 +321,36 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Main Content: 3 Columns, balanced height, fixed order */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Main Content: 3 Columns, balanced, no overlap */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
         {/* Column 1 */}
         <div className="flex flex-col gap-6 h-full">
-          <div className="flex-1 min-h-[260px] flex">
+          <div className="flex-1 flex flex-col">
             <SectionRecentClients />
           </div>
-          <div className="flex-1 min-h-[260px] flex">
+          <div className="flex-1 flex flex-col">
             <SectionWhatsNew />
-          </div>
-          <div className="flex-1 min-h-[260px] flex">
-            <SectionMakeSuggestion />
           </div>
         </div>
         {/* Column 2 */}
         <div className="flex flex-col gap-6 h-full">
-          <div className="flex-1 min-h-[260px] flex">
+          <div className="flex-1 flex flex-col">
             <SectionFavoriteReports />
           </div>
-          <div className="flex-1 min-h-[260px] flex">
+          <div className="flex-1 flex flex-col">
             <SectionTwoMinuteTips />
           </div>
         </div>
         {/* Column 3 */}
         <div className="flex flex-col gap-6 h-full">
-          <div className="flex-1 min-h-[260px] flex">
+          <div className="flex-1 flex flex-col">
             <SectionLearnImprove />
           </div>
-          <div className="flex-1 min-h-[260px] flex">
+          <div className="flex-1 flex flex-col">
             <SectionWebinars />
+          </div>
+          <div className="flex-1 flex flex-col">
+            <SectionMakeSuggestion />
           </div>
         </div>
       </div>
