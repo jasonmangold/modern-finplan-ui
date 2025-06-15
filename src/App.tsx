@@ -1,4 +1,5 @@
 
+import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,26 +17,28 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <SearchProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <div className="min-h-screen w-full">
-            <Routes>
-              <Route path="/" element={<Layout><Home /></Layout>} />
-              <Route path="/analysis" element={<Layout><Analysis /></Layout>} />
-              <Route path="/calculators" element={<Layout><Calculators /></Layout>} />
-              <Route path="/education" element={<Layout><Education /></Layout>} />
-              <Route path="/presentation" element={<Layout><Presentation /></Layout>} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </div>
-        </BrowserRouter>
-      </TooltipProvider>
-    </SearchProvider>
-  </QueryClientProvider>
+  <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+    <QueryClientProvider client={queryClient}>
+      <SearchProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <div className="min-h-screen w-full">
+              <Routes>
+                <Route path="/" element={<Layout><Home /></Layout>} />
+                <Route path="/analysis" element={<Layout><Analysis /></Layout>} />
+                <Route path="/calculators" element={<Layout><Calculators /></Layout>} />
+                <Route path="/education" element={<Layout><Education /></Layout>} />
+                <Route path="/presentation" element={<Layout><Presentation /></Layout>} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
+          </BrowserRouter>
+        </TooltipProvider>
+      </SearchProvider>
+    </QueryClientProvider>
+  </ThemeProvider>
 );
 
 export default App;
