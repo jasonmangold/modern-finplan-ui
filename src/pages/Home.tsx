@@ -246,10 +246,30 @@ const Home = () => {
   // --- End: Section Components ---
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto">
-      {/* Welcome Banner / Smart Hero Strip */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white">
-        <div className="flex items-center justify-between">
+    <div className="p-6 max-w-7xl mx-auto">
+      {/* Modernized Welcome Banner */}
+      <div className="relative rounded-xl p-6 text-white overflow-hidden mb-6 shadow-lg">
+        {/* Modern mesh gradient and subtle dot-pattern overlay */}
+        <div aria-hidden className="absolute inset-0 z-0">
+          {/* Main mesh gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 opacity-95" />
+          {/* Subtle mesh/texture */}
+          <svg
+            className="absolute inset-0 w-full h-full opacity-15"
+            style={{ pointerEvents: 'none' }}
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+            viewBox="0 0 600 400"
+          >
+            <defs>
+              <pattern id="dots" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+                <circle cx="1" cy="1" r="1.5" fill="white" />
+              </pattern>
+            </defs>
+            <rect width="600" height="400" fill="url(#dots)" />
+          </svg>
+        </div>
+        <div className="relative z-10 flex items-center flex-wrap justify-between">
           <div>
             {isFirstTime ? (
               <h1 className="text-2xl font-bold mb-2">Welcome to eAdvisys!</h1>
@@ -277,19 +297,20 @@ const Home = () => {
               }
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 mt-4 lg:mt-0">
             {isFirstTime ? (
-              <Button variant="secondary" className="bg-white text-blue-700 hover:bg-blue-50">
+              <Button variant="secondary" className="bg-white text-blue-700 hover:bg-blue-50 shadow border">
                 Take a Quick Tour
               </Button>
             ) : (
               <>
                 <Button
                   variant="secondary"
-                  className="bg-white text-blue-700 hover:bg-blue-50 border border-blue-200 shadow-sm font-semibold"
+                  className="bg-white text-blue-700 hover:bg-blue-50 border border-blue-200 shadow-sm font-semibold transition-all focus:ring-2 focus:ring-blue-300"
+                  style={{ minWidth: 148 }}
                 >
                   <ChevronDown className="h-4 w-4 mr-2 text-blue-700" />
-                  Switch Client
+                  <span className="text-blue-800 font-semibold">Switch Client</span>
                 </Button>
                 <Button variant="secondary" className="bg-white text-blue-700 hover:bg-blue-50">
                   Resume Working
@@ -300,25 +321,37 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Main Content: Modular Dashboard (3 Columns) */}
+      {/* Main Content: 3 Columns, balanced height, fixed order */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column */}
-        <div className="space-y-6">
-          <SectionRecentClients />
-          <SectionFavoriteReports />
+        {/* Column 1 */}
+        <div className="flex flex-col gap-6 h-full">
+          <div className="flex-1 min-h-[260px] flex">
+            <SectionRecentClients />
+          </div>
+          <div className="flex-1 min-h-[260px] flex">
+            <SectionWhatsNew />
+          </div>
+          <div className="flex-1 min-h-[260px] flex">
+            <SectionMakeSuggestion />
+          </div>
         </div>
-
-        {/* Center Column */}
-        <div className="space-y-6">
-          <SectionLearnImprove />
-          <SectionWhatsNew />
-          <SectionTwoMinuteTips />
+        {/* Column 2 */}
+        <div className="flex flex-col gap-6 h-full">
+          <div className="flex-1 min-h-[260px] flex">
+            <SectionFavoriteReports />
+          </div>
+          <div className="flex-1 min-h-[260px] flex">
+            <SectionTwoMinuteTips />
+          </div>
         </div>
-
-        {/* Right Column */}
-        <div className="space-y-6">
-          <SectionWebinars />
-          <SectionMakeSuggestion />
+        {/* Column 3 */}
+        <div className="flex flex-col gap-6 h-full">
+          <div className="flex-1 min-h-[260px] flex">
+            <SectionLearnImprove />
+          </div>
+          <div className="flex-1 min-h-[260px] flex">
+            <SectionWebinars />
+          </div>
         </div>
       </div>
     </div>
