@@ -1,5 +1,5 @@
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, List, ListOrdered, X } from "lucide-react";
@@ -31,23 +31,23 @@ export const TextEditorModal: React.FC<TextEditorModalProps> = ({
   onClose
 }) => {
   const editorRef = useRef<HTMLDivElement>(null);
-  const [value, setValue] = useState(initialValue);
 
-  React.useEffect(() => {
-    setValue(initialValue);
+  useEffect(() => {
+    if (open && editorRef.current) {
+      editorRef.current.innerHTML = initialValue;
+      editorRef.current.focus();
+    }
   }, [initialValue, open]);
 
   const handleCommand = (command: string) => {
     document.execCommand(command, false);
-    setValue(editorRef.current?.innerHTML || "");
-  };
-
-  const handleInput = () => {
-    setValue(editorRef.current?.innerHTML || "");
+    editorRef.current?.focus();
   };
 
   const handleSave = () => {
-    onSave(value);
+    if (editorRef.current) {
+      onSave(editorRef.current.innerHTML);
+    }
     onClose();
   };
 
@@ -82,8 +82,6 @@ export const TextEditorModal: React.FC<TextEditorModalProps> = ({
             suppressContentEditableWarning
             spellCheck={false}
             className="border rounded px-3 py-2 min-h-[120px] bg-white focus:outline-none focus:ring-2 focus:ring-blue-200"
-            onInput={handleInput}
-            dangerouslySetInnerHTML={{ __html: value }}
             aria-label="Text editor"
           />
         </div>
