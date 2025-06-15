@@ -61,9 +61,12 @@ const Home = () => {
 
   // Remove drag-and-drop & dynamic state (now all columns are static layout)
 
-  // --- Helper: Section Components ---
+  // --- Helper: Section Components with min-h and flex fixes ---
+  // CardClass for consistent min-height and vertical flex layout
+  const cardClass = "min-h-[320px] flex flex-col";
+
   const SectionRecentClients = () => (
-    <Card className="h-full min-h-[300px] flex flex-col">
+    <Card className={cardClass}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <CardTitle className="text-lg flex items-center gap-2">
           <User className="h-5 w-5 text-blue-600" />
@@ -98,7 +101,7 @@ const Home = () => {
   );
 
   const SectionFavoriteReports = () => (
-    <Card className="h-full min-h-[300px] flex flex-col">
+    <Card className={cardClass}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <CardTitle className="text-lg flex items-center gap-2">
           <Star className="h-5 w-5 text-yellow-500" />
@@ -125,7 +128,7 @@ const Home = () => {
   );
 
   const SectionWhatsNew = () => (
-    <Card className="h-full min-h-[300px] flex flex-col">
+    <Card className={cardClass}>
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           <Sparkles className="h-5 w-5 text-blue-600" />
@@ -148,7 +151,7 @@ const Home = () => {
   );
 
   const SectionTwoMinuteTips = () => (
-    <Card className="h-full min-h-[300px] flex flex-col">
+    <Card className={cardClass}>
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           <Zap className="h-5 w-5 text-yellow-500" />
@@ -172,7 +175,7 @@ const Home = () => {
   );
 
   const SectionLearnImprove = () => (
-    <Card className="h-full min-h-[300px] flex flex-col">
+    <Card className={cardClass}>
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           <GraduationCap className="h-5 w-5 text-blue-600" />
@@ -201,7 +204,7 @@ const Home = () => {
   );
 
   const SectionWebinars = () => (
-    <Card className="h-full min-h-[300px] flex flex-col">
+    <Card className={cardClass}>
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           <Video className="h-5 w-5 text-purple-600" />
@@ -225,7 +228,7 @@ const Home = () => {
   );
 
   const SectionMakeSuggestion = () => (
-    <Card className="h-full min-h-[300px] flex flex-col">
+    <Card className={cardClass + " flex-1 justify-between"}>
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           <MessageSquarePlus className="h-5 w-5 text-green-600" />
@@ -322,23 +325,23 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Main Content: 3 Columns, all sections equal size, lined up */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+      {/* Main Content: new 3-column grid, fixed for alignment and equal heights */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         {/* Column 1 */}
-        <div className="flex-1 flex flex-col gap-6 h-full">
+        <div className="flex flex-col gap-6">
           <SectionRecentClients />
-          <SectionWhatsNew />
-          <SectionMakeSuggestion />
+          <SectionFavoriteReports />
+          <SectionLearnImprove />
         </div>
         {/* Column 2 */}
-        <div className="flex-1 flex flex-col gap-6 h-full">
-          <SectionFavoriteReports />
+        <div className="flex flex-col gap-6">
+          <SectionWhatsNew />
           <SectionTwoMinuteTips />
+          <SectionWebinars />
         </div>
         {/* Column 3 */}
-        <div className="flex-1 flex flex-col gap-6 h-full">
-          <SectionLearnImprove />
-          <SectionWebinars />
+        <div className="flex flex-col gap-6 h-full">
+          <SectionMakeSuggestion />
         </div>
       </div>
     </div>
