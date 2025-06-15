@@ -1,225 +1,347 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { TextShimmer } from "@/components/ui/text-shimmer";
+import { useState, useRef, useEffect } from "react";
 import { 
-  BarChart3, 
-  Calculator, 
+  User, 
   FileText, 
-  Presentation, 
-  Users, 
+  Play, 
+  Calendar, 
+  Lightbulb, 
+  Star, 
+  MoreHorizontal, 
+  Clock, 
+  ArrowRight,
+  ChevronDown,
+  Folder,
+  GraduationCap,
+  Video,
+  Zap,
+  Sparkles,
+  MessageSquarePlus,
   TrendingUp,
-  Target,
-  Clock,
-  CheckCircle,
-  ArrowRight
+  GripVertical
 } from "lucide-react";
 
 const Home = () => {
-  const quickActions = [
-    {
-      title: "Start Analysis",
-      description: "Begin comprehensive financial analysis",
-      icon: BarChart3,
-      href: "/analysis",
-      color: "bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
-    },
-    {
-      title: "Use Calculator",
-      description: "Access financial calculators",
-      icon: Calculator,
-      href: "/calculators",
-      color: "bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700"
-    },
-    {
-      title: "Browse Reports",
-      description: "View educational resources",
-      icon: FileText,
-      href: "/education",
-      color: "bg-purple-500 hover:bg-purple-600 dark:bg-purple-600 dark:hover:bg-purple-700"
-    },
-    {
-      title: "Create Presentation",
-      description: "Build client presentations",
-      icon: Presentation,
-      href: "/presentation",
-      color: "bg-orange-500 hover:bg-orange-600 dark:bg-orange-600 dark:hover:bg-orange-700"
-    }
+  const userName = "Jason";
+  const isFirstTime = false;
+  const currentClient = "Anderson Family – Retirement Plan";
+
+  const recentClients = [
+    { name: "John Doe", lastUpdated: "2 hours ago", status: "active" },
+    { name: "Jane Smith", lastUpdated: "1 day ago", status: "pending" },
+    { name: "Mike Johnson", lastUpdated: "3 days ago", status: "active" }
   ];
 
-  const recentActivity = [
-    {
-      title: "Johnson Family Analysis",
-      description: "Retirement planning analysis completed",
-      time: "2 hours ago",
-      status: "completed"
-    },
-    {
-      title: "Social Security Calculator",
-      description: "Optimization calculation in progress",
-      time: "4 hours ago",
-      status: "pending"
-    },
-    {
-      title: "Investment Portfolio Review",
-      description: "Quarterly review presentation created",
-      time: "1 day ago",
-      status: "completed"
+  // Load favorite reports from localStorage (including calculator favorites)
+  const [favoriteReports, setFavoriteReports] = useState([
+    { name: "Fast Facts", type: "Reference" },
+    { name: "Federal Income Tax Tables", type: "Tax" },
+    { name: "Retirement Calculator", type: "Planning" }
+  ]);
+
+  useEffect(() => {
+    const homePageFavorites = JSON.parse(localStorage.getItem('home-favorite-reports') || '[]');
+    if (homePageFavorites.length > 0) {
+      setFavoriteReports(prev => [...prev, ...homePageFavorites]);
     }
+  }, []);
+
+  const upcomingWebinars = [
+    { title: "Retirement Planning 101", date: "Dec 15", time: "2:00 PM" },
+    { title: "Investing in 2025", date: "Dec 18", time: "1:00 PM" }
   ];
 
-  const stats = [
-    {
-      title: "Active Clients",
-      value: "24",
-      change: "+12%",
-      icon: Users,
-      trend: "up"
-    },
-    {
-      title: "Analyses Completed",
-      value: "156",
-      change: "+8%",
-      icon: BarChart3,
-      trend: "up"
-    },
-    {
-      title: "Reports Generated",
-      value: "89",
-      change: "+15%",
-      icon: FileText,
-      trend: "up"
-    },
-    {
-      title: "Goals Tracked",
-      value: "67",
-      change: "+23%",
-      icon: Target,
-      trend: "up"
-    }
+  const twoMinuteTips = [
+    { title: "Setting up 529 Plans", duration: "2:15" },
+    { title: "Budgeting Basics", duration: "1:45" }
   ];
 
-  return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
-      <div className="p-6 space-y-8">
-        {/* Welcome Section */}
-        <div className="text-center py-12">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-            Welcome to eAdvisys
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Your comprehensive financial planning platform. Analyze, calculate, educate, and present with confidence.
+  // Remove drag-and-drop & dynamic state (now all columns are static layout)
+
+  // --- Helper: Section Components with min-h and flex fixes ---
+  // CardClass for consistent min-height and vertical flex layout
+  const cardClass = "min-h-[320px] flex flex-col";
+
+  const SectionRecentClients = () => (
+    <Card className={cardClass}>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+        <CardTitle className="text-lg flex items-center gap-2">
+          <User className="h-5 w-5 text-blue-600" />
+          Recent Clients
+        </CardTitle>
+        <Button variant="ghost" size="sm" className="text-blue-600">
+          See all <ArrowRight className="h-4 w-4 ml-1" />
+        </Button>
+      </CardHeader>
+      <CardContent className="space-y-3 flex-1 flex flex-col justify-between">
+        {recentClients.map((client, index) => (
+          <div key={index} className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 transition-colors">
+            <div className="flex-1">
+              <div className="font-medium">{client.name}</div>
+              <div className="text-sm text-gray-500 flex items-center gap-1">
+                <Clock className="h-3 w-3" />
+                {client.lastUpdated}
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Badge variant={client.status === 'active' ? 'default' : 'secondary'} className="text-xs">
+                {client.status}
+              </Badge>
+              <Button variant="ghost" size="sm">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        ))}
+      </CardContent>
+    </Card>
+  );
+
+  const SectionFavoriteReports = () => (
+    <Card className={cardClass}>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+        <CardTitle className="text-lg flex items-center gap-2">
+          <Star className="h-5 w-5 text-yellow-500" />
+          Favorite Reports
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3 flex-1 flex flex-col justify-between">
+        {favoriteReports.map((report, index) => (
+          <div key={index} className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 transition-colors cursor-pointer">
+            <div className="flex items-center gap-3">
+              <FileText className="h-4 w-4 text-blue-600" />
+              <div>
+                <div className="font-medium">{report.name}</div>
+                <div className="text-sm text-gray-500">{report.type}</div>
+              </div>
+            </div>
+            <Button size="sm" variant="outline">
+              Open
+            </Button>
+          </div>
+        ))}
+      </CardContent>
+    </Card>
+  );
+
+  const SectionWhatsNew = () => (
+    <Card className={cardClass}>
+      <CardHeader>
+        <CardTitle className="text-lg flex items-center gap-2">
+          <Sparkles className="h-5 w-5 text-blue-600" />
+          What's New
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3 flex-1 flex flex-col justify-between">
+        <div className="border-l-4 border-blue-500 pl-4">
+          <h4 className="font-medium">Enhanced Goal Planning</h4>
+          <p className="text-sm text-gray-600">New visualizations for retirement goals</p>
+          <span className="text-xs text-blue-600">Dec 10, 2024</span>
+        </div>
+        <div className="border-l-4 border-green-500 pl-4">
+          <h4 className="font-medium">Improved PDF Exports</h4>
+          <p className="text-sm text-gray-600">Faster generation with better formatting</p>
+          <span className="text-xs text-green-600">Dec 8, 2024</span>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
+  const SectionTwoMinuteTips = () => (
+    <Card className={cardClass}>
+      <CardHeader>
+        <CardTitle className="text-lg flex items-center gap-2">
+          <Zap className="h-5 w-5 text-yellow-500" />
+          Two Minute Tips
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3 flex-1 flex flex-col justify-between">
+        {twoMinuteTips.map((tip, index) => (
+          <div key={index} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-gray-50 transition-colors cursor-pointer">
+            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+              <Play className="h-5 w-5 text-blue-600" />
+            </div>
+            <div className="flex-1">
+              <div className="font-medium">{tip.title}</div>
+              <div className="text-sm text-gray-500">{tip.duration}</div>
+            </div>
+          </div>
+        ))}
+      </CardContent>
+    </Card>
+  );
+
+  const SectionLearnImprove = () => (
+    <Card className={cardClass}>
+      <CardHeader>
+        <CardTitle className="text-lg flex items-center gap-2">
+          <GraduationCap className="h-5 w-5 text-blue-600" />
+          Learn & Improve
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4 flex-1 flex flex-col justify-between">
+        <div className="p-4 bg-blue-50 rounded-lg">
+          <h3 className="font-semibold mb-2">Getting Started Tour</h3>
+          <p className="text-sm text-gray-600 mb-3">Learn the basics in just 2 minutes</p>
+          <Button className="w-full">
+            <Play className="h-4 w-4 mr-2" />
+            Take 2-Minute Tour
+          </Button>
+        </div>
+        <div className="p-4 bg-green-50 rounded-lg">
+          <h3 className="font-semibold mb-2">Schedule Training</h3>
+          <p className="text-sm text-gray-600 mb-3">Book personalized training session</p>
+          <Button variant="outline" className="w-full">
+            <Calendar className="h-4 w-4 mr-2" />
+            Book Training
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
+  const SectionWebinars = () => (
+    <Card className={cardClass}>
+      <CardHeader>
+        <CardTitle className="text-lg flex items-center gap-2">
+          <Video className="h-5 w-5 text-purple-600" />
+          Upcoming Webinars
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3 flex-1 flex flex-col justify-between">
+        {upcomingWebinars.map((webinar, index) => (
+          <div key={index} className="flex items-center justify-between p-3 rounded-lg border">
+            <div>
+              <div className="font-medium">{webinar.title}</div>
+              <div className="text-sm text-gray-500">{webinar.date} at {webinar.time}</div>
+            </div>
+            <Button size="sm" variant="outline">
+              Join
+            </Button>
+          </div>
+        ))}
+      </CardContent>
+    </Card>
+  );
+
+  const SectionMakeSuggestion = () => (
+    <Card className={cardClass + " flex-1 justify-between"}>
+      <CardHeader>
+        <CardTitle className="text-lg flex items-center gap-2">
+          <MessageSquarePlus className="h-5 w-5 text-green-600" />
+          Got an Idea?
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="flex-1 flex flex-col justify-between">
+        <div>
+          <p className="text-sm text-gray-600 mb-4">
+            Help us improve eAdvisys with your feedback and suggestions.
           </p>
         </div>
+        <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white mt-4">
+          Make a Suggestion
+        </Button>
+      </CardContent>
+    </Card>
+  );
+  // --- End: Section Components ---
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {quickActions.map((action) => {
-            const IconComponent = action.icon;
-            return (
-              <Card key={action.title} className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:shadow-lg dark:hover:shadow-gray-700/20 transition-all cursor-pointer group">
-                <CardContent className="p-6 text-center">
-                  <div className={`inline-flex items-center justify-center w-12 h-12 rounded-lg ${action.color} text-white mb-4 group-hover:scale-110 transition-transform`}>
-                    <IconComponent className="h-6 w-6" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">{action.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">{action.description}</p>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 group-hover:bg-gray-100 dark:group-hover:bg-gray-600"
-                  >
-                    Get Started
-                    <ArrowRight className="h-4 w-4 ml-2" />
-                  </Button>
-                </CardContent>
-              </Card>
-            );
-          })}
+  return (
+    <div className="p-6 max-w-7xl mx-auto">
+      {/* Modernized Welcome Banner */}
+      <div className="relative rounded-xl p-6 text-white overflow-hidden mb-6 shadow-lg">
+        {/* Modern mesh gradient and subtle dot-pattern overlay */}
+        <div aria-hidden className="absolute inset-0 z-0">
+          {/* Main mesh gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 opacity-95" />
+          {/* Subtle mesh/texture */}
+          <svg
+            className="absolute inset-0 w-full h-full opacity-15"
+            style={{ pointerEvents: 'none' }}
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+            viewBox="0 0 600 400"
+          >
+            <defs>
+              <pattern id="dots" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+                <circle cx="1" cy="1" r="1.5" fill="white" />
+              </pattern>
+            </defs>
+            <rect width="600" height="400" fill="url(#dots)" />
+          </svg>
         </div>
-
-        {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map((stat) => {
-            const IconComponent = stat.icon;
-            return (
-              <Card key={stat.title} className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{stat.title}</p>
-                      <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stat.value}</p>
-                      <div className="flex items-center gap-1 mt-1">
-                        <TrendingUp className="h-3 w-3 text-green-500" />
-                        <span className="text-sm text-green-600 dark:text-green-400">{stat.change}</span>
-                      </div>
-                    </div>
-                    <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                      <IconComponent className="h-6 w-6 text-gray-600 dark:text-gray-400" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
+        <div className="relative z-10 flex items-center flex-wrap justify-between">
+          <div>
+            {isFirstTime ? (
+              <h1 className="text-2xl font-bold mb-2">Welcome to eAdvisys!</h1>
+            ) : (
+              <TextShimmer
+                as="h1"
+                duration={1.2}
+                className="text-2xl font-bold mb-2 [--base-color:theme(colors.blue.200)] [--base-gradient-color:theme(colors.white)] dark:[--base-color:theme(colors.blue.300)] dark:[--base-gradient-color:theme(colors.blue.100)]"
+              >
+                {`Welcome back, ${userName}!`}
+              </TextShimmer>
+            )}
+            {!isFirstTime && currentClient && (
+              <div className="flex items-center gap-2 mb-4">
+                <Folder className="h-4 w-4 text-blue-200" />
+                <p className="text-blue-100 text-sm">
+                  You're working on: <span className="text-white font-medium cursor-pointer hover:underline">{currentClient}</span>
+                </p>
+              </div>
+            )}
+            <p className="text-blue-100 mb-4">
+              {isFirstTime 
+                ? "Let's get you started with your financial advisory toolkit" 
+                : "Ready to continue where you left off?"
+              }
+            </p>
+          </div>
+          <div className="flex gap-3 mt-4 lg:mt-0">
+            {isFirstTime ? (
+              <Button variant="secondary" className="bg-white text-blue-700 hover:bg-blue-50 shadow border">
+                Take a Quick Tour
+              </Button>
+            ) : (
+              <>
+                <Button
+                  variant="secondary"
+                  className="bg-white text-blue-700 hover:bg-blue-50 border border-blue-200 shadow-sm font-semibold transition-all focus:ring-2 focus:ring-blue-300"
+                  style={{ minWidth: 148 }}
+                >
+                  <ChevronDown className="h-4 w-4 mr-2 text-blue-700" />
+                  <span className="text-blue-800 font-semibold">Switch Client</span>
+                </Button>
+                <Button variant="secondary" className="bg-white text-blue-700 hover:bg-blue-50">
+                  Resume Working
+                </Button>
+              </>
+            )}
+          </div>
         </div>
+      </div>
 
-        {/* Recent Activity */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
-                <Clock className="h-5 w-5" />
-                Recent Activity
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {recentActivity.map((activity, index) => (
-                <div key={index} className="flex items-start gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
-                  <div className={`p-1 rounded-full ${activity.status === 'completed' ? 'bg-green-100 dark:bg-green-900' : 'bg-yellow-100 dark:bg-yellow-900'}`}>
-                    {activity.status === 'completed' ? (
-                      <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
-                    ) : (
-                      <Clock className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-medium text-gray-900 dark:text-gray-100">{activity.title}</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{activity.description}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">{activity.time}</p>
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
-                <Target className="h-5 w-5" />
-                Quick Tips
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                <h4 className="font-medium text-blue-900 dark:text-blue-100 mb-2">Goals-Based Planning</h4>
-                <p className="text-sm text-blue-700 dark:text-blue-300">
-                  Start with the Goals-Based mode for a more focused analysis approach that aligns with specific client objectives.
-                </p>
-              </div>
-              <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
-                <h4 className="font-medium text-green-900 dark:text-green-100 mb-2">Financial Fitness Score</h4>
-                <p className="text-sm text-green-700 dark:text-green-300">
-                  Use the Financial Fitness Score to quickly assess and communicate overall financial health to clients.
-                </p>
-              </div>
-              <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
-                <h4 className="font-medium text-purple-900 dark:text-purple-100 mb-2">Education Resources</h4>
-                <p className="text-sm text-purple-700 dark:text-purple-300">
-                  Browse our comprehensive library of financial reports and research to stay informed on latest trends.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+      {/* Main Content: new 3-column grid, fixed for alignment and equal heights */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+        {/* Column 1 */}
+        <div className="flex flex-col gap-6">
+          <SectionRecentClients />
+          <SectionFavoriteReports />
+          <SectionLearnImprove />
+        </div>
+        {/* Column 2 */}
+        <div className="flex flex-col gap-6">
+          <SectionWhatsNew />
+          <SectionTwoMinuteTips />
+          <SectionWebinars />
+        </div>
+        {/* Column 3 */}
+        <div className="flex flex-col gap-6 h-full">
+          <SectionMakeSuggestion />
         </div>
       </div>
     </div>
