@@ -32,27 +32,24 @@ export const ClientSelector = ({
   const [showClientManager, setShowClientManager] = useState(false);
 
   const handleNewClient = () => {
-    // Clear all form inputs across different pages
     const inputs = document.querySelectorAll('input');
     const textareas = document.querySelectorAll('textarea');
     const selects = document.querySelectorAll('select');
     const checkboxes = document.querySelectorAll('input[type="checkbox"]') as NodeListOf<HTMLInputElement>;
     const radioButtons = document.querySelectorAll('input[type="radio"]') as NodeListOf<HTMLInputElement>;
-    
-    // Clear text inputs and textareas
+
     inputs.forEach(input => {
       if (input.type !== 'checkbox' && input.type !== 'radio') {
         input.value = '';
         input.dispatchEvent(new Event('input', { bubbles: true }));
       }
     });
-    
+
     textareas.forEach(textarea => {
       textarea.value = '';
       textarea.dispatchEvent(new Event('input', { bubbles: true }));
     });
-    
-    // Uncheck all checkboxes (including reports)
+
     checkboxes.forEach(checkbox => {
       if (checkbox.checked) {
         checkbox.checked = false;
@@ -60,7 +57,6 @@ export const ClientSelector = ({
       }
     });
 
-    // Uncheck all radio buttons
     radioButtons.forEach(radio => {
       if (radio.checked) {
         radio.checked = false;
@@ -68,11 +64,7 @@ export const ClientSelector = ({
       }
     });
 
-    // Clear any React state that might be in forms
-    // Dispatch a custom event that components can listen to for clearing their state
     window.dispatchEvent(new CustomEvent('clearAllFormData'));
-    
-    // Reset client selection to "No Client Selected" and set first save state
     setSelectedClient("No Client Selected");
     setIsFirstSave(true);
     setHasUnsavedChanges(false);
@@ -85,26 +77,32 @@ export const ClientSelector = ({
       handleNewClient();
       return;
     }
+    if (value === "No Client Selected") {
+      setSelectedClient("No Client Selected");
+      setIsFirstSave(true);
+      setHasUnsavedChanges(false);
+      setSaveState("initial");
+      setLastSavedTime(null);
+      return;
+    }
     setSelectedClient(value);
     setIsFirstSave(false);
   };
 
-  // Get only last 3 recent clients (excluding "No Client Selected")
+  // Only last 3 recent clients (excluding "No Client Selected")
   const recentClients = clientFiles
     .filter(client => client !== "No Client Selected")
     .slice(-3)
     .reverse();
 
-  // Show all clients for search, excluding "No Client Selected"
   const searchableClients = clientFiles.filter(client => client !== "No Client Selected");
   const filteredClients = searchableClients.filter(client =>
     client.toLowerCase().includes(clientSearch.toLowerCase())
   );
 
-  // Get the display value for the select trigger
+  // Improved display value logic
   const getSelectDisplayValue = () => {
-    // If it's first save or explicitly "No Client Selected", show "No Client Selected"
-    if (isFirstSave || selectedClient === "No Client Selected") {
+    if (!selectedClient || selectedClient === "__new_client__" || isFirstSave || selectedClient === "No Client Selected") {
       return "No Client Selected";
     }
     return selectedClient;
@@ -114,7 +112,10 @@ export const ClientSelector = ({
     <>
       <Select value={getSelectDisplayValue()} onValueChange={handleClientChange}>
         <SelectTrigger className="w-52 border-gray-200 bg-gray-50/50 hover:bg-gray-100/50 transition-colors">
-          <SelectValue />
+          <SelectValue>
+            {/* Always show No Client Selected if it's the current value */}
+            {getSelectDisplayValue()}
+          </SelectValue>
         </SelectTrigger>
         <SelectContent>
           <div className="p-2 border-b">
@@ -125,7 +126,10 @@ export const ClientSelector = ({
               className="h-8"
             />
           </div>
-          {/* New Client option at the TOP */}
+          {/* Always display No Client Selected at the top, and make unselectable if it's already selected */}
+          <SelectItem value="No Client Selected" disabled={getSelectDisplayValue() === "No Client Selected"}>
+            <span className="text-gray-500 italic">No Client Selected</span>
+          </SelectItem>
           <SelectItem value="__new_client__">
             <span className="text-blue-600 font-medium">+ New Client</span>
           </SelectItem>
