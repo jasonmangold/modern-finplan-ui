@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Search, User, HelpCircle, FileText, Settings, LogOut, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -199,12 +198,11 @@ export const Header = () => {
                       className="h-8"
                     />
                   </div>
-                  {/* Show "No Client Selected" option */}
-                  <SelectItem value="No Client Selected">No Client Selected</SelectItem>
-                  {/* New Client option */}
+                  {/* Move New Client option to the TOP */}
                   <SelectItem value="__new_client__" onSelect={handleNewClient}>
                     <span className="text-blue-600 font-medium">+ New Client</span>
                   </SelectItem>
+                  {/* Removed "No Client Selected" option from dropdown */}
                   {/* Show only last 3 recent clients */}
                   {recentClients.map(client => (
                     <SelectItem key={client} value={client}>{client}</SelectItem>
