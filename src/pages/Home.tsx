@@ -63,7 +63,7 @@ const Home = () => {
 
   // --- Helper: Section Components ---
   const SectionRecentClients = () => (
-    <Card>
+    <Card className="h-full min-h-[300px] flex flex-col">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <CardTitle className="text-lg flex items-center gap-2">
           <User className="h-5 w-5 text-blue-600" />
@@ -73,7 +73,7 @@ const Home = () => {
           See all <ArrowRight className="h-4 w-4 ml-1" />
         </Button>
       </CardHeader>
-      <CardContent className="space-y-3">
+      <CardContent className="space-y-3 flex-1 flex flex-col justify-between">
         {recentClients.map((client, index) => (
           <div key={index} className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 transition-colors">
             <div className="flex-1">
@@ -98,14 +98,14 @@ const Home = () => {
   );
 
   const SectionFavoriteReports = () => (
-    <Card>
+    <Card className="h-full min-h-[300px] flex flex-col">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <CardTitle className="text-lg flex items-center gap-2">
           <Star className="h-5 w-5 text-yellow-500" />
           Favorite Reports
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3">
+      <CardContent className="space-y-3 flex-1 flex flex-col justify-between">
         {favoriteReports.map((report, index) => (
           <div key={index} className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 transition-colors cursor-pointer">
             <div className="flex items-center gap-3">
@@ -124,15 +124,62 @@ const Home = () => {
     </Card>
   );
 
+  const SectionWhatsNew = () => (
+    <Card className="h-full min-h-[300px] flex flex-col">
+      <CardHeader>
+        <CardTitle className="text-lg flex items-center gap-2">
+          <Sparkles className="h-5 w-5 text-blue-600" />
+          What's New
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3 flex-1 flex flex-col justify-between">
+        <div className="border-l-4 border-blue-500 pl-4">
+          <h4 className="font-medium">Enhanced Goal Planning</h4>
+          <p className="text-sm text-gray-600">New visualizations for retirement goals</p>
+          <span className="text-xs text-blue-600">Dec 10, 2024</span>
+        </div>
+        <div className="border-l-4 border-green-500 pl-4">
+          <h4 className="font-medium">Improved PDF Exports</h4>
+          <p className="text-sm text-gray-600">Faster generation with better formatting</p>
+          <span className="text-xs text-green-600">Dec 8, 2024</span>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
+  const SectionTwoMinuteTips = () => (
+    <Card className="h-full min-h-[300px] flex flex-col">
+      <CardHeader>
+        <CardTitle className="text-lg flex items-center gap-2">
+          <Zap className="h-5 w-5 text-yellow-500" />
+          Two Minute Tips
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3 flex-1 flex flex-col justify-between">
+        {twoMinuteTips.map((tip, index) => (
+          <div key={index} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-gray-50 transition-colors cursor-pointer">
+            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+              <Play className="h-5 w-5 text-blue-600" />
+            </div>
+            <div className="flex-1">
+              <div className="font-medium">{tip.title}</div>
+              <div className="text-sm text-gray-500">{tip.duration}</div>
+            </div>
+          </div>
+        ))}
+      </CardContent>
+    </Card>
+  );
+
   const SectionLearnImprove = () => (
-    <Card>
+    <Card className="h-full min-h-[300px] flex flex-col">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           <GraduationCap className="h-5 w-5 text-blue-600" />
           Learn & Improve
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 flex-1 flex flex-col justify-between">
         <div className="p-4 bg-blue-50 rounded-lg">
           <h3 className="font-semibold mb-2">Getting Started Tour</h3>
           <p className="text-sm text-gray-600 mb-3">Learn the basics in just 2 minutes</p>
@@ -153,62 +200,15 @@ const Home = () => {
     </Card>
   );
 
-  const SectionWhatsNew = () => (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-lg flex items-center gap-2">
-          <Sparkles className="h-5 w-5 text-blue-600" />
-          What's New
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        <div className="border-l-4 border-blue-500 pl-4">
-          <h4 className="font-medium">Enhanced Goal Planning</h4>
-          <p className="text-sm text-gray-600">New visualizations for retirement goals</p>
-          <span className="text-xs text-blue-600">Dec 10, 2024</span>
-        </div>
-        <div className="border-l-4 border-green-500 pl-4">
-          <h4 className="font-medium">Improved PDF Exports</h4>
-          <p className="text-sm text-gray-600">Faster generation with better formatting</p>
-          <span className="text-xs text-green-600">Dec 8, 2024</span>
-        </div>
-      </CardContent>
-    </Card>
-  );
-
-  const SectionTwoMinuteTips = () => (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-lg flex items-center gap-2">
-          <Zap className="h-5 w-5 text-yellow-500" />
-          Two Minute Tips
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        {twoMinuteTips.map((tip, index) => (
-          <div key={index} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-gray-50 transition-colors cursor-pointer">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Play className="h-5 w-5 text-blue-600" />
-            </div>
-            <div className="flex-1">
-              <div className="font-medium">{tip.title}</div>
-              <div className="text-sm text-gray-500">{tip.duration}</div>
-            </div>
-          </div>
-        ))}
-      </CardContent>
-    </Card>
-  );
-
   const SectionWebinars = () => (
-    <Card>
+    <Card className="h-full min-h-[300px] flex flex-col">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           <Video className="h-5 w-5 text-purple-600" />
           Upcoming Webinars
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3">
+      <CardContent className="space-y-3 flex-1 flex flex-col justify-between">
         {upcomingWebinars.map((webinar, index) => (
           <div key={index} className="flex items-center justify-between p-3 rounded-lg border">
             <div>
@@ -225,24 +225,25 @@ const Home = () => {
   );
 
   const SectionMakeSuggestion = () => (
-    <Card>
+    <Card className="h-full min-h-[300px] flex flex-col">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           <MessageSquarePlus className="h-5 w-5 text-green-600" />
           Got an Idea?
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <p className="text-sm text-gray-600 mb-4">
-          Help us improve eAdvisys with your feedback and suggestions.
-        </p>
-        <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white">
+      <CardContent className="flex-1 flex flex-col justify-between">
+        <div>
+          <p className="text-sm text-gray-600 mb-4">
+            Help us improve eAdvisys with your feedback and suggestions.
+          </p>
+        </div>
+        <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white mt-4">
           Make a Suggestion
         </Button>
       </CardContent>
     </Card>
   );
-
   // --- End: Section Components ---
 
   return (
@@ -321,37 +322,23 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Main Content: 3 Columns, balanced, no overlap */}
+      {/* Main Content: 3 Columns, all sections equal size, lined up */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
         {/* Column 1 */}
-        <div className="flex flex-col gap-6 h-full">
-          <div className="flex-1 flex flex-col">
-            <SectionRecentClients />
-          </div>
-          <div className="flex-1 flex flex-col">
-            <SectionWhatsNew />
-          </div>
+        <div className="flex-1 flex flex-col gap-6 h-full">
+          <SectionRecentClients />
+          <SectionWhatsNew />
+          <SectionMakeSuggestion />
         </div>
         {/* Column 2 */}
-        <div className="flex flex-col gap-6 h-full">
-          <div className="flex-1 flex flex-col">
-            <SectionFavoriteReports />
-          </div>
-          <div className="flex-1 flex flex-col">
-            <SectionTwoMinuteTips />
-          </div>
+        <div className="flex-1 flex flex-col gap-6 h-full">
+          <SectionFavoriteReports />
+          <SectionTwoMinuteTips />
         </div>
         {/* Column 3 */}
-        <div className="flex flex-col gap-6 h-full">
-          <div className="flex-1 flex flex-col">
-            <SectionLearnImprove />
-          </div>
-          <div className="flex-1 flex flex-col">
-            <SectionWebinars />
-          </div>
-          <div className="flex-1 flex flex-col">
-            <SectionMakeSuggestion />
-          </div>
+        <div className="flex-1 flex flex-col gap-6 h-full">
+          <SectionLearnImprove />
+          <SectionWebinars />
         </div>
       </div>
     </div>
