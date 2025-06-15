@@ -49,6 +49,21 @@ export const Header = () => {
     };
   }, []);
 
+  // Listen for form clearing events to reset header state
+  useEffect(() => {
+    const handleClearFormData = () => {
+      console.log('Header: Resetting state after form clear');
+      setHasUnsavedChanges(false);
+      setSaveState("initial");
+      setLastSavedTime(null);
+    };
+
+    window.addEventListener('clearAllFormData', handleClearFormData);
+    return () => {
+      window.removeEventListener('clearAllFormData', handleClearFormData);
+    };
+  }, []);
+
   return (
     <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200/60 sticky top-0 z-50">
       <div className="h-16 flex items-center justify-between px-8">

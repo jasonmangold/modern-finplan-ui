@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface FormSection {
   id: string;
@@ -189,6 +190,22 @@ export const FormProvider = ({ children }: { children: ReactNode }) => {
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [sharedInputs, setSharedInputs] = useState<SharedInputs>(initialSharedInputs);
   const [activeTab, setActiveTab] = useState<string>("personal");
+
+  // Listen for clear form data event
+  useEffect(() => {
+    const handleClearFormData = () => {
+      console.log('FormProvider: Clearing all form data');
+      setFormData({});
+      setSharedInputs(initialSharedInputs);
+      setSections(initialSections.map(section => ({ ...section, completed: false })));
+      setActiveTab("personal");
+    };
+
+    window.addEventListener('clearAllFormData', handleClearFormData);
+    return () => {
+      window.removeEventListener('clearAllFormData', handleClearFormData);
+    };
+  }, []);
 
   const updateSectionCompletion = (sectionId: string, completed: boolean) => {
     setSections(prev => 

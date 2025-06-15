@@ -80,6 +80,15 @@ export const ClientSelector = ({
     setLastSavedTime(null);
   };
 
+  const handleClientChange = (value: string) => {
+    if (value === "__new_client__") {
+      handleNewClient();
+      return;
+    }
+    setSelectedClient(value);
+    setIsFirstSave(false);
+  };
+
   // Get only last 3 recent clients (excluding "No Client Selected")
   const recentClients = clientFiles
     .filter(client => client !== "No Client Selected")
@@ -103,7 +112,7 @@ export const ClientSelector = ({
 
   return (
     <>
-      <Select value={getSelectDisplayValue()} onValueChange={setSelectedClient}>
+      <Select value={getSelectDisplayValue()} onValueChange={handleClientChange}>
         <SelectTrigger className="w-52 border-gray-200 bg-gray-50/50 hover:bg-gray-100/50 transition-colors">
           <SelectValue />
         </SelectTrigger>
@@ -116,8 +125,8 @@ export const ClientSelector = ({
               className="h-8"
             />
           </div>
-          {/* Move New Client option to the TOP */}
-          <SelectItem value="__new_client__" onSelect={handleNewClient}>
+          {/* New Client option at the TOP */}
+          <SelectItem value="__new_client__">
             <span className="text-blue-600 font-medium">+ New Client</span>
           </SelectItem>
           {/* Show only last 3 recent clients */}
