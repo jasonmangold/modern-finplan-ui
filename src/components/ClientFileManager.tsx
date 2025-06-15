@@ -1,5 +1,3 @@
-
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -214,170 +212,172 @@ export const ClientFileManager = ({
   return (
     <>
       <Sheet open={open} onOpenChange={onOpenChange}>
-        <SheetContent className="w-[900px] sm:w-[1000px] overflow-y-auto">
-          <SheetHeader className="space-y-4 pb-6">
-            <div className="flex items-center justify-between">
-              <SheetTitle className="text-2xl font-bold text-gray-900">Client Files</SheetTitle>
-              <Badge variant="outline" className="text-blue-600 border-blue-200 bg-blue-50">
-                {filteredFiles.length} files
-              </Badge>
-            </div>
-            
-            <div className="flex gap-3">
-              <Button 
-                onClick={handleImportClient}
-                className="bg-green-600 hover:bg-green-700 text-white flex-1"
-              >
-                <Upload className="h-4 w-4 mr-2" />
-                Import
-              </Button>
-              <Button 
-                onClick={handleCreateNew}
-                className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                New Client
-              </Button>
-            </div>
-            
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <Input
-                placeholder="Search client files..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-gray-50 border-gray-200 focus:bg-white transition-colors"
-              />
-            </div>
-          </SheetHeader>
-          
-          <div className="space-y-4">
-            <div className="flex items-center justify-between text-sm text-gray-600 px-1">
-              <span>Current: <span className="font-medium text-blue-600">{selectedClient}</span></span>
-            </div>
-            
-            <div className="border rounded-lg">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead 
-                      className="cursor-pointer hover:bg-gray-50 select-none"
-                      onClick={() => handleSort("name")}
-                    >
-                      <div className="flex items-center">
-                        Client
-                        {getSortIcon("name")}
-                      </div>
-                    </TableHead>
-                    <TableHead 
-                      className="cursor-pointer hover:bg-gray-50 select-none"
-                      onClick={() => handleSort("lastModified")}
-                    >
-                      <div className="flex items-center">
-                        Last Updated
-                        {getSortIcon("lastModified")}
-                      </div>
-                    </TableHead>
-                    <TableHead 
-                      className="cursor-pointer hover:bg-gray-50 select-none"
-                      onClick={() => handleSort("reportsCount")}
-                    >
-                      <div className="flex items-center">
-                        Number of Reports
-                        {getSortIcon("reportsCount")}
-                      </div>
-                    </TableHead>
-                    <TableHead className="w-48">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredFiles.map((file, index) => (
-                    <TableRow
-                      key={index}
-                      className={`hover:bg-gray-50 ${
-                        file.name === selectedClient ? 'bg-blue-50' : ''
-                      }`}
-                    >
-                      <TableCell>
-                        <div className="flex items-center gap-3">
-                          <div className={`p-1.5 rounded-md ${
-                            file.name === selectedClient 
-                              ? 'bg-blue-100 text-blue-600' 
-                              : 'bg-gray-100 text-gray-600'
-                          }`}>
-                            <FileText className="h-3.5 w-3.5" />
-                          </div>
-                          <div>
-                            <h3 className="font-medium text-gray-900 text-sm">{file.name}</h3>
-                            {file.description && (
-                              <p className="text-xs text-gray-600 mt-0.5">{file.description}</p>
-                            )}
-                          </div>
+        <SheetContent
+          className="w-full max-w-[100vw] h-[100vh] sm:w-full sm:max-w-[100vw] sm:h-[100vh] p-0 rounded-none overflow-y-auto"
+          side="right"
+        >
+          <div className="w-full h-full flex flex-col bg-white">
+            <SheetHeader className="space-y-4 pb-6 px-8 pt-8">
+              <div className="flex items-center justify-between">
+                <SheetTitle className="text-2xl font-bold text-gray-900">Client Files</SheetTitle>
+                <Badge variant="outline" className="text-blue-600 border-blue-200 bg-blue-50">
+                  {filteredFiles.length} files
+                </Badge>
+              </div>
+              <div className="flex gap-3">
+                <Button 
+                  onClick={handleImportClient}
+                  className="bg-green-600 hover:bg-green-700 text-white flex-1"
+                >
+                  <Upload className="h-4 w-4 mr-2" />
+                  Import
+                </Button>
+                <Button 
+                  onClick={handleCreateNew}
+                  className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  New Client
+                </Button>
+              </div>
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Input
+                  placeholder="Search client files..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 bg-gray-50 border-gray-200 focus:bg-white transition-colors"
+                />
+              </div>
+            </SheetHeader>
+            <div className="space-y-4 flex-1 flex flex-col px-8 pb-8 overflow-y-auto">
+              <div className="flex items-center justify-between text-sm text-gray-600 px-1">
+                <span>Current: <span className="font-medium text-blue-600">{selectedClient}</span></span>
+              </div>
+
+              <div className="border rounded-lg flex-1 flex flex-col overflow-hidden">
+                <Table className="flex-1 min-h-0">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead 
+                        className="cursor-pointer hover:bg-gray-50 select-none"
+                        onClick={() => handleSort("name")}
+                      >
+                        <div className="flex items-center">
+                          Client
+                          {getSortIcon("name")}
                         </div>
-                      </TableCell>
-                      <TableCell className="text-sm text-gray-600">
-                        {file.lastModified}
-                      </TableCell>
-                      <TableCell className="text-sm text-gray-600">
-                        {file.reportsCount}
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-1">
-                          {file.name !== selectedClient && (
+                      </TableHead>
+                      <TableHead 
+                        className="cursor-pointer hover:bg-gray-50 select-none"
+                        onClick={() => handleSort("lastModified")}
+                      >
+                        <div className="flex items-center">
+                          Last Updated
+                          {getSortIcon("lastModified")}
+                        </div>
+                      </TableHead>
+                      <TableHead 
+                        className="cursor-pointer hover:bg-gray-50 select-none"
+                        onClick={() => handleSort("reportsCount")}
+                      >
+                        <div className="flex items-center">
+                          Number of Reports
+                          {getSortIcon("reportsCount")}
+                        </div>
+                      </TableHead>
+                      <TableHead className="w-48">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredFiles.map((file, index) => (
+                      <TableRow
+                        key={index}
+                        className={`hover:bg-gray-50 ${
+                          file.name === selectedClient ? 'bg-blue-50' : ''
+                        }`}
+                      >
+                        <TableCell>
+                          <div className="flex items-center gap-3">
+                            <div className={`p-1.5 rounded-md ${
+                              file.name === selectedClient 
+                                ? 'bg-blue-100 text-blue-600' 
+                                : 'bg-gray-100 text-gray-600'
+                            }`}>
+                              <FileText className="h-3.5 w-3.5" />
+                            </div>
+                            <div>
+                              <h3 className="font-medium text-gray-900 text-sm">{file.name}</h3>
+                              {file.description && (
+                                <p className="text-xs text-gray-600 mt-0.5">{file.description}</p>
+                              )}
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-sm text-gray-600">
+                          {file.lastModified}
+                        </TableCell>
+                        <TableCell className="text-sm text-gray-600">
+                          {file.reportsCount}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-1">
+                            {file.name !== selectedClient && (
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => {
+                                  setSelectedClient(file.name);
+                                  onOpenChange(false);
+                                }}
+                                className="h-7 px-2 text-xs text-blue-600 hover:bg-blue-100"
+                              >
+                                Select
+                              </Button>
+                            )}
                             <Button
                               size="sm"
                               variant="ghost"
-                              onClick={() => {
-                                setSelectedClient(file.name);
-                                onOpenChange(false);
-                              }}
-                              className="h-7 px-2 text-xs text-blue-600 hover:bg-blue-100"
+                              onClick={() => handleEditFile(file.name)}
+                              className="h-7 w-7 p-0 hover:bg-gray-100"
+                              title="Edit"
                             >
-                              Select
+                              <Edit3 className="h-3 w-3" />
                             </Button>
-                          )}
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => handleEditFile(file.name)}
-                            className="h-7 w-7 p-0 hover:bg-gray-100"
-                            title="Edit"
-                          >
-                            <Edit3 className="h-3 w-3" />
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => handleDuplicateFile(file.name)}
-                            className="h-7 w-7 p-0 hover:bg-gray-100"
-                            title="Duplicate"
-                          >
-                            <Copy className="h-3 w-3" />
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => handleExportFile(file.name)}
-                            className="h-7 w-7 p-0 hover:bg-gray-100"
-                            title="Export"
-                          >
-                            <Download className="h-3 w-3" />
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => handleDeleteFile(file.name)}
-                            className="h-7 w-7 p-0 text-red-600 hover:bg-red-50"
-                            title="Delete"
-                          >
-                            <Trash2 className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => handleDuplicateFile(file.name)}
+                              className="h-7 w-7 p-0 hover:bg-gray-100"
+                              title="Duplicate"
+                            >
+                              <Copy className="h-3 w-3" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => handleExportFile(file.name)}
+                              className="h-7 w-7 p-0 hover:bg-gray-100"
+                              title="Export"
+                            >
+                              <Download className="h-3 w-3" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => handleDeleteFile(file.name)}
+                              className="h-7 w-7 p-0 text-red-600 hover:bg-red-50"
+                              title="Delete"
+                            >
+                              <Trash2 className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             </div>
           </div>
         </SheetContent>
@@ -443,4 +443,3 @@ export const ClientFileManager = ({
     </>
   );
 };
-
