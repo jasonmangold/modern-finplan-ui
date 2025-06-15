@@ -7,12 +7,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { FileText, Settings, Eye, Edit3, GripVertical, Trash2, ChevronDown, ChevronRight, Layers, Plus, Upload, User, Building, Download, Import, Zap } from "lucide-react";
+import { FileText, Settings, Eye, Edit3, GripVertical, Trash2, ChevronDown, ChevronRight, Layers, Plus, Upload, User, Building, Download, Import, Zap, Pencil } from "lucide-react";
 import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { GoalSelectionDialog } from "@/components/GoalSelectionDialog";
 import { FastTrackInputDialog } from "@/components/FastTrackInputDialog";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
+import { TextEditorModal } from "@/components/TextEditorModal";
 
 interface PresentationItem {
   id: string;
@@ -150,6 +151,10 @@ const Presentation = () => {
   const [showGoalSelection, setShowGoalSelection] = useState(false);
   const [showFastTrackInput, setShowFastTrackInput] = useState(false);
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
+
+  const [editorModal, setEditorModal] = useState<{ open: boolean, field: string | null }>({ open: false, field: null });
+  const [profile, setProfile] = useState({ bio: "" });
+  const [editorDraft, setEditorDraft] = useState<string>("");
 
   const handleDragStart = (e: React.DragEvent, itemId: string) => {
     setDraggedItem(itemId);
@@ -940,33 +945,100 @@ const Presentation = () => {
               </div>
             </div>
 
-            {/* New Disclaimer and Disclosure Editing Section */}
+            {/* Edit Disclaimer/Disclosure */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t pt-6">
-              <div>
-                <Label htmlFor="company-disclaimer" className="font-semibold mb-1 block">
+              <div className="flex flex-col gap-1.5">
+                <label className="font-semibold mb-1 flex items-center gap-2">
                   Disclaimer
-                </Label>
-                <Textarea
-                  id="company-disclaimer"
-                  className="min-h-[80px]"
-                  placeholder="Enter your company disclaimer text here..."
-                  value={companyInfo.disclaimer}
-                  onChange={e => setCompanyInfo(prev => ({ ...prev, disclaimer: e.target.value }))}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => {
+                      setEditorDraft(companyInfo.disclaimer || "");
+                      setEditorModal({ open: true, field: "disclaimer" });
+                    }}
+                    aria-label="Edit Disclaimer"
+                  >
+                    <Pencil className="w-4 h-4" />
+                  </Button>
+                </label>
+                <div
+                  className={`prose prose-sm p-3 min-h-[48px] rounded border ${companyInfo.disclaimer ? "" : "text-gray-400"}`}
+                  dangerouslySetInnerHTML={{
+                    __html: companyInfo.disclaimer || "No disclaimer set. Click pencil to add."
+                  }}
                 />
               </div>
-              <div>
-                <Label htmlFor="company-disclosure" className="font-semibold mb-1 block">
+              <div className="flex flex-col gap-1.5">
+                <label className="font-semibold mb-1 flex items-center gap-2">
                   Disclosure
-                </Label>
-                <Textarea
-                  id="company-disclosure"
-                  className="min-h-[80px]"
-                  placeholder="Enter your company disclosure text here..."
-                  value={companyInfo.disclosure}
-                  onChange={e => setCompanyInfo(prev => ({ ...prev, disclosure: e.target.value }))}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => {
+                      setEditorDraft(companyInfo.disclosure || "");
+                      setEditorModal({ open: true, field: "disclosure" });
+                    }}
+                    aria-label="Edit Disclosure"
+                  >
+                    <Pencil className="w-4 h-4" />
+                  </Button>
+                </label>
+                <div
+                  className={`prose prose-sm p-3 min-h-[48px] rounded border ${companyInfo.disclosure ? "" : "text-gray-400"}`}
+                  dangerouslySetInnerHTML={{
+                    __html: companyInfo.disclosure || "No disclosure set. Click pencil to add."
+                  }}
                 />
               </div>
             </div>
+
+            {/* Edit My Profile */}
+            <div className="border-t pt-6 mt-6">
+              <h3 className="text-lg font-medium text-gray-900 mb-2 flex items-center">
+                My Profile
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => {
+                    setEditorDraft(profile.bio || "");
+                    setEditorModal({ open: true, field: "bio" });
+                  }}
+                  aria-label="Edit My Profile Bio"
+                  className="ml-2"
+                >
+                  <Pencil className="w-4 h-4" />
+                </Button>
+              </h3>
+              <div
+                className={`prose prose-sm p-3 min-h-[48px] rounded border ${profile.bio ? "" : "text-gray-400"}`}
+                dangerouslySetInnerHTML={{
+                  __html: profile.bio || "No bio set. Click pencil to add."
+                }}
+              />
+            </div>
+
+            {/* Editor Modal */}
+            <TextEditorModal
+              open={editorModal.open}
+              title={
+                editorModal.field === "disclaimer" ? "Edit Disclaimer"
+                : editorModal.field === "disclosure" ? "Edit Disclosure"
+                : editorModal.field === "bio" ? "Edit My Profile"
+                : ""
+              }
+              initialValue={editorDraft}
+              onSave={value => {
+                if (editorModal.field === "disclaimer") {
+                  setCompanyInfo(prev => ({ ...prev, disclaimer: value }));
+                } else if (editorModal.field === "disclosure") {
+                  setCompanyInfo(prev => ({ ...prev, disclosure: value }));
+                } else if (editorModal.field === "bio") {
+                  setProfile(prev => ({ ...prev, bio: value }));
+                }
+              }}
+              onClose={() => setEditorModal({ open: false, field: null })}
+            />
 
             <div className="flex justify-end gap-2 pt-4 border-t">
               <Button variant="outline">Cancel</Button>
