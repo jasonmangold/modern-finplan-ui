@@ -59,11 +59,8 @@ const Home = () => {
     { title: "Budgeting Basics", duration: "1:45" }
   ];
 
-  // Remove drag-and-drop & dynamic state (now all columns are static layout)
-
-  // --- Helper: Section Components with min-h and flex fixes ---
-  // CardClass for consistent min-height and vertical flex layout
-  const cardClass = "min-h-[320px] flex flex-col";
+  // Updated cardClass for consistent height matching Recent Clients section
+  const cardClass = "h-[400px] flex flex-col";
 
   const SectionRecentClients = () => (
     <Card className={cardClass}>
@@ -135,16 +132,18 @@ const Home = () => {
           What's New
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3 flex-1 flex flex-col justify-between">
-        <div className="border-l-4 border-blue-500 pl-4">
-          <h4 className="font-medium">Enhanced Goal Planning</h4>
-          <p className="text-sm text-gray-600">New visualizations for retirement goals</p>
-          <span className="text-xs text-blue-600">Dec 10, 2024</span>
-        </div>
-        <div className="border-l-4 border-green-500 pl-4">
-          <h4 className="font-medium">Improved PDF Exports</h4>
-          <p className="text-sm text-gray-600">Faster generation with better formatting</p>
-          <span className="text-xs text-green-600">Dec 8, 2024</span>
+      <CardContent className="space-y-4 flex-1 flex flex-col justify-between">
+        <div className="space-y-4">
+          <div className="border-l-4 border-blue-500 pl-4">
+            <h4 className="font-medium">Enhanced Goal Planning</h4>
+            <p className="text-sm text-gray-600">New visualizations for retirement goals</p>
+            <span className="text-xs text-blue-600">Dec 10, 2024</span>
+          </div>
+          <div className="border-l-4 border-green-500 pl-4">
+            <h4 className="font-medium">Improved PDF Exports</h4>
+            <p className="text-sm text-gray-600">Faster generation with better formatting</p>
+            <span className="text-xs text-green-600">Dec 8, 2024</span>
+          </div>
         </div>
       </CardContent>
     </Card>
@@ -158,18 +157,20 @@ const Home = () => {
           Two Minute Tips
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3 flex-1 flex flex-col justify-between">
-        {twoMinuteTips.map((tip, index) => (
-          <div key={index} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-gray-50 transition-colors cursor-pointer">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Play className="h-5 w-5 text-blue-600" />
+      <CardContent className="space-y-4 flex-1 flex flex-col justify-between">
+        <div className="space-y-3">
+          {twoMinuteTips.map((tip, index) => (
+            <div key={index} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-gray-50 transition-colors cursor-pointer">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <Play className="h-5 w-5 text-blue-600" />
+              </div>
+              <div className="flex-1">
+                <div className="font-medium">{tip.title}</div>
+                <div className="text-sm text-gray-500">{tip.duration}</div>
+              </div>
             </div>
-            <div className="flex-1">
-              <div className="font-medium">{tip.title}</div>
-              <div className="text-sm text-gray-500">{tip.duration}</div>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </CardContent>
     </Card>
   );
@@ -183,21 +184,23 @@ const Home = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4 flex-1 flex flex-col justify-between">
-        <div className="p-4 bg-blue-50 rounded-lg">
-          <h3 className="font-semibold mb-2">Getting Started Tour</h3>
-          <p className="text-sm text-gray-600 mb-3">Learn the basics in just 2 minutes</p>
-          <Button className="w-full">
-            <Play className="h-4 w-4 mr-2" />
-            Take 2-Minute Tour
-          </Button>
-        </div>
-        <div className="p-4 bg-green-50 rounded-lg">
-          <h3 className="font-semibold mb-2">Schedule Training</h3>
-          <p className="text-sm text-gray-600 mb-3">Book personalized training session</p>
-          <Button variant="outline" className="w-full">
-            <Calendar className="h-4 w-4 mr-2" />
-            Book Training
-          </Button>
+        <div className="space-y-4">
+          <div className="p-4 bg-blue-50 rounded-lg">
+            <h3 className="font-semibold mb-2">Getting Started Tour</h3>
+            <p className="text-sm text-gray-600 mb-3">Learn the basics in just 2 minutes</p>
+            <Button className="w-full">
+              <Play className="h-4 w-4 mr-2" />
+              Take 2-Minute Tour
+            </Button>
+          </div>
+          <div className="p-4 bg-green-50 rounded-lg">
+            <h3 className="font-semibold mb-2">Schedule Training</h3>
+            <p className="text-sm text-gray-600 mb-3">Book personalized training session</p>
+            <Button variant="outline" className="w-full">
+              <Calendar className="h-4 w-4 mr-2" />
+              Book Training
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>
@@ -211,24 +214,26 @@ const Home = () => {
           Upcoming Webinars
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3 flex-1 flex flex-col justify-between">
-        {upcomingWebinars.map((webinar, index) => (
-          <div key={index} className="flex items-center justify-between p-3 rounded-lg border">
-            <div>
-              <div className="font-medium">{webinar.title}</div>
-              <div className="text-sm text-gray-500">{webinar.date} at {webinar.time}</div>
+      <CardContent className="space-y-4 flex-1 flex flex-col justify-between">
+        <div className="space-y-3">
+          {upcomingWebinars.map((webinar, index) => (
+            <div key={index} className="flex items-center justify-between p-3 rounded-lg border">
+              <div>
+                <div className="font-medium">{webinar.title}</div>
+                <div className="text-sm text-gray-500">{webinar.date} at {webinar.time}</div>
+              </div>
+              <Button size="sm" variant="outline">
+                Join
+              </Button>
             </div>
-            <Button size="sm" variant="outline">
-              Join
-            </Button>
-          </div>
-        ))}
+          ))}
+        </div>
       </CardContent>
     </Card>
   );
 
   const SectionMakeSuggestion = () => (
-    <Card className={cardClass + " flex-1 justify-between"}>
+    <Card className={cardClass}>
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           <MessageSquarePlus className="h-5 w-5 text-green-600" />
@@ -241,13 +246,12 @@ const Home = () => {
             Help us improve eAdvisys with your feedback and suggestions.
           </p>
         </div>
-        <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white mt-4">
+        <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white mt-auto">
           Make a Suggestion
         </Button>
       </CardContent>
     </Card>
   );
-  // --- End: Section Components ---
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
