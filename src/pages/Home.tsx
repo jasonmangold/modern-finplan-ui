@@ -247,34 +247,26 @@ const Home = () => {
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      {/* Glassmorphism Welcome Banner */}
-      <div className="
-        relative 
-        rounded-xl 
-        p-6 
-        mb-6
-        shadow-lg
-        overflow-hidden
-        backdrop-blur-lg 
-        border border-white/30 
-        bg-white/70
-        dark:bg-white/10
-        dark:border-white/20
-      ">
-        {/* Dot-pattern mesh overlay */}
-        <div aria-hidden className="absolute inset-0 z-0 pointer-events-none">
+      {/* Modernized Welcome Banner */}
+      <div className="relative rounded-xl p-6 text-white overflow-hidden mb-6 shadow-lg">
+        {/* Modern mesh gradient and subtle dot-pattern overlay */}
+        <div aria-hidden className="absolute inset-0 z-0">
+          {/* Main mesh gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 opacity-95" />
+          {/* Subtle mesh/texture */}
           <svg
-            className="absolute inset-0 w-full h-full opacity-20"
+            className="absolute inset-0 w-full h-full opacity-15"
+            style={{ pointerEvents: 'none' }}
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none"
             viewBox="0 0 600 400"
           >
             <defs>
-              <pattern id="hero-dots" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
-                <circle cx="1.5" cy="1.5" r="1.2" fill="#a1a1aa" />
+              <pattern id="dots" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+                <circle cx="1" cy="1" r="1.5" fill="white" />
               </pattern>
             </defs>
-            <rect width="600" height="400" fill="url(#hero-dots)" />
+            <rect width="600" height="400" fill="url(#dots)" />
           </svg>
         </div>
         <div className="relative z-10 flex items-center flex-wrap justify-between">
@@ -293,12 +285,12 @@ const Home = () => {
             {!isFirstTime && currentClient && (
               <div className="flex items-center gap-2 mb-4">
                 <Folder className="h-4 w-4 text-blue-200" />
-                <p className="text-blue-800 dark:text-blue-100 text-sm">
-                  You're working on: <span className="text-black dark:text-white font-medium cursor-pointer hover:underline">{currentClient}</span>
+                <p className="text-blue-100 text-sm">
+                  You're working on: <span className="text-white font-medium cursor-pointer hover:underline">{currentClient}</span>
                 </p>
               </div>
             )}
-            <p className="text-blue-800 dark:text-blue-200 mb-4">
+            <p className="text-blue-100 mb-4">
               {isFirstTime 
                 ? "Let's get you started with your financial advisory toolkit" 
                 : "Ready to continue where you left off?"
