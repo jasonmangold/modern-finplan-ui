@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -119,37 +120,36 @@ export const GoalDetailView = ({
           </div>
         </div>
         
-        {/* Output Selector and Presentation Selection */}
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-gray-700">View:</span>
-            <Select value={selectedOutput} onValueChange={setSelectedOutput}>
-              <SelectTrigger className="w-64">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {config.outputs.map(output => (
-                  <SelectItem key={output} value={output}>
-                    {output}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          
-          {/* Presentation Selection */}
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-gray-700">For Presentation:</span>
-            <div className="flex items-center gap-2">
-              <Checkbox
-                checked={selectedForPresentation.includes(selectedOutput)}
-                onCheckedChange={() => handlePresentationToggle(selectedOutput)}
-              />
-              {selectedForPresentation.includes(selectedOutput) && (
-                <Check className="h-4 w-4 text-green-600" />
+        {/* Output Selector with integrated presentation selection */}
+        <div className="flex items-center gap-3">
+          <span className="text-sm font-medium text-gray-700">View:</span>
+          <Select value={selectedOutput} onValueChange={setSelectedOutput}>
+            <SelectTrigger className="w-64">
+              <SelectValue />
+              {selectedForPresentation.length > 0 && (
+                <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                  {selectedForPresentation.length}
+                </span>
               )}
-            </div>
-          </div>
+            </SelectTrigger>
+            <SelectContent>
+              {config.outputs.map(output => (
+                <SelectItem key={output} value={output} className="flex items-center justify-between">
+                  <div className="flex items-center justify-between w-full">
+                    <span>{output}</span>
+                    <div className="flex items-center gap-2 ml-4">
+                      <span className="text-xs text-gray-500">For Presentation</span>
+                      <Checkbox
+                        checked={selectedForPresentation.includes(output)}
+                        onCheckedChange={() => handlePresentationToggle(output)}
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    </div>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
