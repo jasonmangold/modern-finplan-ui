@@ -14,84 +14,248 @@ export const TopicSpecificInputs = ({ selectedTopic }: TopicSpecificInputsProps)
     switch (selectedTopic) {
       case 'retirement-accumulation':
         return (
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label className="text-sm text-gray-600">Target Retirement Age</Label>
-              <Input defaultValue="67" className="mt-1" />
-            </div>
-            <div>
-              <Label className="text-sm text-gray-600">Desired Income Replacement</Label>
-              <Select defaultValue="80">
-                <SelectTrigger className="mt-1">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="70">70%</SelectItem>
-                  <SelectItem value="80">80%</SelectItem>
-                  <SelectItem value="90">90%</SelectItem>
-                  <SelectItem value="100">100%</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label className="text-sm text-gray-600">Annual Contribution Increase</Label>
-              <Input defaultValue="3%" className="mt-1" />
-            </div>
-            <div>
-              <Label className="text-sm text-gray-600">Expected Return Rate</Label>
-              <Input defaultValue="7%" className="mt-1" />
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label className="text-sm text-gray-600">Client 1 Name</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Client 2 Name</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Client 1 Employment Income</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Client 2 Employment Income</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Interest and Dividends</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Other Income</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Expenses (Categories)</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Retirement Accounts</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Other Assets</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Cash</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Analysis Date</Label>
+                <Input type="date" className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Dependents Name</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Dependents DOB</Label>
+                <Input type="date" className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Client 1 Retirement Age</Label>
+                <Input defaultValue="67" className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Client 2 Retirement Age</Label>
+                <Input defaultValue="67" className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Monthly SS</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Other Income (5)</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Expected Return Rate</Label>
+                <Input defaultValue="7%" className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Annual Contribution Increase</Label>
+                <Input defaultValue="3%" className="mt-1" />
+              </div>
             </div>
           </div>
         );
 
       case 'survivor-needs':
         return (
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label className="text-sm text-gray-600">Years of Income Replacement</Label>
-              <Input defaultValue="20" className="mt-1" />
-            </div>
-            <div>
-              <Label className="text-sm text-gray-600">Emergency Fund Months</Label>
-              <Input defaultValue="6" className="mt-1" />
-            </div>
-            <div>
-              <Label className="text-sm text-gray-600">Final Expenses</Label>
-              <Input defaultValue="$25,000" className="mt-1" />
-            </div>
-            <div>
-              <Label className="text-sm text-gray-600">Education Fund Needed</Label>
-              <Input defaultValue="$200,000" className="mt-1" />
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label className="text-sm text-gray-600">Client 1 Name</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Client 2 Name</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Client 1 Employment Income</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Client 2 Employment Income</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Interest and Dividends</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Other Income</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Life Insurance</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Analysis Date</Label>
+                <Input type="date" className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Dependents Name</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Dependents DOB</Label>
+                <Input type="date" className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Survivor Income Needs</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Other Income (5)</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Years of Income Replacement</Label>
+                <Input defaultValue="20" className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Emergency Fund Months</Label>
+                <Input defaultValue="6" className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Final Expenses</Label>
+                <Input defaultValue="$25,000" className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Education Fund Needed</Label>
+                <Input defaultValue="$200,000" className="mt-1" />
+              </div>
             </div>
           </div>
         );
 
       case 'education-funding':
         return (
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label className="text-sm text-gray-600">Child's Current Age</Label>
-              <Input defaultValue="5" className="mt-1" />
-            </div>
-            <div>
-              <Label className="text-sm text-gray-600">College Start Age</Label>
-              <Input defaultValue="18" className="mt-1" />
-            </div>
-            <div>
-              <Label className="text-sm text-gray-600">Years of College</Label>
-              <Input defaultValue="4" className="mt-1" />
-            </div>
-            <div>
-              <Label className="text-sm text-gray-600">Current Annual Cost</Label>
-              <Input defaultValue="$30,000" className="mt-1" />
-            </div>
-            <div>
-              <Label className="text-sm text-gray-600">Education Inflation Rate</Label>
-              <Input defaultValue="5%" className="mt-1" />
-            </div>
-            <div>
-              <Label className="text-sm text-gray-600">Investment Return Rate</Label>
-              <Input defaultValue="6%" className="mt-1" />
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label className="text-sm text-gray-600">Client 1 Name</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Client 2 Name</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Client 1 Employment Income</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Client 2 Employment Income</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Interest and Dividends</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Other Income</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Retirement Accounts</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Other Assets</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Cash</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Analysis Date</Label>
+                <Input type="date" className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Dependents Name</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Dependents DOB</Label>
+                <Input type="date" className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">College Info</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Education Inflation Rate</Label>
+                <Input defaultValue="5%" className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">ROR on Education Assets</Label>
+                <Input defaultValue="6%" className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Number of Months Since Review</Label>
+                <Input className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Child's Current Age</Label>
+                <Input defaultValue="5" className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">College Start Age</Label>
+                <Input defaultValue="18" className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Years of College</Label>
+                <Input defaultValue="4" className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Current Annual Cost</Label>
+                <Input defaultValue="$30,000" className="mt-1" />
+              </div>
+              <div>
+                <Label className="text-sm text-gray-600">Investment Return Rate</Label>
+                <Input defaultValue="6%" className="mt-1" />
+              </div>
             </div>
           </div>
         );

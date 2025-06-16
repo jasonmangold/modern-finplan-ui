@@ -9,11 +9,9 @@ import { ChevronDown, Search, Filter, Eye, FileText, FolderOpen, X, PanelLeftClo
 import { ReportViewer } from "@/components/ReportViewer";
 import { useEducationCategories, useEducationSearch, useEducationData } from "@/hooks/useEducationData";
 import { useSearch } from "@/contexts/SearchContext";
-import { VariableManager } from "@/components/VariableManager";
-import { TemplateEditor } from "@/components/TemplateEditor";
 
 const clientInteractionForms = ["Agenda for Discussion", "Beneficiary Audit Checklist", "Business Events Checklist", "Business Owner Planning Needs", "Client Referral", "Divorce Checklist", "Financial Review Checklist", "Life Events Checklist", "Planning Task List", "Receipt for Documents"];
-const worksheetReports = ["Business Valuation", "Capital Needs Analysis Worksheet", "Federal Estate Tax Worksheet", "Odds of Disability", "Personal Alternative Minimum Tax", "The Personal Budget Worksheet", "Personal Net Worth", "Taxation of Social Security Benefits", "The Real Rate of Return Worksheet", "When to Refine Your Home"];
+const worksheetReports = ["Business Valuation", "Capital Needs Analysis Worksheet", "Federal Estate Tax Worksheet", "Odds of Disability", "Personal Alternative Minimum Tax", "The Personal Budget Worksheet", "Personal Net Worth", "Taxation of Social Security Benefits", "The Real Rate of Return Worksheet", "When to Refinance Your Home"];
 const advisorSupportFolders = [{
   name: "Planning Tools Reference",
   count: 8,
@@ -363,12 +361,6 @@ const Education = () => {
   }, {
     label: "Advisor Support",
     value: "advisor-support"
-  }, {
-    label: "Dynamic Templates",
-    value: "dynamic-templates"
-  }, {
-    label: "Variable Manager",
-    value: "variable-manager"
   }];
 
   const renderTabContent = () => {
@@ -726,35 +718,6 @@ const Education = () => {
             </div>
           </div>
         );
-      case "dynamic-templates":
-        return (
-          <div className="space-y-6">
-            <div className="mb-6">
-              <h1 className="text-2xl font-semibold flex items-center gap-2">
-                <FileText className="h-6 w-6" />
-                Dynamic Report Templates
-              </h1>
-              <p className="text-gray-600 mt-2">
-                Generate reports with up-to-date variable content
-              </p>
-            </div>
-            <TemplateEditor />
-          </div>
-        );
-
-      case "variable-manager":
-        return (
-          <div className="space-y-6">
-            <div className="mb-6">
-              <h1 className="text-2xl font-semibold">Variable Management</h1>
-              <p className="text-gray-600 mt-2">
-                Update dynamic content used in report templates
-              </p>
-            </div>
-            <VariableManager />
-          </div>
-        );
-
       default:
         return null;
     }
