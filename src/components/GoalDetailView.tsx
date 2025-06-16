@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -126,21 +127,21 @@ export const GoalDetailView = ({
             <SelectTrigger className="w-64">
               <SelectValue />
               {selectedForPresentation.length > 0 && (
-                <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
-                  {selectedForPresentation.length}
+                <span className="ml-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+                  {selectedForPresentation.length} selected
                 </span>
               )}
             </SelectTrigger>
             <SelectContent>
               {config.outputs.map(output => (
-                <SelectItem key={output} value={output} className="flex items-center justify-between">
-                  <div className="flex items-center justify-between w-full pr-2">
-                    <span className="flex-1">{output}</span>
+                <SelectItem key={output} value={output} className="pr-12">
+                  <div className="flex items-center justify-between w-full">
+                    <span>{output}</span>
                     <Checkbox
                       checked={selectedForPresentation.includes(output)}
                       onCheckedChange={() => handlePresentationToggle(output)}
                       onClick={(e) => e.stopPropagation()}
-                      className="ml-auto"
+                      className="absolute right-4"
                     />
                   </div>
                 </SelectItem>
