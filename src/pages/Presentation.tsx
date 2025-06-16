@@ -14,6 +14,7 @@ import { FastTrackInputDialog } from "@/components/FastTrackInputDialog";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { TextEditorModal } from "@/components/TextEditorModal";
+import { usePresentationContext } from "@/contexts/PresentationContext";
 
 interface PresentationItem {
   id: string;
@@ -84,10 +85,12 @@ const Presentation = () => {
   const [clientAddress, setClientAddress] = useState("");
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [isEditingClient, setIsEditingClient] = useState(false);
-  const [items, setItems] = useState(presentationItems);
   const [draggedItem, setDraggedItem] = useState<string | null>(null);
   const [dropIndicator, setDropIndicator] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState("Presentation");
+  
+  // Use presentation context instead of local state
+  const { presentationItems: items, setPresentationItems: setItems, removePresentationItem } = usePresentationContext();
   
   // Company Information State
   const [companyInfo, setCompanyInfo] = useState({
@@ -202,7 +205,7 @@ const Presentation = () => {
   };
 
   const removeItem = (itemId: string) => {
-    setItems(items.filter(item => item.id !== itemId));
+    removePresentationItem(itemId);
   };
 
   const loadTemplate = (template: Template) => {

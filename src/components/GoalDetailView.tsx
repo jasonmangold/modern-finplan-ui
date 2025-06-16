@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -8,6 +7,7 @@ import { useState } from "react";
 import { GoalInputPanel } from "./GoalInputPanel";
 import { GoalOutputPanel } from "./GoalOutputPanel";
 import { RetirementAnalysisOutput } from "./RetirementAnalysisOutput";
+import { usePresentationContext } from "@/contexts/PresentationContext";
 
 const goalConfigs = {
   college: {
@@ -91,13 +91,30 @@ export const GoalDetailView = ({
   const [selectedOutput, setSelectedOutput] = useState(config.defaultOutput);
   const [selectedForPresentation, setSelectedForPresentation] = useState<string[]>([]);
   const IconComponent = config.icon;
+  const { addPresentationItem, removePresentationItem, presentationItems } = usePresentationContext();
 
   const handlePresentationToggle = (outputType: string) => {
-    setSelectedForPresentation(prev => 
-      prev.includes(outputType)
-        ? prev.filter(item => item !== outputType)
-        : [...prev, outputType]
-    );
+    setSelectedForPresentation(prev => {
+      const isCurrentlySelected = prev.includes(outputType);
+      
+      if (isCurrentlySelected) {
+        // Remove from presentation
+        const existingItem = presentationItems.find(item => item.name === outputType);
+        if (existingItem) {
+          removePresentationItem(existingItem.id);
+        }
+        return prev.filter(item => item !== outputType);
+      } else {
+        // Add to presentation
+        const newItem = {
+          id: Date.now().toString(), // Simple ID generation
+          name: outputType,
+          source: "Analysis" as const
+        };
+        addPresentationItem(newItem);
+        return [...prev, outputType];
+      }
+    });
   };
 
   return (
