@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowLeft, GraduationCap, Home, Car, PiggyBank, Shield, Check } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GoalInputPanel } from "./GoalInputPanel";
 import { GoalOutputPanel } from "./GoalOutputPanel";
 import { RetirementAnalysisOutput } from "./RetirementAnalysisOutput";
@@ -91,6 +91,21 @@ export const GoalDetailView = ({
   const [selectedForPresentation, setSelectedForPresentation] = useState<string[]>([]);
   const IconComponent = config.icon;
 
+  // Load selected reports from localStorage on component mount
+  useEffect(() => {
+    const saved = localStorage.getItem('selectedPresentationReports');
+    if (saved) {
+      setSelectedForPresentation(JSON.parse(saved));
+    }
+  }, []);
+
+  // Save to localStorage whenever selectedForPresentation changes
+  useEffect(() => {
+    localStorage.setItem('selectedPresentationReports', JSON.stringify(selectedForPresentation));
+    // Dispatch custom event to notify other components
+    window.dispatchEvent(new CustomEvent('presentationReportsUpdated'));
+  }, [selectedForPresentation]);
+
   const handlePresentationToggle = (outputType: string) => {
     setSelectedForPresentation(prev => 
       prev.includes(outputType)
@@ -98,6 +113,8 @@ export const GoalDetailView = ({
         : [...prev, outputType]
     );
   };
+
+  const selectedCount = selectedForPresentation.length;
 
   return (
     <div className="h-full flex flex-col p-6">
@@ -119,35 +136,50 @@ export const GoalDetailView = ({
           </div>
         </div>
         
-        {/* Output Selector and Presentation Selection */}
+        {/* Output Selector with integrated presentation selection */}
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-3">
             <span className="text-sm font-medium text-gray-700">View:</span>
-            <Select value={selectedOutput} onValueChange={setSelectedOutput}>
-              <SelectTrigger className="w-64">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {config.outputs.map(output => (
-                  <SelectItem key={output} value={output}>
-                    {output}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          
-          {/* Presentation Selection */}
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-gray-700">For Presentation:</span>
-            <div className="flex items-center gap-2">
-              <Checkbox
-                checked={selectedForPresentation.includes(selectedOutput)}
-                onCheckedChange={() => handlePresentationToggle(selectedOutput)}
-              />
-              {selectedForPresentation.includes(selectedOutput) && (
-                <Check className="h-4 w-4 text-green-600" />
-              )}
+            <div className="relative">
+              <Select value={selectedOutput} onValueChange={setSelectedOutput}>
+                <SelectTrigger className="w-64">
+                  <div className="flex items-center justify-between w-full">
+                    <SelectValue />
+                    <div className="flex items-center gap-2 ml-2">
+                      {selectedCount > 0 && (
+                        <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                          {selectedCount}
+                        </span>
+                      )}
+                      <Checkbox
+                        checked={selectedForPresentation.includes(selectedOutput)}
+                        onCheckedChange={() => handlePresentationToggle(selectedOutput)}
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    </div>
+                  </div>
+                </SelectTrigger>
+                <SelectContent className="bg-white border shadow-lg z-50">
+                  {config.outputs.map(output => {
+                    const isSelected = selectedForPresentation.includes(output);
+                    return (
+                      <SelectItem key={output} value={output} className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 w-full">
+                          <span className="flex-1">{output}</span>
+                          <div className="flex items-center gap-2">
+                            {isSelected && <Check className="h-4 w-4 text-green-600" />}
+                            <Checkbox
+                              checked={isSelected}
+                              onCheckedChange={() => handlePresentationToggle(output)}
+                              onClick={(e) => e.stopPropagation()}
+                            />
+                          </div>
+                        </div>
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
             </div>
           </div>
         </div>
