@@ -11,7 +11,6 @@ const generateRetirementData = () => {
     let otherIncome = 500; // Rental income
     let assetWithdrawals = 0;
     let shortfall = 0;
-    
     if (age >= 67) {
       if (age <= 77) {
         // Ages 67-77: Need $9,000, have $5,779 from SS + rental
@@ -28,7 +27,6 @@ const generateRetirementData = () => {
         assetWithdrawals = 0;
       }
     }
-    
     data.push({
       age: age,
       socialSecurity,
@@ -40,14 +38,14 @@ const generateRetirementData = () => {
   }
   return data;
 };
-
 const retirementYearlyData = generateRetirementData();
-
-export const RetirementAnalysisOutput = ({ selectedForPresentation = [] }: { selectedForPresentation?: string[] }) => {
+export const RetirementAnalysisOutput = ({
+  selectedForPresentation = []
+}: {
+  selectedForPresentation?: string[];
+}) => {
   const isSelectedForPresentation = selectedForPresentation.includes("Retirement Analysis");
-
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -151,93 +149,59 @@ export const RetirementAnalysisOutput = ({ selectedForPresentation = [] }: { sel
                 <h4 className="font-medium text-base mb-4">Projected Retirement Income by Year (Age 67-90)</h4>
                 <div className="h-96 w-full bg-gradient-to-br from-slate-50 to-white dark:from-slate-900 dark:to-slate-800 rounded-xl p-6 shadow-lg">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart 
-                      data={retirementYearlyData}
-                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                    >
+                    <BarChart data={retirementYearlyData} margin={{
+                    top: 20,
+                    right: 30,
+                    left: 20,
+                    bottom: 5
+                  }}>
                       <defs>
                         <linearGradient id="socialSecurityGradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#10B981" stopOpacity={0.9}/>
-                          <stop offset="100%" stopColor="#059669" stopOpacity={0.8}/>
+                          <stop offset="0%" stopColor="#10B981" stopOpacity={0.9} />
+                          <stop offset="100%" stopColor="#059669" stopOpacity={0.8} />
                         </linearGradient>
                         <linearGradient id="otherIncomeGradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#3B82F6" stopOpacity={0.9}/>
-                          <stop offset="100%" stopColor="#1D4ED8" stopOpacity={0.8}/>
+                          <stop offset="0%" stopColor="#3B82F6" stopOpacity={0.9} />
+                          <stop offset="100%" stopColor="#1D4ED8" stopOpacity={0.8} />
                         </linearGradient>
                         <linearGradient id="assetWithdrawalsGradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#F97316" stopOpacity={0.9}/>
-                          <stop offset="100%" stopColor="#EA580C" stopOpacity={0.8}/>
+                          <stop offset="0%" stopColor="#F97316" stopOpacity={0.9} />
+                          <stop offset="100%" stopColor="#EA580C" stopOpacity={0.8} />
                         </linearGradient>
                         <linearGradient id="shortfallGradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#EF4444" stopOpacity={0.9}/>
-                          <stop offset="100%" stopColor="#DC2626" stopOpacity={0.8}/>
+                          <stop offset="0%" stopColor="#EF4444" stopOpacity={0.9} />
+                          <stop offset="100%" stopColor="#DC2626" stopOpacity={0.8} />
                         </linearGradient>
                       </defs>
-                      <CartesianGrid 
-                        strokeDasharray="3 3" 
-                        stroke="#E5E7EB" 
-                        strokeOpacity={0.3}
-                        horizontal={true}
-                        vertical={false}
-                      />
-                      <XAxis 
-                        dataKey="age" 
-                        tick={{ fontSize: 11, fill: '#6B7280', fontFamily: 'Inter, system-ui, sans-serif' }}
-                        axisLine={{ stroke: '#E5E7EB', strokeWidth: 1 }}
-                        tickLine={false}
-                        interval={1}
-                      />
-                      <YAxis 
-                        tick={{ fontSize: 11, fill: '#6B7280', fontFamily: 'Inter, system-ui, sans-serif' }}
-                        axisLine={false}
-                        tickLine={false}
-                        tickFormatter={value => `$${(value / 1000).toFixed(0)}k`}
-                      />
-                      <Tooltip 
-                        formatter={(value, name) => {
-                          const formatName = name === 'socialSecurity' ? 'Social Security' : 
-                                           name === 'otherIncome' ? 'Other Income' :
-                                           name === 'assetWithdrawals' ? 'Asset Withdrawals' : 'Income Shortfall';
-                          return [`$${value.toLocaleString()}`, formatName];
-                        }}
-                        labelFormatter={age => `Age ${age}`}
-                        contentStyle={{
-                          backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                          border: '1px solid #E5E7EB',
-                          borderRadius: '8px',
-                          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
-                          fontFamily: 'Inter, system-ui, sans-serif',
-                          fontSize: '12px'
-                        }}
-                      />
-                      <Bar 
-                        dataKey="socialSecurity" 
-                        stackId="income" 
-                        fill="url(#socialSecurityGradient)" 
-                        name="socialSecurity"
-                        radius={[0, 0, 0, 0]}
-                      />
-                      <Bar 
-                        dataKey="otherIncome" 
-                        stackId="income" 
-                        fill="url(#otherIncomeGradient)" 
-                        name="otherIncome"
-                        radius={[0, 0, 0, 0]}
-                      />
-                      <Bar 
-                        dataKey="assetWithdrawals" 
-                        stackId="income" 
-                        fill="url(#assetWithdrawalsGradient)" 
-                        name="assetWithdrawals"
-                        radius={[0, 0, 0, 0]}
-                      />
-                      <Bar 
-                        dataKey="shortfall" 
-                        stackId="income" 
-                        fill="url(#shortfallGradient)" 
-                        name="shortfall"
-                        radius={[2, 2, 0, 0]}
-                      />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" strokeOpacity={0.3} horizontal={true} vertical={false} />
+                      <XAxis dataKey="age" tick={{
+                      fontSize: 11,
+                      fill: '#6B7280',
+                      fontFamily: 'Inter, system-ui, sans-serif'
+                    }} axisLine={{
+                      stroke: '#E5E7EB',
+                      strokeWidth: 1
+                    }} tickLine={false} interval={1} />
+                      <YAxis tick={{
+                      fontSize: 11,
+                      fill: '#6B7280',
+                      fontFamily: 'Inter, system-ui, sans-serif'
+                    }} axisLine={false} tickLine={false} tickFormatter={value => `$${(value / 1000).toFixed(0)}k`} />
+                      <Tooltip formatter={(value, name) => {
+                      const formatName = name === 'socialSecurity' ? 'Social Security' : name === 'otherIncome' ? 'Other Income' : name === 'assetWithdrawals' ? 'Asset Withdrawals' : 'Income Shortfall';
+                      return [`$${value.toLocaleString()}`, formatName];
+                    }} labelFormatter={age => `Age ${age}`} contentStyle={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                      border: '1px solid #E5E7EB',
+                      borderRadius: '8px',
+                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                      fontFamily: 'Inter, system-ui, sans-serif',
+                      fontSize: '12px'
+                    }} />
+                      <Bar dataKey="socialSecurity" stackId="income" fill="url(#socialSecurityGradient)" name="socialSecurity" radius={[0, 0, 0, 0]} />
+                      <Bar dataKey="otherIncome" stackId="income" fill="url(#otherIncomeGradient)" name="otherIncome" radius={[0, 0, 0, 0]} />
+                      <Bar dataKey="assetWithdrawals" stackId="income" fill="url(#assetWithdrawalsGradient)" name="assetWithdrawals" radius={[0, 0, 0, 0]} />
+                      <Bar dataKey="shortfall" stackId="income" fill="url(#shortfallGradient)" name="shortfall" radius={[2, 2, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -281,11 +245,7 @@ export const RetirementAnalysisOutput = ({ selectedForPresentation = [] }: { sel
           <Download className="h-4 w-4" />
           Export PDF
         </Button>
-        <Button className="flex items-center gap-2">
-          <Presentation className="h-4 w-4" />
-          Add to Presentation
-        </Button>
+        
       </div>
-    </div>
-  );
+    </div>;
 };
