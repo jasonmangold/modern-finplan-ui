@@ -1,9 +1,11 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, GraduationCap, Home, Car, PiggyBank, Shield, Check } from "lucide-react";
-import { useState } from "react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { ArrowLeft, GraduationCap, Home, Car, PiggyBank, Shield, Check, ChevronDown } from "lucide-react";
+import { useState, useEffect } from "react";
 import { GoalInputPanel } from "./GoalInputPanel";
 import { GoalOutputPanel } from "./GoalOutputPanel";
 import { RetirementAnalysisOutput } from "./RetirementAnalysisOutput";
@@ -82,21 +84,56 @@ interface GoalDetailViewProps {
   onBack: () => void;
 }
 
+// Global state for selected reports (in a real app, this would be in a context or store)
+const selectedReportsForPresentation = new Set<string>();
+
 export const GoalDetailView = ({
   goalId,
   onBack
 }: GoalDetailViewProps) => {
   const config = goalConfigs[goalId as keyof typeof goalConfigs] || goalConfigs.college;
   const [selectedOutput, setSelectedOutput] = useState(config.defaultOutput);
-  const [selectedForPresentation, setSelectedForPresentation] = useState<string[]>([]);
+  const [localSelectedReports, setLocalSelectedReports] = useState<Set<string>>(new Set());
   const IconComponent = config.icon;
 
-  const handlePresentationToggle = (outputType: string) => {
-    setSelectedForPresentation(prev => 
-      prev.includes(outputType)
-        ? prev.filter(item => item !== outputType)
-        : [...prev, outputType]
-    );
+  // Load selected reports from localStorage on component mount
+  useEffect(() => {
+    const saved = localStorage.getItem('presentation-reports');
+    if (saved) {
+      const savedReports = JSON.parse(saved);
+      selectedReportsForPresentation.clear();
+      savedReports.forEach((report: string) => selectedReportsForPresentation.add(report));
+      setLocalSelectedReports(new Set(savedReports));
+    }
+  }, []);
+
+  const handlePresentationToggle = (outputType: string, goalTitle: string) => {
+    const reportKey = `${goalTitle} - ${outputType}`;
+    const newSelected = new Set(localSelectedReports);
+    
+    if (newSelected.has(reportKey)) {
+      newSelected.delete(reportKey);
+      selectedReportsForPresentation.delete(reportKey);
+    } else {
+      newSelected.add(reportKey);
+      selectedReportsForPresentation.add(reportKey);
+    }
+    
+    setLocalSelectedReports(newSelected);
+    
+    // Save to localStorage
+    localStorage.setItem('presentation-reports', JSON.stringify(Array.from(selectedReportsForPresentation)));
+  };
+
+  const isSelectedForPresentation = (outputType: string) => {
+    const reportKey = `${config.title} - ${outputType}`;
+    return localSelectedReports.has(reportKey);
+  };
+
+  const getSelectedReportsCount = () => {
+    return Array.from(localSelectedReports).filter(report => 
+      report.startsWith(config.title)
+    ).length;
   };
 
   return (
@@ -119,36 +156,66 @@ export const GoalDetailView = ({
           </div>
         </div>
         
-        {/* Output Selector and Presentation Selection */}
+        {/* Output Selector with Presentation Selection in Dropdown */}
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-gray-700">View:</span>
-            <Select value={selectedOutput} onValueChange={setSelectedOutput}>
-              <SelectTrigger className="w-64">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {config.outputs.map(output => (
-                  <SelectItem key={output} value={output}>
-                    {output}
-                  </SelectItem>
+            <span className="text-sm font-medium text-gray-700">View & Present:</span>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="w-80 justify-between">
+                  <span>{selectedOutput}</span>
+                  <div className="flex items-center gap-2">
+                    {getSelectedReportsCount() > 0 && (
+                      <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
+                        {getSelectedReportsCount()} selected
+                      </span>
+                    )}
+                    <ChevronDown className="h-4 w-4" />
+                  </div>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-80 bg-white border shadow-lg">
+                {config.outputs.map((output, index) => (
+                  <DropdownMenuItem
+                    key={output}
+                    className={`flex items-center justify-between p-3 cursor-pointer hover:bg-gray-50 ${
+                      selectedOutput === output ? 'bg-blue-50' : ''
+                    }`}
+                    onClick={() => setSelectedOutput(output)}
+                  >
+                    <span className={selectedOutput === output ? 'font-medium text-blue-700' : ''}>
+                      {output}
+                    </span>
+                    <div className="flex items-center gap-2">
+                      {isSelectedForPresentation(output) && (
+                        <Check className="h-4 w-4 text-green-600" />
+                      )}
+                      <Checkbox
+                        checked={isSelectedForPresentation(output)}
+                        onCheckedChange={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handlePresentationToggle(output, config.title);
+                        }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handlePresentationToggle(output, config.title);
+                        }}
+                      />
+                    </div>
+                  </DropdownMenuItem>
                 ))}
-              </SelectContent>
-            </Select>
-          </div>
-          
-          {/* Presentation Selection */}
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-gray-700">For Presentation:</span>
-            <div className="flex items-center gap-2">
-              <Checkbox
-                checked={selectedForPresentation.includes(selectedOutput)}
-                onCheckedChange={() => handlePresentationToggle(selectedOutput)}
-              />
-              {selectedForPresentation.includes(selectedOutput) && (
-                <Check className="h-4 w-4 text-green-600" />
-              )}
-            </div>
+                {getSelectedReportsCount() > 0 && (
+                  <>
+                    <DropdownMenuSeparator />
+                    <div className="p-2 text-xs text-gray-500 bg-gray-50">
+                      Selected for presentation: {getSelectedReportsCount()} report{getSelectedReportsCount() !== 1 ? 's' : ''}
+                    </div>
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
@@ -163,7 +230,7 @@ export const GoalDetailView = ({
         {/* Right Panel - Outputs (60% - 3 columns) */}
         <div className="col-span-3 overflow-y-auto">
           {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? (
-            <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} />
+            <RetirementAnalysisOutput selectedForPresentation={Array.from(localSelectedReports)} />
           ) : (
             <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
           )}
