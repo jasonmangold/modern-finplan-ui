@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
@@ -41,9 +40,9 @@ const sampleTemplates = {
   <div class="section">
     <div class="section-title">Contribution Limits for {{current_year}}</div>
     <div class="highlight">
-      <p><strong>Maximum Annual Contribution:</strong> <span class="variable">${{roth_ira_contribution_limit}}</span></p>
-      <p><strong>Catch-up Contribution (Age 50+):</strong> <span class="variable">${{roth_ira_catchup_limit}}</span></p>
-      <p><strong>Total Maximum (Age 50+):</strong> <span class="variable">${{roth_ira_total_limit}}</span></p>
+      <p><strong>Maximum Annual Contribution:</strong> <span class="variable">\${{roth_ira_contribution_limit}}</span></p>
+      <p><strong>Catch-up Contribution (Age 50+):</strong> <span class="variable">\${{roth_ira_catchup_limit}}</span></p>
+      <p><strong>Total Maximum (Age 50+):</strong> <span class="variable">\${{roth_ira_total_limit}}</span></p>
     </div>
   </div>
 
@@ -57,13 +56,13 @@ const sampleTemplates = {
       </tr>
       <tr>
         <td>Single/Head of Household</td>
-        <td>${{roth_ira_single_phaseout_start}} - ${{roth_ira_single_phaseout_end}}</td>
-        <td>Above ${{roth_ira_single_phaseout_end}}</td>
+        <td>\${{roth_ira_single_phaseout_start}} - \${{roth_ira_single_phaseout_end}}</td>
+        <td>Above \${{roth_ira_single_phaseout_end}}</td>
       </tr>
       <tr>
         <td>Married Filing Jointly</td>
-        <td>${{roth_ira_mfj_phaseout_start}} - ${{roth_ira_mfj_phaseout_end}}</td>
-        <td>Above ${{roth_ira_mfj_phaseout_end}}</td>
+        <td>\${{roth_ira_mfj_phaseout_start}} - \${{roth_ira_mfj_phaseout_end}}</td>
+        <td>Above \${{roth_ira_mfj_phaseout_end}}</td>
       </tr>
     </table>
   </div>
@@ -85,7 +84,7 @@ const sampleTemplates = {
 </body>
 </html>`,
 
-  '401k-guide': `
+  'plan401k-guide': `
 <!DOCTYPE html>
 <html>
 <head>
@@ -115,15 +114,15 @@ const sampleTemplates = {
       <div class="column">
         <div class="highlight-box">
           <h4>Employee Contributions</h4>
-          <p><strong>Annual Limit:</strong> <span class="variable">${{401k_employee_limit}}</span></p>
-          <p><strong>Catch-up (Age 50+):</strong> <span class="variable">${{401k_catchup_limit}}</span></p>
+          <p><strong>Annual Limit:</strong> <span class="variable">\${{plan401k_employee_limit}}</span></p>
+          <p><strong>Catch-up (Age 50+):</strong> <span class="variable">\${{plan401k_catchup_limit}}</span></p>
         </div>
       </div>
       <div class="column">
         <div class="highlight-box">
           <h4>Total Contributions</h4>
-          <p><strong>Annual Limit:</strong> <span class="variable">${{401k_total_limit}}</span></p>
-          <p><strong>With Catch-up:</strong> <span class="variable">${{401k_total_with_catchup}}</span></p>
+          <p><strong>Annual Limit:</strong> <span class="variable">\${{plan401k_total_limit}}</span></p>
+          <p><strong>With Catch-up:</strong> <span class="variable">\${{plan401k_total_with_catchup}}</span></p>
         </div>
       </div>
     </div>
@@ -283,7 +282,7 @@ export const TemplateEditor = () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => loadSampleTemplate('401k-guide')}
+                    onClick={() => loadSampleTemplate('plan401k-guide')}
                   >
                     Load 401(k) Template
                   </Button>
