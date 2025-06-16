@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -7,6 +8,7 @@ import { useState } from "react";
 import { GoalInputPanel } from "./GoalInputPanel";
 import { GoalOutputPanel } from "./GoalOutputPanel";
 import { RetirementAnalysisOutput } from "./RetirementAnalysisOutput";
+import { usePresentationSelection } from "@/hooks/usePresentationSelection";
 
 const goalConfigs = {
   college: {
@@ -88,16 +90,14 @@ export const GoalDetailView = ({
 }: GoalDetailViewProps) => {
   const config = goalConfigs[goalId as keyof typeof goalConfigs] || goalConfigs.college;
   const [selectedOutput, setSelectedOutput] = useState(config.defaultOutput);
-  const [selectedForPresentation, setSelectedForPresentation] = useState<string[]>([]);
+  const { toggleReport, isSelected, getSelectedCount } = usePresentationSelection();
   const IconComponent = config.icon;
 
   const handlePresentationToggle = (outputType: string) => {
-    setSelectedForPresentation(prev => 
-      prev.includes(outputType)
-        ? prev.filter(item => item !== outputType)
-        : [...prev, outputType]
-    );
+    toggleReport(goalId, outputType);
   };
+
+  const selectedCount = getSelectedCount();
 
   return (
     <div className="h-full flex flex-col p-6">
@@ -119,37 +119,40 @@ export const GoalDetailView = ({
           </div>
         </div>
         
-        {/* Output Selector and Presentation Selection */}
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-gray-700">View:</span>
-            <Select value={selectedOutput} onValueChange={setSelectedOutput}>
-              <SelectTrigger className="w-64">
+        {/* View & Present Selector */}
+        <div className="flex items-center gap-3">
+          <span className="text-sm font-medium text-gray-700">View & Present:</span>
+          <Select value={selectedOutput} onValueChange={setSelectedOutput}>
+            <SelectTrigger className="w-80">
+              <div className="flex items-center justify-between w-full">
                 <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {config.outputs.map(output => (
-                  <SelectItem key={output} value={output}>
+                {selectedCount > 0 && (
+                  <span className="text-sm text-green-600 font-medium">
+                    {selectedCount} selected
+                  </span>
+                )}
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              {config.outputs.map(output => (
+                <div key={output} className="flex items-center justify-between px-2 py-1.5">
+                  <SelectItem value={output} className="flex-1 cursor-pointer">
                     {output}
                   </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          
-          {/* Presentation Selection */}
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-gray-700">For Presentation:</span>
-            <div className="flex items-center gap-2">
-              <Checkbox
-                checked={selectedForPresentation.includes(selectedOutput)}
-                onCheckedChange={() => handlePresentationToggle(selectedOutput)}
-              />
-              {selectedForPresentation.includes(selectedOutput) && (
-                <Check className="h-4 w-4 text-green-600" />
-              )}
-            </div>
-          </div>
+                  <div className="flex items-center gap-2 ml-2">
+                    <Checkbox
+                      checked={isSelected(goalId, output)}
+                      onCheckedChange={() => handlePresentationToggle(output)}
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                    {isSelected(goalId, output) && (
+                      <Check className="h-4 w-4 text-green-600" />
+                    )}
+                  </div>
+                </div>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
@@ -163,7 +166,7 @@ export const GoalDetailView = ({
         {/* Right Panel - Outputs (60% - 3 columns) */}
         <div className="col-span-3 overflow-y-auto">
           {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? (
-            <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} />
+            <RetirementAnalysisOutput selectedForPresentation={[]} />
           ) : (
             <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
           )}
