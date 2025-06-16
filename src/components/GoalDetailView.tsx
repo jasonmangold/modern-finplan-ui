@@ -1,9 +1,10 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowLeft, GraduationCap, Home, Car, PiggyBank, Shield, Check } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GoalInputPanel } from "./GoalInputPanel";
 import { GoalOutputPanel } from "./GoalOutputPanel";
 import { RetirementAnalysisOutput } from "./RetirementAnalysisOutput";
@@ -89,32 +90,33 @@ export const GoalDetailView = ({
 }: GoalDetailViewProps) => {
   const config = goalConfigs[goalId as keyof typeof goalConfigs] || goalConfigs.college;
   const [selectedOutput, setSelectedOutput] = useState(config.defaultOutput);
-  const [selectedForPresentation, setSelectedForPresentation] = useState<string[]>([]);
-  const IconComponent = config.icon;
   const { addPresentationItem, removePresentationItem, presentationItems } = usePresentationContext();
+  
+  // Calculate which outputs are currently selected based on presentation items
+  const selectedForPresentation = presentationItems
+    .filter(item => config.outputs.includes(item.name))
+    .map(item => item.name);
+
+  const IconComponent = config.icon;
 
   const handlePresentationToggle = (outputType: string) => {
-    setSelectedForPresentation(prev => {
-      const isCurrentlySelected = prev.includes(outputType);
-      
-      if (isCurrentlySelected) {
-        // Remove from presentation
-        const existingItem = presentationItems.find(item => item.name === outputType);
-        if (existingItem) {
-          removePresentationItem(existingItem.id);
-        }
-        return prev.filter(item => item !== outputType);
-      } else {
-        // Add to presentation
-        const newItem = {
-          id: Date.now().toString(), // Simple ID generation
-          name: outputType,
-          source: "Analysis" as const
-        };
-        addPresentationItem(newItem);
-        return [...prev, outputType];
+    const isCurrentlySelected = selectedForPresentation.includes(outputType);
+    
+    if (isCurrentlySelected) {
+      // Remove from presentation
+      const existingItem = presentationItems.find(item => item.name === outputType);
+      if (existingItem) {
+        removePresentationItem(existingItem.id);
       }
-    });
+    } else {
+      // Add to presentation
+      const newItem = {
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 9), // More unique ID
+        name: outputType,
+        source: "Analysis" as const
+      };
+      addPresentationItem(newItem);
+    }
   };
 
   return (
