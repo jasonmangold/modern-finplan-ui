@@ -1,5 +1,4 @@
 
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -135,10 +134,16 @@ export const GoalDetailView = ({
             </SelectTrigger>
             <SelectContent className="w-full">
               {config.outputs.map(output => (
-                <SelectItem key={output} value={output} className="relative pr-10">
-                  <span>{output}</span>
+                <div key={output} className="relative">
+                  <SelectItem value={output} className="pr-10">
+                    <span>{output}</span>
+                  </SelectItem>
                   <div 
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10"
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
@@ -148,10 +153,9 @@ export const GoalDetailView = ({
                     <Checkbox
                       checked={selectedForPresentation.includes(output)}
                       onCheckedChange={() => handlePresentationToggle(output)}
-                      className="pointer-events-none"
                     />
                   </div>
-                </SelectItem>
+                </div>
               ))}
             </SelectContent>
           </Select>
@@ -177,4 +181,3 @@ export const GoalDetailView = ({
     </div>
   );
 };
-

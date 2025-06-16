@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download, FileText, Presentation } from "lucide-react";
@@ -53,9 +52,6 @@ export const RetirementAnalysisOutput = ({ selectedForPresentation = [] }: { sel
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-semibold">Retirement Analysis</h2>
-          {isSelectedForPresentation && (
-            <span className="text-sm text-green-600 font-medium">✓ Selected for Presentation</span>
-          )}
         </div>
       </div>
 
