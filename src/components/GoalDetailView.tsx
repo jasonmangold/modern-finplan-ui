@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -135,16 +134,14 @@ export const GoalDetailView = ({
             <SelectContent>
               {config.outputs.map(output => (
                 <SelectItem key={output} value={output} className="flex items-center justify-between">
-                  <div className="flex items-center justify-between w-full">
-                    <span>{output}</span>
-                    <div className="flex items-center gap-2 ml-4">
-                      <span className="text-xs text-gray-500">For Presentation</span>
-                      <Checkbox
-                        checked={selectedForPresentation.includes(output)}
-                        onCheckedChange={() => handlePresentationToggle(output)}
-                        onClick={(e) => e.stopPropagation()}
-                      />
-                    </div>
+                  <div className="flex items-center justify-between w-full pr-2">
+                    <span className="flex-1">{output}</span>
+                    <Checkbox
+                      checked={selectedForPresentation.includes(output)}
+                      onCheckedChange={() => handlePresentationToggle(output)}
+                      onClick={(e) => e.stopPropagation()}
+                      className="ml-auto"
+                    />
                   </div>
                 </SelectItem>
               ))}
