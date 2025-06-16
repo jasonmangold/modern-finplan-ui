@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Download, FileText, Presentation } from "lucide-react";
+import { Download, FileText, Presentation, Printer } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 // Generate yearly retirement data from age 67-90
@@ -45,6 +45,11 @@ export const RetirementAnalysisOutput = ({
   selectedForPresentation?: string[];
 }) => {
   const isSelectedForPresentation = selectedForPresentation.includes("Retirement Analysis");
+
+  const handlePrint = () => {
+    window.print();
+  };
+
   return <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
@@ -245,7 +250,10 @@ export const RetirementAnalysisOutput = ({
           <Download className="h-4 w-4" />
           Export PDF
         </Button>
-        
+        <Button variant="outline" className="flex items-center gap-2" onClick={handlePrint}>
+          <Printer className="h-4 w-4" />
+          Print
+        </Button>
       </div>
     </div>;
 };

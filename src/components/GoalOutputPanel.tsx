@@ -1,8 +1,9 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
-import { TrendingUp, Download, FileText, Presentation } from "lucide-react";
+import { TrendingUp, Download, Printer } from "lucide-react";
 
 interface GoalOutputPanelProps {
   goalId: string;
@@ -19,6 +20,10 @@ const sampleData = [
 ];
 
 export const GoalOutputPanel = ({ goalId, outputType }: GoalOutputPanelProps) => {
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -114,13 +119,9 @@ export const GoalOutputPanel = ({ goalId, outputType }: GoalOutputPanelProps) =>
           <Download className="h-4 w-4" />
           Export PDF
         </Button>
-        <Button variant="outline" className="flex items-center gap-2">
-          <Presentation className="h-4 w-4" />
-          Add to Presentation
-        </Button>
-        <Button className="flex items-center gap-2">
-          <FileText className="h-4 w-4" />
-          Generate Report
+        <Button variant="outline" className="flex items-center gap-2" onClick={handlePrint}>
+          <Printer className="h-4 w-4" />
+          Print
         </Button>
       </div>
     </div>
