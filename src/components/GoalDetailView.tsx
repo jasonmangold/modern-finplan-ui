@@ -1,4 +1,5 @@
 
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -132,16 +133,22 @@ export const GoalDetailView = ({
                 </span>
               )}
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="w-full">
               {config.outputs.map(output => (
-                <SelectItem key={output} value={output} className="pr-12">
-                  <div className="flex items-center justify-between w-full">
-                    <span>{output}</span>
+                <SelectItem key={output} value={output} className="relative pr-10">
+                  <span>{output}</span>
+                  <div 
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handlePresentationToggle(output);
+                    }}
+                  >
                     <Checkbox
                       checked={selectedForPresentation.includes(output)}
                       onCheckedChange={() => handlePresentationToggle(output)}
-                      onClick={(e) => e.stopPropagation()}
-                      className="absolute right-4"
+                      className="pointer-events-none"
                     />
                   </div>
                 </SelectItem>
@@ -170,3 +177,4 @@ export const GoalDetailView = ({
     </div>
   );
 };
+
