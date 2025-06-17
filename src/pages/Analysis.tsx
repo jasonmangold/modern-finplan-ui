@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
@@ -58,18 +59,14 @@ const Analysis = () => {
                 onBack={handleBackToGoals}
               />
             ) : viewMode === "comprehensive" ? (
-              <div data-tour="comprehensive-mode">
-                <ComprehensiveInputMode onSeeResults={() => setViewMode("goals-based")} />
-              </div>
+              <ComprehensiveInputMode onSeeResults={() => setViewMode("goals-based")} />
             ) : viewMode === "fitness-score" ? (
               <FinancialFitnessScore onBack={handleBackFromFitnessScore} />
             ) : (
-              <div data-tour="goals-based-mode">
-                <GoalsBasedMode 
-                  onGoalSelect={handleGoalSelect} 
-                  onShowFitnessScore={handleShowFitnessScore}
-                />
-              </div>
+              <GoalsBasedMode 
+                onGoalSelect={handleGoalSelect} 
+                onShowFitnessScore={handleShowFitnessScore}
+              />
             )}
           </div>
         </div>

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { TopNavigation } from "./TopNavigation";
 import { ClientSelector } from "./ClientSelector";
@@ -5,9 +6,6 @@ import { SaveSection } from "./SaveSection";
 import { SearchBar } from "./SearchBar";
 import { UserMenu } from "./UserMenu";
 import { useSearch } from "@/contexts/SearchContext";
-import { Button } from "@/components/ui/button";
-import { HelpCircle } from "lucide-react";
-import { useTour } from "./tour/TourProvider";
 
 export const Header = () => {
   const [saveState, setSaveState] = useState<"initial" | "loading" | "success">("initial");
@@ -19,7 +17,6 @@ export const Header = () => {
   const [localSearchTerm, setLocalSearchTerm] = useState("");
 
   const { setGlobalSearchTerm } = useSearch();
-  const { startTour } = useTour();
 
   // Update global search when local search changes (with debounce)
   useEffect(() => {
@@ -110,16 +107,6 @@ export const Header = () => {
               localSearchTerm={localSearchTerm}
               setLocalSearchTerm={setLocalSearchTerm}
             />
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={startTour}
-              className="flex items-center gap-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-              title="Take a tour of eAdvisys"
-            >
-              <HelpCircle className="h-4 w-4" />
-              Tour
-            </Button>
             <UserMenu />
           </div>
         </div>

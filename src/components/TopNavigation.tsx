@@ -2,11 +2,11 @@
 import { NavLink } from "react-router-dom";
 
 const navigationItems = [
-  { title: "Home", url: "/home", tourId: "home-nav" },
-  { title: "Analysis", url: "/analysis", tourId: "analysis-nav" },
-  { title: "Education", url: "/education", tourId: "education-nav" },
-  { title: "Calculators", url: "/calculators", tourId: "calculators-nav" },
-  { title: "Presentation", url: "/presentation", tourId: "presentation-nav" },
+  { title: "Home", url: "/" },
+  { title: "Analysis", url: "/analysis" },
+  { title: "Education", url: "/education" },
+  { title: "Calculators", url: "/calculators" },
+  { title: "Presentation", url: "/presentation" },
 ];
 
 export const TopNavigation = () => {
@@ -16,7 +16,6 @@ export const TopNavigation = () => {
         <NavLink
           key={item.title}
           to={item.url}
-          data-tour={item.tourId}
           className={({ isActive }) =>
             `py-2 px-3 rounded-md font-medium text-sm transition-colors ${
               isActive
