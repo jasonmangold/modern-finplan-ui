@@ -14,8 +14,32 @@ import NotFound from "./pages/NotFound";
 import { SearchProvider } from "./contexts/SearchContext";
 import { FormProvider } from "./contexts/FormContext";
 import { PresentationProvider } from "./contexts/PresentationContext";
+import { TourProvider } from "./components/tour/TourProvider";
+import { InteractiveTour } from "./components/tour/InteractiveTour";
+import { useTour } from "./components/tour/TourProvider";
 
 const queryClient = new QueryClient();
+
+const AppContent = () => {
+  const { isTourOpen, closeTour } = useTour();
+
+  return (
+    <>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Navigate to="/home" replace />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/analysis" element={<Analysis />} />
+          <Route path="/education" element={<Education />} />
+          <Route path="/calculators" element={<Calculators />} />
+          <Route path="/presentation" element={<Presentation />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Layout>
+      <InteractiveTour isOpen={isTourOpen} onClose={closeTour} />
+    </>
+  );
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -23,23 +47,15 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <SearchProvider>
-          <FormProvider>
-            <PresentationProvider>
-              <Layout>
-                <Routes>
-                  <Route path="/" element={<Navigate to="/home" replace />} />
-                  <Route path="/home" element={<Home />} />
-                  <Route path="/analysis" element={<Analysis />} />
-                  <Route path="/education" element={<Education />} />
-                  <Route path="/calculators" element={<Calculators />} />
-                  <Route path="/presentation" element={<Presentation />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Layout>
-            </PresentationProvider>
-          </FormProvider>
-        </SearchProvider>
+        <TourProvider>
+          <SearchProvider>
+            <FormProvider>
+              <PresentationProvider>
+                <AppContent />
+              </PresentationProvider>
+            </FormProvider>
+          </SearchProvider>
+        </TourProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
