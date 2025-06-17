@@ -1,8 +1,6 @@
 
-import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Search, X } from "lucide-react";
-import { useLocation } from "react-router-dom";
 
 interface SearchBarProps {
   localSearchTerm: string;
@@ -10,35 +8,17 @@ interface SearchBarProps {
 }
 
 export const SearchBar = ({ localSearchTerm, setLocalSearchTerm }: SearchBarProps) => {
-  const location = useLocation();
-
-  // Determine search placeholder based on current page
-  const getSearchPlaceholder = () => {
-    if (location.pathname === '/education') {
-      return 'Search reports...';
-    }
-    return 'Search...';
-  };
-
   return (
-    <div className="relative">
-      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 h-4 w-4" />
-      <Input 
-        placeholder={getSearchPlaceholder()}
+    <div className="relative group">
+      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200" />
+      <Input
+        type="text"
+        placeholder="Search..."
         value={localSearchTerm}
         onChange={(e) => setLocalSearchTerm(e.target.value)}
-        className="pl-10 w-64 border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 transition-colors focus:bg-white dark:focus:bg-gray-800 text-gray-900 dark:text-gray-100"
+        className="pl-10 pr-4 py-2 w-64 bg-white/80 dark:bg-gray-800/80 border-gray-200/60 dark:border-gray-700/60 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all duration-200 placeholder:text-gray-400"
       />
-      {localSearchTerm && (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => setLocalSearchTerm("")}
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0"
-        >
-          <X className="h-3 w-3" />
-        </Button>
-      )}
+      <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-blue-500/0 opacity-0 group-focus-within:opacity-100 transition-opacity duration-200 pointer-events-none" />
     </div>
   );
 };
