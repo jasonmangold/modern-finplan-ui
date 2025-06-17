@@ -138,7 +138,7 @@ export const InteractiveTour = ({ isOpen, onClose }: InteractiveTourProps) => {
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { status, type, index } = data;
 
-    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+    if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
       onClose();
       localStorage.setItem('tour-completed', 'true');
     }
