@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -140,7 +139,7 @@ export const GoalDetailView = ({
         </div>
         
         {/* Output Selector with integrated presentation selection */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3" data-tour="output-panel">
           <span className="text-sm font-medium text-gray-700">View:</span>
           <Select value={selectedOutput} onValueChange={setSelectedOutput}>
             <SelectTrigger className="w-64">
@@ -184,12 +183,12 @@ export const GoalDetailView = ({
       {/* Main Content with 40/60 split */}
       <div className="flex-1 grid grid-cols-5 gap-6 overflow-hidden">
         {/* Left Panel - Inputs (40% - 2 columns) */}
-        <div className="col-span-2 overflow-y-auto">
+        <div className="col-span-2 overflow-y-auto" data-tour="input-panel">
           <GoalInputPanel goalId={goalId} />
         </div>
 
         {/* Right Panel - Outputs (60% - 3 columns) */}
-        <div className="col-span-3 overflow-y-auto">
+        <div className="col-span-3 overflow-y-auto" data-tour="output-panel">
           {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? (
             <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} />
           ) : (
