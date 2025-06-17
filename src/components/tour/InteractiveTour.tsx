@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface InteractiveTourProps {
   isOpen: boolean;
@@ -133,62 +133,62 @@ const tourSteps: Step[] = [
 
 export const InteractiveTour = ({ isOpen, onClose }: InteractiveTourProps) => {
   const [stepIndex, setStepIndex] = useState(0);
+  const [run, setRun] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  // Start tour when isOpen becomes true
+  useEffect(() => {
+    if (isOpen) {
+      setRun(true);
+      setStepIndex(0);
+    } else {
+      setRun(false);
+    }
+  }, [isOpen]);
 
   const handleJoyrideCallback = (data: CallBackProps) => {
-    const { status, type, index } = data;
+    const { status, type, index, action } = data;
+
+    console.log('Tour callback:', { status, type, index, action });
 
     if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
       onClose();
       localStorage.setItem('tour-completed', 'true');
+      setRun(false);
+      return;
     }
 
     if (type === 'step:after') {
-      setStepIndex(index + 1);
+      const nextIndex = index + 1;
+      
+      // Handle navigation for specific steps
+      if (nextIndex === 3 && location.pathname !== '/analysis') {
+        // Navigate to analysis before showing comprehensive mode step
+        navigate('/analysis');
+        setTimeout(() => setStepIndex(nextIndex), 500);
+      } else if (nextIndex === 9 && location.pathname !== '/education') {
+        // Navigate to education tab
+        navigate('/education');
+        setTimeout(() => setStepIndex(nextIndex), 500);
+      } else if (nextIndex === 10 && location.pathname !== '/calculators') {
+        // Navigate to calculators tab
+        navigate('/calculators');
+        setTimeout(() => setStepIndex(nextIndex), 500);
+      } else if (nextIndex === 11 && location.pathname !== '/presentation') {
+        // Navigate to presentation tab
+        navigate('/presentation');
+        setTimeout(() => setStepIndex(nextIndex), 500);
+      } else {
+        setStepIndex(nextIndex);
+      }
     }
   };
-
-  // Navigate to appropriate routes during tour
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleNavigation = () => {
-      switch (stepIndex) {
-        case 2: // Analysis tab step
-          if (location.pathname !== '/analysis') {
-            window.location.href = '/analysis';
-          }
-          break;
-        case 8: // Education tab step  
-          if (location.pathname !== '/education') {
-            window.location.href = '/education';
-          }
-          break;
-        case 9: // Calculators tab step
-          if (location.pathname !== '/calculators') {
-            window.location.href = '/calculators';
-          }
-          break;
-        case 10: // Presentation tab step
-          if (location.pathname !== '/presentation') {
-            window.location.href = '/presentation';
-          }
-          break;
-        default:
-          if (location.pathname !== '/home' && stepIndex < 8) {
-            window.location.href = '/home';
-          }
-      }
-    };
-
-    const timeout = setTimeout(handleNavigation, 500);
-    return () => clearTimeout(timeout);
-  }, [stepIndex, isOpen, location.pathname]);
 
   return (
     <Joyride
       steps={tourSteps}
-      run={isOpen}
+      run={run}
       continuous
       showProgress
       showSkipButton
