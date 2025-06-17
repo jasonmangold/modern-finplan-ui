@@ -169,7 +169,7 @@ export const GoalsBasedMode = ({
     onGoalSelect(goalId);
   };
   const completedGoals = planningGoals.filter(goal => goal.completed).length;
-  return <div className="h-full p-6 space-y-6 bg-background dark:bg-gray-900">
+  return <div className="h-full p-6 space-y-6 bg-background dark:bg-gray-900 py-[2px]">
       {/* Header with Progress */}
       <div className="flex items-center justify-between">
         <div>
