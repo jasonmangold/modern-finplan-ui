@@ -49,7 +49,7 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
 
-    /* Enhanced modern color palette */
+    /* Modern color palette */
     --blue-50: 239 100% 97%;
     --blue-100: 225 100% 95%;
     --blue-500: 217 91% 60%;
@@ -111,7 +111,6 @@
     @apply bg-background text-foreground font-sans;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     letter-spacing: -0.01em;
-    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -133,23 +132,19 @@
 
 @layer components {
   .glass-card {
-    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg shadow-gray-900/5;
+    @apply bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg shadow-gray-900/5;
   }
 
   .modern-button {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-sm hover:shadow-md;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2;
   }
 
   .pill-tag {
-    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 hover:scale-105 shadow-sm;
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 hover:scale-105;
   }
 
   .smooth-card {
-    @apply rounded-xl border border-gray-200/60 bg-white/80 backdrop-blur-sm shadow-sm shadow-gray-900/5 transition-all duration-200 hover:shadow-md hover:shadow-gray-900/10 hover:border-gray-300/60;
-  }
-
-  .enhanced-card {
-    @apply rounded-xl border border-gray-200/40 bg-white/90 backdrop-blur-md shadow-lg shadow-gray-900/5 transition-all duration-300 hover:shadow-xl hover:shadow-gray-900/10 hover:border-gray-300/50 hover:-translate-y-0.5;
+    @apply rounded-xl border border-gray-200/60 bg-white/70 backdrop-blur-sm shadow-sm shadow-gray-900/5 transition-all duration-200 hover:shadow-md hover:shadow-gray-900/10;
   }
 
   /* Report-specific fonts */
@@ -166,53 +161,10 @@
   .report-body {
     font-family: 'Source Sans Pro', sans-serif;
   }
-
-  /* Modern micro-interactions */
-  .modern-hover {
-    @apply transition-all duration-200 hover:scale-[1.02] hover:shadow-lg;
-  }
-
-  .modern-focus {
-    @apply focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all duration-200;
-  }
-
-  .gradient-text {
-    @apply bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent;
-  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
-  }
-
-  .animate-fade-in-up {
-    animation: fade-in-up 0.5s ease-out;
-  }
-
-  .animate-scale-in {
-    animation: scale-in 0.3s ease-out;
-  }
-}
-
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scale-in {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
   }
 }

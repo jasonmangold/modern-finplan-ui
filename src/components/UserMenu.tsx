@@ -1,59 +1,78 @@
 
 import { useState } from "react";
-import { User, Settings, LogOut, HelpCircle } from "lucide-react";
+import { User, HelpCircle, FileText, Settings, LogOut, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { SettingsDialog } from "./SettingsDialog";
+import { useTheme } from "next-themes";
 
 export const UserMenu = () => {
+  const [showSettings, setShowSettings] = useState(false);
+  const { theme, setTheme, resolvedTheme } = useTheme();
+
+  const handleHelp = () => {
+    console.log("Help clicked");
+  };
+
+  const handleSampleFiles = () => {
+    console.log("Sample Files clicked");
+  };
+
+  const handleLogout = () => {
+    console.log("Logout clicked");
+  };
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-10 w-10 rounded-full hover:bg-gray-100/80 dark:hover:bg-gray-800/50 transition-colors duration-200">
-          <Avatar className="h-8 w-8 ring-2 ring-white/20 transition-all duration-200 hover:ring-blue-500/30">
-            <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-sm font-medium">
-              JD
-            </AvatarFallback>
-          </Avatar>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-gray-200/60 dark:border-gray-700/60 shadow-xl" align="end">
-        <div className="flex items-center space-x-2 p-2">
-          <Avatar className="h-8 w-8">
-            <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-sm">
-              JD
-            </AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium">John Doe</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">john@example.com</p>
-          </div>
-        </div>
-        <DropdownMenuSeparator className="bg-gray-200/60 dark:bg-gray-700/60" />
-        <DropdownMenuItem className="cursor-pointer hover:bg-gray-100/80 dark:hover:bg-gray-800/50 transition-colors duration-200">
-          <User className="mr-2 h-4 w-4" />
-          Profile
-        </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer hover:bg-gray-100/80 dark:hover:bg-gray-800/50 transition-colors duration-200">
-          <Settings className="mr-2 h-4 w-4" />
-          Settings
-        </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer hover:bg-gray-100/80 dark:hover:bg-gray-800/50 transition-colors duration-200">
-          <HelpCircle className="mr-2 h-4 w-4" />
-          Help
-        </DropdownMenuItem>
-        <DropdownMenuSeparator className="bg-gray-200/60 dark:bg-gray-700/60" />
-        <DropdownMenuItem className="cursor-pointer hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 transition-colors duration-200">
-          <LogOut className="mr-2 h-4 w-4" />
-          Log out
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" size="icon" className="hover:bg-gray-100 rounded-lg dark:hover:bg-gray-800">
+            <User className="h-5 w-5 text-gray-600 dark:text-gray-100" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-56 bg-white dark:bg-gray-900 border dark:border-gray-700 shadow-lg">
+          {/* DARK MODE */}
+          <DropdownMenuItem
+            className="cursor-pointer flex items-center"
+            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+          >
+            {resolvedTheme === "dark" ? (
+              <>
+                <Sun className="mr-2 h-4 w-4" />
+                Light Mode
+              </>
+            ) : (
+              <>
+                <Moon className="mr-2 h-4 w-4" />
+                Dark Mode
+              </>
+            )}
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={handleHelp} className="cursor-pointer">
+            <HelpCircle className="mr-2 h-4 w-4" />
+            Help
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleSampleFiles} className="cursor-pointer">
+            <FileText className="mr-2 h-4 w-4" />
+            Sample Files
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setShowSettings(true)} className="cursor-pointer">
+            <Settings className="mr-2 h-4 w-4" />
+            Settings
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-red-600">
+            <LogOut className="mr-2 h-4 w-4" />
+            Logout
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <SettingsDialog 
+        open={showSettings} 
+        onOpenChange={setShowSettings} 
+      />
+    </>
   );
 };

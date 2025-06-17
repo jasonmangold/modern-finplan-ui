@@ -65,13 +65,13 @@ export const Header = () => {
   }, []);
 
   return (
-    <header className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200/40 dark:border-gray-700/40 sticky top-0 z-50 shadow-sm">
-      <div className="h-16 flex items-center justify-between px-6 lg:px-8">
-        <div className="flex items-center gap-8">
-          <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 dark:from-blue-400 dark:via-blue-500 dark:to-blue-600 bg-clip-text text-transparent tracking-tight">
+    <header className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-200/60 dark:border-gray-700/60 sticky top-0 z-50">
+      <div className="h-16 flex items-center justify-between px-8">
+        <div className="flex items-center gap-6">
+          <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-400 dark:to-blue-500 bg-clip-text text-transparent">
             eAdvisys
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <ClientSelector
               clientFiles={clientFiles}
               setClientFiles={setClientFiles}
@@ -99,16 +99,16 @@ export const Header = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-8">
           <TopNavigation />
-        </div>
-
-        <div className="flex items-center gap-4">
-          <SearchBar
-            localSearchTerm={localSearchTerm}
-            setLocalSearchTerm={setLocalSearchTerm}
-          />
-          <UserMenu />
+          
+          <div className="flex items-center gap-4">
+            <SearchBar
+              localSearchTerm={localSearchTerm}
+              setLocalSearchTerm={setLocalSearchTerm}
+            />
+            <UserMenu />
+          </div>
         </div>
       </div>
     </header>
