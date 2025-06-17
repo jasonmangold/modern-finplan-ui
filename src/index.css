@@ -99,10 +99,6 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-
-    /* Dark mode report colors */
-    --report-main-heading: #7C9CDE;
-    --report-sub-heading: #9BB0E8;
   }
 }
 
@@ -132,100 +128,11 @@
   h3 {
     @apply text-xl lg:text-2xl;
   }
-
-  /* Ensure all interactive elements are dark mode compatible */
-  input, textarea, select {
-    @apply bg-background text-foreground border-border;
-  }
-
-  input:focus, textarea:focus, select:focus {
-    @apply ring-ring border-ring;
-  }
-
-  /* Dark mode for code blocks and pre elements */
-  pre, code {
-    @apply bg-muted text-muted-foreground;
-  }
-
-  /* Dark mode for tables */
-  table {
-    @apply bg-card text-card-foreground;
-  }
-
-  th, td {
-    @apply border-border;
-  }
-
-  /* Dark mode for form elements */
-  label {
-    @apply text-foreground;
-  }
-
-  /* Dark mode for collapsible/accordion content */
-  [data-state="open"] {
-    @apply bg-card text-card-foreground;
-  }
-
-  /* Dark mode for dropdown and popover content */
-  [role="menu"], [role="listbox"], [role="dialog"] {
-    @apply bg-popover text-popover-foreground border-border;
-  }
-
-  /* Dark mode for scrollbars */
-  ::-webkit-scrollbar {
-    @apply w-2;
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-muted;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-muted-foreground/30 rounded-full;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted-foreground/50;
-  }
-
-  /* Dark mode for file/folder tree structures */
-  .folder-tree, .file-explorer {
-    @apply bg-card text-card-foreground;
-  }
-
-  .folder-tree .folder-item:hover, .file-explorer .file-item:hover {
-    @apply bg-accent text-accent-foreground;
-  }
-
-  .folder-tree .folder-item.expanded, .file-explorer .folder-item.expanded {
-    @apply bg-muted text-muted-foreground;
-  }
-
-  /* Dark mode for education content areas */
-  .education-content, .report-content {
-    @apply bg-card text-card-foreground;
-  }
-
-  .education-folder, .report-folder {
-    @apply bg-card text-card-foreground border-border;
-  }
-
-  .education-folder:hover, .report-folder:hover {
-    @apply bg-accent text-accent-foreground;
-  }
-
-  .education-folder.expanded, .report-folder.expanded {
-    @apply bg-muted;
-  }
-
-  .education-folder.expanded .folder-content, .report-folder.expanded .folder-content {
-    @apply bg-card text-card-foreground;
-  }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-white/20 dark:border-gray-700/20 shadow-lg shadow-gray-900/5 dark:shadow-gray-900/20;
+    @apply bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg shadow-gray-900/5;
   }
 
   .modern-button {
@@ -237,10 +144,10 @@
   }
 
   .smooth-card {
-    @apply rounded-xl border border-gray-200/60 dark:border-gray-700/60 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm shadow-sm shadow-gray-900/5 dark:shadow-gray-900/20 transition-all duration-200 hover:shadow-md hover:shadow-gray-900/10 dark:hover:shadow-gray-900/30;
+    @apply rounded-xl border border-gray-200/60 bg-white/70 backdrop-blur-sm shadow-sm shadow-gray-900/5 transition-all duration-200 hover:shadow-md hover:shadow-gray-900/10;
   }
 
-  /* Report-specific fonts with dark mode support */
+  /* Report-specific fonts */
   .report-heading {
     font-family: 'Roboto Slab', serif;
     color: var(--report-main-heading);
@@ -253,50 +160,6 @@
 
   .report-body {
     font-family: 'Source Sans Pro', sans-serif;
-    @apply text-foreground;
-  }
-
-  /* Dark mode specific enhancements for education folders */
-  .education-folder-tree {
-    @apply bg-card text-card-foreground border-border;
-  }
-
-  .education-folder-item {
-    @apply text-foreground hover:bg-accent hover:text-accent-foreground;
-  }
-
-  .education-folder-item.active {
-    @apply bg-primary text-primary-foreground;
-  }
-
-  .education-folder-content {
-    @apply bg-card text-card-foreground;
-  }
-
-  /* Enhanced dark mode for specific UI elements */
-  .search-results {
-    @apply bg-popover text-popover-foreground border-border;
-  }
-
-  .navigation-item {
-    @apply text-foreground hover:text-primary hover:bg-accent;
-  }
-
-  .client-selector {
-    @apply bg-card text-card-foreground border-border;
-  }
-
-  .save-indicator {
-    @apply text-muted-foreground;
-  }
-
-  /* Dark mode for modal and dialog overlays */
-  .modal-overlay {
-    @apply bg-black/50 dark:bg-black/70;
-  }
-
-  .modal-content {
-    @apply bg-card text-card-foreground border-border;
   }
 }
 
@@ -304,34 +167,4 @@
   .text-balance {
     text-wrap: balance;
   }
-
-  /* Dark mode utilities */
-  .dark-mode-shadow {
-    @apply shadow-gray-900/20 dark:shadow-gray-900/40;
-  }
-
-  .dark-mode-border {
-    @apply border-gray-200 dark:border-gray-700;
-  }
-
-  .dark-mode-text {
-    @apply text-gray-900 dark:text-gray-100;
-  }
-
-  .dark-mode-bg {
-    @apply bg-white dark:bg-gray-900;
-  }
-
-  .dark-mode-hover {
-    @apply hover:bg-gray-100 dark:hover:bg-gray-800;
-  }
-}
-
-/* Ensure theme provider works correctly */
-html.dark {
-  color-scheme: dark;
-}
-
-html.light {
-  color-scheme: light;
 }

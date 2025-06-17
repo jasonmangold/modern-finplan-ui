@@ -1,130 +1,78 @@
 
 import { useState } from "react";
+import { User, HelpCircle, FileText, Settings, LogOut, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { 
-  User, 
-  Settings, 
-  LogOut, 
-  Bell,
-  HelpCircle,
-  FileText,
-  CreditCard
-} from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { SettingsDialog } from "./SettingsDialog";
+import { useTheme } from "next-themes";
 
 export const UserMenu = () => {
   const [showSettings, setShowSettings] = useState(false);
+  const { theme, setTheme, resolvedTheme } = useTheme();
+
+  const handleHelp = () => {
+    console.log("Help clicked");
+  };
+
+  const handleSampleFiles = () => {
+    console.log("Sample Files clicked");
+  };
+
+  const handleLogout = () => {
+    console.log("Logout clicked");
+  };
 
   return (
     <>
-      <div className="flex items-center gap-3">
-        <ThemeToggle />
-        
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="h-8 w-8 relative hover:bg-accent"
-        >
-          <Bell className="h-4 w-4" />
-          <Badge 
-            variant="destructive" 
-            className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-xs"
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" size="icon" className="hover:bg-gray-100 rounded-lg dark:hover:bg-gray-800">
+            <User className="h-5 w-5 text-gray-600 dark:text-gray-100" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-56 bg-white dark:bg-gray-900 border dark:border-gray-700 shadow-lg">
+          {/* DARK MODE */}
+          <DropdownMenuItem
+            className="cursor-pointer flex items-center"
+            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
           >
-            2
-          </Badge>
-        </Button>
+            {resolvedTheme === "dark" ? (
+              <>
+                <Sun className="mr-2 h-4 w-4" />
+                Light Mode
+              </>
+            ) : (
+              <>
+                <Moon className="mr-2 h-4 w-4" />
+                Dark Mode
+              </>
+            )}
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={handleHelp} className="cursor-pointer">
+            <HelpCircle className="mr-2 h-4 w-4" />
+            Help
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleSampleFiles} className="cursor-pointer">
+            <FileText className="mr-2 h-4 w-4" />
+            Sample Files
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setShowSettings(true)} className="cursor-pointer">
+            <Settings className="mr-2 h-4 w-4" />
+            Settings
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-red-600">
+            <LogOut className="mr-2 h-4 w-4" />
+            Logout
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button 
-              variant="ghost" 
-              className="relative h-8 w-8 rounded-full hover:bg-accent"
-            >
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="/placeholder.svg" alt="User avatar" />
-                <AvatarFallback className="bg-primary text-primary-foreground text-xs">
-                  JD
-                </AvatarFallback>
-              </Avatar>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent 
-            className="w-64" 
-            align="end" 
-            forceMount
-          >
-            <DropdownMenuLabel className="font-normal">
-              <div className="flex flex-col space-y-2">
-                <div className="flex items-center gap-2">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src="/placeholder.svg" alt="User avatar" />
-                    <AvatarFallback className="bg-primary text-primary-foreground text-xs">
-                      JD
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex flex-col">
-                    <p className="text-sm font-medium leading-none">John Doe</p>
-                    <p className="text-xs leading-none text-muted-foreground mt-1">
-                      john.doe@example.com
-                    </p>
-                  </div>
-                </div>
-                <Badge variant="secondary" className="w-fit text-xs">
-                  Pro Plan
-                </Badge>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            
-            <DropdownMenuItem className="cursor-pointer">
-              <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
-            </DropdownMenuItem>
-            
-            <DropdownMenuItem 
-              className="cursor-pointer"
-              onClick={() => setShowSettings(true)}
-            >
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Settings</span>
-            </DropdownMenuItem>
-            
-            <DropdownMenuItem className="cursor-pointer">
-              <CreditCard className="mr-2 h-4 w-4" />
-              <span>Billing</span>
-            </DropdownMenuItem>
-            
-            <DropdownMenuItem className="cursor-pointer">
-              <FileText className="mr-2 h-4 w-4" />
-              <span>Documentation</span>
-            </DropdownMenuItem>
-            
-            <DropdownMenuItem className="cursor-pointer">
-              <HelpCircle className="mr-2 h-4 w-4" />
-              <span>Support</span>
-            </DropdownMenuItem>
-            
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-600 dark:text-red-400">
-              <LogOut className="mr-2 h-4 w-4" />
-              <span>Log out</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-
-      <SettingsDialog open={showSettings} onOpenChange={setShowSettings} />
+      <SettingsDialog 
+        open={showSettings} 
+        onOpenChange={setShowSettings} 
+      />
     </>
   );
 };

@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { GraduationCap, Shield, PiggyBank, TrendingUp, Users, Heart, AlertTriangle, Activity, FileText, Target, BarChart3, Gift, CreditCard, Minus, Building, DollarSign, UserCheck, ArrowRight, Award } from "lucide-react";
-
 const planningGoals = [{
   id: "education-funding",
   title: "Education Funding",
@@ -157,12 +156,10 @@ const planningGoals = [{
   color: "bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700",
   iconColor: "text-gray-600 dark:text-gray-400"
 }];
-
 interface GoalsBasedModeProps {
   onGoalSelect: (goalId: string) => void;
   onShowFitnessScore: () => void;
 }
-
 export const GoalsBasedMode = ({
   onGoalSelect,
   onShowFitnessScore
@@ -171,11 +168,8 @@ export const GoalsBasedMode = ({
     console.log(`Opening goal wizard for: ${goalId}`);
     onGoalSelect(goalId);
   };
-
   const completedGoals = planningGoals.filter(goal => goal.completed).length;
-
-  return (
-    <div className="h-full p-6 space-y-6 bg-background dark:bg-gray-900 py-[2px]">
+  return <div className="h-full p-6 space-y-6 bg-background dark:bg-gray-900 py-[2px]">
       {/* Header with Progress */}
       <div className="flex items-center justify-between">
         <div>
@@ -184,31 +178,21 @@ export const GoalsBasedMode = ({
             {completedGoals} of {planningGoals.length} goals in progress
           </p>
         </div>
-        <ShimmerButton 
-          className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6 py-3" 
-          onClick={onShowFitnessScore} 
-          shimmerColor="rgba(255,255,255,0.2)" 
-          shimmerDuration="2s"
-        >
+        <ShimmerButton className="flex items-center gap-2" onClick={onShowFitnessScore} shimmerColor="#000000" shimmerDuration="2s">
           <Award className="h-4 w-4" />
-          <span className="text-white dark:text-white font-semibold">Financial Fitness Score</span>
+          Financial Fitness Score
         </ShimmerButton>
       </div>
 
-      {/* Goals Grid - Full Screen with proper spacing and dark mode support */}
+      {/* Goals Grid - Full Screen with proper spacing */}
       <div className="grid grid-cols-3 gap-6 h-[calc(100%-120px)] overflow-y-auto">
         {planningGoals.map(goal => {
-          const IconComponent = goal.icon;
-          return (
-            <Card 
-              key={goal.id} 
-              className={`cursor-pointer transition-all hover:shadow-lg hover:scale-105 ${goal.color} h-fit border-border dark:border-gray-700`} 
-              onClick={() => handleGoalClick(goal.id)}
-            >
+        const IconComponent = goal.icon;
+        return <Card key={goal.id} className={`cursor-pointer transition-all hover:shadow-lg hover:scale-105 ${goal.color} h-fit`} onClick={() => handleGoalClick(goal.id)}>
               <CardHeader className="pb-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className={`p-3 rounded-lg bg-white dark:bg-gray-800 ${goal.iconColor} shadow-sm`}>
+                    <div className={`p-3 rounded-lg bg-white dark:bg-gray-800 ${goal.iconColor}`}>
                       <IconComponent className="h-6 w-6" />
                     </div>
                     <div>
@@ -216,11 +200,9 @@ export const GoalsBasedMode = ({
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{goal.description}</p>
                     </div>
                   </div>
-                  {goal.completed && (
-                    <Badge variant="secondary" className="text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-200 dark:border-gray-600">
+                  {goal.completed && <Badge variant="secondary" className="text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
                       Active
-                    </Badge>
-                  )}
+                    </Badge>}
                 </div>
               </CardHeader>
               <CardContent className="pt-0">
@@ -229,10 +211,11 @@ export const GoalsBasedMode = ({
                   <ArrowRight className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 </div>
               </CardContent>
-            </Card>
-          );
-        })}
+            </Card>;
+      })}
       </div>
-    </div>
-  );
+
+      {/* Switch Mode Prompt */}
+      
+    </div>;
 };
