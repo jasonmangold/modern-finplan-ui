@@ -68,8 +68,12 @@ export const Header = () => {
     <header className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-200/60 dark:border-gray-700/60 sticky top-0 z-50">
       <div className="h-16 flex items-center justify-between px-8">
         <div className="flex items-center gap-6">
-          <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-400 dark:to-blue-500 bg-clip-text text-transparent">
-            eAdvisys
+          <div className="flex items-center">
+            <img 
+              src="/lovable-uploads/a9e4632b-b5cd-4df2-b821-8a9af843bd34.png" 
+              alt="eAdvisys" 
+              className="h-8"
+            />
           </div>
           <div className="flex items-center gap-3">
             <ClientSelector
