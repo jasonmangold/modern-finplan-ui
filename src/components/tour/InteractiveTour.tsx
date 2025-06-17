@@ -159,26 +159,33 @@ export const InteractiveTour = ({ isOpen, onClose }: InteractiveTourProps) => {
       return;
     }
 
+    // Handle target not found errors by continuing the tour
+    if (type === 'error:target_not_found') {
+      console.log('Target not found, continuing tour...');
+      setStepIndex(index + 1);
+      return;
+    }
+
     if (type === 'step:after') {
       const nextIndex = index + 1;
       
-      // Handle navigation for specific steps
+      // Handle navigation BEFORE the step that needs the target
       if (nextIndex === 3 && location.pathname !== '/analysis') {
         // Navigate to analysis before showing comprehensive mode step
         navigate('/analysis');
-        setTimeout(() => setStepIndex(nextIndex), 500);
-      } else if (nextIndex === 9 && location.pathname !== '/education') {
-        // Navigate to education tab
+        setTimeout(() => setStepIndex(nextIndex), 800);
+      } else if (nextIndex === 8 && location.pathname !== '/education') {
+        // Navigate to education tab before education step
         navigate('/education');
-        setTimeout(() => setStepIndex(nextIndex), 500);
-      } else if (nextIndex === 10 && location.pathname !== '/calculators') {
-        // Navigate to calculators tab
+        setTimeout(() => setStepIndex(nextIndex), 800);
+      } else if (nextIndex === 9 && location.pathname !== '/calculators') {
+        // Navigate to calculators tab before calculators step
         navigate('/calculators');
-        setTimeout(() => setStepIndex(nextIndex), 500);
-      } else if (nextIndex === 11 && location.pathname !== '/presentation') {
-        // Navigate to presentation tab
+        setTimeout(() => setStepIndex(nextIndex), 800);
+      } else if (nextIndex === 10 && location.pathname !== '/presentation') {
+        // Navigate to presentation tab before presentation step
         navigate('/presentation');
-        setTimeout(() => setStepIndex(nextIndex), 500);
+        setTimeout(() => setStepIndex(nextIndex), 800);
       } else {
         setStepIndex(nextIndex);
       }
