@@ -1,10 +1,10 @@
+
 import { useState, useEffect } from "react";
 import { TopNavigation } from "./TopNavigation";
+import { ClientSelector } from "./ClientSelector";
 import { SaveSection } from "./SaveSection";
 import { SearchBar } from "./SearchBar";
 import { UserMenu } from "./UserMenu";
-import { PageHeader } from "./layout/PageHeader";
-import { ClientContext } from "./layout/ClientContext";
 import { useSearch } from "@/contexts/SearchContext";
 
 export const Header = () => {
@@ -64,50 +64,45 @@ export const Header = () => {
     };
   }, []);
 
-  const handleClientChange = (client: string) => {
-    setSelectedClient(client);
-    setHasUnsavedChanges(false);
-    setSaveState("initial");
-    setLastSavedTime(null);
-  };
-
-  const handleNewClient = () => {
-    // Add logic for creating new client
-    console.log("Creating new client...");
-  };
-
   return (
-    <header className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200/40 dark:border-gray-700/40 sticky top-0 z-50">
-      {/* Main Header Bar */}
-      <div className="h-16 flex items-center justify-between px-6 lg:px-8 border-b border-gray-200/30 dark:border-gray-700/30">
-        {/* Brand */}
+    <header className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200/40 dark:border-gray-700/40 sticky top-0 z-50 shadow-sm">
+      <div className="h-16 flex items-center justify-between px-6 lg:px-8">
         <div className="flex items-center gap-8">
           <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 dark:from-blue-400 dark:via-blue-500 dark:to-blue-600 bg-clip-text text-transparent tracking-tight">
             eAdvisys
           </div>
-          
-          {/* Save Section - Moved to be more prominent */}
-          <SaveSection
-            saveState={saveState}
-            setSaveState={setSaveState}
-            hasUnsavedChanges={hasUnsavedChanges}
-            setHasUnsavedChanges={setHasUnsavedChanges}
-            lastSavedTime={lastSavedTime}
-            setLastSavedTime={setLastSavedTime}
-            isFirstSave={isFirstSave}
-            setIsFirstSave={setIsFirstSave}
-            clientFiles={clientFiles}
-            setClientFiles={setClientFiles}
-            setSelectedClient={setSelectedClient}
-          />
+          <div className="flex items-center gap-4">
+            <ClientSelector
+              clientFiles={clientFiles}
+              setClientFiles={setClientFiles}
+              selectedClient={selectedClient}
+              setSelectedClient={setSelectedClient}
+              isFirstSave={isFirstSave}
+              setIsFirstSave={setIsFirstSave}
+              setHasUnsavedChanges={setHasUnsavedChanges}
+              setSaveState={setSaveState}
+              setLastSavedTime={setLastSavedTime}
+            />
+            <SaveSection
+              saveState={saveState}
+              setSaveState={setSaveState}
+              hasUnsavedChanges={hasUnsavedChanges}
+              setHasUnsavedChanges={setHasUnsavedChanges}
+              lastSavedTime={lastSavedTime}
+              setLastSavedTime={setLastSavedTime}
+              isFirstSave={isFirstSave}
+              setIsFirstSave={setIsFirstSave}
+              clientFiles={clientFiles}
+              setClientFiles={setClientFiles}
+              setSelectedClient={setSelectedClient}
+            />
+          </div>
         </div>
 
-        {/* Center Navigation */}
-        <div className="flex items-center">
+        <div className="flex items-center gap-6">
           <TopNavigation />
         </div>
 
-        {/* Right Section */}
         <div className="flex items-center gap-4">
           <SearchBar
             localSearchTerm={localSearchTerm}
@@ -116,20 +111,6 @@ export const Header = () => {
           <UserMenu />
         </div>
       </div>
-
-      {/* Client Context Section */}
-      <ClientContext
-        selectedClient={selectedClient}
-        clientFiles={clientFiles}
-        onClientChange={handleClientChange}
-        onNewClient={handleNewClient}
-      />
-
-      {/* Page Header with Breadcrumbs */}
-      <PageHeader 
-        hasUnsavedChanges={hasUnsavedChanges}
-        lastSavedTime={lastSavedTime}
-      />
     </header>
   );
 };
