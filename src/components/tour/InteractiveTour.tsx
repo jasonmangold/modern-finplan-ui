@@ -142,10 +142,14 @@ export const InteractiveTour = ({ isOpen, onClose }: InteractiveTourProps) => {
     if (isOpen) {
       setRun(true);
       setStepIndex(0);
+      // Navigate to home to start the tour
+      if (location.pathname !== '/home') {
+        navigate('/home');
+      }
     } else {
       setRun(false);
     }
-  }, [isOpen]);
+  }, [isOpen, navigate, location.pathname]);
 
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { status, type, index, action } = data;
@@ -169,23 +173,32 @@ export const InteractiveTour = ({ isOpen, onClose }: InteractiveTourProps) => {
     if (type === 'step:after') {
       const nextIndex = index + 1;
       
-      // Handle navigation BEFORE the step that needs the target
-      if (nextIndex === 3 && location.pathname !== '/analysis') {
-        // Navigate to analysis before showing comprehensive mode step
+      // Navigate to the correct page before showing steps that need targets there
+      if (nextIndex === 3) {
+        // Navigate to analysis page before showing comprehensive mode (step 3)
+        console.log('Navigating to analysis page for step 3');
         navigate('/analysis');
-        setTimeout(() => setStepIndex(nextIndex), 800);
-      } else if (nextIndex === 8 && location.pathname !== '/education') {
-        // Navigate to education tab before education step
+        setTimeout(() => setStepIndex(nextIndex), 1000);
+      } else if (nextIndex === 8) {
+        // Navigate back to home page before showing education tab (step 8)
+        console.log('Navigating to home page for step 8');
+        navigate('/home');
+        setTimeout(() => setStepIndex(nextIndex), 500);
+      } else if (nextIndex === 9) {
+        // Navigate to education tab before showing education step (step 8)
+        console.log('Navigating to education page for step 9');
         navigate('/education');
-        setTimeout(() => setStepIndex(nextIndex), 800);
-      } else if (nextIndex === 9 && location.pathname !== '/calculators') {
-        // Navigate to calculators tab before calculators step
+        setTimeout(() => setStepIndex(nextIndex), 500);
+      } else if (nextIndex === 10) {
+        // Navigate to calculators tab before showing calculators step (step 9)
+        console.log('Navigating to calculators page for step 10');
         navigate('/calculators');
-        setTimeout(() => setStepIndex(nextIndex), 800);
-      } else if (nextIndex === 10 && location.pathname !== '/presentation') {
-        // Navigate to presentation tab before presentation step
+        setTimeout(() => setStepIndex(nextIndex), 500);
+      } else if (nextIndex === 11) {
+        // Navigate to presentation tab before showing presentation step (step 10)
+        console.log('Navigating to presentation page for step 11');
         navigate('/presentation');
-        setTimeout(() => setStepIndex(nextIndex), 800);
+        setTimeout(() => setStepIndex(nextIndex), 500);
       } else {
         setStepIndex(nextIndex);
       }
