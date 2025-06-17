@@ -232,7 +232,7 @@ export const GoalsBasedMode = ({ onGoalSelect, onShowFitnessScore }: GoalsBasedM
       </div>
 
       {/* Goals Grid - Full Screen with proper spacing */}
-      <div className="grid grid-cols-3 gap-6 h-[calc(100%-120px)] overflow-y-auto">
+      <div data-tour="financial-goals" className="grid grid-cols-3 gap-6 h-[calc(100%-120px)] overflow-y-auto">
         {planningGoals.map((goal) => {
           const IconComponent = goal.icon;
           return (

@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride';
+import Joyride, { CallBackProps, STATUS, Step, EVENTS, ACTIONS } from 'react-joyride';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 interface InteractiveTourProps {
@@ -14,120 +14,108 @@ const tourSteps: Step[] = [
     content: (
       <div>
         <h3 className="text-lg font-semibold mb-2">Welcome to eAdvisys!</h3>
-        <p>Let's take a quick tour to show you how to get the most out of your financial planning software.</p>
+        <p>Let's take an interactive tour. You'll click on highlighted elements as we guide you through the software.</p>
+        <p className="mt-2 text-sm text-gray-600">Click "Next" to begin!</p>
       </div>
     ),
     placement: 'center',
-  },
-  {
-    target: '[data-tour="home-nav"]',
-    content: (
-      <div>
-        <h3 className="text-lg font-semibold mb-2">Home Tab</h3>
-        <p>Resources all in one spot - from training materials to your favorite reports. This is your dashboard for quick access to everything you need.</p>
-      </div>
-    ),
-    placement: 'bottom',
+    disableBeacon: true,
   },
   {
     target: '[data-tour="analysis-nav"]',
     content: (
       <div>
-        <h3 className="text-lg font-semibold mb-2">Analysis Tab</h3>
-        <p>Build comprehensive plans for your clients. Choose between two powerful modes depending on your workflow.</p>
+        <h3 className="text-lg font-semibold mb-2">Click on Analysis Tab</h3>
+        <p>Start by clicking on the "Analysis" tab in the navigation. This is where you'll build comprehensive plans for your clients.</p>
       </div>
     ),
     placement: 'bottom',
+    disableBeacon: false,
+    spotlightClicks: true,
   },
   {
     target: '[data-tour="comprehensive-mode"]',
     content: (
       <div>
-        <h3 className="text-lg font-semibold mb-2">Comprehensive Input Mode</h3>
-        <p>Perfect if you prefer inputting all client data at once or just want a dedicated space to input data without worrying about outputs.</p>
+        <h3 className="text-lg font-semibold mb-2">Click on Comprehensive Input</h3>
+        <p>Now click on "Comprehensive Input" mode. This is perfect when you prefer inputting all client data at once.</p>
       </div>
     ),
     placement: 'bottom',
+    disableBeacon: false,
+    spotlightClicks: true,
   },
   {
     target: '[data-tour="goals-based-mode"]',
     content: (
       <div>
-        <h3 className="text-lg font-semibold mb-2">Goals-Based Planning</h3>
-        <p>Ideal when you want to build an analysis for one specific topic. Let's explore how this works...</p>
+        <h3 className="text-lg font-semibold mb-2">Try Goals-Based Planning</h3>
+        <p>Click on "Goals-Based Planning" to see the alternative approach. This mode is ideal for focusing on specific client goals.</p>
       </div>
     ),
     placement: 'bottom',
+    disableBeacon: false,
+    spotlightClicks: true,
   },
   {
-    target: '[data-tour="financial-goals"]',
+    target: '[data-tour="financial-goals"] .grid > div:first-child',
     content: (
       <div>
-        <h3 className="text-lg font-semibold mb-2">Financial Goals</h3>
-        <p>Click any financial goal card to start building your analysis. Each goal has specialized inputs and outputs.</p>
+        <h3 className="text-lg font-semibold mb-2">Click a Financial Goal</h3>
+        <p>Click on any goal card to see how goal-specific analysis works. Each goal has tailored inputs and outputs.</p>
       </div>
     ),
     placement: 'top',
-  },
-  {
-    target: '[data-tour="input-panel"]',
-    content: (
-      <div>
-        <h3 className="text-lg font-semibold mb-2">Input Panel</h3>
-        <p>Make your inputs on the left using the various tabs. Each goal has specific input fields tailored to that analysis type.</p>
-      </div>
-    ),
-    placement: 'right',
-  },
-  {
-    target: '[data-tour="output-panel"]',
-    content: (
-      <div>
-        <h3 className="text-lg font-semibold mb-2">Output Panel & Reports</h3>
-        <p>See the analysis output on the right. Use the View dropdown to see different report options, then check the reports you want to add to your client presentation.</p>
-      </div>
-    ),
-    placement: 'left',
+    disableBeacon: false,
+    spotlightClicks: true,
   },
   {
     target: '[data-tour="education-nav"]',
     content: (
       <div>
-        <h3 className="text-lg font-semibold mb-2">Education Tab</h3>
-        <p>Access over 600 educational reports that you can also include in your client presentations. A comprehensive knowledge base at your fingertips.</p>
+        <h3 className="text-lg font-semibold mb-2">Click Education Tab</h3>
+        <p>Click on "Education" to explore over 600 educational reports for your client presentations.</p>
       </div>
     ),
     placement: 'bottom',
+    disableBeacon: false,
+    spotlightClicks: true,
   },
   {
     target: '[data-tour="calculators-nav"]',
     content: (
       <div>
-        <h3 className="text-lg font-semibold mb-2">Calculators Tab</h3>
-        <p>Utilize over 80 easy-to-use calculators for quick calculations and client scenarios.</p>
+        <h3 className="text-lg font-semibold mb-2">Click Calculators Tab</h3>
+        <p>Click on "Calculators" to access over 80 easy-to-use calculators for quick scenarios.</p>
       </div>
     ),
     placement: 'bottom',
+    disableBeacon: false,
+    spotlightClicks: true,
   },
   {
     target: '[data-tour="presentation-nav"]',
     content: (
       <div>
-        <h3 className="text-lg font-semibold mb-2">Presentation Tab</h3>
-        <p>All done? View the reports you've added, remove any you don't want, change the order by dragging and dropping, customize in Presentation Options, and finally click Preview Presentation to see your final client presentation.</p>
+        <h3 className="text-lg font-semibold mb-2">Click Presentation Tab</h3>
+        <p>Finally, click on "Presentation" where you'll organize and customize your client presentations.</p>
       </div>
     ),
     placement: 'bottom',
+    disableBeacon: false,
+    spotlightClicks: true,
   },
   {
     target: 'body',
     content: (
       <div>
-        <h3 className="text-lg font-semibold mb-2">You're All Set!</h3>
-        <p>You now know the basics of eAdvisys. Start by exploring the Home tab or jump right into creating your first client analysis. You can restart this tour anytime from the help menu.</p>
+        <h3 className="text-lg font-semibold mb-2">Tour Complete!</h3>
+        <p>Great job! You've experienced the interactive workflow of eAdvisys. You can restart this tour anytime from the help menu.</p>
+        <p className="mt-2 text-sm text-blue-600">Start exploring on your own!</p>
       </div>
     ),
     placement: 'center',
+    disableBeacon: true,
   },
 ];
 
@@ -142,7 +130,7 @@ export const InteractiveTour = ({ isOpen, onClose }: InteractiveTourProps) => {
     if (isOpen) {
       setRun(true);
       setStepIndex(0);
-      // Navigate to home to start the tour
+      // Start from home page
       if (location.pathname !== '/home') {
         navigate('/home');
       }
@@ -156,6 +144,7 @@ export const InteractiveTour = ({ isOpen, onClose }: InteractiveTourProps) => {
 
     console.log('Tour callback:', { status, type, index, action });
 
+    // Handle tour completion or skip
     if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
       onClose();
       localStorage.setItem('tour-completed', 'true');
@@ -163,45 +152,47 @@ export const InteractiveTour = ({ isOpen, onClose }: InteractiveTourProps) => {
       return;
     }
 
-    // Handle target not found errors by continuing the tour
-    if (type === 'error:target_not_found') {
-      console.log('Target not found, continuing tour...');
-      setStepIndex(index + 1);
+    // Handle target not found - wait and retry
+    if (type === EVENTS.TARGET_NOT_FOUND) {
+      console.log('Target not found, waiting...');
+      // Give page time to load and retry
+      setTimeout(() => {
+        setStepIndex(index);
+      }, 500);
       return;
     }
 
-    if (type === 'step:after') {
+    // Handle user clicking on beacon/target
+    if (type === EVENTS.BEACON || (type === EVENTS.TOOLTIP && action === ACTIONS.CLOSE)) {
       const nextIndex = index + 1;
       
-      // Navigate to the correct page before showing steps that need targets there
-      if (nextIndex === 3) {
-        // Navigate to analysis page before showing comprehensive mode (step 3)
-        console.log('Navigating to analysis page for step 3');
+      // Special handling for specific steps that require navigation
+      if (index === 1 && action === ACTIONS.CLOSE) {
+        // User clicked Analysis tab, navigate there
         navigate('/analysis');
-        setTimeout(() => setStepIndex(nextIndex), 1000);
-      } else if (nextIndex === 8) {
-        // Navigate back to home page before showing education tab (step 8)
-        console.log('Navigating to home page for step 8');
-        navigate('/home');
-        setTimeout(() => setStepIndex(nextIndex), 500);
-      } else if (nextIndex === 9) {
-        // Navigate to education tab before showing education step (step 8)
-        console.log('Navigating to education page for step 9');
+        setTimeout(() => setStepIndex(nextIndex), 300);
+      } else if (index === 5 && action === ACTIONS.CLOSE) {
+        // User clicked Education tab, navigate there
         navigate('/education');
-        setTimeout(() => setStepIndex(nextIndex), 500);
-      } else if (nextIndex === 10) {
-        // Navigate to calculators tab before showing calculators step (step 9)
-        console.log('Navigating to calculators page for step 10');
+        setTimeout(() => setStepIndex(nextIndex), 300);
+      } else if (index === 6 && action === ACTIONS.CLOSE) {
+        // User clicked Calculators tab, navigate there
         navigate('/calculators');
-        setTimeout(() => setStepIndex(nextIndex), 500);
-      } else if (nextIndex === 11) {
-        // Navigate to presentation tab before showing presentation step (step 10)
-        console.log('Navigating to presentation page for step 11');
+        setTimeout(() => setStepIndex(nextIndex), 300);
+      } else if (index === 7 && action === ACTIONS.CLOSE) {
+        // User clicked Presentation tab, navigate there
         navigate('/presentation');
-        setTimeout(() => setStepIndex(nextIndex), 500);
+        setTimeout(() => setStepIndex(nextIndex), 300);
       } else {
         setStepIndex(nextIndex);
       }
+    }
+
+    // Handle regular next/back button clicks
+    if (type === EVENTS.STEP_AFTER && action === ACTIONS.NEXT) {
+      setStepIndex(index + 1);
+    } else if (type === EVENTS.STEP_AFTER && action === ACTIONS.PREV) {
+      setStepIndex(index - 1);
     }
   };
 
@@ -209,9 +200,9 @@ export const InteractiveTour = ({ isOpen, onClose }: InteractiveTourProps) => {
     <Joyride
       steps={tourSteps}
       run={run}
-      continuous
-      showProgress
-      showSkipButton
+      continuous={false}
+      showProgress={true}
+      showSkipButton={true}
       stepIndex={stepIndex}
       callback={handleJoyrideCallback}
       styles={{
@@ -219,14 +210,15 @@ export const InteractiveTour = ({ isOpen, onClose }: InteractiveTourProps) => {
           primaryColor: '#0066cc',
           textColor: '#333',
           backgroundColor: '#fff',
-          overlayColor: 'rgba(0, 0, 0, 0.4)',
-          spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
+          overlayColor: 'rgba(0, 0, 0, 0.6)',
+          spotlightShadow: '0 0 20px rgba(0, 102, 204, 0.8)',
           zIndex: 10000,
         },
         tooltip: {
-          borderRadius: '8px',
+          borderRadius: '12px',
           fontSize: '14px',
-          padding: '20px',
+          padding: '24px',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
         },
         tooltipContent: {
           padding: '0',
@@ -234,23 +226,35 @@ export const InteractiveTour = ({ isOpen, onClose }: InteractiveTourProps) => {
         buttonNext: {
           backgroundColor: '#0066cc',
           fontSize: '14px',
-          padding: '8px 16px',
-          borderRadius: '6px',
+          padding: '10px 20px',
+          borderRadius: '8px',
+          fontWeight: 'medium',
         },
         buttonBack: {
           color: '#666',
           fontSize: '14px',
-          padding: '8px 16px',
+          padding: '10px 20px',
         },
         buttonSkip: {
           color: '#666',
           fontSize: '14px',
-          padding: '8px 16px',
+          padding: '10px 20px',
+        },
+        beacon: {
+          backgroundColor: '#0066cc',
+          animation: 'joyride-beacon 1.5s infinite',
+        },
+        beaconInner: {
+          backgroundColor: '#0066cc',
+        },
+        spotlight: {
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          borderRadius: '8px',
         },
       }}
       locale={{
         back: 'Previous',
-        close: 'Close',
+        close: 'Got it!',
         last: 'Finish Tour',
         next: 'Next',
         skip: 'Skip Tour',
