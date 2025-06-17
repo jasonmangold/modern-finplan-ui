@@ -185,13 +185,13 @@ export const GoalsBasedMode = ({
           </p>
         </div>
         <ShimmerButton 
-          className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground" 
+          className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6 py-3" 
           onClick={onShowFitnessScore} 
-          shimmerColor="rgba(255,255,255,0.3)" 
+          shimmerColor="rgba(255,255,255,0.2)" 
           shimmerDuration="2s"
         >
           <Award className="h-4 w-4" />
-          Financial Fitness Score
+          <span className="text-white dark:text-white font-semibold">Financial Fitness Score</span>
         </ShimmerButton>
       </div>
 
