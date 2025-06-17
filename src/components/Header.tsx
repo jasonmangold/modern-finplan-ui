@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { TopNavigation } from "./TopNavigation";
 import { ClientSelector } from "./ClientSelector";
@@ -6,7 +5,6 @@ import { SaveSection } from "./SaveSection";
 import { SearchBar } from "./SearchBar";
 import { UserMenu } from "./UserMenu";
 import { useSearch } from "@/contexts/SearchContext";
-
 export const Header = () => {
   const [saveState, setSaveState] = useState<"initial" | "loading" | "success">("initial");
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
@@ -15,15 +13,15 @@ export const Header = () => {
   const [clientFiles, setClientFiles] = useState<string[]>(["No Client Selected"]);
   const [selectedClient, setSelectedClient] = useState("No Client Selected");
   const [localSearchTerm, setLocalSearchTerm] = useState("");
-
-  const { setGlobalSearchTerm } = useSearch();
+  const {
+    setGlobalSearchTerm
+  } = useSearch();
 
   // Update global search when local search changes (with debounce)
   useEffect(() => {
     const timer = setTimeout(() => {
       setGlobalSearchTerm(localSearchTerm);
     }, 300);
-
     return () => clearTimeout(timer);
   }, [localSearchTerm, setGlobalSearchTerm]);
 
@@ -33,7 +31,6 @@ export const Header = () => {
       setHasUnsavedChanges(true);
       setSaveState("initial");
     };
-
     const handleCheckboxChange = () => {
       setHasUnsavedChanges(true);
       setSaveState("initial");
@@ -42,7 +39,6 @@ export const Header = () => {
     // Listen for input changes
     document.addEventListener('input', handleInputChange);
     document.addEventListener('change', handleCheckboxChange);
-
     return () => {
       document.removeEventListener('input', handleInputChange);
       document.removeEventListener('change', handleCheckboxChange);
@@ -57,49 +53,20 @@ export const Header = () => {
       setSaveState("initial");
       setLastSavedTime(null);
     };
-
     window.addEventListener('clearAllFormData', handleClearFormData);
     return () => {
       window.removeEventListener('clearAllFormData', handleClearFormData);
     };
   }, []);
-
-  return (
-    <header className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-200/60 dark:border-gray-700/60 sticky top-0 z-50">
+  return <header className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-200/60 dark:border-gray-700/60 sticky top-0 z-50">
       <div className="h-16 flex items-center justify-between px-8">
         <div className="flex items-center gap-6">
           <div className="flex items-center">
-            <img 
-              src="/lovable-uploads/a9e4632b-b5cd-4df2-b821-8a9af843bd34.png" 
-              alt="eAdvisys" 
-              className="h-8"
-            />
+            <img alt="eAdvisys" className="h-8" src="/lovable-uploads/d049ffc1-bfa2-4803-a78b-769c4f72c83e.png" />
           </div>
           <div className="flex items-center gap-3">
-            <ClientSelector
-              clientFiles={clientFiles}
-              setClientFiles={setClientFiles}
-              selectedClient={selectedClient}
-              setSelectedClient={setSelectedClient}
-              isFirstSave={isFirstSave}
-              setIsFirstSave={setIsFirstSave}
-              setHasUnsavedChanges={setHasUnsavedChanges}
-              setSaveState={setSaveState}
-              setLastSavedTime={setLastSavedTime}
-            />
-            <SaveSection
-              saveState={saveState}
-              setSaveState={setSaveState}
-              hasUnsavedChanges={hasUnsavedChanges}
-              setHasUnsavedChanges={setHasUnsavedChanges}
-              lastSavedTime={lastSavedTime}
-              setLastSavedTime={setLastSavedTime}
-              isFirstSave={isFirstSave}
-              setIsFirstSave={setIsFirstSave}
-              clientFiles={clientFiles}
-              setClientFiles={setClientFiles}
-              setSelectedClient={setSelectedClient}
-            />
+            <ClientSelector clientFiles={clientFiles} setClientFiles={setClientFiles} selectedClient={selectedClient} setSelectedClient={setSelectedClient} isFirstSave={isFirstSave} setIsFirstSave={setIsFirstSave} setHasUnsavedChanges={setHasUnsavedChanges} setSaveState={setSaveState} setLastSavedTime={setLastSavedTime} />
+            <SaveSection saveState={saveState} setSaveState={setSaveState} hasUnsavedChanges={hasUnsavedChanges} setHasUnsavedChanges={setHasUnsavedChanges} lastSavedTime={lastSavedTime} setLastSavedTime={setLastSavedTime} isFirstSave={isFirstSave} setIsFirstSave={setIsFirstSave} clientFiles={clientFiles} setClientFiles={setClientFiles} setSelectedClient={setSelectedClient} />
           </div>
         </div>
 
@@ -107,14 +74,10 @@ export const Header = () => {
           <TopNavigation />
           
           <div className="flex items-center gap-4">
-            <SearchBar
-              localSearchTerm={localSearchTerm}
-              setLocalSearchTerm={setLocalSearchTerm}
-            />
+            <SearchBar localSearchTerm={localSearchTerm} setLocalSearchTerm={setLocalSearchTerm} />
             <UserMenu />
           </div>
         </div>
       </div>
-    </header>
-  );
+    </header>;
 };
