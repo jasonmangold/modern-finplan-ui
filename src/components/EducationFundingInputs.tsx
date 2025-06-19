@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -107,7 +108,7 @@ export const EducationFundingInputs = () => {
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-sm">School</Label>
+                  <Label className="text-sm">School Name</Label>
                   <Input 
                     value={sharedInputs.schoolName}
                     onChange={(e) => updateSharedInput('schoolName', e.target.value)}
@@ -207,7 +208,7 @@ export const EducationFundingInputs = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-sm">Education Inflation Rate</Label>
+                  <Label className="text-sm">Annual Education Inflation Rate</Label>
                   <Input 
                     value={sharedInputs.educationInflationRate}
                     onChange={(e) => updateSharedInput('educationInflationRate', e.target.value)}
@@ -216,7 +217,7 @@ export const EducationFundingInputs = () => {
                   />
                 </div>
                 <div>
-                  <Label className="text-sm">ROR on Education Assets</Label>
+                  <Label className="text-sm">Annual Rate of Return on Education Assets</Label>
                   <Input 
                     value={sharedInputs.educationROR}
                     onChange={(e) => updateSharedInput('educationROR', e.target.value)}
@@ -224,6 +225,14 @@ export const EducationFundingInputs = () => {
                     className="mt-1" 
                   />
                 </div>
+              </div>
+
+              <div>
+                <Label className="text-sm">Number of Months Since Last Review</Label>
+                <Input 
+                  placeholder="12" 
+                  className="mt-1" 
+                />
               </div>
             </CardContent>
           </Card>
