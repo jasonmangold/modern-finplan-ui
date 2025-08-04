@@ -272,22 +272,20 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Main Content: new 3-column grid, fixed for alignment and equal heights */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-        {/* Column 1 */}
-        <div className="flex flex-col gap-6">
-          <SectionRecentClients />
-          <SectionFavoriteReports />
-          <SectionLearnImprove />
-        </div>
-        {/* Column 2 */}
-        <div className="flex flex-col gap-6">
-          <SectionWhatsNew />
-          <SectionTwoMinuteTips />
-          <SectionWebinars />
-        </div>
-        {/* Column 3 */}
-        <div className="flex flex-col gap-6 h-full">
+      {/* Main Content: 3-column grid with equal heights */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Row 1 */}
+        <SectionRecentClients />
+        <SectionFavoriteReports />
+        <SectionWhatsNew />
+        
+        {/* Row 2 */}
+        <SectionLearnImprove />
+        <SectionTwoMinuteTips />
+        <SectionWebinars />
+        
+        {/* Row 3 */}
+        <div className="lg:col-start-2">
           <SectionMakeSuggestion />
         </div>
       </div>
