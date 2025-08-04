@@ -539,12 +539,8 @@ export const SurvivorNeedsInputs = () => {
         </TabsContent>
 
         <TabsContent value="education" className="space-y-4 mt-4">
-          <Tabs defaultValue="personal" className="w-full">
+          <Tabs defaultValue={sharedInputs.children.length > 0 ? "child-0" : undefined} className="w-full">
             <TabsList className="w-full justify-start">
-              <TabsTrigger value="personal" className="flex items-center gap-2">
-                <Users className="h-4 w-4 flex-shrink-0" />
-                <span>Personal</span>
-              </TabsTrigger>
               {sharedInputs.children.map((child, index) => (
                 <TabsTrigger key={index} value={`child-${index}`} className="flex items-center gap-2">
                   <GraduationCap className="h-4 w-4 flex-shrink-0" />
@@ -552,57 +548,6 @@ export const SurvivorNeedsInputs = () => {
                 </TabsTrigger>
               ))}
             </TabsList>
-
-            <TabsContent value="personal" className="space-y-4 mt-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg flex items-center justify-between">
-                    Dependent Information
-                    <Button onClick={addChild} size="sm" variant="outline">
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add Child
-                    </Button>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {sharedInputs.children.map((child, index) => (
-                    <div key={index} className="grid grid-cols-2 gap-4 p-4 border rounded-lg bg-gray-50/50">
-                      <div>
-                        <Label className="text-sm">Child {index + 1} Name</Label>
-                        <Input 
-                          value={child.name}
-                          onChange={(e) => updateChild(index, 'name', e.target.value)}
-                          placeholder={`Enter child ${index + 1} name`} 
-                          className="mt-1" 
-                        />
-                      </div>
-                      <div className="flex items-end gap-2">
-                        <div className="flex-1">
-                          <Label className="text-sm">Date of Birth</Label>
-                          <Input 
-                            type="date"
-                            value={child.dateOfBirth}
-                            onChange={(e) => updateChild(index, 'dateOfBirth', e.target.value)}
-                            className="mt-1" 
-                          />
-                        </div>
-                        <Button 
-                          onClick={() => removeChild(index)} 
-                          size="sm" 
-                          variant="outline"
-                          className="mb-1"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                  {sharedInputs.children.length === 0 && (
-                    <p className="text-gray-500 text-center py-4">No children added yet</p>
-                  )}
-                </CardContent>
-              </Card>
-            </TabsContent>
 
             {sharedInputs.children.map((child, childIndex) => (
               <TabsContent key={childIndex} value={`child-${childIndex}`} className="space-y-4 mt-4">
