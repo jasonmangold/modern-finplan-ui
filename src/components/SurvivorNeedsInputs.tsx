@@ -723,6 +723,70 @@ export const SurvivorNeedsInputs = () => {
                 <Label className="text-sm">Assumed Rate of Return on Survivor's Assets</Label>
                 <Input placeholder="6%" className="mt-1" />
               </div>
+
+              <div>
+                <Label className="text-sm">Inflation Rate</Label>
+                <Input 
+                  value={sharedInputs.inflationRate}
+                  onChange={(e) => updateSharedInput('inflationRate', e.target.value)}
+                  placeholder="3%" 
+                  className="mt-1" 
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-sm">Annual Employment Inflation Rate - Client 1</Label>
+                  <Input 
+                    value={sharedInputs.client1EmploymentInflationRate}
+                    onChange={(e) => updateSharedInput('client1EmploymentInflationRate', e.target.value)}
+                    placeholder="3%" 
+                    className="mt-1" 
+                  />
+                </div>
+                {sharedInputs.hasClient2 && (
+                  <div>
+                    <Label className="text-sm">Annual Employment Inflation Rate - Client 2</Label>
+                    <Input 
+                      value={sharedInputs.client2EmploymentInflationRate}
+                      onChange={(e) => updateSharedInput('client2EmploymentInflationRate', e.target.value)}
+                      placeholder="3%" 
+                      className="mt-1" 
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-sm">Education Inflation Rate</Label>
+                  <Input 
+                    value={sharedInputs.educationInflationRate}
+                    onChange={(e) => updateSharedInput('educationInflationRate', e.target.value)}
+                    placeholder="5%" 
+                    className="mt-1" 
+                  />
+                </div>
+                <div>
+                  <Label className="text-sm">Annual Rate of Return on Education Assets</Label>
+                  <Input 
+                    value={sharedInputs.educationROR}
+                    onChange={(e) => updateSharedInput('educationROR', e.target.value)}
+                    placeholder="7%" 
+                    className="mt-1" 
+                  />
+                </div>
+              </div>
+
+              <div>
+                <Label className="text-sm">Annual Social Security Benefit Inflation Rate</Label>
+                <Input 
+                  value={sharedInputs.ssBenefitInflationRate}
+                  onChange={(e) => updateSharedInput('ssBenefitInflationRate', e.target.value)}
+                  placeholder="2.5%" 
+                  className="mt-1" 
+                />
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
