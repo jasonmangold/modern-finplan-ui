@@ -122,7 +122,7 @@ const Home = () => {
           <div className="border-l-4 border-blue-500 pl-4">
             <h4 className="font-medium">One Big Beautiful Bill Act of 2025 Update</h4>
             <p className="text-sm text-gray-600">New visualizations for retirement goals</p>
-            <span className="text-xs text-blue-600">Dec 10, 2024</span>
+            <span className="text-xs text-blue-600">Aug 31, 2025</span>
           </div>
           <div className="border-l-4 border-green-500 pl-4">
             <h4 className="font-medium">Improved PDF Exports</h4>
