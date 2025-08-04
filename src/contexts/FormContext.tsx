@@ -80,6 +80,14 @@ interface SharedInputs {
   client1ROR: string;
   client2ROR: string;
   
+  // Survivor needs specific fields
+  delayRetirementFunds: boolean;
+  cashAndOtherAssets: string;
+  client1LifeInsurance: string;
+  client2LifeInsurance: string;
+  mortgageBalance: string;
+  otherDebt: string;
+  
   // Assumptions shared data
   analysisDate: string;
   client1MortalityAge: string;
@@ -183,6 +191,12 @@ const initialSharedInputs: SharedInputs = {
   client2AnnualIncrease: '',
   client1ROR: '',
   client2ROR: '',
+  delayRetirementFunds: false,
+  cashAndOtherAssets: '',
+  client1LifeInsurance: '',
+  client2LifeInsurance: '',
+  mortgageBalance: '',
+  otherDebt: '',
   analysisDate: new Date().toISOString().split('T')[0],
   client1MortalityAge: '90',
   client2MortalityAge: '90',

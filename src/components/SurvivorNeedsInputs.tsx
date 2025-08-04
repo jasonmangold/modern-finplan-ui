@@ -341,6 +341,153 @@ export const SurvivorNeedsInputs = () => {
                     />
                   </div>
                 </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <Label className="text-sm">Company Match</Label>
+                    <Input 
+                      value={sharedInputs.client1CompanyMatch}
+                      onChange={(e) => updateSharedInput('client1CompanyMatch', e.target.value)}
+                      placeholder="$200" 
+                      className="mt-1" 
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm">Annual Increase %</Label>
+                    <Input 
+                      value={sharedInputs.client1AnnualIncrease}
+                      onChange={(e) => updateSharedInput('client1AnnualIncrease', e.target.value)}
+                      placeholder="3%" 
+                      className="mt-1" 
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm">ROR %</Label>
+                    <Input 
+                      value={sharedInputs.client1ROR}
+                      onChange={(e) => updateSharedInput('client1ROR', e.target.value)}
+                      placeholder="7%" 
+                      className="mt-1" 
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {sharedInputs.hasClient2 && (
+                <div className="space-y-4 p-4 border rounded-lg bg-gray-50/50">
+                  <Label className="text-base font-medium">Client 2 Retirement</Label>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label className="text-sm">Retirement Balance</Label>
+                      <Input 
+                        value={sharedInputs.client2RetirementBalance}
+                        onChange={(e) => updateSharedInput('client2RetirementBalance', e.target.value)}
+                        placeholder="$400,000" 
+                        className="mt-1" 
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm">Monthly Contributions</Label>
+                      <Input 
+                        value={sharedInputs.client2MonthlyContributions}
+                        onChange={(e) => updateSharedInput('client2MonthlyContributions', e.target.value)}
+                        placeholder="$1,500" 
+                        className="mt-1" 
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-4">
+                    <div>
+                      <Label className="text-sm">Company Match</Label>
+                      <Input 
+                        value={sharedInputs.client2CompanyMatch}
+                        onChange={(e) => updateSharedInput('client2CompanyMatch', e.target.value)}
+                        placeholder="$150" 
+                        className="mt-1" 
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm">Annual Increase %</Label>
+                      <Input 
+                        value={sharedInputs.client2AnnualIncrease}
+                        onChange={(e) => updateSharedInput('client2AnnualIncrease', e.target.value)}
+                        placeholder="3%" 
+                        className="mt-1" 
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm">ROR %</Label>
+                      <Input 
+                        value={sharedInputs.client2ROR}
+                        onChange={(e) => updateSharedInput('client2ROR', e.target.value)}
+                        placeholder="7%" 
+                        className="mt-1" 
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="delayRetirementFunds" 
+                  checked={sharedInputs.delayRetirementFunds}
+                  onCheckedChange={(checked) => updateSharedInput('delayRetirementFunds', checked)}
+                />
+                <Label htmlFor="delayRetirementFunds" className="text-sm">Delay using retirement funds until retired</Label>
+              </div>
+
+              <div>
+                <Label className="text-sm">Cash and Other Assets</Label>
+                <Input 
+                  value={sharedInputs.cashAndOtherAssets}
+                  onChange={(e) => updateSharedInput('cashAndOtherAssets', e.target.value)}
+                  placeholder="$50,000" 
+                  className="mt-1" 
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-sm">Client 1 Current Life Insurance Benefits $</Label>
+                  <Input 
+                    value={sharedInputs.client1LifeInsurance}
+                    onChange={(e) => updateSharedInput('client1LifeInsurance', e.target.value)}
+                    placeholder="$500,000" 
+                    className="mt-1" 
+                  />
+                </div>
+                {sharedInputs.hasClient2 && (
+                  <div>
+                    <Label className="text-sm">Client 2 Current Life Insurance Benefits $</Label>
+                    <Input 
+                      value={sharedInputs.client2LifeInsurance}
+                      onChange={(e) => updateSharedInput('client2LifeInsurance', e.target.value)}
+                      placeholder="$400,000" 
+                      className="mt-1" 
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-sm">Mortgage Balance</Label>
+                  <Input 
+                    value={sharedInputs.mortgageBalance}
+                    onChange={(e) => updateSharedInput('mortgageBalance', e.target.value)}
+                    placeholder="$300,000" 
+                    className="mt-1" 
+                  />
+                </div>
+                <div>
+                  <Label className="text-sm">Other Debt</Label>
+                  <Input 
+                    value={sharedInputs.otherDebt}
+                    onChange={(e) => updateSharedInput('otherDebt', e.target.value)}
+                    placeholder="$25,000" 
+                    className="mt-1" 
+                  />
+                </div>
               </div>
             </CardContent>
           </Card>
