@@ -100,12 +100,6 @@ export const SurvivorNeedsInputs = () => {
             <GraduationCap className="h-4 w-4" />
             Education
           </TabsTrigger>
-          {sharedInputs.children.map((child, index) => (
-            <TabsTrigger key={index} value={`child-education-${index}`} className="flex items-center gap-2">
-              <GraduationCap className="h-4 w-4 flex-shrink-0" />
-              <span>{child.name || `Child ${index + 1}`}</span>
-            </TabsTrigger>
-          ))}
           <TabsTrigger value="assumptions" className="flex items-center gap-2">
             <Settings className="h-4 w-4" />
             Assumptions
@@ -545,175 +539,190 @@ export const SurvivorNeedsInputs = () => {
         </TabsContent>
 
         <TabsContent value="education" className="space-y-4 mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center justify-between">
-                Dependent Information
-                <Button onClick={addChild} size="sm" variant="outline">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Child
-                </Button>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <Tabs defaultValue="personal" className="w-full">
+            <TabsList className="w-full justify-start">
+              <TabsTrigger value="personal" className="flex items-center gap-2">
+                <Users className="h-4 w-4 flex-shrink-0" />
+                <span>Personal</span>
+              </TabsTrigger>
               {sharedInputs.children.map((child, index) => (
-                <div key={index} className="grid grid-cols-2 gap-4 p-4 border rounded-lg bg-gray-50/50">
-                  <div>
-                    <Label className="text-sm">Child {index + 1} Name</Label>
-                    <Input 
-                      value={child.name}
-                      onChange={(e) => updateChild(index, 'name', e.target.value)}
-                      placeholder={`Enter child ${index + 1} name`} 
-                      className="mt-1" 
-                    />
-                  </div>
-                  <div className="flex items-end gap-2">
-                    <div className="flex-1">
-                      <Label className="text-sm">Date of Birth</Label>
-                      <Input 
-                        type="date"
-                        value={child.dateOfBirth}
-                        onChange={(e) => updateChild(index, 'dateOfBirth', e.target.value)}
-                        className="mt-1" 
-                      />
-                    </div>
-                    <Button 
-                      onClick={() => removeChild(index)} 
-                      size="sm" 
-                      variant="outline"
-                      className="mb-1"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
+                <TabsTrigger key={index} value={`child-${index}`} className="flex items-center gap-2">
+                  <GraduationCap className="h-4 w-4 flex-shrink-0" />
+                  <span>{child.name || `Child ${index + 1}`}</span>
+                </TabsTrigger>
               ))}
-              {sharedInputs.children.length === 0 && (
-                <p className="text-gray-500 text-center py-4">No children added yet</p>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
+            </TabsList>
 
-        {sharedInputs.children.map((child, childIndex) => (
-          <TabsContent key={childIndex} value={`child-education-${childIndex}`} className="space-y-4 mt-4">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg flex items-center justify-between">
-                  Education Planning for {child.name || `Child ${childIndex + 1}`}
-                  <Button onClick={() => addSchool(childIndex)} size="sm" variant="outline">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add School
-                  </Button>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                
-                {/* Schools Section */}
-                <div className="space-y-4">
-                  <h3 className="text-md font-medium flex items-center gap-2">
-                    <School className="h-4 w-4" />
-                    Educational Institutions
-                  </h3>
-                  
-                  {child.schools?.map((school, schoolIndex) => (
-                    <div key={schoolIndex} className="p-4 border rounded-lg bg-blue-50/30">
-                      <div className="flex items-center justify-between mb-4">
-                        <h4 className="font-medium">School {schoolIndex + 1}</h4>
+            <TabsContent value="personal" className="space-y-4 mt-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center justify-between">
+                    Dependent Information
+                    <Button onClick={addChild} size="sm" variant="outline">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add Child
+                    </Button>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {sharedInputs.children.map((child, index) => (
+                    <div key={index} className="grid grid-cols-2 gap-4 p-4 border rounded-lg bg-gray-50/50">
+                      <div>
+                        <Label className="text-sm">Child {index + 1} Name</Label>
+                        <Input 
+                          value={child.name}
+                          onChange={(e) => updateChild(index, 'name', e.target.value)}
+                          placeholder={`Enter child ${index + 1} name`} 
+                          className="mt-1" 
+                        />
+                      </div>
+                      <div className="flex items-end gap-2">
+                        <div className="flex-1">
+                          <Label className="text-sm">Date of Birth</Label>
+                          <Input 
+                            type="date"
+                            value={child.dateOfBirth}
+                            onChange={(e) => updateChild(index, 'dateOfBirth', e.target.value)}
+                            className="mt-1" 
+                          />
+                        </div>
                         <Button 
-                          onClick={() => removeSchool(childIndex, schoolIndex)} 
+                          onClick={() => removeChild(index)} 
                           size="sm" 
                           variant="outline"
+                          className="mb-1"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
+                    </div>
+                  ))}
+                  {sharedInputs.children.length === 0 && (
+                    <p className="text-gray-500 text-center py-4">No children added yet</p>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {sharedInputs.children.map((child, childIndex) => (
+              <TabsContent key={childIndex} value={`child-${childIndex}`} className="space-y-4 mt-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center justify-between">
+                      Education Planning for {child.name || `Child ${childIndex + 1}`}
+                      <Button onClick={() => addSchool(childIndex)} size="sm" variant="outline">
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add School
+                      </Button>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    
+                    {/* Schools Section */}
+                    <div className="space-y-4">
+                      <h3 className="text-md font-medium flex items-center gap-2">
+                        <School className="h-4 w-4" />
+                        Educational Institutions
+                      </h3>
                       
-                      <div className="grid grid-cols-2 gap-4">
+                      {child.schools?.map((school, schoolIndex) => (
+                        <div key={schoolIndex} className="p-4 border rounded-lg bg-blue-50/30">
+                          <div className="flex items-center justify-between mb-4">
+                            <h4 className="font-medium">School {schoolIndex + 1}</h4>
+                            <Button 
+                              onClick={() => removeSchool(childIndex, schoolIndex)} 
+                              size="sm" 
+                              variant="outline"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <Label className="text-sm">School Name</Label>
+                              <Input 
+                                value={school.schoolName}
+                                onChange={(e) => updateSchool(childIndex, schoolIndex, 'schoolName', e.target.value)}
+                                placeholder="Enter school name" 
+                                className="mt-1" 
+                              />
+                            </div>
+                            <div>
+                              <Label className="text-sm">Annual Tuition Cost</Label>
+                              <Input 
+                                value={school.annualTuitionCost}
+                                onChange={(e) => updateSchool(childIndex, schoolIndex, 'annualTuitionCost', e.target.value)}
+                                placeholder="$50,000" 
+                                className="mt-1" 
+                              />
+                            </div>
+                            <div>
+                              <Label className="text-sm">Age When School Begins</Label>
+                              <Input 
+                                value={school.ageWhenSchoolBegins}
+                                onChange={(e) => updateSchool(childIndex, schoolIndex, 'ageWhenSchoolBegins', e.target.value)}
+                                placeholder="18" 
+                                className="mt-1" 
+                              />
+                            </div>
+                            <div>
+                              <Label className="text-sm">Number of Years in School</Label>
+                              <Input 
+                                value={school.numberOfYearsInSchool}
+                                onChange={(e) => updateSchool(childIndex, schoolIndex, 'numberOfYearsInSchool', e.target.value)}
+                                placeholder="4" 
+                                className="mt-1" 
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                      
+                      {child.schools?.length === 0 && (
+                        <p className="text-gray-500 text-center py-4">No schools added yet</p>
+                      )}
+                    </div>
+
+                    {/* Financial Information Section */}
+                    <div className="space-y-4">
+                      <h3 className="text-md font-medium">Financial Information</h3>
+                      <div className="grid grid-cols-3 gap-4">
                         <div>
-                          <Label className="text-sm">School Name</Label>
+                          <Label className="text-sm">Percent to Fund</Label>
                           <Input 
-                            value={school.schoolName}
-                            onChange={(e) => updateSchool(childIndex, schoolIndex, 'schoolName', e.target.value)}
-                            placeholder="Enter school name" 
+                            value={child.percentageToFund}
+                            onChange={(e) => handlePercentageChange(childIndex, e.target.value)}
+                            placeholder="100%" 
                             className="mt-1" 
                           />
                         </div>
                         <div>
-                          <Label className="text-sm">Annual Tuition Cost</Label>
+                          <Label className="text-sm">Amount Currently Saved</Label>
                           <Input 
-                            value={school.annualTuitionCost}
-                            onChange={(e) => updateSchool(childIndex, schoolIndex, 'annualTuitionCost', e.target.value)}
-                            placeholder="$50,000" 
+                            value={child.amountCurrentlySaved}
+                            onChange={(e) => updateChild(childIndex, 'amountCurrentlySaved', e.target.value)}
+                            placeholder="$10,000" 
                             className="mt-1" 
                           />
                         </div>
                         <div>
-                          <Label className="text-sm">Age When School Begins</Label>
+                          <Label className="text-sm">Planned Monthly Savings</Label>
                           <Input 
-                            value={school.ageWhenSchoolBegins}
-                            onChange={(e) => updateSchool(childIndex, schoolIndex, 'ageWhenSchoolBegins', e.target.value)}
-                            placeholder="18" 
-                            className="mt-1" 
-                          />
-                        </div>
-                        <div>
-                          <Label className="text-sm">Number of Years in School</Label>
-                          <Input 
-                            value={school.numberOfYearsInSchool}
-                            onChange={(e) => updateSchool(childIndex, schoolIndex, 'numberOfYearsInSchool', e.target.value)}
-                            placeholder="4" 
+                            value={child.plannedMonthlySavings}
+                            onChange={(e) => updateChild(childIndex, 'plannedMonthlySavings', e.target.value)}
+                            placeholder="$500" 
                             className="mt-1" 
                           />
                         </div>
                       </div>
                     </div>
-                  ))}
-                  
-                  {(!child.schools || child.schools.length === 0) && (
-                    <p className="text-gray-500 text-center py-4">No schools added yet</p>
-                  )}
-                </div>
-
-                {/* Funding Details Section */}
-                <div className="space-y-4 pt-4 border-t">
-                  <h3 className="text-md font-medium">Funding Details</h3>
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label className="text-sm">Percentage to Fund</Label>
-                      <Input 
-                        value={child.percentageToFund || ''}
-                        onChange={(e) => handlePercentageChange(childIndex, e.target.value)}
-                        placeholder="100%"
-                        className="mt-1" 
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-sm">Amount Currently Saved</Label>
-                      <Input 
-                        value={child.amountCurrentlySaved || ''}
-                        onChange={(e) => updateChild(childIndex, 'amountCurrentlySaved', e.target.value)}
-                        placeholder="$25,000" 
-                        className="mt-1" 
-                      />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <Label className="text-sm">Planned Monthly Savings</Label>
-                    <Input 
-                      value={child.plannedMonthlySavings || ''}
-                      onChange={(e) => updateChild(childIndex, 'plannedMonthlySavings', e.target.value)}
-                      placeholder="$500" 
-                      className="mt-1" 
-                    />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        ))}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            ))}
+          </Tabs>
+        </TabsContent>
 
         <TabsContent value="assumptions" className="space-y-4 mt-4">
           <Card>
