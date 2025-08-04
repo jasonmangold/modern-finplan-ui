@@ -746,47 +746,47 @@ const Presentation = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {templates.map((template) => (
-                <div
-                  key={template.id}
-                  className="border border-gray-200 rounded-xl p-4 hover:border-purple-300 hover:shadow-md transition-all duration-200"
-                >
-                  <h3 className="font-semibold text-gray-900 mb-2">{template.name}</h3>
-                  <p className="text-sm text-gray-600 mb-3">{template.description}</p>
-                  <div className="flex flex-wrap gap-1 mb-4">
-                    {template.reports.slice(0, 3).map((report) => (
-                      <Badge
-                        key={report.id}
-                        className={`text-xs ${getSourceColor(report.source)}`}
+              {templates.map((template) => {
+                // Get unique sources to avoid duplicates
+                const uniqueSources = [...new Set(template.reports.map(report => report.source))];
+                
+                return (
+                  <div
+                    key={template.id}
+                    className="border border-gray-200 rounded-xl p-4 hover:border-blue-300 hover:shadow-md transition-all duration-200 flex flex-col"
+                  >
+                    <h3 className="font-semibold text-gray-900 mb-2">{template.name}</h3>
+                    <p className="text-sm text-gray-600 mb-3 flex-1">{template.description}</p>
+                    <div className="flex flex-wrap gap-1 mb-4">
+                      {uniqueSources.map((source) => (
+                        <Badge
+                          key={source}
+                          className={`text-xs ${getSourceColor(source)}`}
+                        >
+                          {source}
+                        </Badge>
+                      ))}
+                    </div>
+                    <div className="flex gap-2 mt-auto">
+                      <Button
+                        onClick={() => loadTemplate(template)}
+                        className="flex-1 bg-blue-600 hover:bg-blue-700"
+                        size="sm"
                       >
-                        {report.source}
-                      </Badge>
-                    ))}
-                    {template.reports.length > 3 && (
-                      <Badge className="text-xs bg-gray-100 text-gray-600">
-                        +{template.reports.length - 3}
-                      </Badge>
-                    )}
+                        <Plus className="h-4 w-4 mr-2" />
+                        Use Template
+                      </Button>
+                      <Button
+                        onClick={() => handleExportTemplate(template)}
+                        variant="outline"
+                        size="sm"
+                      >
+                        <Download className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
-                  <div className="flex gap-2">
-                    <Button
-                      onClick={() => loadTemplate(template)}
-                      className="flex-1 bg-purple-600 hover:bg-purple-700"
-                      size="sm"
-                    >
-                      <Plus className="h-4 w-4 mr-2" />
-                      Use Template
-                    </Button>
-                    <Button
-                      onClick={() => handleExportTemplate(template)}
-                      variant="outline"
-                      size="sm"
-                    >
-                      <Download className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </CardContent>
         </Card>
