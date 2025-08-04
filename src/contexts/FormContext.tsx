@@ -27,9 +27,18 @@ interface SharedInputs {
   children: Array<{
     name: string;
     dateOfBirth: string;
+    schools: Array<{
+      schoolName: string;
+      annualTuitionCost: string;
+      ageWhenSchoolBegins: string;
+      numberOfYearsInSchool: string;
+    }>;
+    percentageToFund: string;
+    amountCurrentlySaved: string;
+    plannedMonthlySavings: string;
   }>;
   
-  // Education data
+  // Legacy education data (kept for compatibility)
   schoolName: string;
   annualTuitionCost: string;
   ageWhenSchoolBegins: string;
