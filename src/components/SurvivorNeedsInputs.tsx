@@ -521,8 +521,8 @@ export const SurvivorNeedsInputs = () => {
             <CardHeader>
               <CardTitle className="text-lg">Capital & Debt</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-4">
+            <CardContent className="space-y-6">
+              <div className="space-y-4 p-4 border rounded-lg bg-gray-50/50">
                 <Label className="text-base font-medium">Client 1 Retirement</Label>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
