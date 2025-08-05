@@ -8,6 +8,7 @@ import { EducationFundingInputs } from "./EducationFundingInputs";
 import { RetirementAccumulationInputs } from "./RetirementAccumulationInputs";
 import { SurvivorNeedsInputs } from "./SurvivorNeedsInputs";
 import { RetirementDistributionInputs } from "./RetirementDistributionInputs";
+import { SocialSecurityInputs } from "./SocialSecurityInputs";
 
 interface GoalInputPanelProps {
   goalId: string;
@@ -182,6 +183,7 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
       {goalId === "retirement" && <RetirementAccumulationInputs />}
       {goalId === "survivor-needs" && <SurvivorNeedsInputs />}
       {goalId === "retirement-distribution" && <RetirementDistributionInputs />}
+      {goalId === "social-security" && <SocialSecurityInputs />}
       {goalId === "college" && (
         <>
           <div>
@@ -190,7 +192,7 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
           {renderCollegeInputs()}
         </>
       )}
-      {(goalId !== "college" && goalId !== "retirement" && goalId !== "education-funding" && goalId !== "retirement-accumulation" && goalId !== "survivor-needs" && goalId !== "retirement-distribution") && (
+      {(goalId !== "college" && goalId !== "retirement" && goalId !== "education-funding" && goalId !== "retirement-accumulation" && goalId !== "survivor-needs" && goalId !== "retirement-distribution" && goalId !== "social-security") && (
         <>
           <div>
             <h2 className="text-xl font-semibold mb-2">Analysis Inputs</h2>
