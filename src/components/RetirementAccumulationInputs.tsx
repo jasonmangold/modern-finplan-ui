@@ -165,20 +165,99 @@ export const RetirementAccumulationInputs = () => {
         <TabsContent value="income-needs" className="space-y-4 mt-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Income Needs</CardTitle>
+              <CardTitle className="text-lg">Monthly Income Needs</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label className="text-sm">Current Annual Income</Label>
-                <Input placeholder="$150,000" className="mt-1" />
+            <CardContent className="space-y-6">
+              {/* Beginning at retirement */}
+              <div className="space-y-3">
+                <Label className="text-sm font-medium">Beginning at retirement</Label>
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <input 
+                      type="radio" 
+                      id="retirement-dollar" 
+                      name="retirement-method"
+                      className="w-4 h-4" 
+                      defaultChecked
+                    />
+                    <Input placeholder="$0" className="w-24" />
+                    <span className="text-sm">or</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input 
+                      type="radio" 
+                      id="retirement-percent" 
+                      name="retirement-method"
+                      className="w-4 h-4" 
+                    />
+                    <Input placeholder="0" className="w-16" />
+                    <span className="text-sm">% of total current income</span>
+                  </div>
+                </div>
               </div>
-              <div>
-                <Label className="text-sm">Desired Income Replacement Percentage</Label>
-                <Input placeholder="80%" className="mt-1" />
+
+              {/* Beginning X years after retirement - Period 1 */}
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <Label className="text-sm font-medium">Beginning</Label>
+                  <Input placeholder="0" className="w-16" />
+                  <Label className="text-sm font-medium">years after retirement</Label>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <input 
+                      type="radio" 
+                      id="period1-dollar" 
+                      name="period1-method"
+                      className="w-4 h-4" 
+                      defaultChecked
+                    />
+                    <Input placeholder="$0" className="w-24" />
+                    <span className="text-sm">or</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input 
+                      type="radio" 
+                      id="period1-percent" 
+                      name="period1-method"
+                      className="w-4 h-4" 
+                    />
+                    <Input placeholder="0" className="w-16" />
+                    <span className="text-sm">% of total current income</span>
+                  </div>
+                </div>
               </div>
-              <div>
-                <Label className="text-sm">Additional Annual Retirement Expenses</Label>
-                <Input placeholder="$5,000" className="mt-1" />
+
+              {/* Beginning X years after retirement - Period 2 */}
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <Label className="text-sm font-medium">Beginning</Label>
+                  <Input placeholder="0" className="w-16" />
+                  <Label className="text-sm font-medium">years after retirement</Label>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <input 
+                      type="radio" 
+                      id="period2-dollar" 
+                      name="period2-method"
+                      className="w-4 h-4" 
+                      defaultChecked
+                    />
+                    <Input placeholder="$0" className="w-24" />
+                    <span className="text-sm">or</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input 
+                      type="radio" 
+                      id="period2-percent" 
+                      name="period2-method"
+                      className="w-4 h-4" 
+                    />
+                    <Input placeholder="0" className="w-16" />
+                    <span className="text-sm">% of total current income</span>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
