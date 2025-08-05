@@ -174,15 +174,6 @@ export const SurvivorNeedsInputs = () => {
 
               <div className="flex items-center space-x-2">
                 <Checkbox 
-                  id="married" 
-                  checked={sharedInputs.isMarried}
-                  onCheckedChange={(checked) => updateSharedInput('isMarried', checked)}
-                />
-                <Label htmlFor="married" className="text-sm">Married</Label>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Checkbox 
                   id="hasClient2" 
                   checked={sharedInputs.hasClient2}
                   onCheckedChange={(checked) => updateSharedInput('hasClient2', checked)}
@@ -191,7 +182,7 @@ export const SurvivorNeedsInputs = () => {
               </div>
 
               {sharedInputs.hasClient2 && (
-                <div className="space-y-4 p-4 border rounded-lg bg-gray-50/50">
+                <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label className="text-sm">Client 2 Name</Label>
@@ -224,54 +215,63 @@ export const SurvivorNeedsInputs = () => {
                 </div>
               )}
 
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg flex items-center justify-between">
-                    Dependent Information
-                    <Button onClick={addChild} size="sm" variant="outline">
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add Child
-                    </Button>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {sharedInputs.children.map((child, index) => (
-                    <div key={index} className="grid grid-cols-2 gap-4 p-4 border rounded-lg bg-gray-50/50">
-                      <div>
-                        <Label className="text-sm">Child {index + 1} Name</Label>
-                        <Input 
-                          value={child.name}
-                          onChange={(e) => updateChild(index, 'name', e.target.value)}
-                          placeholder={`Enter child ${index + 1} name`} 
-                          className="mt-1" 
-                        />
-                      </div>
-                      <div className="flex items-end gap-2">
-                        <div className="flex-1">
-                          <Label className="text-sm">Date of Birth</Label>
-                          <Input 
-                            type="date"
-                            value={child.dateOfBirth}
-                            onChange={(e) => updateChild(index, 'dateOfBirth', e.target.value)}
-                            className="mt-1" 
-                          />
-                        </div>
-                        <Button 
-                          onClick={() => removeChild(index)} 
-                          size="sm" 
-                          variant="outline"
-                          className="mb-1"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="married" 
+                  checked={sharedInputs.isMarried}
+                  onCheckedChange={(checked) => updateSharedInput('isMarried', checked)}
+                />
+                <Label htmlFor="married" className="text-sm">Married</Label>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center justify-between">
+                Dependent Information
+                <Button onClick={addChild} size="sm" variant="outline">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Child
+                </Button>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {sharedInputs.children.map((child, index) => (
+                <div key={index} className="grid grid-cols-2 gap-4 p-4 border rounded-lg bg-gray-50/50">
+                  <div>
+                    <Label className="text-sm">Child {index + 1} Name</Label>
+                    <Input 
+                      value={child.name}
+                      onChange={(e) => updateChild(index, 'name', e.target.value)}
+                      placeholder={`Enter child ${index + 1} name`} 
+                      className="mt-1" 
+                    />
+                  </div>
+                  <div className="flex items-end gap-2">
+                    <div className="flex-1">
+                      <Label className="text-sm">Date of Birth</Label>
+                      <Input 
+                        type="date"
+                        value={child.dateOfBirth}
+                        onChange={(e) => updateChild(index, 'dateOfBirth', e.target.value)}
+                        className="mt-1" 
+                      />
                     </div>
-                  ))}
-                  {sharedInputs.children.length === 0 && (
-                    <p className="text-gray-500 text-center py-4">No children added yet</p>
-                  )}
-                </CardContent>
-              </Card>
+                    <Button 
+                      onClick={() => removeChild(index)} 
+                      size="sm" 
+                      variant="outline"
+                      className="mb-1"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+              {sharedInputs.children.length === 0 && (
+                <p className="text-gray-500 text-center py-4">No children added yet</p>
+              )}
             </CardContent>
           </Card>
         </TabsContent>

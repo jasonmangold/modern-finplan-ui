@@ -80,15 +80,6 @@ export const RetirementDistributionInputs = () => {
 
               <div className="flex items-center space-x-2">
                 <Checkbox 
-                  id="married" 
-                  checked={sharedInputs.isMarried}
-                  onCheckedChange={(checked) => updateSharedInput('isMarried', checked)}
-                />
-                <Label htmlFor="married" className="text-sm">Married</Label>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Checkbox 
                   id="hasClient2" 
                   checked={sharedInputs.hasClient2}
                   onCheckedChange={(checked) => updateSharedInput('hasClient2', checked)}
@@ -97,7 +88,7 @@ export const RetirementDistributionInputs = () => {
               </div>
 
               {sharedInputs.hasClient2 && (
-                <div className="space-y-4 p-4 border rounded-lg bg-gray-50/50">
+                <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label className="text-sm">Client 2 Name</Label>
@@ -129,6 +120,15 @@ export const RetirementDistributionInputs = () => {
                   </div>
                 </div>
               )}
+
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="married" 
+                  checked={sharedInputs.isMarried}
+                  onCheckedChange={(checked) => updateSharedInput('isMarried', checked)}
+                />
+                <Label htmlFor="married" className="text-sm">Married</Label>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
