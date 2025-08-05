@@ -652,17 +652,15 @@ export const RetirementAccumulationInputs = () => {
                     className="mt-1" 
                   />
                 </div>
-                {sharedInputs.hasClient2 && (
-                  <div>
-                    <Label className="text-sm">Client 2 Mortality Age</Label>
-                    <Input 
-                      value={sharedInputs.client2MortalityAge}
-                      onChange={(e) => updateSharedInput('client2MortalityAge', e.target.value)}
-                      placeholder="90" 
-                      className="mt-1" 
-                    />
-                  </div>
-                )}
+                <div>
+                  <Label className="text-sm">Client 2 Mortality Age</Label>
+                  <Input 
+                    value={sharedInputs.client2MortalityAge}
+                    onChange={(e) => updateSharedInput('client2MortalityAge', e.target.value)}
+                    placeholder="90" 
+                    className="mt-1" 
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -686,17 +684,15 @@ export const RetirementAccumulationInputs = () => {
                 </div>
               </div>
 
-              {sharedInputs.hasClient2 && (
-                <div>
-                  <Label className="text-sm">Client 2 Employment Inflation Rate</Label>
-                  <Input 
-                    value={sharedInputs.client2EmploymentInflationRate}
-                    onChange={(e) => updateSharedInput('client2EmploymentInflationRate', e.target.value)}
-                    placeholder="3.0%" 
-                    className="mt-1" 
-                  />
-                </div>
-              )}
+              <div>
+                <Label className="text-sm">Client 2 Employment Inflation Rate</Label>
+                <Input 
+                  value={sharedInputs.client2EmploymentInflationRate}
+                  onChange={(e) => updateSharedInput('client2EmploymentInflationRate', e.target.value)}
+                  placeholder="3.0%" 
+                  className="mt-1" 
+                />
+              </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
