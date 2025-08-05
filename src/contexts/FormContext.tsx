@@ -80,6 +80,11 @@ interface SharedInputs {
   client1ROR: string;
   client2ROR: string;
   
+  // Other Assets
+  otherAssetsBalance: string;
+  otherAssetsMonthlyContributions: string;
+  otherAssetsROR: string;
+  
   // Survivor needs specific fields
   delayRetirementFunds: boolean;
   cashAndOtherAssets: string;
@@ -193,6 +198,9 @@ const initialSharedInputs: SharedInputs = {
   client2AnnualIncrease: '',
   client1ROR: '',
   client2ROR: '',
+  otherAssetsBalance: '',
+  otherAssetsMonthlyContributions: '',
+  otherAssetsROR: '',
   delayRetirementFunds: false,
   cashAndOtherAssets: '',
   cash: '',

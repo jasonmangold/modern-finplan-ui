@@ -509,6 +509,39 @@ export const RetirementAccumulationInputs = () => {
                     </div>
                   </div>
                 )}
+
+                <div className="space-y-4 p-4 border rounded-lg bg-background">
+                  <Label className="text-sm font-medium">Other Assets:</Label>
+                  <div className="grid grid-cols-3 gap-4">
+                    <div>
+                      <Label className="text-sm">Balance</Label>
+                      <Input 
+                        value={sharedInputs.otherAssetsBalance}
+                        onChange={(e) => updateSharedInput('otherAssetsBalance', e.target.value)}
+                        placeholder="$100,000" 
+                        className="mt-1" 
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm">Monthly Contributions</Label>
+                      <Input 
+                        value={sharedInputs.otherAssetsMonthlyContributions}
+                        onChange={(e) => updateSharedInput('otherAssetsMonthlyContributions', e.target.value)}
+                        placeholder="$500" 
+                        className="mt-1" 
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm">Rate of Return</Label>
+                      <Input 
+                        value={sharedInputs.otherAssetsROR}
+                        onChange={(e) => updateSharedInput('otherAssetsROR', e.target.value)}
+                        placeholder="6%" 
+                        className="mt-1" 
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
