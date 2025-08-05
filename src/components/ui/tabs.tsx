@@ -17,36 +17,46 @@ const TabsList = React.forwardRef<
   const checkScroll = React.useCallback(() => {
     const container = scrollContainerRef.current
     if (container) {
-      setShowLeftArrow(container.scrollLeft > 0)
-      setShowRightArrow(
-        container.scrollLeft < container.scrollWidth - container.clientWidth
-      )
+      const isScrollable = container.scrollWidth > container.clientWidth
+      const hasLeftScroll = container.scrollLeft > 5 // Add small threshold
+      const hasRightScroll = container.scrollLeft < container.scrollWidth - container.clientWidth - 5 // Add small threshold
+      
+      setShowLeftArrow(isScrollable && hasLeftScroll)
+      setShowRightArrow(isScrollable && hasRightScroll)
     }
   }, [])
 
   React.useEffect(() => {
     const container = scrollContainerRef.current
     if (container) {
-      checkScroll()
+      // Initial check
+      const timeout = setTimeout(checkScroll, 100) // Delay to ensure content is rendered
+      
       container.addEventListener('scroll', checkScroll)
       window.addEventListener('resize', checkScroll)
       
+      // Use ResizeObserver for better detection of content changes
+      const resizeObserver = new ResizeObserver(checkScroll)
+      resizeObserver.observe(container)
+      
       return () => {
+        clearTimeout(timeout)
         container.removeEventListener('scroll', checkScroll)
         window.removeEventListener('resize', checkScroll)
+        resizeObserver.disconnect()
       }
     }
   }, [checkScroll])
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -100, behavior: 'smooth' })
+      scrollContainerRef.current.scrollBy({ left: -120, behavior: 'smooth' })
     }
   }
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 100, behavior: 'smooth' })
+      scrollContainerRef.current.scrollBy({ left: 120, behavior: 'smooth' })
     }
   }
 
@@ -55,21 +65,30 @@ const TabsList = React.forwardRef<
       {showLeftArrow && (
         <button
           onClick={scrollLeft}
-          className="absolute left-0 top-0 z-20 h-10 w-12 bg-gradient-to-r from-background via-background/90 to-transparent flex items-center justify-center shadow-lg border-r border-border/50"
+          className="absolute left-0 top-0 z-30 h-10 w-10 bg-gradient-to-r from-background via-background to-background/80 flex items-center justify-center hover:bg-muted transition-colors rounded-l-md border-r border-border/30"
+          aria-label="Scroll tabs left"
         >
-          <ChevronLeft className="h-5 w-5 text-foreground" />
+          <ChevronLeft className="h-4 w-4 text-foreground" />
         </button>
       )}
       
       <div
         ref={scrollContainerRef}
-        className="overflow-x-auto scrollbar-none"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        className={cn(
+          "overflow-x-auto scrollbar-none",
+          showLeftArrow && "pl-10",
+          showRightArrow && "pr-10"
+        )}
+        style={{ 
+          scrollbarWidth: 'none', 
+          msOverflowStyle: 'none'
+        }}
       >
         <TabsPrimitive.List
           ref={ref}
           className={cn(
-            "inline-flex h-10 items-center justify-start rounded-md bg-muted p-1 text-muted-foreground min-w-full",
+            "inline-flex h-10 items-center justify-start rounded-md bg-muted p-1 text-muted-foreground",
+            "min-w-fit", // Changed from min-w-full to prevent unnecessary stretch
             className
           )}
           {...props}
@@ -79,9 +98,10 @@ const TabsList = React.forwardRef<
       {showRightArrow && (
         <button
           onClick={scrollRight}
-          className="absolute right-0 top-0 z-20 h-10 w-12 bg-gradient-to-l from-background via-background/90 to-transparent flex items-center justify-center shadow-lg border-l border-border/50"
+          className="absolute right-0 top-0 z-30 h-10 w-10 bg-gradient-to-l from-background via-background to-background/80 flex items-center justify-center hover:bg-muted transition-colors rounded-r-md border-l border-border/30"
+          aria-label="Scroll tabs right"
         >
-          <ChevronRight className="h-5 w-5 text-foreground" />
+          <ChevronRight className="h-4 w-4 text-foreground" />
         </button>
       )}
     </div>
