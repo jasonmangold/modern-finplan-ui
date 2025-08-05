@@ -83,6 +83,8 @@ interface SharedInputs {
   // Survivor needs specific fields
   delayRetirementFunds: boolean;
   cashAndOtherAssets: string;
+  cash: string;
+  otherAssets: string;
   client1LifeInsurance: string;
   client2LifeInsurance: string;
   mortgageBalance: string;
@@ -193,6 +195,8 @@ const initialSharedInputs: SharedInputs = {
   client2ROR: '',
   delayRetirementFunds: false,
   cashAndOtherAssets: '',
+  cash: '',
+  otherAssets: '',
   client1LifeInsurance: '',
   client2LifeInsurance: '',
   mortgageBalance: '',
