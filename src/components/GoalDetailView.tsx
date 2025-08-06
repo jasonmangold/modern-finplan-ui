@@ -126,7 +126,7 @@ export const GoalDetailView = ({
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 bg-background">
+      <div className="flex-1 bg-background overflow-hidden">
         <div className="h-full grid grid-cols-5 gap-4 p-6">
           {/* Left Panel - Analysis Inputs */}
           <div className="col-span-2 space-y-4">
