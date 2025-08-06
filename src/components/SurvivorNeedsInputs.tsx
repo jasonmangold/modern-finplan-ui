@@ -5,11 +5,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { Users, DollarSign, TrendingUp, GraduationCap, Settings, Plus, Trash2, School } from "lucide-react";
+import { Users, DollarSign, TrendingUp, GraduationCap, Settings, Plus, Trash2, School, HelpCircle } from "lucide-react";
 import { useFormContext } from "@/contexts/FormContext";
+import { HelpDialog } from "./HelpDialog";
+import { getHelpText } from "@/data/helpTexts";
+import { useState } from "react";
 
 export const SurvivorNeedsInputs = () => {
   const { sharedInputs, updateSharedInput } = useFormContext();
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
+  
+  const handleHelpClick = () => {
+    setIsHelpOpen(true);
+  };
 
   const addIncomeSource = () => {
     const newSource = {
@@ -103,8 +111,16 @@ export const SurvivorNeedsInputs = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-xl font-semibold mb-2">Analysis Inputs</h2>
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="text-xl font-semibold">Analysis Inputs</h2>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleHelpClick}
+          className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+        >
+          <HelpCircle className="h-4 w-4" />
+        </Button>
       </div>
 
       <Tabs defaultValue="personal" className="w-full">
@@ -965,6 +981,13 @@ export const SurvivorNeedsInputs = () => {
           </Card>
         </TabsContent>
       </Tabs>
+      
+      <HelpDialog
+        isOpen={isHelpOpen}
+        onClose={() => setIsHelpOpen(false)}
+        sections={getHelpText("survivor-needs")}
+        title="Survivor Needs Analysis Help"
+      />
     </div>
   );
 };

@@ -3,18 +3,27 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { Calculator, Target, DollarSign, Calendar } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Calculator, Target, DollarSign, Calendar, HelpCircle } from "lucide-react";
 import { EducationFundingInputs } from "./EducationFundingInputs";
 import { RetirementAccumulationInputs } from "./RetirementAccumulationInputs";
 import { SurvivorNeedsInputs } from "./SurvivorNeedsInputs";
 import { RetirementDistributionInputs } from "./RetirementDistributionInputs";
 import { SocialSecurityInputs } from "./SocialSecurityInputs";
+import { HelpDialog } from "./HelpDialog";
+import { getHelpText } from "@/data/helpTexts";
+import { useState } from "react";
 
 interface GoalInputPanelProps {
   goalId: string;
 }
 
 export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
+  
+  const handleHelpClick = () => {
+    setIsHelpOpen(true);
+  };
   const renderCollegeInputs = () => (
     <>
       <Card>
@@ -186,18 +195,46 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
       {goalId === "social-security" && <SocialSecurityInputs />}
       {goalId === "college" && (
         <>
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Analysis Inputs</h2>
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="text-xl font-semibold">Analysis Inputs</h2>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleHelpClick}
+              className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+            >
+              <HelpCircle className="h-4 w-4" />
+            </Button>
           </div>
           {renderCollegeInputs()}
+          <HelpDialog
+            isOpen={isHelpOpen}
+            onClose={() => setIsHelpOpen(false)}
+            sections={getHelpText(goalId)}
+            title="College Planning Help"
+          />
         </>
       )}
       {(goalId !== "college" && goalId !== "retirement" && goalId !== "education-funding" && goalId !== "retirement-accumulation" && goalId !== "survivor-needs" && goalId !== "retirement-distribution" && goalId !== "social-security") && (
         <>
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Analysis Inputs</h2>
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="text-xl font-semibold">Analysis Inputs</h2>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleHelpClick}
+              className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+            >
+              <HelpCircle className="h-4 w-4" />
+            </Button>
           </div>
           {renderDefaultInputs()}
+          <HelpDialog
+            isOpen={isHelpOpen}
+            onClose={() => setIsHelpOpen(false)}
+            sections={getHelpText(goalId)}
+            title="Analysis Input Help"
+          />
         </>
       )}
     </div>

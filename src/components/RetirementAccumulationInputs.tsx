@@ -5,11 +5,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Users, DollarSign, TrendingUp, Settings, Plus, Trash2 } from "lucide-react";
+import { Users, DollarSign, TrendingUp, Settings, Plus, Trash2, HelpCircle } from "lucide-react";
 import { useFormContext } from "@/contexts/FormContext";
+import { HelpDialog } from "./HelpDialog";
+import { getHelpText } from "@/data/helpTexts";
+import { useState } from "react";
 
 export const RetirementAccumulationInputs = () => {
   const { sharedInputs, updateSharedInput } = useFormContext();
+  const [activeTab, setActiveTab] = useState("personal");
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
+  
+  const handleHelpClick = () => {
+    setIsHelpOpen(true);
+  };
 
   const addIncomeSource = () => {
     const newSource = {
@@ -42,11 +51,19 @@ export const RetirementAccumulationInputs = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-xl font-semibold mb-2">Analysis Inputs</h2>
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="text-xl font-semibold">Analysis Inputs</h2>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleHelpClick}
+          className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+        >
+          <HelpCircle className="h-4 w-4" />
+        </Button>
       </div>
 
-      <Tabs defaultValue="personal" className="w-full">
+      <Tabs defaultValue="personal" className="w-full" onValueChange={setActiveTab}>
         <TabsList className="w-full justify-start">
           <TabsTrigger value="personal" className="flex items-center gap-2">
             <Users className="h-4 w-4" />
@@ -727,6 +744,13 @@ export const RetirementAccumulationInputs = () => {
           </Card>
         </TabsContent>
       </Tabs>
+      
+      <HelpDialog
+        isOpen={isHelpOpen}
+        onClose={() => setIsHelpOpen(false)}
+        sections={getHelpText("retirement-accumulation", activeTab)}
+        title={`Retirement Accumulation - ${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Help`}
+      />
     </div>
   );
 };
