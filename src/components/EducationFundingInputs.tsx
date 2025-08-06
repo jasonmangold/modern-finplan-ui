@@ -80,6 +80,17 @@ export const EducationFundingInputs = () => {
 
   return (
     <div className="space-y-4">
+      <div className="flex items-center gap-2 mb-4">
+        <h2 className="text-lg font-semibold text-foreground">Analysis Inputs</h2>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleHelpClick}
+          className="flex items-center gap-1 text-muted-foreground hover:text-foreground p-1 h-auto"
+        >
+          <HelpCircle className="h-4 w-4" />
+        </Button>
+      </div>
 
       <Tabs defaultValue="personal" className="w-full">
         <TabsList className="w-full justify-start bg-muted h-auto p-1 gap-1">
