@@ -144,56 +144,51 @@ export const GoalDetailView = ({
       <div className="flex-1 grid grid-cols-5 gap-6 overflow-hidden">
         {/* Left Panel - Inputs (40% - 2 columns) */}
         <div className="col-span-2 overflow-y-auto">
-          {/* Analysis Inputs header with View dropdown inline */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-2">
-              <h2 className="text-xl font-semibold">Analysis Inputs</h2>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-sm font-bold text-gray-700">View:</span>
-              <Select value={selectedOutput} onValueChange={setSelectedOutput}>
-                <SelectTrigger className="w-64">
-                  <SelectValue />
-                  {selectedForPresentation.length > 0 && (
-                    <span className="ml-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
-                      {selectedForPresentation.length} selected
-                    </span>
-                  )}
-                </SelectTrigger>
-                <SelectContent className="w-full">
-                  {config.outputs.map(output => (
-                    <div key={output} className="relative">
-                      <SelectItem value={output} className="pr-10">
-                        <span>{output}</span>
-                      </SelectItem>
-                      <div 
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10"
-                        onMouseDown={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                        }}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          handlePresentationToggle(output);
-                        }}
-                      >
-                        <Checkbox
-                          checked={selectedForPresentation.includes(output)}
-                          onCheckedChange={() => handlePresentationToggle(output)}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
           <GoalInputPanel goalId={goalId} />
         </div>
 
         {/* Right Panel - Outputs (60% - 3 columns) */}
         <div className="col-span-3 overflow-y-auto">
+          {/* View selector moved to output panel */}
+          <div className="flex items-center gap-3 mb-4 px-1">
+            <span className="text-sm font-medium text-gray-700">View:</span>
+            <Select value={selectedOutput} onValueChange={setSelectedOutput}>
+              <SelectTrigger className="w-64">
+                <SelectValue />
+                {selectedForPresentation.length > 0 && (
+                  <span className="ml-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+                    {selectedForPresentation.length} selected
+                  </span>
+                )}
+              </SelectTrigger>
+              <SelectContent className="w-full">
+                {config.outputs.map(output => (
+                  <div key={output} className="relative">
+                    <SelectItem value={output} className="pr-10">
+                      <span>{output}</span>
+                    </SelectItem>
+                    <div 
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handlePresentationToggle(output);
+                      }}
+                    >
+                      <Checkbox
+                        checked={selectedForPresentation.includes(output)}
+                        onCheckedChange={() => handlePresentationToggle(output)}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
           {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? (
             <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} />
           ) : (
