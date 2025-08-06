@@ -42,9 +42,6 @@ export const SocialSecurityInputs = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-xl font-semibold mb-2">Analysis Inputs</h2>
-      </div>
 
       <Tabs defaultValue="personal" className="w-full">
         <TabsList className="w-full justify-start">
