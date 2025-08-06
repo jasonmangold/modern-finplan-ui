@@ -26,17 +26,6 @@ export const GoalOutputPanel = ({ goalId, outputType }: GoalOutputPanelProps) =>
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-xl font-semibold">{outputType}</h2>
-          <p className="text-gray-600">Analysis results and projections</p>
-        </div>
-        <Badge variant="secondary" className="bg-green-100 text-green-800">
-          On Track
-        </Badge>
-      </div>
-
       {/* Key Metrics */}
       <div className="grid grid-cols-2 gap-4">
         <Card>
