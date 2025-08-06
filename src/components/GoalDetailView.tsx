@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -9,7 +8,6 @@ import { GoalInputPanel } from "./GoalInputPanel";
 import { GoalOutputPanel } from "./GoalOutputPanel";
 import { RetirementAnalysisOutput } from "./RetirementAnalysisOutput";
 import { usePresentationContext } from "@/contexts/PresentationContext";
-
 const goalConfigs = {
   college: {
     title: "College Planning",
@@ -32,17 +30,7 @@ const goalConfigs = {
     icon: PiggyBank,
     color: "text-green-600",
     description: "Project retirement for clients who aren't at or near retirement age yet",
-    outputs: [
-      "Retirement Analysis",
-      "Retirement Social Security Optimizer", 
-      "Capital Available for Retirement",
-      "Achieving Your Retirement Goals",
-      "Alternatives to Achieving Retirement Goals",
-      "Retirement Timeline",
-      "Retirement Analysis Detail",
-      "Progress Toward Retirement Goals",
-      "Retirement Needs Analysis Data- Fact Finder"
-    ],
+    outputs: ["Retirement Analysis", "Retirement Social Security Optimizer", "Capital Available for Retirement", "Achieving Your Retirement Goals", "Alternatives to Achieving Retirement Goals", "Retirement Timeline", "Retirement Analysis Detail", "Progress Toward Retirement Goals", "Retirement Needs Analysis Data- Fact Finder"],
     defaultOutput: "Retirement Analysis"
   },
   home: {
@@ -78,30 +66,27 @@ const goalConfigs = {
     defaultOutput: "Life Insurance Analysis"
   }
 };
-
 interface GoalDetailViewProps {
   goalId: string;
   onBack: () => void;
 }
-
 export const GoalDetailView = ({
   goalId,
   onBack
 }: GoalDetailViewProps) => {
   const config = goalConfigs[goalId as keyof typeof goalConfigs] || goalConfigs.college;
   const [selectedOutput, setSelectedOutput] = useState(config.defaultOutput);
-  const { addPresentationItem, removePresentationItem, presentationItems } = usePresentationContext();
-  
+  const {
+    addPresentationItem,
+    removePresentationItem,
+    presentationItems
+  } = usePresentationContext();
+
   // Calculate which outputs are currently selected based on presentation items
-  const selectedForPresentation = presentationItems
-    .filter(item => config.outputs.includes(item.name))
-    .map(item => item.name);
-
+  const selectedForPresentation = presentationItems.filter(item => config.outputs.includes(item.name)).map(item => item.name);
   const IconComponent = config.icon;
-
   const handlePresentationToggle = (outputType: string) => {
     const isCurrentlySelected = selectedForPresentation.includes(outputType);
-    
     if (isCurrentlySelected) {
       // Remove from presentation
       const existingItem = presentationItems.find(item => item.name === outputType);
@@ -111,16 +96,15 @@ export const GoalDetailView = ({
     } else {
       // Add to presentation
       const newItem = {
-        id: Date.now().toString() + Math.random().toString(36).substr(2, 9), // More unique ID
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+        // More unique ID
         name: outputType,
         source: "Analysis" as const
       };
       addPresentationItem(newItem);
     }
   };
-
-  return (
-    <div className="h-full flex flex-col p-6">
+  return <div className="h-full flex flex-col p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
@@ -151,51 +135,35 @@ export const GoalDetailView = ({
         <div className="col-span-3 overflow-y-auto">
           {/* View selector moved to output panel */}
           <div className="flex items-center gap-3 mb-4 px-1">
-            <span className="text-sm font-medium text-gray-700">View:</span>
+            <span className="text-sm font-medium text-black">View:</span>
             <Select value={selectedOutput} onValueChange={setSelectedOutput}>
               <SelectTrigger className="w-64">
                 <SelectValue />
-                {selectedForPresentation.length > 0 && (
-                  <span className="ml-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+                {selectedForPresentation.length > 0 && <span className="ml-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
                     {selectedForPresentation.length} selected
-                  </span>
-                )}
+                  </span>}
               </SelectTrigger>
               <SelectContent className="w-full">
-                {config.outputs.map(output => (
-                  <div key={output} className="relative">
+                {config.outputs.map(output => <div key={output} className="relative">
                     <SelectItem value={output} className="pr-10">
                       <span>{output}</span>
                     </SelectItem>
-                    <div 
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10"
-                      onMouseDown={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                      }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handlePresentationToggle(output);
-                      }}
-                    >
-                      <Checkbox
-                        checked={selectedForPresentation.includes(output)}
-                        onCheckedChange={() => handlePresentationToggle(output)}
-                      />
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10" onMouseDown={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }} onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handlePresentationToggle(output);
+                }}>
+                      <Checkbox checked={selectedForPresentation.includes(output)} onCheckedChange={() => handlePresentationToggle(output)} />
                     </div>
-                  </div>
-                ))}
+                  </div>)}
               </SelectContent>
             </Select>
           </div>
-          {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? (
-            <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} />
-          ) : (
-            <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
-          )}
+          {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} /> : <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />}
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
