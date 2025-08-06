@@ -40,87 +40,109 @@ export const GoalOutputPanel = ({
     window.print();
   };
   return <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          
-          
-        </div>
-        <Badge variant="secondary" className="bg-green-100 text-green-800">
+      {/* Status Badge */}
+      <div className="flex justify-end">
+        <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
           On Track
         </Badge>
       </div>
 
       {/* Key Metrics */}
       <div className="grid grid-cols-2 gap-4">
-        <Card>
+        <Card className="border-border shadow-sm">
           <CardContent className="p-4">
-            <div className="flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-green-600" />
-              <span className="text-sm font-medium">Success Probability</span>
+            <div className="flex items-center gap-2 mb-2">
+              <TrendingUp className="h-4 w-4 text-primary" />
+              <span className="text-sm font-medium text-foreground">Success Probability</span>
             </div>
-            <div className="text-2xl font-bold text-green-600 mt-1">87%</div>
+            <div className="text-2xl font-bold text-primary">87%</div>
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="border-border shadow-sm">
           <CardContent className="p-4">
-            <div className="flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-blue-600" />
-              <span className="text-sm font-medium">Monthly Need</span>
+            <div className="flex items-center gap-2 mb-2">
+              <TrendingUp className="h-4 w-4 text-primary" />
+              <span className="text-sm font-medium text-foreground">Monthly Need</span>
             </div>
-            <div className="text-2xl font-bold text-blue-600 mt-1">$650</div>
+            <div className="text-2xl font-bold text-primary">$650</div>
           </CardContent>
         </Card>
       </div>
 
       {/* Chart */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Projection Timeline</CardTitle>
+      <Card className="border-border shadow-sm">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-base font-medium">Projection Timeline</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-0">
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={sampleData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="year" />
-              <YAxis />
-              <Tooltip formatter={value => [`$${value.toLocaleString()}`, ""]} />
-              <Line type="monotone" dataKey="value" stroke="#3b82f6" strokeWidth={3} name="Projected Balance" />
-              <Line type="monotone" dataKey="target" stroke="#10b981" strokeWidth={2} strokeDasharray="5 5" name="Target" />
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <XAxis 
+                dataKey="year" 
+                tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+              />
+              <YAxis 
+                tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+              />
+              <Tooltip 
+                formatter={value => [`$${value.toLocaleString()}`, ""]} 
+                contentStyle={{
+                  backgroundColor: 'hsl(var(--card))',
+                  border: '1px solid hsl(var(--border))',
+                  borderRadius: '6px'
+                }}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="value" 
+                stroke="hsl(var(--primary))" 
+                strokeWidth={3} 
+                name="Projected Balance" 
+              />
+              <Line 
+                type="monotone" 
+                dataKey="target" 
+                stroke="hsl(var(--primary))" 
+                strokeWidth={2} 
+                strokeDasharray="5 5" 
+                name="Target" 
+                opacity={0.7}
+              />
             </LineChart>
           </ResponsiveContainer>
         </CardContent>
       </Card>
 
       {/* Analysis Summary */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Key Insights</CardTitle>
+      <Card className="border-border shadow-sm">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-base font-medium">Key Insights</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3">
+        <CardContent className="pt-0 space-y-3">
           <div className="flex items-start gap-3">
-            <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-            <p className="text-sm">Current savings rate is sufficient to meet the goal timeline</p>
+            <div className="w-2 h-2 bg-primary rounded-full mt-2 shrink-0"></div>
+            <p className="text-sm text-muted-foreground">Current savings rate is sufficient to meet the goal timeline</p>
           </div>
           <div className="flex items-start gap-3">
-            <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2"></div>
-            <p className="text-sm">Consider increasing contributions by $150/month for better security</p>
+            <div className="w-2 h-2 bg-primary/60 rounded-full mt-2 shrink-0"></div>
+            <p className="text-sm text-muted-foreground">Consider increasing contributions by $150/month for better security</p>
           </div>
           <div className="flex items-start gap-3">
-            <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
-            <p className="text-sm">Tax-advantaged accounts are being utilized effectively</p>
+            <div className="w-2 h-2 bg-primary/40 rounded-full mt-2 shrink-0"></div>
+            <p className="text-sm text-muted-foreground">Tax-advantaged accounts are being utilized effectively</p>
           </div>
         </CardContent>
       </Card>
 
       {/* Action Buttons */}
-      <div className="flex gap-3">
-        <Button variant="outline" className="flex items-center gap-2">
+      <div className="flex gap-3 pt-2">
+        <Button variant="outline" className="flex items-center gap-2 h-9">
           <Download className="h-4 w-4" />
           Export PDF
         </Button>
-        <Button variant="outline" className="flex items-center gap-2" onClick={handlePrint}>
+        <Button variant="outline" className="flex items-center gap-2 h-9" onClick={handlePrint}>
           <Printer className="h-4 w-4" />
           Print
         </Button>

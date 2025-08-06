@@ -50,66 +50,66 @@ export const RetirementAccumulationInputs = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-2 mb-2">
-        <h2 className="text-xl font-semibold">Analysis Inputs</h2>
+    <div className="space-y-4">
+      <div className="flex items-center gap-2 mb-4">
+        <h2 className="text-lg font-semibold text-foreground">Analysis Inputs</h2>
         <Button
           variant="ghost"
           size="sm"
           onClick={handleHelpClick}
-          className="flex items-center gap-2 text-muted-foreground hover:text-foreground p-1"
+          className="flex items-center gap-1 text-muted-foreground hover:text-foreground p-1 h-auto"
         >
           <HelpCircle className="h-4 w-4" />
         </Button>
       </div>
 
       <Tabs defaultValue="personal" className="w-full" onValueChange={setActiveTab}>
-        <TabsList className="w-full justify-start">
-          <TabsTrigger value="personal" className="flex items-center gap-2">
+        <TabsList className="w-full justify-start bg-muted h-auto p-1 gap-1">
+          <TabsTrigger value="personal" className="flex items-center gap-2 px-3 py-2 text-sm">
             <Users className="h-4 w-4" />
             Personal
           </TabsTrigger>
-          <TabsTrigger value="income-needs" className="flex items-center gap-2">
+          <TabsTrigger value="income-needs" className="flex items-center gap-2 px-3 py-2 text-sm">
             <DollarSign className="h-4 w-4" />
             Income Needs
           </TabsTrigger>
-          <TabsTrigger value="income-sources" className="flex items-center gap-2">
+          <TabsTrigger value="income-sources" className="flex items-center gap-2 px-3 py-2 text-sm">
             <TrendingUp className="h-4 w-4" />
             Income Sources
           </TabsTrigger>
-          <TabsTrigger value="capital" className="flex items-center gap-2">
+          <TabsTrigger value="capital" className="flex items-center gap-2 px-3 py-2 text-sm">
             <TrendingUp className="h-4 w-4" />
             Capital
           </TabsTrigger>
-          <TabsTrigger value="assumptions" className="flex items-center gap-2">
+          <TabsTrigger value="assumptions" className="flex items-center gap-2 px-3 py-2 text-sm">
             <Settings className="h-4 w-4" />
             Assumptions
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="personal" className="space-y-4 mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Personal Information</CardTitle>
+          <Card className="border-border shadow-sm">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-base font-medium">Personal Information</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="pt-0 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-sm">Client 1 Name</Label>
+                  <Label className="text-sm font-medium text-foreground">Client 1 Name</Label>
                   <Input 
                     value={sharedInputs.client1Name}
                     onChange={(e) => updateSharedInput('client1Name', e.target.value)}
                     placeholder="Enter client 1 name" 
-                    className="mt-1" 
+                    className="mt-1.5 h-9" 
                   />
                 </div>
                 <div>
-                  <Label className="text-sm">Client 1 Date of Birth</Label>
+                  <Label className="text-sm font-medium text-foreground">Client 1 Date of Birth</Label>
                   <Input 
                     type="date"
                     value={sharedInputs.client1DateOfBirth}
                     onChange={(e) => updateSharedInput('client1DateOfBirth', e.target.value)}
-                    className="mt-1" 
+                    className="mt-1.5 h-9" 
                   />
                 </div>
               </div>

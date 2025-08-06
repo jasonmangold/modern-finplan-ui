@@ -79,49 +79,49 @@ export const EducationFundingInputs = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between mb-2">
-        <h2 className="text-xl font-semibold">Education Funding Analysis</h2>
+    <div className="space-y-4">
+      <div className="flex items-center gap-2 mb-4">
+        <h2 className="text-lg font-semibold text-foreground">Analysis Inputs</h2>
         <Button
           variant="ghost"
           size="sm"
           onClick={handleHelpClick}
-          className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+          className="flex items-center gap-1 text-muted-foreground hover:text-foreground p-1 h-auto"
         >
           <HelpCircle className="h-4 w-4" />
         </Button>
       </div>
 
       <Tabs defaultValue="personal" className="w-full">
-        <TabsList className="w-full justify-start">
-          <TabsTrigger value="personal" className="flex items-center gap-2">
+        <TabsList className="w-full justify-start bg-muted h-auto p-1 gap-1">
+          <TabsTrigger value="personal" className="flex items-center gap-2 px-3 py-2 text-sm">
             <Users className="h-4 w-4 flex-shrink-0" />
             <span>Personal</span>
           </TabsTrigger>
           {sharedInputs.children.map((child, index) => (
-            <TabsTrigger key={index} value={`child-${index}`} className="flex items-center gap-2">
+            <TabsTrigger key={index} value={`child-${index}`} className="flex items-center gap-2 px-3 py-2 text-sm">
               <GraduationCap className="h-4 w-4 flex-shrink-0" />
               <span>{child.name || `Child ${index + 1}`}</span>
             </TabsTrigger>
           ))}
-          <TabsTrigger value="assumptions" className="flex items-center gap-2">
+          <TabsTrigger value="assumptions" className="flex items-center gap-2 px-3 py-2 text-sm">
             <Settings className="h-4 w-4 flex-shrink-0" />
             <span>Assumptions</span>
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="personal" className="space-y-4 mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center justify-between">
+          <Card className="border-border shadow-sm">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-base font-medium flex items-center justify-between">
                 Dependent Information
-                <Button onClick={addChild} size="sm" variant="outline">
+                <Button onClick={addChild} size="sm" variant="outline" className="h-8">
                   <Plus className="h-4 w-4 mr-2" />
                   Add Child
                 </Button>
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="pt-0 space-y-4">
               {sharedInputs.children.map((child, index) => (
                 <div key={index} className="grid grid-cols-2 gap-4 p-4 border rounded-lg bg-gray-50/50">
                   <div>
