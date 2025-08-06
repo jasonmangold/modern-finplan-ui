@@ -116,7 +116,10 @@ export const GoalDetailView = ({
             <div className={`p-2 rounded-lg bg-gray-100 ${config.color}`}>
               <IconComponent className="h-6 w-6" />
             </div>
-            
+            <div>
+              <h1 className="text-xl font-semibold text-foreground">{config.title}</h1>
+              <p className="text-sm text-muted-foreground">{config.description}</p>
+            </div>
           </div>
         </div>
       </div>
