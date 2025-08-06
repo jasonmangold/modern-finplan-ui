@@ -129,78 +129,78 @@ export const GoalDetailView = ({
       <div className="flex-1 bg-background overflow-hidden">
         <div className="h-full grid grid-cols-5 gap-4 p-6">
           {/* Left Panel - Analysis Inputs */}
-          <div className="col-span-2 space-y-4">
+          <div className="col-span-2 h-full">
             <Card className="h-full flex flex-col">
               <CardHeader className="pb-4 shrink-0">
                 <CardTitle className="text-lg font-semibold text-foreground">Analysis Inputs</CardTitle>
               </CardHeader>
-              <CardContent className="pt-0 flex-1 overflow-hidden">
+              <CardContent className="pt-0 flex-1 min-h-0">
                 <ScrollArea className="h-full">
-                  <GoalInputPanel goalId={goalId} />
+                  <div className="pr-4">
+                    <GoalInputPanel goalId={goalId} />
+                  </div>
                 </ScrollArea>
               </CardContent>
             </Card>
           </div>
 
           {/* Right Panel - Analysis Output */}
-          <div className="col-span-3 space-y-4">
-            <div className="bg-card rounded-lg border border-border shadow-sm h-full overflow-hidden">
-              <div className="h-full flex flex-col">
-                {/* Output Controls */}
-                <div className="border-b border-border px-6 py-4 bg-muted/20">
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm font-semibold text-foreground">View:</span>
-                    <Select value={selectedOutput} onValueChange={setSelectedOutput}>
-                      <SelectTrigger className="w-64 bg-background">
-                        <SelectValue />
-                        {selectedForPresentation.length > 0 && (
-                          <span className="ml-2 px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">
-                            {selectedForPresentation.length} selected
-                          </span>
-                        )}
-                      </SelectTrigger>
-                      <SelectContent className="w-full">
-                        {config.outputs.map(output => (
-                          <div key={output} className="relative">
-                            <SelectItem value={output} className="pr-10">
-                              <span>{output}</span>
-                            </SelectItem>
-                            <div 
-                              className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10" 
-                              onMouseDown={e => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                              }} 
-                              onClick={e => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                handlePresentationToggle(output);
-                              }}
-                            >
-                              <Checkbox 
-                                checked={selectedForPresentation.includes(output)} 
-                                onCheckedChange={() => handlePresentationToggle(output)} 
-                              />
-                            </div>
-                          </div>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                
-                {/* Output Content */}
-                <div className="flex-1 overflow-hidden">
-                  <ScrollArea className="h-full">
-                    <div className="p-6">
-                      {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? (
-                        <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} />
-                      ) : (
-                        <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
+          <div className="col-span-3 h-full">
+            <div className="bg-card rounded-lg border border-border shadow-sm h-full flex flex-col">
+              {/* Output Controls */}
+              <div className="border-b border-border px-6 py-4 bg-muted/20 shrink-0">
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-semibold text-foreground">View:</span>
+                  <Select value={selectedOutput} onValueChange={setSelectedOutput}>
+                    <SelectTrigger className="w-64 bg-background">
+                      <SelectValue />
+                      {selectedForPresentation.length > 0 && (
+                        <span className="ml-2 px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">
+                          {selectedForPresentation.length} selected
+                        </span>
                       )}
-                    </div>
-                  </ScrollArea>
+                    </SelectTrigger>
+                    <SelectContent className="w-full">
+                      {config.outputs.map(output => (
+                        <div key={output} className="relative">
+                          <SelectItem value={output} className="pr-10">
+                            <span>{output}</span>
+                          </SelectItem>
+                          <div 
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10" 
+                            onMouseDown={e => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                            }} 
+                            onClick={e => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handlePresentationToggle(output);
+                            }}
+                          >
+                            <Checkbox 
+                              checked={selectedForPresentation.includes(output)} 
+                              onCheckedChange={() => handlePresentationToggle(output)} 
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
+              </div>
+              
+              {/* Output Content */}
+              <div className="flex-1 min-h-0">
+                <ScrollArea className="h-full">
+                  <div className="p-6 pr-10">
+                    {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? (
+                      <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} />
+                    ) : (
+                      <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
+                    )}
+                  </div>
+                </ScrollArea>
               </div>
             </div>
           </div>
