@@ -45,16 +45,14 @@ export const RetirementAnalysisOutput = ({
   selectedForPresentation?: string[];
 }) => {
   const isSelectedForPresentation = selectedForPresentation.includes("Retirement Analysis");
-
   const handlePrint = () => {
     window.print();
   };
-
   return <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-semibold">Retirement Analysis</h2>
+          
         </div>
       </div>
 
