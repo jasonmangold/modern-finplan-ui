@@ -105,9 +105,9 @@ export const GoalDetailView = ({
       addPresentationItem(newItem);
     }
   };
-  return <div className="h-full flex flex-col">
+  return <div className="h-screen flex flex-col">
       {/* Header Section */}
-      <div className="bg-card border-b border-border px-6 py-4">
+      <div className="bg-card border-b border-border px-6 py-4 shrink-0">
         <div className="flex items-center gap-4">
           <Button variant="outline" onClick={onBack} className="flex items-center gap-2 shrink-0">
             <ArrowLeft className="h-4 w-4" />
@@ -126,26 +126,28 @@ export const GoalDetailView = ({
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 bg-background overflow-hidden">
+      <div className="flex-1 bg-background min-h-0">
         <div className="h-full grid grid-cols-5 gap-4 p-6">
           {/* Left Panel - Analysis Inputs */}
-          <div className="col-span-2 h-full">
+          <div className="col-span-2 h-full min-h-0">
             <Card className="h-full flex flex-col">
               <CardHeader className="pb-4 shrink-0">
                 <CardTitle className="text-lg font-semibold text-foreground">Analysis Inputs</CardTitle>
               </CardHeader>
-              <CardContent className="pt-0 flex-1 min-h-0">
-                <ScrollArea className="h-full">
-                  <div className="pr-4">
-                    <GoalInputPanel goalId={goalId} />
-                  </div>
-                </ScrollArea>
+              <CardContent className="pt-0 flex-1 min-h-0 p-0">
+                <div className="h-full max-h-[calc(100vh-240px)]">
+                  <ScrollArea className="h-full">
+                    <div className="p-6">
+                      <GoalInputPanel goalId={goalId} />
+                    </div>
+                  </ScrollArea>
+                </div>
               </CardContent>
             </Card>
           </div>
 
           {/* Right Panel - Analysis Output */}
-          <div className="col-span-3 h-full">
+          <div className="col-span-3 h-full min-h-0">
             <div className="bg-card rounded-lg border border-border shadow-sm h-full flex flex-col">
               {/* Output Controls */}
               <div className="border-b border-border px-6 py-4 bg-muted/20 shrink-0">
@@ -192,15 +194,17 @@ export const GoalDetailView = ({
               
               {/* Output Content */}
               <div className="flex-1 min-h-0">
-                <ScrollArea className="h-full">
-                  <div className="p-6 pr-10">
-                    {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? (
-                      <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} />
-                    ) : (
-                      <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
-                    )}
-                  </div>
-                </ScrollArea>
+                <div className="h-full max-h-[calc(100vh-240px)]">
+                  <ScrollArea className="h-full">
+                    <div className="p-6">
+                      {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? (
+                        <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} />
+                      ) : (
+                        <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
+                      )}
+                    </div>
+                  </ScrollArea>
+                </div>
               </div>
             </div>
           </div>
