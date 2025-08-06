@@ -1,36 +1,50 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
 import { TrendingUp, Download, Printer } from "lucide-react";
-
 interface GoalOutputPanelProps {
   goalId: string;
   outputType: string;
 }
-
-const sampleData = [
-  { year: 2024, value: 50000, target: 45000 },
-  { year: 2026, value: 75000, target: 70000 },
-  { year: 2028, value: 105000, target: 100000 },
-  { year: 2030, value: 140000, target: 135000 },
-  { year: 2032, value: 180000, target: 175000 },
-  { year: 2034, value: 225000, target: 220000 },
-];
-
-export const GoalOutputPanel = ({ goalId, outputType }: GoalOutputPanelProps) => {
+const sampleData = [{
+  year: 2024,
+  value: 50000,
+  target: 45000
+}, {
+  year: 2026,
+  value: 75000,
+  target: 70000
+}, {
+  year: 2028,
+  value: 105000,
+  target: 100000
+}, {
+  year: 2030,
+  value: 140000,
+  target: 135000
+}, {
+  year: 2032,
+  value: 180000,
+  target: 175000
+}, {
+  year: 2034,
+  value: 225000,
+  target: 220000
+}];
+export const GoalOutputPanel = ({
+  goalId,
+  outputType
+}: GoalOutputPanelProps) => {
   const handlePrint = () => {
     window.print();
   };
-
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-semibold">{outputType}</h2>
-          <p className="text-gray-600">Analysis results and projections</p>
+          
+          
         </div>
         <Badge variant="secondary" className="bg-green-100 text-green-800">
           On Track
@@ -71,22 +85,9 @@ export const GoalOutputPanel = ({ goalId, outputType }: GoalOutputPanelProps) =>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="year" />
               <YAxis />
-              <Tooltip formatter={(value) => [`$${value.toLocaleString()}`, ""]} />
-              <Line 
-                type="monotone" 
-                dataKey="value" 
-                stroke="#3b82f6" 
-                strokeWidth={3} 
-                name="Projected Balance"
-              />
-              <Line 
-                type="monotone" 
-                dataKey="target" 
-                stroke="#10b981" 
-                strokeWidth={2} 
-                strokeDasharray="5 5"
-                name="Target"
-              />
+              <Tooltip formatter={value => [`$${value.toLocaleString()}`, ""]} />
+              <Line type="monotone" dataKey="value" stroke="#3b82f6" strokeWidth={3} name="Projected Balance" />
+              <Line type="monotone" dataKey="target" stroke="#10b981" strokeWidth={2} strokeDasharray="5 5" name="Target" />
             </LineChart>
           </ResponsiveContainer>
         </CardContent>
@@ -124,6 +125,5 @@ export const GoalOutputPanel = ({ goalId, outputType }: GoalOutputPanelProps) =>
           Print
         </Button>
       </div>
-    </div>
-  );
+    </div>;
 };
