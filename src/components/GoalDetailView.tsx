@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { ArrowLeft, GraduationCap, Home, Car, PiggyBank, Shield, Check } from "lucide-react";
 import { useState, useEffect } from "react";
 import { GoalInputPanel } from "./GoalInputPanel";
@@ -105,109 +104,62 @@ export const GoalDetailView = ({
       addPresentationItem(newItem);
     }
   };
-  return <div className="h-screen flex flex-col">
-      {/* Header Section */}
-      <div className="bg-card border-b border-border px-6 py-4 shrink-0">
+  return <div className="h-full flex flex-col p-6">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
-          <Button variant="outline" onClick={onBack} className="flex items-center gap-2 shrink-0">
+          <Button variant="outline" onClick={onBack} className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />
             Back to Goals
           </Button>
           <div className="flex items-center gap-3">
-            <div className={`p-3 rounded-lg bg-muted ${config.color}`}>
+            <div className={`p-2 rounded-lg bg-gray-100 ${config.color}`}>
               <IconComponent className="h-6 w-6" />
             </div>
-            <div>
-              <h1 className="text-2xl font-semibold text-foreground">{config.title}</h1>
-              <p className="text-muted-foreground text-sm">{config.description}</p>
-            </div>
+            
           </div>
         </div>
       </div>
 
-      {/* Main Content Area */}
-      <div className="flex-1 bg-background min-h-0">
-        <div className="h-full grid grid-cols-5 gap-4 p-6">
-          {/* Left Panel - Analysis Inputs */}
-          <div className="col-span-2 h-full min-h-0">
-            <Card className="h-full flex flex-col">
-              <CardHeader className="pb-4 shrink-0">
-                <CardTitle className="text-lg font-semibold text-foreground">Analysis Inputs</CardTitle>
-              </CardHeader>
-              <CardContent className="pt-0 flex-1 min-h-0 p-0">
-                <div className="h-full max-h-[calc(100vh-240px)]">
-                  <ScrollArea className="h-full">
-                    <div className="p-6">
-                      <GoalInputPanel goalId={goalId} />
-                    </div>
-                  </ScrollArea>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+      {/* Main Content with 40/60 split */}
+      <div className="flex-1 grid grid-cols-5 gap-6 overflow-hidden">
+        {/* Left Panel - Inputs (40% - 2 columns) */}
+        <div className="col-span-2 overflow-y-auto">
+          <GoalInputPanel goalId={goalId} />
+        </div>
 
-          {/* Right Panel - Analysis Output */}
-          <div className="col-span-3 h-full min-h-0">
-            <div className="bg-card rounded-lg border border-border shadow-sm h-full flex flex-col">
-              {/* Output Controls */}
-              <div className="border-b border-border px-6 py-4 bg-muted/20 shrink-0">
-                <div className="flex items-center gap-3">
-                  <span className="text-sm font-semibold text-foreground">View:</span>
-                  <Select value={selectedOutput} onValueChange={setSelectedOutput}>
-                    <SelectTrigger className="w-64 bg-background">
-                      <SelectValue />
-                      {selectedForPresentation.length > 0 && (
-                        <span className="ml-2 px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">
-                          {selectedForPresentation.length} selected
-                        </span>
-                      )}
-                    </SelectTrigger>
-                    <SelectContent className="w-full">
-                      {config.outputs.map(output => (
-                        <div key={output} className="relative">
-                          <SelectItem value={output} className="pr-10">
-                            <span>{output}</span>
-                          </SelectItem>
-                          <div 
-                            className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10" 
-                            onMouseDown={e => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                            }} 
-                            onClick={e => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              handlePresentationToggle(output);
-                            }}
-                          >
-                            <Checkbox 
-                              checked={selectedForPresentation.includes(output)} 
-                              onCheckedChange={() => handlePresentationToggle(output)} 
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              
-              {/* Output Content */}
-              <div className="flex-1 min-h-0">
-                <div className="h-full max-h-[calc(100vh-240px)]">
-                  <ScrollArea className="h-full">
-                    <div className="p-6">
-                      {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? (
-                        <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} />
-                      ) : (
-                        <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
-                      )}
+        {/* Right Panel - Outputs (60% - 3 columns) */}
+        <div className="col-span-3 overflow-y-auto">
+          {/* View selector moved to output panel */}
+          <div className="flex items-center gap-3 mb-4 px-1">
+            <span className="text-sm font-medium text-gray-700">View:</span>
+            <Select value={selectedOutput} onValueChange={setSelectedOutput}>
+              <SelectTrigger className="w-64">
+                <SelectValue />
+                {selectedForPresentation.length > 0 && <span className="ml-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+                    {selectedForPresentation.length} selected
+                  </span>}
+              </SelectTrigger>
+              <SelectContent className="w-full">
+                {config.outputs.map(output => <div key={output} className="relative">
+                    <SelectItem value={output} className="pr-10">
+                      <span>{output}</span>
+                    </SelectItem>
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10" onMouseDown={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }} onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handlePresentationToggle(output);
+                }}>
+                      <Checkbox checked={selectedForPresentation.includes(output)} onCheckedChange={() => handlePresentationToggle(output)} />
                     </div>
-                  </ScrollArea>
-                </div>
-              </div>
-            </div>
+                  </div>)}
+              </SelectContent>
+            </Select>
           </div>
+          {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} /> : <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />}
         </div>
       </div>
     </div>;
