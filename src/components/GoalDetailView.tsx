@@ -131,9 +131,7 @@ export const GoalDetailView = ({
           {/* Left Panel - Analysis Inputs */}
           <div className="col-span-2 h-full min-h-0">
             <Card className="h-full flex flex-col">
-              <CardHeader className="pb-4 shrink-0">
-                <CardTitle className="text-lg font-semibold text-foreground">Analysis Inputs</CardTitle>
-              </CardHeader>
+              
               <CardContent className="pt-0 flex-1 min-h-0 p-0">
                 <div className="h-full max-h-[calc(100vh-240px)]">
                   <ScrollArea className="h-full">
@@ -156,37 +154,26 @@ export const GoalDetailView = ({
                   <Select value={selectedOutput} onValueChange={setSelectedOutput}>
                     <SelectTrigger className="w-64 bg-background">
                       <SelectValue />
-                      {selectedForPresentation.length > 0 && (
-                        <span className="ml-2 px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">
+                      {selectedForPresentation.length > 0 && <span className="ml-2 px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">
                           {selectedForPresentation.length} selected
-                        </span>
-                      )}
+                        </span>}
                     </SelectTrigger>
                     <SelectContent className="w-full">
-                      {config.outputs.map(output => (
-                        <div key={output} className="relative">
+                      {config.outputs.map(output => <div key={output} className="relative">
                           <SelectItem value={output} className="pr-10">
                             <span>{output}</span>
                           </SelectItem>
-                          <div 
-                            className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10" 
-                            onMouseDown={e => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                            }} 
-                            onClick={e => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              handlePresentationToggle(output);
-                            }}
-                          >
-                            <Checkbox 
-                              checked={selectedForPresentation.includes(output)} 
-                              onCheckedChange={() => handlePresentationToggle(output)} 
-                            />
+                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10" onMouseDown={e => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }} onClick={e => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handlePresentationToggle(output);
+                      }}>
+                            <Checkbox checked={selectedForPresentation.includes(output)} onCheckedChange={() => handlePresentationToggle(output)} />
                           </div>
-                        </div>
-                      ))}
+                        </div>)}
                     </SelectContent>
                   </Select>
                 </div>
@@ -197,11 +184,7 @@ export const GoalDetailView = ({
                 <div className="h-full max-h-[calc(100vh-240px)]">
                   <ScrollArea className="h-full">
                     <div className="p-6">
-                      {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? (
-                        <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} />
-                      ) : (
-                        <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
-                      )}
+                      {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} /> : <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />}
                     </div>
                   </ScrollArea>
                 </div>
