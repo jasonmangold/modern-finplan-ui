@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { ArrowLeft, GraduationCap, Home, Car, PiggyBank, Shield, Check } from "lucide-react";
 import { useState, useEffect } from "react";
 import { GoalInputPanel } from "./GoalInputPanel";
@@ -129,11 +130,16 @@ export const GoalDetailView = ({
         <div className="h-full grid grid-cols-5 gap-4 p-6">
           {/* Left Panel - Analysis Inputs */}
           <div className="col-span-2 space-y-4">
-            <div className="bg-card rounded-lg border border-border shadow-sm h-full overflow-hidden">
-              <div className="h-full overflow-y-auto p-6">
-                <GoalInputPanel goalId={goalId} />
-              </div>
-            </div>
+            <Card className="h-full flex flex-col">
+              <CardHeader className="pb-4 shrink-0">
+                <CardTitle className="text-lg font-semibold text-foreground">Analysis Inputs</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0 flex-1 overflow-hidden">
+                <ScrollArea className="h-full">
+                  <GoalInputPanel goalId={goalId} />
+                </ScrollArea>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Right Panel - Analysis Output */}
@@ -184,12 +190,16 @@ export const GoalDetailView = ({
                 </div>
                 
                 {/* Output Content */}
-                <div className="flex-1 overflow-y-auto p-6">
-                  {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? (
-                    <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} />
-                  ) : (
-                    <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
-                  )}
+                <div className="flex-1 overflow-hidden">
+                  <ScrollArea className="h-full">
+                    <div className="p-6">
+                      {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? (
+                        <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} />
+                      ) : (
+                        <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
+                      )}
+                    </div>
+                  </ScrollArea>
                 </div>
               </div>
             </div>
