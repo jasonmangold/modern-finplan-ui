@@ -51,13 +51,13 @@ export const RetirementAccumulationInputs = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between mb-2">
+      <div className="flex items-center gap-2 mb-2">
         <h2 className="text-xl font-semibold">Analysis Inputs</h2>
         <Button
           variant="ghost"
           size="sm"
           onClick={handleHelpClick}
-          className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+          className="flex items-center gap-2 text-muted-foreground hover:text-foreground p-1"
         >
           <HelpCircle className="h-4 w-4" />
         </Button>

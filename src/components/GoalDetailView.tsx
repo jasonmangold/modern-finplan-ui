@@ -138,47 +138,6 @@ export const GoalDetailView = ({
             </div>
           </div>
         </div>
-        
-        {/* Output Selector with integrated presentation selection */}
-        <div className="flex items-center gap-3">
-          <span className="text-sm font-medium text-gray-700">View:</span>
-          <Select value={selectedOutput} onValueChange={setSelectedOutput}>
-            <SelectTrigger className="w-64">
-              <SelectValue />
-              {selectedForPresentation.length > 0 && (
-                <span className="ml-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
-                  {selectedForPresentation.length} selected
-                </span>
-              )}
-            </SelectTrigger>
-            <SelectContent className="w-full">
-              {config.outputs.map(output => (
-                <div key={output} className="relative">
-                  <SelectItem value={output} className="pr-10">
-                    <span>{output}</span>
-                  </SelectItem>
-                  <div 
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10"
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                    }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handlePresentationToggle(output);
-                    }}
-                  >
-                    <Checkbox
-                      checked={selectedForPresentation.includes(output)}
-                      onCheckedChange={() => handlePresentationToggle(output)}
-                    />
-                  </div>
-                </div>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
       </div>
 
       {/* Main Content with 40/60 split */}
@@ -190,6 +149,46 @@ export const GoalDetailView = ({
 
         {/* Right Panel - Outputs (60% - 3 columns) */}
         <div className="col-span-3 overflow-y-auto">
+          {/* View selector moved to output panel */}
+          <div className="flex items-center gap-3 mb-4 px-1">
+            <span className="text-sm font-medium text-gray-700">View:</span>
+            <Select value={selectedOutput} onValueChange={setSelectedOutput}>
+              <SelectTrigger className="w-64">
+                <SelectValue />
+                {selectedForPresentation.length > 0 && (
+                  <span className="ml-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+                    {selectedForPresentation.length} selected
+                  </span>
+                )}
+              </SelectTrigger>
+              <SelectContent className="w-full">
+                {config.outputs.map(output => (
+                  <div key={output} className="relative">
+                    <SelectItem value={output} className="pr-10">
+                      <span>{output}</span>
+                    </SelectItem>
+                    <div 
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handlePresentationToggle(output);
+                      }}
+                    >
+                      <Checkbox
+                        checked={selectedForPresentation.includes(output)}
+                        onCheckedChange={() => handlePresentationToggle(output)}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
           {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? (
             <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} />
           ) : (

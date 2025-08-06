@@ -195,13 +195,13 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
       {goalId === "social-security" && <SocialSecurityInputs />}
       {goalId === "college" && (
         <>
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2 mb-2">
             <h2 className="text-xl font-semibold">Analysis Inputs</h2>
             <Button
               variant="ghost"
               size="sm"
               onClick={handleHelpClick}
-              className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+              className="flex items-center gap-2 text-muted-foreground hover:text-foreground p-1"
             >
               <HelpCircle className="h-4 w-4" />
             </Button>
@@ -217,13 +217,13 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
       )}
       {(goalId !== "college" && goalId !== "retirement" && goalId !== "education-funding" && goalId !== "retirement-accumulation" && goalId !== "survivor-needs" && goalId !== "retirement-distribution" && goalId !== "social-security") && (
         <>
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2 mb-2">
             <h2 className="text-xl font-semibold">Analysis Inputs</h2>
             <Button
               variant="ghost"
               size="sm"
               onClick={handleHelpClick}
-              className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+              className="flex items-center gap-2 text-muted-foreground hover:text-foreground p-1"
             >
               <HelpCircle className="h-4 w-4" />
             </Button>
