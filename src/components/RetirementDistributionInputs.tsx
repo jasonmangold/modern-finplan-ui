@@ -121,14 +121,16 @@ export const RetirementDistributionInputs = () => {
                 </div>
               )}
 
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="married" 
-                  checked={sharedInputs.isMarried}
-                  onCheckedChange={(checked) => updateSharedInput('isMarried', checked)}
-                />
-                <Label htmlFor="married" className="text-sm">Married</Label>
-              </div>
+              {sharedInputs.hasClient2 && (
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="married" 
+                    checked={sharedInputs.isMarried}
+                    onCheckedChange={(checked) => updateSharedInput('isMarried', checked)}
+                  />
+                  <Label htmlFor="married" className="text-sm">Married</Label>
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -357,7 +359,7 @@ export const RetirementDistributionInputs = () => {
               {/* Other Assets Section */}
               <div className="space-y-4">
                 <Label className="text-base font-medium text-orange-600">Other Assets</Label>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-5 gap-4">
                   <div>
                     <Label className="text-sm">Balance</Label>
                     <Input placeholder="$50,000" className="mt-1" />
@@ -370,8 +372,6 @@ export const RetirementDistributionInputs = () => {
                     <Label className="text-sm">Interest & Dividends</Label>
                     <Input placeholder="$1,500" className="mt-1" />
                   </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label className="text-sm">Market Growth</Label>
                     <Input placeholder="6%" className="mt-1" />
