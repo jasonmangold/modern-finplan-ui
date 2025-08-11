@@ -107,7 +107,7 @@ export const GoalDetailView = ({
   };
   return <div className="h-screen flex flex-col">
       {/* Header Section */}
-      <div className="bg-card border-b border-border px-6 py-4 shrink-0">
+      <div className="bg-card border-b border-border px-6 py-2 shrink-0">
         <div className="flex items-center gap-4">
           <Button variant="outline" onClick={onBack} className="flex items-center gap-2 shrink-0">
             <ArrowLeft className="h-4 w-4" />
@@ -181,13 +181,11 @@ export const GoalDetailView = ({
               
               {/* Output Content */}
               <div className="flex-1 min-h-0">
-                <div className="h-full max-h-[calc(100vh-240px)]">
-                  <ScrollArea className="h-full">
-                    <div className="p-6">
-                      {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} /> : <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />}
-                    </div>
-                  </ScrollArea>
-                </div>
+                <ScrollArea className="h-full">
+                  <div className="p-6 h-full">
+                    {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} /> : <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />}
+                  </div>
+                </ScrollArea>
               </div>
             </div>
           </div>
