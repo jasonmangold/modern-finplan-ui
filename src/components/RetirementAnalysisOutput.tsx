@@ -49,13 +49,6 @@ export const RetirementAnalysisOutput = ({
     window.print();
   };
     return <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          
-        </div>
-      </div>
-
       {/* Main Analysis Content */}
       <div className="space-y-8">
           {/* Income Goals Section */}
