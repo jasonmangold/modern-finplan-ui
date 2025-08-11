@@ -182,7 +182,7 @@ export const GoalDetailView = ({
               {/* Output Content */}
               <div className="flex-1 min-h-0">
                 <ScrollArea className="h-full">
-                  <div className="h-full">
+                  <div className="p-6 h-full">
                     {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} /> : <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />}
                   </div>
                 </ScrollArea>
