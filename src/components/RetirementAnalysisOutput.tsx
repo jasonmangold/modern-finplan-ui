@@ -48,7 +48,7 @@ export const RetirementAnalysisOutput = ({
   const handlePrint = () => {
     window.print();
   };
-  return <div className="space-y-6">
+    return <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -57,11 +57,7 @@ export const RetirementAnalysisOutput = ({
       </div>
 
       {/* Main Analysis Content */}
-      <Card>
-        <CardHeader className="px-0 mx-0 py-[5px]">
-          
-        </CardHeader>
-        <CardContent className="space-y-8">
+      <div className="space-y-8">
           {/* Income Goals Section */}
           <div className="space-y-4">
             <h3 className="font-semibold text-lg border-b pb-2 text-blue-900">Income Goals</h3>
@@ -239,8 +235,7 @@ export const RetirementAnalysisOutput = ({
               </div>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
 
       {/* Action Buttons */}
       <div className="flex gap-3">

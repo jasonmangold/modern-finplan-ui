@@ -45,11 +45,7 @@ export const CapitalAvailableOutput = ({
   return (
     <div className="space-y-6">
       {/* Main Analysis Content */}
-      <Card>
-        <CardHeader className="px-0 mx-0 py-[5px]">
-          {/* Empty header to match layout */}
-        </CardHeader>
-        <CardContent className="space-y-8">
+      <div className="space-y-8">
           {/* Current Assets Section */}
           <div className="space-y-4">
             <h3 className="font-semibold text-lg border-b pb-2 text-blue-900">Current Assets</h3>
@@ -206,8 +202,7 @@ export const CapitalAvailableOutput = ({
             <p><sup>1</sup> Monthly amounts shown are in today's dollars.</p>
             <p className="mt-2">Values shown in this presentation are hypothetical and not a promise of future performance.</p>
           </div>
-        </CardContent>
-      </Card>
+        </div>
 
       {/* Action Buttons */}
       <div className="flex gap-3">
