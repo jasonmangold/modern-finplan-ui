@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { GoalInputPanel } from "./GoalInputPanel";
 import { GoalOutputPanel } from "./GoalOutputPanel";
 import { RetirementAnalysisOutput } from "./RetirementAnalysisOutput";
+import { CapitalAvailableOutput } from "./CapitalAvailableOutput";
 import { usePresentationContext } from "@/contexts/PresentationContext";
 const goalConfigs = {
   college: {
@@ -183,7 +184,13 @@ export const GoalDetailView = ({
               <div className="flex-1 min-h-0">
                 <ScrollArea className="h-full">
                   <div className="p-6 h-full">
-                    {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} /> : <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />}
+                    {goalId === "retirement-accumulation" && selectedOutput === "Retirement Analysis" ? (
+                      <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} />
+                    ) : goalId === "retirement-accumulation" && selectedOutput === "Capital Available for Retirement" ? (
+                      <CapitalAvailableOutput selectedForPresentation={selectedForPresentation} />
+                    ) : (
+                      <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
+                    )}
                   </div>
                 </ScrollArea>
               </div>
