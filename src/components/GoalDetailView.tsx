@@ -10,6 +10,7 @@ import { GoalOutputPanel } from "./GoalOutputPanel";
 import { RetirementAnalysisOutput } from "./RetirementAnalysisOutput";
 import { CapitalAvailableOutput } from "./CapitalAvailableOutput";
 import { AlternativesToRetirementOutput } from "./AlternativesToRetirementOutput";
+import { SurvivorNeedsOutput } from "./SurvivorNeedsOutput";
 import { usePresentationContext } from "@/contexts/PresentationContext";
 const goalConfigs = {
   college: {
@@ -65,8 +66,8 @@ const goalConfigs = {
     icon: Shield,
     color: "text-red-600",
     description: "Analyze insurance needs for survivors",
-    outputs: ["Life Insurance Analysis", "Income Replacement", "Capital Needs", "Timeline Projections"],
-    defaultOutput: "Life Insurance Analysis"
+    outputs: ["Survivor Needs - Client 1 dies", "Survivor's Immediate Needs - Client 1 dies", "Survivor Needs Timeline - Client 1 dies", "Survivor Analysis Detail - Client 1 dies", "Survivor Needs - Client 2 dies", "Survivor's Immediate Needs - Client 2 dies", "Survivor Needs Timeline - Client 2 dies", "Survivor Analysis Detail - Client 2 dies", "Survivor Needs Analysis Data - Fact Finder"],
+    defaultOutput: "Survivor Needs - Client 1 dies"
   }
 };
 interface GoalDetailViewProps {
@@ -191,6 +192,8 @@ export const GoalDetailView = ({
                       <CapitalAvailableOutput selectedForPresentation={selectedForPresentation} />
                     ) : goalId === "retirement-accumulation" && selectedOutput === "Alternatives to Achieving Retirement Goals" ? (
                       <AlternativesToRetirementOutput selectedForPresentation={selectedForPresentation} />
+                    ) : goalId === "survivor-needs" && selectedOutput === "Survivor Needs - Client 1 dies" ? (
+                      <SurvivorNeedsOutput selectedForPresentation={selectedForPresentation} />
                     ) : (
                       <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
                     )}
