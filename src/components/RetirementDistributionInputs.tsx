@@ -121,12 +121,12 @@ export const RetirementDistributionInputs = () => {
                 </div>
               )}
 
-              {sharedInputs.hasClient2 && (
+              {sharedInputs.hasClient2 === true && (
                 <div className="flex items-center space-x-2">
                   <Checkbox 
                     id="married" 
-                    checked={sharedInputs.isMarried}
-                    onCheckedChange={(checked) => updateSharedInput('isMarried', checked)}
+                    checked={sharedInputs.isMarried || false}
+                    onCheckedChange={(checked) => updateSharedInput('isMarried', !!checked)}
                   />
                   <Label htmlFor="married" className="text-sm">Married</Label>
                 </div>
