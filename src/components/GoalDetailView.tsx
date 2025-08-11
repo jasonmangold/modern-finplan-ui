@@ -9,6 +9,7 @@ import { GoalInputPanel } from "./GoalInputPanel";
 import { GoalOutputPanel } from "./GoalOutputPanel";
 import { RetirementAnalysisOutput } from "./RetirementAnalysisOutput";
 import { CapitalAvailableOutput } from "./CapitalAvailableOutput";
+import { AlternativesToRetirementOutput } from "./AlternativesToRetirementOutput";
 import { usePresentationContext } from "@/contexts/PresentationContext";
 const goalConfigs = {
   college: {
@@ -188,6 +189,8 @@ export const GoalDetailView = ({
                       <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} />
                     ) : goalId === "retirement-accumulation" && selectedOutput === "Capital Available for Retirement" ? (
                       <CapitalAvailableOutput selectedForPresentation={selectedForPresentation} />
+                    ) : goalId === "retirement-accumulation" && selectedOutput === "Alternatives to Achieving Retirement Goals" ? (
+                      <AlternativesToRetirementOutput selectedForPresentation={selectedForPresentation} />
                     ) : (
                       <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
                     )}
