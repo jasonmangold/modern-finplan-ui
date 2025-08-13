@@ -156,21 +156,38 @@ const planningGoals = [{
   color: "bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700",
   iconColor: "text-gray-600 dark:text-gray-400"
 }];
+
+const factFinderItem = {
+  id: "fact-finders",
+  title: "Fact Finders",
+  icon: FileText,
+  description: "Client data collection forms",
+  status: "Available",
+  completed: false,
+  color: "bg-indigo-50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800",
+  iconColor: "text-indigo-600 dark:text-indigo-400"
+};
 interface GoalsBasedModeProps {
   onGoalSelect: (goalId: string) => void;
   onShowFitnessScore: () => void;
   onShowAnalysisGoals?: () => void;
   onShowFinancialInventory?: () => void;
+  onShowFactFinders?: () => void;
 }
 export const GoalsBasedMode = ({
   onGoalSelect,
   onShowFitnessScore,
   onShowAnalysisGoals,
-  onShowFinancialInventory
+  onShowFinancialInventory,
+  onShowFactFinders
 }: GoalsBasedModeProps) => {
   const handleGoalClick = (goalId: string) => {
-    console.log(`Opening goal wizard for: ${goalId}`);
-    onGoalSelect(goalId);
+    if (goalId === "fact-finders") {
+      onShowFactFinders?.();
+    } else {
+      console.log(`Opening goal wizard for: ${goalId}`);
+      onGoalSelect(goalId);
+    }
   };
   const completedGoals = planningGoals.filter(goal => goal.completed).length;
   return <div className="h-full p-6 space-y-6 bg-background dark:bg-gray-900 py-[2px]">
@@ -215,7 +232,7 @@ export const GoalsBasedMode = ({
 
       {/* Goals Grid - Full Screen with proper spacing */}
       <div className="grid grid-cols-3 gap-6 h-[calc(100%-120px)] overflow-y-auto">
-        {planningGoals.map(goal => {
+        {[...planningGoals, factFinderItem].map(goal => {
         const IconComponent = goal.icon;
         return <Card key={goal.id} className={`cursor-pointer transition-all hover:shadow-lg hover:scale-105 ${goal.color} h-fit`} onClick={() => handleGoalClick(goal.id)}>
               <CardHeader className="pb-4">

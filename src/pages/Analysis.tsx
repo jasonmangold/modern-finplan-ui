@@ -7,11 +7,12 @@ import { GoalsBasedMode } from "@/components/GoalsBasedMode";
 import { GoalDetailView } from "@/components/GoalDetailView";
 import { FinancialFitnessScore } from "@/components/FinancialFitnessScore";
 import { FinancialInventory } from "@/components/FinancialInventory";
+import { FactFinders } from "@/components/FactFinders";
 import { FormProvider } from "@/contexts/FormContext";
 import { Award } from "lucide-react";
 
 const Analysis = () => {
-  const [viewMode, setViewMode] = useState<"comprehensive" | "goals-based" | "fitness-score" | "financial-inventory">("goals-based");
+  const [viewMode, setViewMode] = useState<"comprehensive" | "goals-based" | "fitness-score" | "financial-inventory" | "fact-finders">("goals-based");
   const [selectedGoal, setSelectedGoal] = useState<string | null>(null);
 
   const handleGoalSelect = (goalId: string) => {
@@ -43,6 +44,14 @@ const Analysis = () => {
     setViewMode("goals-based");
   };
 
+  const handleShowFactFinders = () => {
+    setViewMode("fact-finders");
+  };
+
+  const handleBackFromFactFinders = () => {
+    setViewMode("goals-based");
+  };
+
   const handleViewModeChange = (value: string) => {
     setViewMode(value as "comprehensive" | "goals-based");
   };
@@ -51,8 +60,8 @@ const Analysis = () => {
     <FormProvider>
       <div className="h-[calc(100vh-4rem)] overflow-hidden">
         <div className="h-full flex flex-col">
-          {/* View Mode Toggle - centered and only show when not in goal detail or fitness score or financial inventory */}
-          {!selectedGoal && viewMode !== "fitness-score" && viewMode !== "financial-inventory" && (
+          {/* View Mode Toggle - centered and only show when not in goal detail or fitness score or financial inventory or fact finders */}
+          {!selectedGoal && viewMode !== "fitness-score" && viewMode !== "financial-inventory" && viewMode !== "fact-finders" && (
             <div className="flex justify-center py-4 border-b border-gray-200 dark:border-gray-700 bg-background dark:bg-gray-900">
               <AnimatedTabs 
                 tabs={[
@@ -78,12 +87,15 @@ const Analysis = () => {
               <FinancialFitnessScore onBack={handleBackFromFitnessScore} />
             ) : viewMode === "financial-inventory" ? (
               <FinancialInventory onBack={handleBackFromFinancialInventory} />
+            ) : viewMode === "fact-finders" ? (
+              <FactFinders onBack={handleBackFromFactFinders} />
             ) : (
               <GoalsBasedMode 
                 onGoalSelect={handleGoalSelect} 
                 onShowFitnessScore={handleShowFitnessScore}
                 onShowAnalysisGoals={handleShowAnalysisGoals}
                 onShowFinancialInventory={handleShowFinancialInventory}
+                onShowFactFinders={handleShowFactFinders}
               />
             )}
           </div>
