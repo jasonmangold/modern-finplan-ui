@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown, ChevronRight, FileText, FolderOpen, Folder, ArrowLeft } from "lucide-react";
+import { ChevronDown, ChevronRight, FileText, FolderOpen, Folder, ArrowLeft, Plus } from "lucide-react";
 
 interface FactFindersProps {
   onBack: () => void;
@@ -37,9 +38,32 @@ const printablePDFReports = [
   "Key Employee"
 ];
 
+const allFinancialGoals = [
+  "Education Funding",
+  "Survivor Needs", 
+  "Retirement Accumulation",
+  "Retirement Distribution",
+  "Social Security",
+  "Disability",
+  "Critical Illness", 
+  "Long-Term Care",
+  "Estate Analysis",
+  "Accumulation Funding",
+  "Asset Allocation",
+  "Charitable Remainder Trust",
+  "Personal Finance",
+  "Debt Repayment",
+  "Business Continuation",
+  "Business Valuation",
+  "Key Employee"
+];
+
 export const FactFinders = ({ onBack }: FactFindersProps) => {
   const [expandedFolders, setExpandedFolders] = useState<string[]>([]);
   const [selectedReport, setSelectedReport] = useState<string>("");
+  const [showBuildYourOwn, setShowBuildYourOwn] = useState<boolean>(false);
+  const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
+  const [builtReport, setBuiltReport] = useState<string>("");
 
   const toggleFolder = (folderId: string) => {
     setExpandedFolders(prev => 
@@ -51,6 +75,28 @@ export const FactFinders = ({ onBack }: FactFindersProps) => {
 
   const handleReportClick = (reportName: string) => {
     setSelectedReport(reportName);
+    setBuiltReport("");
+  };
+
+  const handleBuildYourOwnClick = () => {
+    setShowBuildYourOwn(!showBuildYourOwn);
+    setSelectedReport("");
+    setBuiltReport("");
+  };
+
+  const handleGoalToggle = (goalName: string) => {
+    setSelectedGoals(prev => 
+      prev.includes(goalName)
+        ? prev.filter(goal => goal !== goalName)
+        : [...prev, goalName]
+    );
+  };
+
+  const handleBuildReport = () => {
+    if (selectedGoals.length > 0) {
+      setBuiltReport(`Custom Fact Finder - ${selectedGoals.join(", ")}`);
+      setSelectedReport("");
+    }
   };
 
   return (
@@ -209,6 +255,50 @@ export const FactFinders = ({ onBack }: FactFindersProps) => {
               ))}
             </CollapsibleContent>
           </Collapsible>
+
+          {/* Build Your Own Section */}
+          <div className="pt-4 border-t border-border">
+            <Button 
+              variant="outline"
+              className="w-full justify-start gap-2"
+              onClick={handleBuildYourOwnClick}
+            >
+              <Plus className="h-4 w-4" />
+              Build Your Own
+            </Button>
+            
+            {showBuildYourOwn && (
+              <div className="mt-4 space-y-3">
+                <p className="text-sm font-medium text-muted-foreground">
+                  Select topics for your custom fact finder:
+                </p>
+                <div className="space-y-2 max-h-64 overflow-y-auto">
+                  {allFinancialGoals.map((goal) => (
+                    <div key={goal} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={goal}
+                        checked={selectedGoals.includes(goal)}
+                        onCheckedChange={() => handleGoalToggle(goal)}
+                      />
+                      <label
+                        htmlFor={goal}
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        {goal}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+                <Button 
+                  onClick={handleBuildReport}
+                  disabled={selectedGoals.length === 0}
+                  className="w-full"
+                >
+                  Build ({selectedGoals.length} selected)
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -216,10 +306,10 @@ export const FactFinders = ({ onBack }: FactFindersProps) => {
       <div className="flex-1 p-6">
         <Card className="h-full">
           <CardContent className="h-full p-6">
-            {selectedReport ? (
+            {selectedReport || builtReport ? (
               <div className="h-full flex flex-col">
                 <div className="mb-4">
-                  <h3 className="text-lg font-semibold">{selectedReport}</h3>
+                  <h3 className="text-lg font-semibold">{selectedReport || builtReport}</h3>
                   <p className="text-sm text-muted-foreground">PDF Report</p>
                 </div>
                 <div className="flex-1 bg-muted rounded-lg flex items-center justify-center">
@@ -227,7 +317,7 @@ export const FactFinders = ({ onBack }: FactFindersProps) => {
                     <FileText className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
                     <p className="text-lg font-medium mb-2">PDF Viewer Placeholder</p>
                     <p className="text-sm text-muted-foreground">
-                      {selectedReport} will be displayed here
+                      {selectedReport || builtReport} will be displayed here
                     </p>
                   </div>
                 </div>
@@ -238,7 +328,7 @@ export const FactFinders = ({ onBack }: FactFindersProps) => {
                   <FileText className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
                   <p className="text-lg font-medium mb-2">Select a Report</p>
                   <p className="text-sm text-muted-foreground">
-                    Choose a report from the folder structure to view it here
+                    Choose a report from the folder structure or build your own custom fact finder
                   </p>
                 </div>
               </div>
