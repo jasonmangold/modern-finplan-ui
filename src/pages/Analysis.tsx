@@ -29,6 +29,16 @@ const Analysis = () => {
     setViewMode("goals-based");
   };
 
+  const handleShowAnalysisGoals = () => {
+    // Placeholder for Analysis Goals functionality
+    console.log("Analysis Goals clicked");
+  };
+
+  const handleShowFinancialInventory = () => {
+    // Placeholder for Financial Inventory functionality
+    console.log("Financial Inventory clicked");
+  };
+
   const handleViewModeChange = (value: string) => {
     setViewMode(value as "comprehensive" | "goals-based");
   };
@@ -66,6 +76,8 @@ const Analysis = () => {
               <GoalsBasedMode 
                 onGoalSelect={handleGoalSelect} 
                 onShowFitnessScore={handleShowFitnessScore}
+                onShowAnalysisGoals={handleShowAnalysisGoals}
+                onShowFinancialInventory={handleShowFinancialInventory}
               />
             )}
           </div>

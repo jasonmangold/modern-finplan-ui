@@ -159,10 +159,14 @@ const planningGoals = [{
 interface GoalsBasedModeProps {
   onGoalSelect: (goalId: string) => void;
   onShowFitnessScore: () => void;
+  onShowAnalysisGoals?: () => void;
+  onShowFinancialInventory?: () => void;
 }
 export const GoalsBasedMode = ({
   onGoalSelect,
-  onShowFitnessScore
+  onShowFitnessScore,
+  onShowAnalysisGoals,
+  onShowFinancialInventory
 }: GoalsBasedModeProps) => {
   const handleGoalClick = (goalId: string) => {
     console.log(`Opening goal wizard for: ${goalId}`);
@@ -178,10 +182,35 @@ export const GoalsBasedMode = ({
             {completedGoals} of {planningGoals.length} goals in progress
           </p>
         </div>
-        <ShimmerButton className="flex items-center gap-2" onClick={onShowFitnessScore} shimmerColor="#000000" shimmerDuration="2s">
-          <Award className="h-4 w-4" />
-          Financial Fitness Score
-        </ShimmerButton>
+        <div className="flex items-center gap-3">
+          <ShimmerButton 
+            className="flex items-center gap-2 px-4 py-2 text-sm" 
+            onClick={onShowAnalysisGoals}
+            shimmerColor="#3b82f6" 
+            shimmerDuration="2s"
+          >
+            <Target className="h-4 w-4" />
+            Analysis Goals
+          </ShimmerButton>
+          <ShimmerButton 
+            className="flex items-center gap-2 px-4 py-2 text-sm" 
+            onClick={onShowFinancialInventory}
+            shimmerColor="#10b981" 
+            shimmerDuration="2s"
+          >
+            <BarChart3 className="h-4 w-4" />
+            Financial Inventory
+          </ShimmerButton>
+          <ShimmerButton 
+            className="flex items-center gap-2 px-4 py-2 text-sm" 
+            onClick={onShowFitnessScore} 
+            shimmerColor="#f59e0b" 
+            shimmerDuration="2s"
+          >
+            <Award className="h-4 w-4" />
+            Financial Fitness Score
+          </ShimmerButton>
+        </div>
       </div>
 
       {/* Goals Grid - Full Screen with proper spacing */}
