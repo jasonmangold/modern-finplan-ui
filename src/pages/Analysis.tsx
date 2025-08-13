@@ -6,11 +6,12 @@ import { ComprehensiveInputMode } from "@/components/ComprehensiveInputMode";
 import { GoalsBasedMode } from "@/components/GoalsBasedMode";
 import { GoalDetailView } from "@/components/GoalDetailView";
 import { FinancialFitnessScore } from "@/components/FinancialFitnessScore";
+import { FinancialInventory } from "@/components/FinancialInventory";
 import { FormProvider } from "@/contexts/FormContext";
 import { Award } from "lucide-react";
 
 const Analysis = () => {
-  const [viewMode, setViewMode] = useState<"comprehensive" | "goals-based" | "fitness-score">("goals-based");
+  const [viewMode, setViewMode] = useState<"comprehensive" | "goals-based" | "fitness-score" | "financial-inventory">("goals-based");
   const [selectedGoal, setSelectedGoal] = useState<string | null>(null);
 
   const handleGoalSelect = (goalId: string) => {
@@ -35,8 +36,11 @@ const Analysis = () => {
   };
 
   const handleShowFinancialInventory = () => {
-    // Placeholder for Financial Inventory functionality
-    console.log("Financial Inventory clicked");
+    setViewMode("financial-inventory");
+  };
+
+  const handleBackFromFinancialInventory = () => {
+    setViewMode("goals-based");
   };
 
   const handleViewModeChange = (value: string) => {
@@ -47,8 +51,8 @@ const Analysis = () => {
     <FormProvider>
       <div className="h-[calc(100vh-4rem)] overflow-hidden">
         <div className="h-full flex flex-col">
-          {/* View Mode Toggle - centered and only show when not in goal detail or fitness score */}
-          {!selectedGoal && viewMode !== "fitness-score" && (
+          {/* View Mode Toggle - centered and only show when not in goal detail or fitness score or financial inventory */}
+          {!selectedGoal && viewMode !== "fitness-score" && viewMode !== "financial-inventory" && (
             <div className="flex justify-center py-4 border-b border-gray-200 dark:border-gray-700 bg-background dark:bg-gray-900">
               <AnimatedTabs 
                 tabs={[
@@ -72,6 +76,8 @@ const Analysis = () => {
               <ComprehensiveInputMode onSeeResults={() => setViewMode("goals-based")} />
             ) : viewMode === "fitness-score" ? (
               <FinancialFitnessScore onBack={handleBackFromFitnessScore} />
+            ) : viewMode === "financial-inventory" ? (
+              <FinancialInventory onBack={handleBackFromFinancialInventory} />
             ) : (
               <GoalsBasedMode 
                 onGoalSelect={handleGoalSelect} 
