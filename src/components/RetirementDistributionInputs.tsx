@@ -461,24 +461,28 @@ export const RetirementDistributionInputs = () => {
 
                 <div className="grid grid-cols-3 gap-4">
                   <div className="space-y-2">
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="present" id="present-value" />
-                      <Label htmlFor="present-value" className="text-sm">Present value</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="future" id="future-value" defaultChecked />
-                      <Label htmlFor="future-value" className="text-sm">Future value</Label>
-                    </div>
+                    <RadioGroup defaultValue="future">
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="present" id="present-value" />
+                        <Label htmlFor="present-value" className="text-sm">Present value</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="future" id="future-value" />
+                        <Label htmlFor="future-value" className="text-sm">Future value</Label>
+                      </div>
+                    </RadioGroup>
                   </div>
                   <div className="space-y-2">
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="monthly" id="monthly-amount" defaultChecked />
-                      <Label htmlFor="monthly-amount" className="text-sm">Monthly amount</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="lump" id="lump-sum" />
-                      <Label htmlFor="lump-sum" className="text-sm">Lump sum</Label>
-                    </div>
+                    <RadioGroup defaultValue="monthly">
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="monthly" id="monthly-amount" />
+                        <Label htmlFor="monthly-amount" className="text-sm">Monthly amount</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="lump" id="lump-sum" />
+                        <Label htmlFor="lump-sum" className="text-sm">Lump sum</Label>
+                      </div>
+                    </RadioGroup>
                   </div>
                   <div className="space-y-2">
                     <div className="flex items-center space-x-2">
