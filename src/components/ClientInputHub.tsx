@@ -40,15 +40,11 @@ export const ClientInputHub = () => {
   const checkSectionCompletion = (sectionId: string, data: Record<string, any>) => {
     const requiredFields: Record<string, string[]> = {
       personal: ['primaryClient', 'age'],
-      income: ['grossIncome', 'annualExpenses'],
-      retirement: ['retirementAge', 'currentRetirementSavings'],
-      education: [],
-      savings: ['401kBalance', 'cashSavings'],
-      expenses: ['monthlyExpenses'],
+      income: ['grossIncome'],
       assets: ['homeValue', 'totalAssets'],
+      liabilities: [],
       insurance: ['lifeInsurance'],
-      goals: [],
-      assumptions: ['inflationRate']
+      expenses: ['annualExpenses']
     };
 
     const required = requiredFields[sectionId] || [];
@@ -107,7 +103,7 @@ export const ClientInputHub = () => {
 
   // Check all sections when formData changes
   useEffect(() => {
-    ['personal', 'income', 'retirement', 'education', 'savings', 'expenses', 'assets', 'insurance', 'goals', 'assumptions'].forEach(sectionId => {
+    ['personal', 'income', 'assets', 'liabilities', 'insurance', 'expenses'].forEach(sectionId => {
       checkSectionCompletion(sectionId, formData);
     });
   }, [formData]);
@@ -123,17 +119,13 @@ export const ClientInputHub = () => {
         </CardHeader>
         <CardContent className="px-0 h-[calc(100%-80px)] overflow-hidden">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full">
-            <TabsList className="grid w-full grid-cols-10 mb-4 mx-6 text-xs">
+            <TabsList className="grid w-full grid-cols-6 mb-4 mx-6 text-xs">
               <TabsTrigger value="personal" className="text-xs">Personal</TabsTrigger>
               <TabsTrigger value="income" className="text-xs">Income</TabsTrigger>
-              <TabsTrigger value="retirement" className="text-xs">Retirement</TabsTrigger>
-              <TabsTrigger value="education" className="text-xs">Education</TabsTrigger>
-              <TabsTrigger value="savings" className="text-xs">Savings</TabsTrigger>
-              <TabsTrigger value="expenses" className="text-xs">Expenses</TabsTrigger>
               <TabsTrigger value="assets" className="text-xs">Assets</TabsTrigger>
+              <TabsTrigger value="liabilities" className="text-xs">Liabilities</TabsTrigger>
               <TabsTrigger value="insurance" className="text-xs">Insurance</TabsTrigger>
-              <TabsTrigger value="goals" className="text-xs">Goals</TabsTrigger>
-              <TabsTrigger value="assumptions" className="text-xs">Assumptions</TabsTrigger>
+              <TabsTrigger value="expenses" className="text-xs">Expenses</TabsTrigger>
             </TabsList>
 
             <div className="h-[calc(100%-60px)] overflow-y-auto px-6">
@@ -343,15 +335,6 @@ export const ClientInputHub = () => {
                     </div>
                   )}
 
-                  <div>
-                    <Label className="text-sm font-medium text-foreground">Annual Expenses</Label>
-                    <Input 
-                      value={formData.annualExpenses || ""} 
-                      className="mt-1.5 h-9"
-                      onChange={(e) => handleInputChange('income', 'annualExpenses', e.target.value)}
-                    />
-                  </div>
-
                   {/* Client 1 Other Income Sources */}
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
@@ -502,11 +485,226 @@ export const ClientInputHub = () => {
                 </div>
               </TabsContent>
 
-              <TabsContent value="retirement" className="space-y-6 mt-0">
+              <TabsContent value="assets" className="space-y-6 mt-0">
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 mb-3">
-                    <PiggyBank className="h-4 w-4 text-primary" />
-                    <h3 className="font-medium text-foreground">Retirement Planning</h3>
+                    <TrendingUp className="h-4 w-4 text-primary" />
+                    <h3 className="font-medium text-foreground">Assets & Investments</h3>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Current Retirement Savings</Label>
+                      <Input 
+                        value={formData.currentRetirementSavings || ""} 
+                        className="mt-1.5 h-9"
+                        placeholder="$500,000"
+                        onChange={(e) => handleInputChange('assets', 'currentRetirementSavings', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Monthly Retirement Contribution</Label>
+                      <Input 
+                        value={formData.monthlyRetirementContribution || ""} 
+                        className="mt-1.5 h-9"
+                        placeholder="$1,500"
+                        onChange={(e) => handleInputChange('assets', 'monthlyRetirementContribution', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">401k Balance</Label>
+                      <Input 
+                        value={formData.fourZeroOneKBalance || ""} 
+                        className="mt-1.5 h-9"
+                        onChange={(e) => handleInputChange('assets', 'fourZeroOneKBalance', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Cash Savings</Label>
+                      <Input 
+                        value={formData.cashSavings || ""} 
+                        className="mt-1.5 h-9"
+                        onChange={(e) => handleInputChange('assets', 'cashSavings', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Home Value</Label>
+                      <Input 
+                        value={formData.homeValue || ""} 
+                        className="mt-1.5 h-9"
+                        onChange={(e) => handleInputChange('assets', 'homeValue', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Other Real Estate</Label>
+                      <Input 
+                        value={formData.otherRealEstate || ""} 
+                        className="mt-1.5 h-9"
+                        onChange={(e) => handleInputChange('assets', 'otherRealEstate', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Vehicles Value</Label>
+                      <Input 
+                        value={formData.vehiclesValue || ""} 
+                        className="mt-1.5 h-9"
+                        onChange={(e) => handleInputChange('assets', 'vehiclesValue', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Other Assets</Label>
+                      <Input 
+                        value={formData.otherAssets || ""} 
+                        className="mt-1.5 h-9"
+                        onChange={(e) => handleInputChange('assets', 'otherAssets', e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Education Funding */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-sm font-medium text-foreground">Education Goals</Label>
+                      <Button onClick={addEducationGoal} size="sm" variant="outline">
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add Child
+                      </Button>
+                    </div>
+
+                    {educationGoals.map((goal, index) => (
+                      <Card key={index} className="p-4 border border-border">
+                        <div className="flex items-center justify-between mb-3">
+                          <Label className="text-sm font-medium">Child {index + 1}</Label>
+                          <Button 
+                            onClick={() => removeEducationGoal(index)} 
+                            size="sm" 
+                            variant="outline"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <Label className="text-sm">Child's Name</Label>
+                            <Input 
+                              value={goal.child}
+                              onChange={(e) => updateEducationGoal(index, 'child', e.target.value)}
+                              placeholder="Enter child's name" 
+                              className="mt-1 h-9" 
+                            />
+                          </div>
+                          <div>
+                            <Label className="text-sm">Years Until College</Label>
+                            <Input 
+                              value={goal.yearsUntilCollege}
+                              onChange={(e) => updateEducationGoal(index, 'yearsUntilCollege', e.target.value)}
+                              placeholder="10" 
+                              className="mt-1 h-9" 
+                            />
+                          </div>
+                          <div>
+                            <Label className="text-sm">School Type</Label>
+                            <Select 
+                              value={goal.schoolType} 
+                              onValueChange={(value) => updateEducationGoal(index, 'schoolType', value)}
+                            >
+                              <SelectTrigger className="mt-1 h-9">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent className="bg-background border border-border z-50">
+                                <SelectItem value="public">Public In-State</SelectItem>
+                                <SelectItem value="public-out">Public Out-of-State</SelectItem>
+                                <SelectItem value="private">Private</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div>
+                            <Label className="text-sm">Current Annual Cost</Label>
+                            <Input 
+                              value={goal.currentCost}
+                              onChange={(e) => updateEducationGoal(index, 'currentCost', e.target.value)}
+                              placeholder="$25,000" 
+                              className="mt-1 h-9" 
+                            />
+                          </div>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="liabilities" className="space-y-6 mt-0">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <CreditCard className="h-4 w-4 text-primary" />
+                    <h3 className="font-medium text-foreground">Liabilities & Debt</h3>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Mortgage Balance</Label>
+                      <Input 
+                        value={formData.mortgageBalance || ""} 
+                        className="mt-1.5 h-9"
+                        placeholder="$250,000"
+                        onChange={(e) => handleInputChange('liabilities', 'mortgageBalance', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Monthly Mortgage Payment</Label>
+                      <Input 
+                        value={formData.monthlyMortgagePayment || ""} 
+                        className="mt-1.5 h-9"
+                        placeholder="$2,200"
+                        onChange={(e) => handleInputChange('liabilities', 'monthlyMortgagePayment', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Credit Card Debt</Label>
+                      <Input 
+                        value={formData.creditCardDebt || ""} 
+                        className="mt-1.5 h-9"
+                        placeholder="$5,000"
+                        onChange={(e) => handleInputChange('liabilities', 'creditCardDebt', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Student Loans</Label>
+                      <Input 
+                        value={formData.studentLoans || ""} 
+                        className="mt-1.5 h-9"
+                        placeholder="$15,000"
+                        onChange={(e) => handleInputChange('liabilities', 'studentLoans', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Car Loans</Label>
+                      <Input 
+                        value={formData.carLoans || ""} 
+                        className="mt-1.5 h-9"
+                        placeholder="$25,000"
+                        onChange={(e) => handleInputChange('liabilities', 'carLoans', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Other Debt</Label>
+                      <Input 
+                        value={formData.otherDebt || ""} 
+                        className="mt-1.5 h-9"
+                        placeholder="$0"
+                        onChange={(e) => handleInputChange('liabilities', 'otherDebt', e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="insurance" className="space-y-6 mt-0">
+                <div className="space-y-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Shield className="h-4 w-4 text-primary" />
+                    <h3 className="font-medium text-foreground">Insurance & Protection</h3>
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4">
