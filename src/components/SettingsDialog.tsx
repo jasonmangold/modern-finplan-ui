@@ -86,9 +86,12 @@ export const SettingsDialog = ({ open, onOpenChange }: SettingsDialogProps) => {
   });
 
   const [billingInfo, setBillingInfo] = useState({
-    plan: "Professional",
-    nextBilling: "2024-07-15",
-    cardLast4: "1234"
+    currentPlan: "Advisys Advanced",
+    autoRenewal: true,
+    nextBillingDate: "07/15/2024",
+    expirationDate: "07/15/2024",
+    cardLast4: "1234",
+    cardExpiration: "12/26"
   });
 
   return (
@@ -102,11 +105,10 @@ export const SettingsDialog = ({ open, onOpenChange }: SettingsDialogProps) => {
         </DialogHeader>
         
         <Tabs defaultValue="global-assumptions" className="w-full">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="global-assumptions">Global Assumptions</TabsTrigger>
             <TabsTrigger value="options">Options</TabsTrigger>
             <TabsTrigger value="change-password">Change Password</TabsTrigger>
-            <TabsTrigger value="account-info">Account Info</TabsTrigger>
             <TabsTrigger value="billing">Billing</TabsTrigger>
           </TabsList>
 
@@ -604,78 +606,45 @@ export const SettingsDialog = ({ open, onOpenChange }: SettingsDialogProps) => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="account-info" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Account Information</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="firstName">First Name</Label>
-                    <Input
-                      id="firstName"
-                      value={accountInfo.firstName}
-                      onChange={(e) => setAccountInfo(prev => ({ ...prev, firstName: e.target.value }))}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="lastName">Last Name</Label>
-                    <Input
-                      id="lastName"
-                      value={accountInfo.lastName}
-                      onChange={(e) => setAccountInfo(prev => ({ ...prev, lastName: e.target.value }))}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="email">Email Address</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={accountInfo.email}
-                      onChange={(e) => setAccountInfo(prev => ({ ...prev, email: e.target.value }))}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="phone">Phone Number</Label>
-                    <Input
-                      id="phone"
-                      value={accountInfo.phone}
-                      onChange={(e) => setAccountInfo(prev => ({ ...prev, phone: e.target.value }))}
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <Label htmlFor="company">Company</Label>
-                    <Input
-                      id="company"
-                      value={accountInfo.company}
-                      onChange={(e) => setAccountInfo(prev => ({ ...prev, company: e.target.value }))}
-                    />
-                  </div>
-                </div>
-                <Button className="bg-blue-600 hover:bg-blue-700">Save Account Information</Button>
-              </CardContent>
-            </Card>
-          </TabsContent>
 
           <TabsContent value="billing" className="space-y-4">
             <Card>
               <CardHeader>
                 <CardTitle>Billing Information</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-2 gap-6">
                   <div>
-                    <Label>Current Plan</Label>
-                    <p className="text-lg font-semibold text-blue-600">{billingInfo.plan}</p>
+                    <Label className="text-sm font-medium text-muted-foreground">Current Plan</Label>
+                    <p className="text-lg font-semibold text-blue-600">{billingInfo.currentPlan}</p>
                   </div>
                   <div>
-                    <Label>Next Billing Date</Label>
-                    <p className="text-sm text-gray-600">{billingInfo.nextBilling}</p>
+                    <Label className="text-sm font-medium text-muted-foreground">Auto-Renewal</Label>
+                    <div className="flex items-center gap-2 mt-1">
+                      <Switch
+                        checked={billingInfo.autoRenewal}
+                        onCheckedChange={(checked) => setBillingInfo(prev => ({ ...prev, autoRenewal: checked }))}
+                      />
+                      <span className="text-sm">{billingInfo.autoRenewal ? "Yes" : "No"}</span>
+                    </div>
                   </div>
+                  {billingInfo.autoRenewal ? (
+                    <div>
+                      <Label className="text-sm font-medium text-muted-foreground">Next Billing Date</Label>
+                      <p className="text-sm text-gray-600">{billingInfo.nextBillingDate}</p>
+                    </div>
+                  ) : (
+                    <div>
+                      <Label className="text-sm font-medium text-muted-foreground">Expiration Date</Label>
+                      <p className="text-sm text-gray-600">{billingInfo.expirationDate}</p>
+                    </div>
+                  )}
                   <div>
-                    <Label>Payment Method</Label>
-                    <p className="text-sm text-gray-600">**** **** **** {billingInfo.cardLast4}</p>
+                    <Label className="text-sm font-medium text-muted-foreground">Payment Method</Label>
+                    <div className="space-y-1">
+                      <p className="text-sm text-gray-600">**** **** **** {billingInfo.cardLast4}</p>
+                      <p className="text-xs text-muted-foreground">Expires: {billingInfo.cardExpiration}</p>
+                    </div>
                   </div>
                 </div>
                 <div className="flex gap-2">
