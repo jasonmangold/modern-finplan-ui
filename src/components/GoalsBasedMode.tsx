@@ -7,7 +7,7 @@ const planningGoals = [{
   title: "Education Funding",
   icon: GraduationCap,
   description: "College and education planning",
-  status: "529 Plan started • $50k target",
+  status: "92% funded • $8,000 additional needed",
   completed: true,
   color: "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800",
   iconColor: "text-blue-600 dark:text-blue-400"
@@ -16,7 +16,7 @@ const planningGoals = [{
   title: "Survivor Needs",
   icon: Shield,
   description: "Life insurance and protection",
-  status: "$500k coverage in place",
+  status: "100% funded • $500,000 coverage secured",
   completed: true,
   color: "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800",
   iconColor: "text-green-600 dark:text-green-400"
@@ -25,7 +25,7 @@ const planningGoals = [{
   title: "Retirement Accumulation",
   icon: PiggyBank,
   description: "Building retirement wealth",
-  status: "$500k saved • On track",
+  status: "68% funded • $750,000 additional needed",
   completed: true,
   color: "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800",
   iconColor: "text-green-600 dark:text-green-400"
@@ -34,7 +34,7 @@ const planningGoals = [{
   title: "Retirement Distribution",
   icon: TrendingUp,
   description: "Withdrawal strategy planning",
-  status: "Strategy needed",
+  status: "15% planned • $2.1M withdrawal strategy needed",
   completed: false,
   color: "bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800",
   iconColor: "text-orange-600 dark:text-orange-400"
@@ -43,7 +43,7 @@ const planningGoals = [{
   title: "Social Security",
   icon: Users,
   description: "Optimization and timing",
-  status: "Analysis pending",
+  status: "Optimization potential • $85,000 additional lifetime benefit",
   completed: false,
   color: "bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700",
   iconColor: "text-gray-600 dark:text-gray-400"
@@ -52,7 +52,7 @@ const planningGoals = [{
   title: "Disability",
   icon: Heart,
   description: "Income protection planning",
-  status: "Not started",
+  status: "Coverage gap • $4,200 monthly income shortfall",
   completed: false,
   color: "bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700",
   iconColor: "text-gray-600 dark:text-gray-400"
@@ -61,7 +61,7 @@ const planningGoals = [{
   title: "Critical Illness",
   icon: AlertTriangle,
   description: "Health crisis protection",
-  status: "Not started",
+  status: "Risk exposure • $150,000 potential cost uncovered",
   completed: false,
   color: "bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700",
   iconColor: "text-gray-600 dark:text-gray-400"
@@ -70,7 +70,7 @@ const planningGoals = [{
   title: "Long-Term Care",
   icon: Activity,
   description: "Healthcare cost planning",
-  status: "Analysis needed",
+  status: "High risk • $380,000 estimated lifetime care cost",
   completed: false,
   color: "bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800",
   iconColor: "text-purple-600 dark:text-purple-400"
@@ -79,7 +79,7 @@ const planningGoals = [{
   title: "Estate Analysis",
   icon: FileText,
   description: "Wealth transfer planning",
-  status: "Will completed • Trust needed",
+  status: "40% complete • $1.2M estate tax exposure",
   completed: false,
   color: "bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800",
   iconColor: "text-purple-600 dark:text-purple-400"
@@ -88,7 +88,7 @@ const planningGoals = [{
   title: "Accumulation Funding",
   icon: Target,
   description: "General savings goals",
-  status: "Emergency fund complete",
+  status: "100% funded • $45,000 emergency fund secured",
   completed: true,
   color: "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800",
   iconColor: "text-green-600 dark:text-green-400"
@@ -97,7 +97,7 @@ const planningGoals = [{
   title: "Asset Allocation",
   icon: BarChart3,
   description: "Investment portfolio strategy",
-  status: "Rebalancing needed",
+  status: "Drift detected • 12% overweight equities",
   completed: false,
   color: "bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800",
   iconColor: "text-orange-600 dark:text-orange-400"
@@ -106,7 +106,7 @@ const planningGoals = [{
   title: "Charitable Remainder Trust",
   icon: Gift,
   description: "Tax-efficient giving",
-  status: "Not started",
+  status: "Tax opportunity • $25,000 annual deduction potential",
   completed: false,
   color: "bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700",
   iconColor: "text-gray-600 dark:text-gray-400"
@@ -115,7 +115,7 @@ const planningGoals = [{
   title: "Personal Finance",
   icon: DollarSign,
   description: "Cash flow and budgeting",
-  status: "Budget tracking active",
+  status: "Optimized • $1,200 monthly surplus identified",
   completed: true,
   color: "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800",
   iconColor: "text-green-600 dark:text-green-400"
@@ -246,9 +246,6 @@ export const GoalsBasedMode = ({
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{goal.description}</p>
                     </div>
                   </div>
-                  {goal.completed && <Badge variant="secondary" className="text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
-                      Active
-                    </Badge>}
                 </div>
               </CardHeader>
               <CardContent className="pt-0">
