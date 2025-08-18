@@ -215,10 +215,10 @@ const Presentation = () => {
 
   const getSourceColor = (source: string) => {
     switch (source) {
-      case "Analysis": return "bg-blue-100 text-blue-700 border-blue-200";
-      case "Education": return "bg-green-100 text-green-700 border-green-200";
-      case "Calculators": return "bg-purple-100 text-purple-700 border-purple-200";
-      default: return "bg-gray-100 text-gray-700 border-gray-200";
+      case "Analysis": return "bg-primary/10 text-primary border-primary/20";
+      case "Education": return "bg-accent/10 text-accent-foreground border-accent/20";
+      case "Calculators": return "bg-secondary/10 text-secondary-foreground border-secondary/20";
+      default: return "bg-muted text-muted-foreground border-border";
     }
   };
 
@@ -336,7 +336,7 @@ const Presentation = () => {
 
       {/* Modern Header Section - Only show on Presentation tab */}
       {activeTab === "Presentation" && (
-        <div className="bg-gradient-to-r from-blue-50 via-white to-blue-50 rounded-2xl p-8 border border-blue-100/50">
+        <div className="glass-card bg-gradient-to-br from-background via-card to-muted/30 border border-border/50 shadow-lg">
           <div className="flex items-start justify-between">
             <div className="space-y-6">
               <div className="flex items-center gap-4">
@@ -345,7 +345,7 @@ const Presentation = () => {
                     <Input
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
-                      className="text-3xl font-bold h-12"
+                      className="text-3xl font-bold h-12 bg-background border-primary/20"
                       onBlur={() => setIsEditingTitle(false)}
                       onKeyDown={(e) => e.key === 'Enter' && setIsEditingTitle(false)}
                       autoFocus
@@ -354,18 +354,18 @@ const Presentation = () => {
                       variant="ghost"
                       size="sm"
                       onClick={() => setIsEditingTitle(false)}
-                      className="text-green-600 hover:text-green-800"
+                      className="text-accent-foreground hover:text-accent-foreground hover:bg-accent/20"
                     >
                       Save
                     </Button>
                   </div>
                 ) : (
                   <>
-                    <h1 className="text-3xl font-bold text-gray-900 text-balance">{title}</h1>
+                    <h1 className="text-3xl font-bold text-foreground text-balance">{title}</h1>
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="modern-button text-blue-600 hover:text-blue-800 hover:bg-blue-50"
+                      className="text-primary hover:text-primary hover:bg-primary/10 transition-all"
                       onClick={() => setIsEditingTitle(true)}
                     >
                       <Edit3 className="h-4 w-4" />
@@ -376,41 +376,44 @@ const Presentation = () => {
               </div>
               
               <div className="space-y-3">
-                <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">Prepared For</p>
+                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Prepared For</p>
                 {isEditingClient ? (
-                  <div className="space-y-4 p-4 bg-white rounded-lg border">
+                  <div className="space-y-4 p-6 bg-card rounded-xl border border-border shadow-sm">
                     <div>
-                      <Label htmlFor="clientName">Client Name</Label>
+                      <Label htmlFor="clientName" className="text-foreground">Client Name</Label>
                       <Input
                         id="clientName"
                         value={clientName}
                         onChange={(e) => setClientName(e.target.value)}
                         placeholder="Enter client name"
+                        className="bg-background border-border"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="clientPhone">Phone Number</Label>
+                      <Label htmlFor="clientPhone" className="text-foreground">Phone Number</Label>
                       <Input
                         id="clientPhone"
                         value={clientPhone}
                         onChange={(e) => setClientPhone(e.target.value)}
                         placeholder="Enter phone number"
+                        className="bg-background border-border"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="clientAddress">Address</Label>
+                      <Label htmlFor="clientAddress" className="text-foreground">Address</Label>
                       <Input
                         id="clientAddress"
                         value={clientAddress}
                         onChange={(e) => setClientAddress(e.target.value)}
                         placeholder="Enter address"
+                        className="bg-background border-border"
                       />
                     </div>
                     <div className="flex gap-2">
                       <Button
                         size="sm"
                         onClick={() => setIsEditingClient(false)}
-                        className="bg-green-600 hover:bg-green-700"
+                        className="bg-accent text-accent-foreground hover:bg-accent/80"
                       >
                         Save
                       </Button>
@@ -418,6 +421,7 @@ const Presentation = () => {
                         variant="outline"
                         size="sm"
                         onClick={() => setIsEditingClient(false)}
+                        className="border-border hover:bg-muted"
                       >
                         Cancel
                       </Button>
@@ -426,14 +430,14 @@ const Presentation = () => {
                 ) : (
                   <div className="flex items-center gap-4">
                     <div className="space-y-1">
-                      <h2 className="text-xl font-semibold text-gray-800">{clientName}</h2>
-                      {clientPhone && <p className="text-sm text-gray-600">{clientPhone}</p>}
-                      {clientAddress && <p className="text-sm text-gray-600">{clientAddress}</p>}
+                      <h2 className="text-xl font-semibold text-foreground">{clientName}</h2>
+                      {clientPhone && <p className="text-sm text-muted-foreground">{clientPhone}</p>}
+                      {clientAddress && <p className="text-sm text-muted-foreground">{clientAddress}</p>}
                     </div>
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="modern-button text-blue-600 hover:text-blue-800 hover:bg-blue-50"
+                      className="text-primary hover:text-primary hover:bg-primary/10 transition-all"
                       onClick={() => setIsEditingClient(true)}
                     >
                       <Edit3 className="h-4 w-4" />
@@ -445,8 +449,8 @@ const Presentation = () => {
             </div>
             
             <div className="text-right space-y-1">
-              <p className="text-sm text-gray-500">Created: {new Date().toLocaleDateString()}</p>
-              <p className="text-sm text-gray-500">Last Updated: {new Date().toLocaleDateString()}</p>
+              <p className="text-sm text-muted-foreground">Created: {new Date().toLocaleDateString()}</p>
+              <p className="text-sm text-muted-foreground">Last Updated: {new Date().toLocaleDateString()}</p>
             </div>
           </div>
         </div>
@@ -454,26 +458,33 @@ const Presentation = () => {
 
       {/* Tab Content */}
       {activeTab === "Presentation" && (
-        <div className="smooth-card p-6">
-          <div className="flex items-center justify-between mb-6">
+        <div className="glass-card border border-border/50 shadow-lg">
+          <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
-              <FileText className="h-5 w-5 text-blue-600" />
-              <h3 className="text-lg font-semibold text-gray-900">Presentation Reports</h3>
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <FileText className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-foreground">Presentation Reports</h3>
+                <p className="text-sm text-muted-foreground">Drag and drop to reorder your reports</p>
+              </div>
             </div>
-            <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-              {items.length} reports selected
-            </span>
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-muted-foreground bg-muted px-4 py-2 rounded-full border border-border">
+                {items.length} reports selected
+              </span>
+            </div>
           </div>
           
           <div 
-            className="space-y-2 mb-8"
+            className="space-y-3 mb-8"
             onDragLeave={handleDragLeave}
           >
             {items.map((item, index) => (
               <div key={item.id}>
-                {/* Simple blue line drop indicator */}
+                {/* Modern drop indicator */}
                 {dropIndicator === index && (
-                  <div className="h-0.5 bg-blue-500 rounded-full mb-2" />
+                  <div className="h-1 bg-gradient-to-r from-primary/50 via-primary to-primary/50 rounded-full mb-3 shadow-sm" />
                 )}
                 <div
                   draggable
@@ -481,31 +492,35 @@ const Presentation = () => {
                   onDragOver={(e) => handleDragOver(e, index)}
                   onDrop={(e) => handleDrop(e, index)}
                   onDragEnd={handleDragEnd}
-                  className="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50/50 transition-all duration-200 group cursor-move"
+                  className="flex items-center justify-between p-5 bg-card border border-border rounded-xl hover:bg-muted/30 hover:border-primary/30 hover:shadow-md transition-all duration-300 group cursor-move"
                 >
                   <div className="flex items-center gap-4">
-                    <GripVertical className="h-5 w-5 text-gray-400 group-hover:text-gray-600" />
-                    <span className="flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-600 rounded-lg text-sm font-semibold">
+                    <GripVertical className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                    <div className="flex items-center justify-center w-10 h-10 bg-primary/10 text-primary rounded-xl text-sm font-semibold border border-primary/20">
                       {index + 1}
-                    </span>
+                    </div>
                     <div className="flex items-center gap-3">
-                      <span className="font-medium text-blue-700">{item.name}</span>
-                      <Badge className={`text-xs ${getSourceColor(item.source)}`}>
+                      <span className="font-semibold text-foreground text-lg">{item.name}</span>
+                      <Badge className={`text-xs font-medium px-3 py-1 ${getSourceColor(item.source)}`}>
                         {item.source}
                       </Badge>
                     </div>
                   </div>
-                  <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-all">
+                  <div className="flex gap-3 opacity-0 group-hover:opacity-100 transition-all duration-200">
                     <Button
                       size="sm"
                       variant="outline"
-                      className="modern-button text-red-600 border-red-200 hover:bg-red-50"
+                      className="text-destructive border-destructive/20 hover:bg-destructive/10 hover:text-destructive"
                       onClick={() => removeItem(item.id)}
                     >
                       <Trash2 className="h-4 w-4" />
                       Remove
                     </Button>
-                    <Button size="sm" className="modern-button bg-green-600 text-white hover:bg-green-700">
+                    <Button 
+                      size="sm" 
+                      className="bg-accent text-accent-foreground hover:bg-accent/80 font-medium"
+                    >
+                      <Pencil className="h-4 w-4 mr-2" />
                       Edit Inputs
                     </Button>
                   </div>
@@ -514,20 +529,22 @@ const Presentation = () => {
             ))}
             {/* Drop indicator for end of list */}
             {dropIndicator === items.length && (
-              <div className="h-0.5 bg-blue-500 rounded-full" />
+              <div className="h-1 bg-gradient-to-r from-primary/50 via-primary to-primary/50 rounded-full shadow-sm" />
             )}
           </div>
 
           {/* Action Buttons */}
-          <div className="bg-gradient-to-r from-gray-50 to-blue-50/50 rounded-xl p-8 text-center border border-gray-200/50">
-            <div className="max-w-md mx-auto space-y-4">
-              <h4 className="text-lg font-semibold text-gray-900">Ready to generate your presentation?</h4>
-              <p className="text-gray-600">Create a professional financial analysis presentation for your client.</p>
+          <div className="bg-gradient-to-br from-muted/30 via-card to-primary/5 rounded-xl p-8 text-center border border-border/50 shadow-sm">
+            <div className="max-w-lg mx-auto space-y-6">
+              <div className="space-y-2">
+                <h4 className="text-xl font-bold text-foreground">Ready to generate your presentation?</h4>
+                <p className="text-muted-foreground">Create a professional financial analysis presentation for your client with customizable options.</p>
+              </div>
               <div className="flex justify-center gap-4 pt-2">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button className="modern-button bg-green-600 text-white hover:bg-green-700 px-6">
-                      <Settings className="h-4 w-4" />
+                    <Button className="bg-accent text-accent-foreground hover:bg-accent/80 px-8 py-2 font-semibold shadow-md">
+                      <Settings className="h-4 w-4 mr-2" />
                       Presentation Options
                     </Button>
                   </DialogTrigger>
@@ -690,8 +707,8 @@ const Presentation = () => {
                   </DialogContent>
                 </Dialog>
                 
-                <Button className="modern-button bg-blue-600 text-white hover:bg-blue-700 px-6">
-                  <Eye className="h-4 w-4" />
+                <Button className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-2 font-semibold shadow-md">
+                  <Eye className="h-4 w-4 mr-2" />
                   Preview Presentation
                 </Button>
               </div>
