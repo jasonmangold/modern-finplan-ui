@@ -12,6 +12,7 @@ import { CapitalAvailableOutput } from "./CapitalAvailableOutput";
 import { AlternativesToRetirementOutput } from "./AlternativesToRetirementOutput";
 import { SurvivorNeedsOutput } from "./SurvivorNeedsOutput";
 import { RetirementTimelineOutput } from "./RetirementTimelineOutput";
+import { EducationFundingSummaryOutput } from "./EducationFundingSummaryOutput";
 import { usePresentationContext } from "@/contexts/PresentationContext";
 const goalConfigs = {
   college: {
@@ -59,8 +60,8 @@ const goalConfigs = {
     icon: GraduationCap,
     color: "text-purple-600",
     description: "Plan for education expenses and funding strategies",
-    outputs: ["Funding Strategy", "Savings Analysis", "Tax Benefits", "Timeline Projections"],
-    defaultOutput: "Funding Strategy"
+    outputs: ["Education Funding Summary", "Education Funding Analysis - Child 1", "Education Funding Timeline - Child 1", "Education Funding Analysis - Child 2", "Education Funding Timeline - Child 2", "Education Funding Analysis - Child 3", "Education Funding Timeline - Child 3", "Education Funding Analysis - Child 4", "Education Funding Timeline - Child 4", "Education Funding Analysis - Child 5", "Education Funding Timeline - Child 5", "Progress Toward Education Goals", "Education Funding Analysis Data - Fact Finder"],
+    defaultOutput: "Education Funding Summary"
   },
   "survivor-needs": {
     title: "Survivor Needs Analysis",
@@ -197,6 +198,8 @@ export const GoalDetailView = ({
                       <RetirementTimelineOutput selectedForPresentation={selectedForPresentation} />
                     ) : goalId === "survivor-needs" && selectedOutput === "Survivor Needs - Client 1 dies" ? (
                       <SurvivorNeedsOutput selectedForPresentation={selectedForPresentation} />
+                    ) : goalId === "education-funding" && selectedOutput === "Education Funding Summary" ? (
+                      <EducationFundingSummaryOutput selectedForPresentation={selectedForPresentation} />
                     ) : (
                       <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
                     )}
