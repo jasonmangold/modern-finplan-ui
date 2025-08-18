@@ -11,6 +11,7 @@ import { RetirementAnalysisOutput } from "./RetirementAnalysisOutput";
 import { CapitalAvailableOutput } from "./CapitalAvailableOutput";
 import { AlternativesToRetirementOutput } from "./AlternativesToRetirementOutput";
 import { SurvivorNeedsOutput } from "./SurvivorNeedsOutput";
+import { RetirementTimelineOutput } from "./RetirementTimelineOutput";
 import { usePresentationContext } from "@/contexts/PresentationContext";
 const goalConfigs = {
   college: {
@@ -192,6 +193,8 @@ export const GoalDetailView = ({
                       <CapitalAvailableOutput selectedForPresentation={selectedForPresentation} />
                     ) : goalId === "retirement-accumulation" && selectedOutput === "Alternatives to Achieving Retirement Goals" ? (
                       <AlternativesToRetirementOutput selectedForPresentation={selectedForPresentation} />
+                    ) : goalId === "retirement-accumulation" && selectedOutput === "Retirement Timeline" ? (
+                      <RetirementTimelineOutput selectedForPresentation={selectedForPresentation} />
                     ) : goalId === "survivor-needs" && selectedOutput === "Survivor Needs - Client 1 dies" ? (
                       <SurvivorNeedsOutput selectedForPresentation={selectedForPresentation} />
                     ) : (
