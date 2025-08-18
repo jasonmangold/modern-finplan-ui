@@ -92,9 +92,9 @@ export const FinancialFitnessScore = ({ onBack }: FinancialFitnessScoreProps) =>
   };
 
   return (
-    <div className="h-full flex flex-col p-6 overflow-y-auto">
+    <div className="h-full flex flex-col">
       {/* Header */}
-      <div className="flex items-center gap-4 mb-6 flex-shrink-0">
+      <div className="flex items-center gap-4 p-6 border-b border-gray-200 dark:border-gray-700 bg-background">
         <Button variant="outline" onClick={onBack} className="flex items-center gap-2">
           <ArrowLeft className="h-4 w-4" />
           Back to Goals
@@ -110,96 +110,122 @@ export const FinancialFitnessScore = ({ onBack }: FinancialFitnessScoreProps) =>
         </div>
       </div>
 
-      {/* Topic Selection */}
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <TrendingUp className="h-5 w-5" />
-            Select Topics to Include
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-4">
-            {fitnessTopics.map((topic) => (
-              <div key={topic.id} className="flex items-center space-x-2">
-                <Checkbox
-                  id={topic.id}
-                  checked={selectedTopics.includes(topic.id)}
-                  onCheckedChange={() => handleTopicToggle(topic.id)}
-                />
-                <label htmlFor={topic.id} className="cursor-pointer font-medium text-sm">
-                  {topic.label}
-                </label>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Chart and Overall Score */}
-      <div className="grid grid-cols-4 gap-6 mb-6">
-        {/* Bar Chart */}
-        <div className="col-span-3">
-          <div className="bg-white p-6 rounded-lg border">
-            <div className="flex items-end justify-between h-64 space-x-4">
-              {selectedTopicData.map((topic) => (
-                <div key={topic.id} className="flex flex-col items-center space-y-2 flex-1">
-                  <div className="flex-1 flex items-end w-full">
-                    <div 
-                      className={`w-full ${getBarColor(topic.score)} rounded-t-sm`}
-                      style={{ height: `${(topic.score / 10) * 100}%` }}
+      {/* Main Content - Two Column Layout */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Left Panel - Topic Selection */}
+        <div className="w-1/3 border-r border-gray-200 dark:border-gray-700 bg-background p-6 overflow-y-auto">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TrendingUp className="h-5 w-5" />
+                Select Topics to Include
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {fitnessTopics.map((topic) => (
+                  <div key={topic.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50">
+                    <Checkbox
+                      id={topic.id}
+                      checked={selectedTopics.includes(topic.id)}
+                      onCheckedChange={() => handleTopicToggle(topic.id)}
                     />
+                    <label htmlFor={topic.id} className="flex-1 cursor-pointer font-medium">
+                      {topic.label}
+                    </label>
+                    <span className="text-sm font-semibold text-gray-600">
+                      {topic.score}
+                    </span>
                   </div>
-                  <div className="text-xs text-center font-medium text-gray-700 leading-tight max-w-16">
-                    {topic.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-between text-xs text-gray-500 mt-2">
-              <span>1</span>
-              <span>2</span>
-              <span>3</span>
-              <span>4</span>
-              <span>5</span>
-              <span>6</span>
-              <span>7</span>
-              <span>8</span>
-              <span>9</span>
-              <span>10</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Overall Score */}
-        <div className="col-span-1">
-          <div className="bg-gradient-to-b from-blue-50 to-blue-100 p-6 rounded-lg border h-full flex flex-col justify-center items-center">
-            <h3 className="text-sm font-medium text-gray-700 mb-4">Your overall score</h3>
-            <div className="text-4xl font-bold text-blue-600 mb-2">{overallScore}</div>
-            <div className="text-sm text-gray-600">out of 10</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Detailed Information Cards */}
-      <div className="grid grid-cols-2 gap-4">
-        {selectedTopicData.map((topic) => (
-          <Card key={topic.id} className={`border-l-4 ${getCardBorderColor(topic.score)}`}>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="font-semibold text-gray-700">{topic.label} Score - {topic.score}</h3>
-              </div>
-              <div className="text-sm text-gray-600 mb-2">
-                {topic.additionalInfo.split('\n').map((line, index) => (
-                  <div key={index}>{line}</div>
                 ))}
-              </div>
-              <div className="text-sm font-medium text-gray-800">
-                {topic.fundingInfo}
               </div>
             </CardContent>
           </Card>
-        ))}
+        </div>
+
+        {/* Right Panel - Results */}
+        <div className="flex-1 p-6 overflow-y-auto bg-gray-50 dark:bg-gray-900">
+          <div className="space-y-6">
+            {/* Chart and Overall Score */}
+            <div className="grid grid-cols-4 gap-6">
+              {/* Bar Chart */}
+              <div className="col-span-3">
+                <Card className="h-80">
+                  <CardContent className="p-6 h-full">
+                    <div className="h-full flex flex-col">
+                      {/* Y-axis labels */}
+                      <div className="flex-1 flex">
+                        <div className="w-8 flex flex-col justify-between text-xs text-gray-500 py-4">
+                          <span>10</span>
+                          <span>9</span>
+                          <span>8</span>
+                          <span>7</span>
+                          <span>6</span>
+                          <span>5</span>
+                          <span>4</span>
+                          <span>3</span>
+                          <span>2</span>
+                          <span>1</span>
+                        </div>
+                        
+                        {/* Chart area */}
+                        <div className="flex-1 flex items-end justify-between space-x-2 border-l border-b border-gray-200 p-4">
+                          {selectedTopicData.map((topic) => (
+                            <div key={topic.id} className="flex flex-col items-center space-y-2 flex-1 max-w-20">
+                              <div className="w-full flex justify-center">
+                                <div 
+                                  className={`w-12 ${getBarColor(topic.score)} rounded-t`}
+                                  style={{ height: `${(topic.score / 10) * 200}px` }}
+                                />
+                              </div>
+                              <div className="text-xs text-center font-medium text-gray-700 leading-tight transform -rotate-45 origin-center">
+                                {topic.label}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Overall Score */}
+              <div className="col-span-1">
+                <Card className="h-80">
+                  <CardContent className="p-6 h-full flex flex-col justify-center items-center bg-gradient-to-b from-blue-50 to-blue-100">
+                    <h3 className="text-sm font-medium text-gray-700 mb-4">Your overall score</h3>
+                    <div className="w-20 h-32 bg-gradient-to-t from-blue-300 to-blue-100 rounded flex flex-col justify-end items-center p-2 mb-4">
+                      <div className="text-2xl font-bold text-blue-600">{overallScore}</div>
+                    </div>
+                    <div className="text-sm text-gray-600">6 out of 10</div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* Detailed Information Cards */}
+            <div className="grid grid-cols-2 gap-4">
+              {selectedTopicData.map((topic) => (
+                <Card key={topic.id} className={`border-l-4 ${getCardBorderColor(topic.score)}`}>
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="font-semibold text-gray-700">{topic.label} Score - {topic.score}</h3>
+                    </div>
+                    <div className="text-sm text-gray-600 mb-2">
+                      {topic.additionalInfo.split('\n').map((line, index) => (
+                        <div key={index}>{line}</div>
+                      ))}
+                    </div>
+                    <div className="text-sm font-medium text-gray-800">
+                      {topic.fundingInfo}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
