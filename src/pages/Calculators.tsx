@@ -15,19 +15,8 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { LengthOfTimeCalculator } from "@/components/calculators/LengthOfTimeCalculator";
 
-const Calculators = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCalculator, setSelectedCalculator] = useState<any>(null);
-  const [activeFolder, setActiveFolder] = useState("borrowing");
-  const { toast } = useToast();
-
-  // Load favorites from localStorage
-  const [favorites, setFavorites] = useState<string[]>(() => {
-    return JSON.parse(localStorage.getItem('calculator-favorites') || '[]');
-  });
-
-  // Mock calculator data organized by folders
-  const calculatorFolders = {
+// Mock calculator data organized by folders - moved outside component to prevent recreation
+const calculatorFolders = {
     borrowing: {
       name: "Borrowing",
       calculators: [
@@ -175,6 +164,17 @@ const Calculators = () => {
       ]
     }
   };
+
+const Calculators = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCalculator, setSelectedCalculator] = useState<any>(null);
+  const [activeFolder, setActiveFolder] = useState("borrowing");
+  const { toast } = useToast();
+
+  // Load favorites from localStorage
+  const [favorites, setFavorites] = useState<string[]>(() => {
+    return JSON.parse(localStorage.getItem('calculator-favorites') || '[]');
+  });
 
   // Get sorted calculators for current folder (favorites first)
   const getSortedCalculators = (calculators: any[]) => {
