@@ -390,52 +390,56 @@ const Calculators = () => {
         </div>
 
         {/* Right Content - Calculator Grid */}
-        <div className="flex-1 p-6">
-          <div className="mb-6">
+        <div className="flex-1 flex flex-col">
+          {/* Fixed section header */}
+          <div className="flex-shrink-0 px-6 pt-6 pb-4">
             <h2 className="text-lg font-semibold">{calculatorFolders[activeFolder as keyof typeof calculatorFolders].name}</h2>
             <p className="text-sm text-gray-600">
               {getFilteredCalculators(calculatorFolders[activeFolder as keyof typeof calculatorFolders].calculators).length} calculators
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {getFilteredCalculators(calculatorFolders[activeFolder as keyof typeof calculatorFolders].calculators).map((calculator) => (
-              <Card 
-                key={calculator.id} 
-                className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:-translate-y-1"
-                onClick={() => handleCalculatorClick(calculator)}
-              >
-                <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <CardTitle className="text-base font-semibold mb-1 flex items-center gap-2">
-                        {favorites.includes(calculator.id) && (
-                          <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                        )}
-                        {calculator.name}
-                      </CardTitle>
-                      <p className="text-sm text-gray-600">{calculator.description}</p>
+          {/* Scrollable calculator grid */}
+          <div className="flex-1 overflow-auto px-6 pb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {getFilteredCalculators(calculatorFolders[activeFolder as keyof typeof calculatorFolders].calculators).map((calculator) => (
+                <Card 
+                  key={calculator.id} 
+                  className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:-translate-y-1"
+                  onClick={() => handleCalculatorClick(calculator)}
+                >
+                  <CardHeader className="pb-3">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <CardTitle className="text-base font-semibold mb-1 flex items-center gap-2">
+                          {favorites.includes(calculator.id) && (
+                            <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                          )}
+                          {calculator.name}
+                        </CardTitle>
+                        <p className="text-sm text-gray-600">{calculator.description}</p>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleFavorite(calculator.id);
+                        }}
+                        className={favorites.includes(calculator.id) ? "text-yellow-500" : "text-gray-400"}
+                      >
+                        <Star className={`h-4 w-4 ${favorites.includes(calculator.id) ? "fill-current" : ""}`} />
+                      </Button>
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleFavorite(calculator.id);
-                      }}
-                      className={favorites.includes(calculator.id) ? "text-yellow-500" : "text-gray-400"}
-                    >
-                      <Star className={`h-4 w-4 ${favorites.includes(calculator.id) ? "fill-current" : ""}`} />
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="flex justify-end">
-                    <CalculatorIcon className="h-4 w-4 text-gray-400" />
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <div className="flex justify-end">
+                      <CalculatorIcon className="h-4 w-4 text-gray-400" />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
       </div>
