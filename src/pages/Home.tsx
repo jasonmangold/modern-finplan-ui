@@ -104,8 +104,8 @@ const Home = () => {
           </div>
           <div className="relative pl-4 border-l-2 border-green-500">
             <div className="absolute -left-1.5 top-0 w-3 h-3 bg-green-500 rounded-full"></div>
-            <h4 className="font-semibold text-gray-900">Improved PDF Exports</h4>
-            <p className="text-sm text-muted-foreground mt-1">Faster generation with better formatting</p>
+            <h4 className="font-semibold text-gray-900">2025.01 Update</h4>
+            <p className="text-sm text-muted-foreground mt-1">Updated with new inflation, tax, and cost-of-living stats; GPO and WEP reports removed per the Social Security Fairness Act.</p>
             <span className="inline-block mt-2 text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">Dec 8, 2024</span>
           </div>
         </div>
