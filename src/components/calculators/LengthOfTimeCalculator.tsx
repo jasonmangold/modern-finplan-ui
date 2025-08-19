@@ -94,7 +94,7 @@ export const LengthOfTimeCalculator = () => {
   };
 
   return (
-    <div className="grid grid-cols-2 gap-6 h-full">
+    <div className="grid gap-6 h-full" style={{ gridTemplateColumns: "40% 60%" }}>
       {/* Input Panel */}
       <Card className="h-full">
         <CardHeader>
