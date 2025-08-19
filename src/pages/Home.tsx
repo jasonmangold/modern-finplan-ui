@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TextShimmer } from "@/components/ui/text-shimmer";
 import { useState, useRef, useEffect } from "react";
-import { User, FileText, Play, Calendar, Lightbulb, Star, MoreHorizontal, Clock, ArrowRight, ChevronDown, Folder, GraduationCap, Video, Zap, Sparkles, MessageSquarePlus, TrendingUp, GripVertical } from "lucide-react";
+import { User, FileText, Play, Calendar, Lightbulb, Star, MoreHorizontal, Clock, ArrowRight, ChevronDown, Folder, GraduationCap, Video, Zap, Sparkles, MessageSquarePlus, TrendingUp, GripVertical, Edit2, FileBarChart } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 const Home = () => {
   const userName = "Jason";
   const isFirstTime = false;
@@ -11,15 +12,15 @@ const Home = () => {
   const recentClients = [{
     name: "John Doe",
     lastUpdated: "2 hours ago",
-    status: "active"
+    reportCount: 5
   }, {
     name: "Jane Smith",
     lastUpdated: "1 day ago",
-    status: "pending"
+    reportCount: 3
   }, {
     name: "Mike Johnson",
     lastUpdated: "3 days ago",
-    status: "active"
+    reportCount: 8
   }];
 
   // Load favorite reports from localStorage (including calculator favorites)
@@ -71,18 +72,38 @@ const Home = () => {
         {recentClients.map((client, index) => <div key={index} className="flex items-center justify-between p-4 rounded-xl border border-white/40 bg-white/60 backdrop-blur-sm hover:border-blue-300/60 hover:bg-white/80 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 group">
             <div className="flex-1">
               <div className="font-semibold text-gray-900 group-hover:text-blue-900">{client.name}</div>
-              <div className="text-sm text-muted-foreground flex items-center gap-1.5 mt-1">
-                <Clock className="h-3.5 w-3.5" />
-                {client.lastUpdated}
+              <div className="text-sm text-muted-foreground flex items-center gap-3 mt-1">
+                <div className="flex items-center gap-1.5">
+                  <Clock className="h-3.5 w-3.5" />
+                  {client.lastUpdated}
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <FileBarChart className="h-3.5 w-3.5" />
+                  {client.reportCount} reports
+                </div>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Badge variant={client.status === 'active' ? 'default' : 'secondary'} className="pill-tag">
-                {client.status}
-              </Badge>
-              <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                <MoreHorizontal className="h-4 w-4" />
+              <Button size="sm" variant="outline" className="modern-button">
+                Open
               </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                    <MoreHorizontal className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem>
+                    <Edit2 className="h-4 w-4 mr-2" />
+                    Rename
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <FileText className="h-4 w-4 mr-2" />
+                    Description
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>)}
       </CardContent>
