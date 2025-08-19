@@ -18,7 +18,7 @@ import { LengthOfTimeCalculator } from "@/components/calculators/LengthOfTimeCal
 const Calculators = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCalculator, setSelectedCalculator] = useState<any>(null);
-  const [activeFolder, setActiveFolder] = useState("retirement");
+  const [activeFolder, setActiveFolder] = useState("borrowing");
   const { toast } = useToast();
 
   // Load favorites from localStorage
@@ -28,22 +28,70 @@ const Calculators = () => {
 
   // Mock calculator data organized by folders
   const calculatorFolders = {
-    retirement: {
-      name: "Retirement Planning",
+    borrowing: {
+      name: "Borrowing",
       calculators: [
-        { id: "ret-0", name: "Length of Time a Sum Will Last", description: "Calculate how long your savings will last with withdrawals", category: "Distribution" },
-        { id: "ret-1", name: "401(k) Calculator", description: "Calculate retirement savings growth", category: "Accumulation" },
-        { id: "ret-2", name: "IRA Calculator", description: "Traditional vs Roth IRA comparison", category: "Accumulation" },
-        { id: "ret-3", name: "Social Security Optimizer", description: "Optimize claiming strategies", category: "Income" },
-        { id: "ret-4", name: "Retirement Timeline", description: "Plan your retirement journey", category: "Planning" },
-        { id: "ret-5", name: "Withdrawal Strategy", description: "Sustainable withdrawal rates", category: "Distribution" },
-        { id: "ret-6", name: "Pension Calculator", description: "Analyze pension benefits", category: "Income" },
-        { id: "ret-7", name: "Early Retirement", description: "FIRE movement calculator", category: "Planning" },
-        { id: "ret-8", name: "Required Minimum Distribution", description: "Calculate RMDs", category: "Distribution" }
+        { id: "bor-1", name: "Bi-Weekly Mortgage", description: "Calculate bi-weekly mortgage payments", category: "Mortgage" },
+        { id: "bor-2", name: "Impact of Making Additional Principal Payments", description: "Analyze extra payment benefits", category: "Mortgage" },
+        { id: "bor-3", name: "Loan Amortization Schedule", description: "Generate loan payment schedule", category: "Loan" },
+        { id: "bor-4", name: "Mortgage Refinance Comparisons", description: "Compare refinancing options", category: "Mortgage" },
+        { id: "bor-5", name: "Payments To Pay Off A Loan", description: "Calculate payment amounts needed", category: "Loan" },
+        { id: "bor-6", name: "Rate of Interest for a Loan", description: "Calculate loan interest rates", category: "Loan" },
+        { id: "bor-7", name: "Weighted Average Interest Rate", description: "Calculate weighted average rates", category: "Rate" }
       ]
     },
-    investment: {
-      name: "Investment Analysis",
+    discussion: {
+      name: "Discussion Organization",
+      calculators: [
+        { id: "disc-1", name: "Action Items", description: "Organize and track action items", category: "Organization" },
+        { id: "disc-2", name: "Agenda", description: "Create meeting agendas", category: "Planning" },
+        { id: "disc-3", name: "Goals", description: "Set and track goals", category: "Planning" },
+        { id: "disc-4", name: "Recommendations", description: "Document recommendations", category: "Planning" }
+      ]
+    },
+    educationFunding: {
+      name: "Education Funding",
+      calculators: [
+        { id: "edu-1", name: "529 Plan Rollover to Roth IRA", description: "Analyze 529 to Roth IRA rollover", category: "Savings" },
+        { id: "edu-2", name: "529 Plan Savings Calculator", description: "Education savings calculator", category: "Savings" },
+        { id: "edu-3", name: "Projected Costs of Education", description: "Future education cost projections", category: "Planning" }
+      ]
+    },
+    estatePlanning: {
+      name: "Estate Planning",
+      calculators: [
+        { id: "est-1", name: "Effect of Life Insurance Transfers on Federal Estate Tax", description: "Life insurance estate tax impact", category: "Tax" },
+        { id: "est-2", name: "Family Limited Partnership - Grantor Trust", description: "FLP grantor trust analysis", category: "Trust" },
+        { id: "est-3", name: "Federal Estate Tax Approximator", description: "Estimate federal estate tax", category: "Tax" },
+        { id: "est-4", name: "Federal Taxes on Income in Respect of a Decedent", description: "Decedent income tax calculator", category: "Tax" },
+        { id: "est-5", name: "Grantor-Retained Annuity Trust (GRAT)", description: "GRAT analysis calculator", category: "Trust" },
+        { id: "est-6", name: "Grantor-Retained Income Trust - Graph", description: "GRIT with graphical analysis", category: "Trust" },
+        { id: "est-7", name: "Grantor-Retained Interest Trust (GRIT)", description: "GRIT analysis calculator", category: "Trust" },
+        { id: "est-8", name: "Grantor-Retained Interest Trust - Graph", description: "GRIT with graph visualization", category: "Trust" },
+        { id: "est-9", name: "Grantor-Retained Unitrust (GRUT)", description: "GRUT analysis calculator", category: "Trust" },
+        { id: "est-10", name: "Grantor-Retained Unitrust - Graph", description: "GRUT with graphical analysis", category: "Trust" },
+        { id: "est-11", name: "Qualified Personal Residence Trust", description: "QPRT analysis calculator", category: "Trust" },
+        { id: "est-12", name: "Qualified Personal Residence Trust - Graph", description: "QPRT with graph visualization", category: "Trust" },
+        { id: "est-13", name: "The Federal Gift Tax", description: "Federal gift tax calculator", category: "Tax" }
+      ]
+    },
+    healthMedical: {
+      name: "Health and Medical",
+      calculators: [
+        { id: "health-1", name: "Disability Break-Even", description: "Disability insurance break-even analysis", category: "Insurance" },
+        { id: "health-2", name: "Long-Term Care Break-Even", description: "Long-term care insurance analysis", category: "Insurance" }
+      ]
+    },
+    incomeTaxes: {
+      name: "Income Taxes",
+      calculators: [
+        { id: "tax-1", name: "Federal Income Tax Approximator", description: "Estimate federal income tax", category: "Tax" },
+        { id: "tax-2", name: "Tax Exempt vs. Taxable Income", description: "Compare tax-exempt vs taxable income", category: "Tax" },
+        { id: "tax-3", name: "Traditional Portion of Social Security Benefits", description: "Social Security taxation calculator", category: "Tax" }
+      ]
+    },
+    investments: {
+      name: "Investments",
       calculators: [
         { id: "inv-1", name: "Portfolio Analyzer", description: "Analyze investment portfolio", category: "Analysis" },
         { id: "inv-2", name: "Asset Allocation", description: "Optimize asset allocation", category: "Planning" },
@@ -55,108 +103,39 @@ const Calculators = () => {
         { id: "inv-8", name: "Bond Calculator", description: "Bond yield and duration", category: "Fixed Income" }
       ]
     },
-    tax: {
-      name: "Tax Planning",
+    lifeInsurance: {
+      name: "Life Insurance",
       calculators: [
-        { id: "tax-1", name: "Income Tax Calculator", description: "Federal and state taxes", category: "Income" },
-        { id: "tax-2", name: "Capital Gains", description: "Capital gains tax analysis", category: "Investment" },
-        { id: "tax-3", name: "Tax-Deferred vs Taxable", description: "Account comparison", category: "Strategy" },
-        { id: "tax-4", name: "Roth Conversion", description: "Roth conversion analysis", category: "Retirement" },
-        { id: "tax-5", name: "Estate Tax", description: "Estate tax planning", category: "Estate" },
-        { id: "tax-6", name: "Business Tax", description: "Business tax calculator", category: "Business" },
-        { id: "tax-7", name: "AMT Calculator", description: "Alternative minimum tax", category: "Income" },
-        { id: "tax-8", name: "HSA Calculator", description: "Health savings account benefits", category: "Healthcare" }
+        { id: "life-1", name: "Life Insurance Needs", description: "Calculate coverage needed", category: "Needs" },
+        { id: "life-2", name: "Term vs Whole Life", description: "Life insurance comparison", category: "Comparison" },
+        { id: "life-3", name: "Life Insurance Calculator", description: "General life insurance calculator", category: "General" }
       ]
     },
-    insurance: {
-      name: "Insurance Planning",
+    personalFinance: {
+      name: "Personal Finance",
       calculators: [
-        { id: "ins-1", name: "Life Insurance Needs", description: "Calculate coverage needed", category: "Life" },
-        { id: "ins-2", name: "Disability Insurance", description: "Income protection analysis", category: "Disability" },
-        { id: "ins-3", name: "Long-Term Care", description: "LTC insurance planning", category: "Healthcare" },
-        { id: "ins-4", name: "Health Insurance", description: "Health plan comparison", category: "Healthcare" },
-        { id: "ins-5", name: "Auto Insurance", description: "Auto coverage calculator", category: "Property" },
-        { id: "ins-6", name: "Home Insurance", description: "Property coverage needs", category: "Property" },
-        { id: "ins-7", name: "Umbrella Policy", description: "Liability protection", category: "Liability" },
-        { id: "ins-8", name: "Term vs Whole Life", description: "Life insurance comparison", category: "Life" }
+        { id: "pf-1", name: "Budget Calculator", description: "Monthly budget planner", category: "Planning" },
+        { id: "pf-2", name: "Emergency Fund", description: "Emergency savings calculator", category: "Savings" },
+        { id: "pf-3", name: "Cash Flow Analysis", description: "Income vs expenses", category: "Analysis" },
+        { id: "pf-4", name: "Savings Goal", description: "Savings target calculator", category: "Goals" },
+        { id: "pf-5", name: "Net Worth Calculator", description: "Assets minus liabilities", category: "Net Worth" },
+        { id: "pf-6", name: "Debt-to-Income", description: "DTI ratio calculator", category: "Analysis" },
+        { id: "pf-7", name: "Inflation Calculator", description: "Purchasing power over time", category: "Inflation" },
+        { id: "pf-8", name: "Financial Ratios", description: "Personal finance ratios", category: "Analysis" }
       ]
     },
-    mortgage: {
-      name: "Mortgage & Real Estate",
+    retirementPlanning: {
+      name: "Retirement Planning",
       calculators: [
-        { id: "mort-1", name: "Mortgage Calculator", description: "Monthly payment calculator", category: "Payment" },
-        { id: "mort-2", name: "Refinance Analysis", description: "Refinancing benefits", category: "Refinance" },
-        { id: "mort-3", name: "Extra Payment", description: "Impact of extra payments", category: "Strategy" },
-        { id: "mort-4", name: "Rent vs Buy", description: "Rent vs buy comparison", category: "Decision" },
-        { id: "mort-5", name: "Home Affordability", description: "How much house can you afford", category: "Planning" },
-        { id: "mort-6", name: "ARM vs Fixed", description: "Mortgage type comparison", category: "Comparison" },
-        { id: "mort-7", name: "Property Tax", description: "Property tax calculator", category: "Tax" },
-        { id: "mort-8", name: "Investment Property", description: "Rental property analysis", category: "Investment" }
-      ]
-    },
-    education: {
-      name: "Education Planning",
-      calculators: [
-        { id: "edu-1", name: "529 Plan Calculator", description: "Education savings growth", category: "Savings" },
-        { id: "edu-2", name: "Student Loan", description: "Loan repayment calculator", category: "Debt" },
-        { id: "edu-3", name: "College Cost Projector", description: "Future education costs", category: "Planning" },
-        { id: "edu-4", name: "Loan Forgiveness", description: "Public service loan forgiveness", category: "Forgiveness" },
-        { id: "edu-5", name: "Education Tax Credits", description: "Tax credit calculator", category: "Tax" },
-        { id: "edu-6", name: "Coverdell ESA", description: "Education savings account", category: "Savings" },
-        { id: "edu-7", name: "Graduate School ROI", description: "Return on education investment", category: "Analysis" },
-        { id: "edu-8", name: "Student Budget", description: "College budget planner", category: "Budgeting" }
-      ]
-    },
-    debt: {
-      name: "Debt Management",
-      calculators: [
-        { id: "debt-1", name: "Debt Payoff", description: "Debt elimination strategy", category: "Payoff" },
-        { id: "debt-2", name: "Credit Card Calculator", description: "Credit card payoff", category: "Credit" },
-        { id: "debt-3", name: "Debt Consolidation", description: "Consolidation benefits", category: "Strategy" },
-        { id: "debt-4", name: "Snowball vs Avalanche", description: "Debt payoff methods", category: "Strategy" },
-        { id: "debt-5", name: "Personal Loan", description: "Personal loan calculator", category: "Loan" },
-        { id: "debt-6", name: "Balance Transfer", description: "Credit card balance transfer", category: "Credit" },
-        { id: "debt-7", name: "Debt-to-Income", description: "DTI ratio calculator", category: "Analysis" },
-        { id: "debt-8", name: "Minimum Payment", description: "Credit card minimum payments", category: "Credit" }
-      ]
-    },
-    budget: {
-      name: "Budgeting & Cash Flow",
-      calculators: [
-        { id: "bud-1", name: "Budget Calculator", description: "Monthly budget planner", category: "Planning" },
-        { id: "bud-2", name: "Emergency Fund", description: "Emergency savings calculator", category: "Savings" },
-        { id: "bud-3", name: "Cash Flow Analysis", description: "Income vs expenses", category: "Analysis" },
-        { id: "bud-4", name: "Savings Goal", description: "Savings target calculator", category: "Goals" },
-        { id: "bud-5", name: "Net Worth Calculator", description: "Assets minus liabilities", category: "Net Worth" },
-        { id: "bud-6", name: "Cost of Living", description: "City comparison calculator", category: "Comparison" },
-        { id: "bud-7", name: "Inflation Calculator", description: "Purchasing power over time", category: "Inflation" },
-        { id: "bud-8", name: "Financial Ratios", description: "Personal finance ratios", category: "Analysis" }
-      ]
-    },
-    business: {
-      name: "Business & Career",
-      calculators: [
-        { id: "biz-1", name: "Salary Calculator", description: "Gross to net salary", category: "Salary" },
-        { id: "biz-2", name: "Hourly vs Salary", description: "Compensation comparison", category: "Comparison" },
-        { id: "biz-3", name: "Self-Employment Tax", description: "SE tax calculator", category: "Tax" },
-        { id: "biz-4", name: "Business Loan", description: "Business financing calculator", category: "Financing" },
-        { id: "biz-5", name: "Break-Even Analysis", description: "Business break-even point", category: "Analysis" },
-        { id: "biz-6", name: "ROI Calculator", description: "Return on investment", category: "Investment" },
-        { id: "biz-7", name: "Freelancer Calculator", description: "Freelance rate calculator", category: "Freelance" },
-        { id: "biz-8", name: "Business Valuation", description: "Small business valuation", category: "Valuation" }
-      ]
-    },
-    estate: {
-      name: "Estate Planning",
-      calculators: [
-        { id: "est-1", name: "Estate Tax Calculator", description: "Federal estate tax", category: "Tax" },
-        { id: "est-2", name: "Gift Tax Calculator", description: "Annual gift tax exclusion", category: "Gifting" },
-        { id: "est-3", name: "Trust Calculator", description: "Trust planning tool", category: "Trust" },
-        { id: "est-4", name: "Generation Skipping", description: "GST tax calculator", category: "Tax" },
-        { id: "est-5", name: "Charitable Giving", description: "Charitable deduction calculator", category: "Charity" },
-        { id: "est-6", name: "Life Insurance Estate", description: "Life insurance in estate", category: "Insurance" },
-        { id: "est-7", name: "Probate Cost", description: "Probate expense calculator", category: "Probate" },
-        { id: "est-8", name: "Will vs Trust", description: "Estate planning comparison", category: "Planning" }
+        { id: "ret-0", name: "Length of Time a Sum Will Last", description: "Calculate how long your savings will last with withdrawals", category: "Distribution" },
+        { id: "ret-1", name: "401(k) Calculator", description: "Calculate retirement savings growth", category: "Accumulation" },
+        { id: "ret-2", name: "IRA Calculator", description: "Traditional vs Roth IRA comparison", category: "Accumulation" },
+        { id: "ret-3", name: "Social Security Optimizer", description: "Optimize claiming strategies", category: "Income" },
+        { id: "ret-4", name: "Retirement Timeline", description: "Plan your retirement journey", category: "Planning" },
+        { id: "ret-5", name: "Withdrawal Strategy", description: "Sustainable withdrawal rates", category: "Distribution" },
+        { id: "ret-6", name: "Pension Calculator", description: "Analyze pension benefits", category: "Income" },
+        { id: "ret-7", name: "Early Retirement", description: "FIRE movement calculator", category: "Planning" },
+        { id: "ret-8", name: "Required Minimum Distribution", description: "Calculate RMDs", category: "Distribution" }
       ]
     }
   };
