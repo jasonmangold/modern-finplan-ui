@@ -11,13 +11,13 @@ const navigationItems = [
 
 export const TopNavigation = () => {
   return (
-    <nav className="flex space-x-6">
+    <nav className="flex space-x-4 lg:space-x-6 flex-shrink-0">
       {navigationItems.map((item) => (
         <NavLink
           key={item.title}
           to={item.url}
           className={({ isActive }) =>
-            `py-2 px-3 rounded-md font-medium text-sm transition-colors ${
+            `py-2 px-2 lg:px-3 rounded-md font-medium text-sm whitespace-nowrap transition-colors ${
               isActive
                 ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300'
                 : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800'
