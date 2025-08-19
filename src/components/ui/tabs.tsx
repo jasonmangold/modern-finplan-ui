@@ -66,7 +66,7 @@ const TabsList = React.forwardRef<
         <div className="absolute left-0 top-0 z-30 h-10 w-10 bg-background flex items-center justify-center">
           <button
             onClick={scrollLeft}
-            className="h-10 w-8 bg-muted hover:bg-muted/80 flex items-center justify-center transition-all duration-200 rounded-md shadow-sm border border-border/50"
+            className="h-8 w-8 bg-muted hover:bg-muted/80 flex items-center justify-center transition-all duration-200 rounded-md shadow-sm border border-border/50"
             aria-label="Scroll tabs left"
           >
             <ChevronLeft className="h-4 w-4 text-foreground" />
@@ -101,7 +101,7 @@ const TabsList = React.forwardRef<
         <div className="absolute right-0 top-0 z-30 h-10 w-10 bg-background flex items-center justify-center">
           <button
             onClick={scrollRight}
-            className="h-10 w-8 bg-muted hover:bg-muted/80 flex items-center justify-center transition-all duration-200 rounded-md shadow-sm border border-border/50"
+            className="h-8 w-8 bg-muted hover:bg-muted/80 flex items-center justify-center transition-all duration-200 rounded-md shadow-sm border border-border/50"
             aria-label="Scroll tabs right"
           >
             <ChevronRight className="h-4 w-4 text-foreground" />
