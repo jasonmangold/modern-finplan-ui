@@ -13,6 +13,7 @@ import {
   Folder
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { LengthOfTimeCalculator } from "@/components/calculators/LengthOfTimeCalculator";
 
 const Calculators = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -30,6 +31,7 @@ const Calculators = () => {
     retirement: {
       name: "Retirement Planning",
       calculators: [
+        { id: "ret-0", name: "Length of Time a Sum Will Last", description: "Calculate how long your savings will last with withdrawals", category: "Distribution" },
         { id: "ret-1", name: "401(k) Calculator", description: "Calculate retirement savings growth", category: "Accumulation" },
         { id: "ret-2", name: "IRA Calculator", description: "Traditional vs Roth IRA comparison", category: "Accumulation" },
         { id: "ret-3", name: "Social Security Optimizer", description: "Optimize claiming strategies", category: "Income" },
@@ -270,48 +272,54 @@ const Calculators = () => {
         </div>
 
         {/* Full-screen calculator content */}
-        <div className="flex-1 grid grid-cols-2 gap-6 p-6">
-          {/* Input Panel */}
-          <Card className="h-full">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                Calculator Inputs
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="p-8 bg-gray-50 rounded-lg text-center">
-                <CalculatorIcon className="h-12 w-12 mx-auto mb-4 text-blue-600" />
-                <h3 className="text-lg font-semibold mb-2">{selectedCalculator.name}</h3>
-                <p className="text-gray-600 mb-4">{selectedCalculator.description}</p>
-                <p className="text-sm text-gray-500">Calculator inputs would appear here</p>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="flex-1 p-6">
+          {selectedCalculator.id === "ret-0" ? (
+            <LengthOfTimeCalculator />
+          ) : (
+            <div className="grid grid-cols-2 gap-6 h-full">
+              {/* Input Panel */}
+              <Card className="h-full">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    Calculator Inputs
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="p-8 bg-gray-50 rounded-lg text-center">
+                    <CalculatorIcon className="h-12 w-12 mx-auto mb-4 text-blue-600" />
+                    <h3 className="text-lg font-semibold mb-2">{selectedCalculator.name}</h3>
+                    <p className="text-gray-600 mb-4">{selectedCalculator.description}</p>
+                    <p className="text-sm text-gray-500">Calculator inputs would appear here</p>
+                  </div>
+                </CardContent>
+              </Card>
 
-          {/* Output Panel */}
-          <Card className="h-full">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Results & Analysis</CardTitle>
-              <div className="flex gap-2">
-                <Button size="sm" variant="outline" onClick={handleSavePDF}>
-                  <Download className="h-4 w-4 mr-2" />
-                  Save PDF
-                </Button>
-                <Button size="sm" onClick={handleAddToPresentation}>
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add to Presentation
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="p-8 bg-blue-50 rounded-lg text-center">
-                <div className="h-32 bg-blue-100 rounded-lg mb-4 flex items-center justify-center">
-                  <span className="text-blue-600 text-sm">Chart/Graph Area</span>
-                </div>
-                <p className="text-sm text-gray-600">Calculator results and visualizations would appear here</p>
-              </div>
-            </CardContent>
-          </Card>
+              {/* Output Panel */}
+              <Card className="h-full">
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <CardTitle>Results & Analysis</CardTitle>
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline" onClick={handleSavePDF}>
+                      <Download className="h-4 w-4 mr-2" />
+                      Save PDF
+                    </Button>
+                    <Button size="sm" onClick={handleAddToPresentation}>
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add to Presentation
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="p-8 bg-blue-50 rounded-lg text-center">
+                    <div className="h-32 bg-blue-100 rounded-lg mb-4 flex items-center justify-center">
+                      <span className="text-blue-600 text-sm">Chart/Graph Area</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Calculator results and visualizations would appear here</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
       </div>
     );
