@@ -63,21 +63,23 @@ const TabsList = React.forwardRef<
   return (
     <div className="relative w-full">
       {showLeftArrow && (
-        <button
-          onClick={scrollLeft}
-          className="absolute left-0 top-0 z-30 h-10 w-12 bg-gradient-to-r from-background via-background to-background/0 flex items-center justify-start pl-1 hover:from-muted hover:via-muted transition-all duration-200"
-          aria-label="Scroll tabs left"
-        >
-          <ChevronLeft className="h-4 w-4 text-muted-foreground" />
-        </button>
+        <div className="absolute left-0 top-0 z-30 h-10 w-10 bg-background flex items-center justify-center">
+          <button
+            onClick={scrollLeft}
+            className="h-8 w-8 bg-muted hover:bg-muted/80 flex items-center justify-center transition-all duration-200 rounded-md shadow-sm border border-border/50"
+            aria-label="Scroll tabs left"
+          >
+            <ChevronLeft className="h-4 w-4 text-foreground" />
+          </button>
+        </div>
       )}
       
       <div
         ref={scrollContainerRef}
         className={cn(
           "overflow-x-auto scrollbar-none",
-          showLeftArrow && "pl-12",
-          showRightArrow && "pr-12"
+          showLeftArrow && "pl-10",
+          showRightArrow && "pr-10"
         )}
         style={{ 
           scrollbarWidth: 'none', 
@@ -96,13 +98,15 @@ const TabsList = React.forwardRef<
       </div>
 
       {showRightArrow && (
-        <button
-          onClick={scrollRight}
-          className="absolute right-0 top-0 z-30 h-10 w-12 bg-gradient-to-l from-background via-background to-background/0 flex items-center justify-end pr-1 hover:from-muted hover:via-muted transition-all duration-200"
-          aria-label="Scroll tabs right"
-        >
-          <ChevronRight className="h-4 w-4 text-muted-foreground" />
-        </button>
+        <div className="absolute right-0 top-0 z-30 h-10 w-10 bg-background flex items-center justify-center">
+          <button
+            onClick={scrollRight}
+            className="h-8 w-8 bg-muted hover:bg-muted/80 flex items-center justify-center transition-all duration-200 rounded-md shadow-sm border border-border/50"
+            aria-label="Scroll tabs right"
+          >
+            <ChevronRight className="h-4 w-4 text-foreground" />
+          </button>
+        </div>
       )}
     </div>
   )
