@@ -87,7 +87,6 @@ const Home = () => {
           </div>)}
       </CardContent>
     </Card>;
-
   const SectionWhatsNew = () => <Card className="smooth-card">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
@@ -100,7 +99,7 @@ const Home = () => {
           <div className="relative pl-4 border-l-2 border-blue-500">
             <div className="absolute -left-1.5 top-0 w-3 h-3 bg-blue-500 rounded-full"></div>
             <h4 className="font-semibold text-gray-900">One Big Beautiful Bill Act of 2025 Update</h4>
-            <p className="text-sm text-muted-foreground mt-1">New visualizations for retirement goals</p>
+            <p className="text-sm text-muted-foreground mt-1">2 new reports and 24 updated reports</p>
             <span className="inline-block mt-2 text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-full">Aug 31, 2025</span>
           </div>
           <div className="relative pl-4 border-l-2 border-green-500">
@@ -112,7 +111,6 @@ const Home = () => {
         </div>
       </CardContent>
     </Card>;
-
   const SectionFavoriteReports = () => <Card className="smooth-card">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <CardTitle className="text-lg flex items-center gap-2">
@@ -137,7 +135,6 @@ const Home = () => {
           </div>)}
       </CardContent>
     </Card>;
-
   const SectionLearnImprove = () => <Card className="smooth-card">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
@@ -164,7 +161,6 @@ const Home = () => {
         </div>
       </CardContent>
     </Card>;
-
   const SectionTwoMinuteTips = () => <Card className="smooth-card">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
@@ -184,7 +180,6 @@ const Home = () => {
           </div>)}
       </CardContent>
     </Card>;
-
   const SectionWebinars = () => <Card className="smooth-card">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
@@ -204,7 +199,6 @@ const Home = () => {
           </div>)}
       </CardContent>
     </Card>;
-
   const SectionMakeSuggestion = () => <Card className="smooth-card">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
@@ -224,17 +218,9 @@ const Home = () => {
   return <div className="p-8 max-w-7xl mx-auto space-y-8">
       {/* Clean Welcome Header */}
       <div className="space-y-2">
-        {isFirstTime ? (
-          <h1 className="text-3xl font-bold text-gray-900">Welcome to eAdvisys!</h1>
-        ) : (
-          <TextShimmer 
-            as="h1" 
-            duration={1.2} 
-            className="text-3xl font-bold text-gray-900"
-          >
+        {isFirstTime ? <h1 className="text-3xl font-bold text-gray-900">Welcome to eAdvisys!</h1> : <TextShimmer as="h1" duration={1.2} className="text-3xl font-bold text-gray-900">
             {`Welcome back, ${userName}!`}
-          </TextShimmer>
-        )}
+          </TextShimmer>}
         <p className="text-lg text-muted-foreground">
           {isFirstTime ? "Let's get you started with your financial advisory toolkit" : "Your comprehensive financial planning dashboard"}
         </p>
