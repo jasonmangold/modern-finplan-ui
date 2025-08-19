@@ -93,49 +93,85 @@ const Calculators = () => {
     investments: {
       name: "Investments",
       calculators: [
-        { id: "inv-1", name: "Portfolio Analyzer", description: "Analyze investment portfolio", category: "Analysis" },
-        { id: "inv-2", name: "Asset Allocation", description: "Optimize asset allocation", category: "Planning" },
-        { id: "inv-3", name: "Dollar Cost Averaging", description: "DCA vs lump sum", category: "Strategy" },
-        { id: "inv-4", name: "Compound Interest", description: "Power of compounding", category: "Growth" },
-        { id: "inv-5", name: "Risk Calculator", description: "Investment risk assessment", category: "Analysis" },
-        { id: "inv-6", name: "Rebalancing Tool", description: "Portfolio rebalancing", category: "Management" },
-        { id: "inv-7", name: "Tax-Loss Harvesting", description: "Optimize tax efficiency", category: "Tax" },
-        { id: "inv-8", name: "Bond Calculator", description: "Bond yield and duration", category: "Fixed Income" }
+        { id: "inv-1", name: "Dollar Cost Averaging Calculator", description: "DCA investment strategy analysis", category: "Strategy" },
+        { id: "inv-2", name: "Effect of Not Rebalancing Assets", description: "Portfolio rebalancing impact", category: "Management" },
+        { id: "inv-3", name: "Internal Rate of Return", description: "Calculate IRR for investments", category: "Analysis" },
+        { id: "inv-4", name: "Impact of Fees", description: "Fee impact on investment returns", category: "Cost" },
+        { id: "inv-5", name: "Impact of Fees Timeline", description: "Fee impact over time visualization", category: "Cost" },
+        { id: "inv-6", name: "Impact of Inflation on Savings Growth", description: "Inflation effect on savings", category: "Inflation" },
+        { id: "inv-7", name: "Impact of the Rate of Return", description: "Return rate impact analysis", category: "Return" },
+        { id: "inv-8", name: "Market Timing", description: "Market timing strategy analysis", category: "Strategy" },
+        { id: "inv-9", name: "Monte Carlo Simulator", description: "Monte Carlo investment simulation", category: "Simulation" },
+        { id: "inv-10", name: "Present Value of a Future Sum", description: "Present value calculator", category: "Valuation" },
+        { id: "inv-11", name: "Rate of Return on a Single Amount", description: "Single investment return rate", category: "Return" },
+        { id: "inv-12", name: "The Real Rate of Return", description: "Inflation-adjusted returns", category: "Return" },
+        { id: "inv-13", name: "Value over Time", description: "Investment value progression", category: "Growth" },
+        { id: "inv-14", name: "Weighted Average Rate of Return", description: "Portfolio weighted return", category: "Return" }
       ]
     },
     lifeInsurance: {
       name: "Life Insurance",
       calculators: [
-        { id: "life-1", name: "Life Insurance Needs", description: "Calculate coverage needed", category: "Needs" },
-        { id: "life-2", name: "Term vs Whole Life", description: "Life insurance comparison", category: "Comparison" },
-        { id: "life-3", name: "Life Insurance Calculator", description: "General life insurance calculator", category: "General" }
+        { id: "life-1", name: "Debt, Income, Mortgage and Education Analysis (DIME)", description: "DIME method life insurance calculation", category: "Needs" },
+        { id: "life-2", name: "How Much Life Insurance?", description: "Life insurance needs calculator", category: "Needs" },
+        { id: "life-3", name: "How Much Life Insurance? - Graph", description: "Life insurance needs with graph", category: "Needs" },
+        { id: "life-4", name: "Human Life Value", description: "Calculate human life value", category: "Valuation" },
+        { id: "life-5", name: "Length of Time a Sum Will Last", description: "Insurance payout duration", category: "Duration" },
+        { id: "life-6", name: "Lifetime Earnings", description: "Calculate lifetime earning potential", category: "Earnings" }
       ]
     },
     personalFinance: {
       name: "Personal Finance",
       calculators: [
-        { id: "pf-1", name: "Budget Calculator", description: "Monthly budget planner", category: "Planning" },
-        { id: "pf-2", name: "Emergency Fund", description: "Emergency savings calculator", category: "Savings" },
-        { id: "pf-3", name: "Cash Flow Analysis", description: "Income vs expenses", category: "Analysis" },
-        { id: "pf-4", name: "Savings Goal", description: "Savings target calculator", category: "Goals" },
-        { id: "pf-5", name: "Net Worth Calculator", description: "Assets minus liabilities", category: "Net Worth" },
-        { id: "pf-6", name: "Debt-to-Income", description: "DTI ratio calculator", category: "Analysis" },
-        { id: "pf-7", name: "Inflation Calculator", description: "Purchasing power over time", category: "Inflation" },
-        { id: "pf-8", name: "Financial Ratios", description: "Personal finance ratios", category: "Analysis" }
+        { id: "pf-1", name: "Accumulating One Million Dollars", description: "Path to millionaire status", category: "Goals" },
+        { id: "pf-2", name: "Amounts Needed to Accumulate a Future Sum", description: "Required savings for future goals", category: "Planning" },
+        { id: "pf-3", name: "Cost of Procrastination", description: "Delayed savings impact", category: "Planning" },
+        { id: "pf-4", name: "Effect of Inflation", description: "Inflation impact calculator", category: "Inflation" },
+        { id: "pf-5", name: "Future Value of a Single Sum", description: "Single investment future value", category: "Growth" },
+        { id: "pf-6", name: "Future Value of a Single Sum and Periodic Additions", description: "Combined investment growth", category: "Growth" },
+        { id: "pf-7", name: "Future Value of Periodic Additions", description: "Regular savings growth", category: "Growth" },
+        { id: "pf-8", name: "Inflation and Purchasing Power", description: "Purchasing power over time", category: "Inflation" },
+        { id: "pf-9", name: "Lifetime Earnings", description: "Calculate lifetime earning potential", category: "Earnings" },
+        { id: "pf-10", name: "Pay Debt or Invest?", description: "Debt vs investment decision", category: "Strategy" },
+        { id: "pf-11", name: "Pay Yourself First", description: "Automatic savings strategy", category: "Savings" },
+        { id: "pf-12", name: "Personal Cash Flow Statement", description: "Cash flow analysis", category: "Analysis" },
+        { id: "pf-13", name: "Personal Net Worth Statement", description: "Net worth calculator", category: "Net Worth" },
+        { id: "pf-14", name: "Present Value of Future Annuity Payments", description: "Annuity present value", category: "Valuation" },
+        { id: "pf-15", name: "Rate of Inflation", description: "Inflation rate calculator", category: "Inflation" },
+        { id: "pf-16", name: "Rule of 72", description: "Doubling time calculator", category: "Growth" },
+        { id: "pf-17", name: "Weighted Average Interest Rate", description: "Portfolio interest rates", category: "Rate" },
+        { id: "pf-18", name: "Weighted Average Rate of Return", description: "Portfolio return rates", category: "Return" }
       ]
     },
     retirementPlanning: {
       name: "Retirement Planning",
       calculators: [
+        { id: "ret-1", name: "Annuity Maximization - Graph", description: "Annuity optimization with graph", category: "Annuity" },
+        { id: "ret-2", name: "Annuity Maximization - Timeline", description: "Annuity optimization timeline", category: "Annuity" },
+        { id: "ret-3", name: "Begin Now Or Wait?", description: "Retirement savings timing", category: "Planning" },
+        { id: "ret-4", name: "Comparing IRAs", description: "IRA comparison analysis", category: "IRA" },
+        { id: "ret-5", name: "Does It Matter When You Contribute to an IRA?", description: "IRA contribution timing", category: "IRA" },
+        { id: "ret-6", name: "Employer Sponsored Plans", description: "Employer retirement plan analysis", category: "401k" },
+        { id: "ret-7", name: "Employer Sponsored Safe Harbor Plans", description: "Safe harbor plan analysis", category: "401k" },
+        { id: "ret-8", name: "Impact of Qualified Plan Contributions on a Paycheck", description: "Paycheck impact analysis", category: "Contribution" },
+        { id: "ret-9", name: "Impact of Tax Deferred Growth in an IRA", description: "Tax-deferred growth benefits", category: "Tax" },
+        { id: "ret-10", name: "IRA Eligibility", description: "IRA eligibility calculator", category: "IRA" },
         { id: "ret-0", name: "Length of Time a Sum Will Last", description: "Calculate how long your savings will last with withdrawals", category: "Distribution" },
-        { id: "ret-1", name: "401(k) Calculator", description: "Calculate retirement savings growth", category: "Accumulation" },
-        { id: "ret-2", name: "IRA Calculator", description: "Traditional vs Roth IRA comparison", category: "Accumulation" },
-        { id: "ret-3", name: "Social Security Optimizer", description: "Optimize claiming strategies", category: "Income" },
-        { id: "ret-4", name: "Retirement Timeline", description: "Plan your retirement journey", category: "Planning" },
-        { id: "ret-5", name: "Withdrawal Strategy", description: "Sustainable withdrawal rates", category: "Distribution" },
-        { id: "ret-6", name: "Pension Calculator", description: "Analyze pension benefits", category: "Income" },
-        { id: "ret-7", name: "Early Retirement", description: "FIRE movement calculator", category: "Planning" },
-        { id: "ret-8", name: "Required Minimum Distribution", description: "Calculate RMDs", category: "Distribution" }
+        { id: "ret-11", name: "Market Timing", description: "Retirement market timing analysis", category: "Strategy" },
+        { id: "ret-12", name: "Monte Carlo Simulator", description: "Retirement Monte Carlo simulation", category: "Simulation" },
+        { id: "ret-13", name: "Qualified Plan Distribution Planner", description: "Distribution planning tool", category: "Distribution" },
+        { id: "ret-14", name: "Rate of Withdrawal in Retirement", description: "Sustainable withdrawal rates", category: "Distribution" },
+        { id: "ret-15", name: "Required Minimum Distributions During Life", description: "RMD calculation during life", category: "RMD" },
+        { id: "ret-16", name: "Qualified Plan Distribution Maximization", description: "Optimize distribution strategy", category: "Distribution" },
+        { id: "ret-17", name: "Qualified Plan Distribution Maximization Timeline", description: "Distribution timeline optimization", category: "Distribution" },
+        { id: "ret-18", name: "Roth IRA Conversion", description: "Roth conversion analysis", category: "Roth" },
+        { id: "ret-19", name: "Substantially Equal Periodic Payments - 72(t)", description: "72(t) payment calculator", category: "Distribution" },
+        { id: "ret-20", name: "Tax-deductible Portion of Your Traditional IRA Contribution", description: "IRA deduction calculator", category: "Tax" },
+        { id: "ret-21", name: "Tax-Deferred Growth in an IRA - Traditional IRA", description: "Traditional IRA growth analysis", category: "IRA" },
+        { id: "ret-22", name: "When Will Your Nest Egg Run Out?", description: "Retirement fund depletion calculator", category: "Planning" },
+        { id: "ret-23", name: "Social Security Break-Even", description: "Social Security claiming break-even", category: "Social Security" },
+        { id: "ret-24", name: "Social Security Optimizer", description: "Optimize Social Security strategy", category: "Social Security" },
+        { id: "ret-25", name: "Taxable Portion of Social Security Benefits", description: "Social Security tax calculator", category: "Social Security" }
       ]
     }
   };
