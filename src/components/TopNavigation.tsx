@@ -2,7 +2,7 @@
 import { NavLink } from "react-router-dom";
 
 const navigationItems = [
-  { title: "Home", url: "/" },
+  { title: "Home", url: "/home" },
   { title: "Analysis", url: "/analysis" },
   { title: "Education", url: "/education" },
   { title: "Calculators", url: "/calculators" },

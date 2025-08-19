@@ -13,7 +13,7 @@ import {
 import { Home, Search, Calendar, User } from "lucide-react";
 
 const navigationItems = [
-  { title: "Home", url: "/", icon: Home },
+  { title: "Home", url: "/home", icon: Home },
   { title: "Analysis", url: "/analysis", icon: Search },
   { title: "Education", url: "/education", icon: Calendar },
   { title: "Calculators", url: "/calculators", icon: User },
