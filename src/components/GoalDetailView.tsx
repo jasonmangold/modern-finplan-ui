@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ArrowLeft, GraduationCap, Home, Car, PiggyBank, Shield, Check } from "lucide-react";
+import { ArrowLeft, GraduationCap, Home, Car, PiggyBank, Shield, Check, PieChart } from "lucide-react";
 import { useState, useEffect } from "react";
 import { GoalInputPanel } from "./GoalInputPanel";
 import { GoalOutputPanel } from "./GoalOutputPanel";
@@ -14,6 +14,7 @@ import { SurvivorNeedsOutput } from "./SurvivorNeedsOutput";
 import { RetirementTimelineOutput } from "./RetirementTimelineOutput";
 import { EducationFundingSummaryOutput } from "./EducationFundingSummaryOutput";
 import { TotalNeedsSpendingOutput } from "./TotalNeedsSpendingOutput";
+import { AssetAllocationComparisonOutput } from "./AssetAllocationComparisonOutput";
 import { usePresentationContext } from "@/contexts/PresentationContext";
 const goalConfigs = {
   college: {
@@ -94,6 +95,21 @@ const goalConfigs = {
       "Retirement Distribution Analysis Data - Fact Finder"
     ],
     defaultOutput: "You and Your Retirement"
+  },
+  "asset-allocation": {
+    title: "Asset Allocation",
+    icon: PieChart,
+    color: "text-indigo-600",
+    description: "Analyze and optimize portfolio asset allocation",
+    outputs: [
+      "Current Allocation for Assets",
+      "Recommended Allocation for Assets",
+      "Asset Allocation Comparison",
+      "Risk Tolerance Analysis",
+      "Risk Tolerance Questionnaire",
+      "Asset Allocation Data - Fact Finder"
+    ],
+    defaultOutput: "Current Allocation for Assets"
   }
 };
 interface GoalDetailViewProps {
@@ -226,6 +242,8 @@ export const GoalDetailView = ({
                       <EducationFundingSummaryOutput selectedForPresentation={selectedForPresentation} />
                     ) : goalId === "retirement-distribution" && selectedOutput === "Total Needs Spending" ? (
                       <TotalNeedsSpendingOutput selectedForPresentation={selectedForPresentation} />
+                    ) : goalId === "asset-allocation" && selectedOutput === "Asset Allocation Comparison" ? (
+                      <AssetAllocationComparisonOutput selectedForPresentation={selectedForPresentation} />
                     ) : (
                       <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
                     )}
