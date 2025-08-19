@@ -57,7 +57,7 @@ const Home = () => {
   }];
 
   // Modern section components with content-driven heights and design system colors
-  const SectionRecentClients = () => <Card className="smooth-card">
+  const SectionRecentClients = () => <Card className="glass-card border-white/30 shadow-xl shadow-blue-500/10">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <CardTitle className="text-xl flex items-center gap-2">
           <User className="h-5 w-5 text-blue-600" />
@@ -68,7 +68,7 @@ const Home = () => {
         </Button>
       </CardHeader>
       <CardContent className="space-y-3">
-        {recentClients.map((client, index) => <div key={index} className="flex items-center justify-between p-4 rounded-xl border border-gray-200/60 hover:border-blue-200 hover:bg-blue-50/30 transition-all duration-200 group">
+        {recentClients.map((client, index) => <div key={index} className="flex items-center justify-between p-4 rounded-xl border border-white/40 bg-white/60 backdrop-blur-sm hover:border-blue-300/60 hover:bg-white/80 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 group">
             <div className="flex-1">
               <div className="font-semibold text-gray-900 group-hover:text-blue-900">{client.name}</div>
               <div className="text-sm text-muted-foreground flex items-center gap-1.5 mt-1">
@@ -87,7 +87,7 @@ const Home = () => {
           </div>)}
       </CardContent>
     </Card>;
-  const SectionWhatsNew = () => <Card className="smooth-card">
+  const SectionWhatsNew = () => <Card className="glass-card border-white/30 shadow-xl shadow-blue-500/10">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           <Sparkles className="h-5 w-5 text-blue-600" />
@@ -111,7 +111,7 @@ const Home = () => {
         </div>
       </CardContent>
     </Card>;
-  const SectionFavoriteReports = () => <Card className="smooth-card">
+  const SectionFavoriteReports = () => <Card className="glass-card border-white/30 shadow-xl shadow-amber-500/10">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <CardTitle className="text-lg flex items-center gap-2">
           <Star className="h-5 w-5 text-amber-500" />
@@ -119,7 +119,7 @@ const Home = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        {favoriteReports.map((report, index) => <div key={index} className="flex items-center justify-between p-3 rounded-lg border border-gray-200/60 hover:border-amber-200 hover:bg-amber-50/30 transition-all duration-200 cursor-pointer group">
+        {favoriteReports.map((report, index) => <div key={index} className="flex items-center justify-between p-3 rounded-lg border border-white/40 bg-white/60 backdrop-blur-sm hover:border-amber-300/60 hover:bg-white/80 hover:shadow-lg hover:shadow-amber-500/20 transition-all duration-300 cursor-pointer group">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
                 <FileText className="h-4 w-4 text-blue-600" />
@@ -135,7 +135,7 @@ const Home = () => {
           </div>)}
       </CardContent>
     </Card>;
-  const SectionLearnImprove = () => <Card className="smooth-card">
+  const SectionLearnImprove = () => <Card className="glass-card border-white/30 shadow-xl shadow-green-500/10">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           <GraduationCap className="h-5 w-5 text-blue-600" />
@@ -161,7 +161,7 @@ const Home = () => {
         </div>
       </CardContent>
     </Card>;
-  const SectionTwoMinuteTips = () => <Card className="smooth-card">
+  const SectionTwoMinuteTips = () => <Card className="glass-card border-white/30 shadow-lg shadow-amber-500/10">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           <Zap className="h-5 w-5 text-amber-500" />
@@ -180,7 +180,7 @@ const Home = () => {
           </div>)}
       </CardContent>
     </Card>;
-  const SectionWebinars = () => <Card className="smooth-card">
+  const SectionWebinars = () => <Card className="glass-card border-white/30 shadow-lg shadow-violet-500/10">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           <Video className="h-5 w-5 text-violet-600" />
@@ -199,7 +199,7 @@ const Home = () => {
           </div>)}
       </CardContent>
     </Card>;
-  const SectionMakeSuggestion = () => <Card className="smooth-card">
+  const SectionMakeSuggestion = () => <Card className="glass-card border-white/30 shadow-lg shadow-emerald-500/10">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           <MessageSquarePlus className="h-5 w-5 text-emerald-600" />
@@ -215,7 +215,7 @@ const Home = () => {
         </Button>
       </CardContent>
     </Card>;
-  return <div className="p-8 max-w-7xl mx-auto space-y-8">
+  return <div className="p-6 lg:p-8 space-y-8 min-h-screen bg-gradient-to-br from-blue-50/50 via-white to-gray-50/50">
       {/* Clean Welcome Header */}
       <div className="space-y-2">
         {isFirstTime ? <h1 className="text-3xl font-bold text-gray-900">Welcome to eAdvisys!</h1> : <TextShimmer as="h1" duration={1.2} className="text-3xl font-bold text-gray-900">
@@ -243,7 +243,7 @@ const Home = () => {
           <SectionFavoriteReports />
           <SectionLearnImprove />
           <div className="md:col-span-2 lg:col-span-1">
-            <Card className="smooth-card h-full">
+            <Card className="glass-card border-white/30 shadow-xl shadow-emerald-500/10 h-full">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-emerald-600" />
