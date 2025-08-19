@@ -56,236 +56,239 @@ const Home = () => {
     duration: "1:45"
   }];
 
-  // Updated cardClass for consistent height matching Recent Clients section
-  const cardClass = "h-[400px] flex flex-col";
-  const SectionRecentClients = () => <Card className={cardClass}>
+  // Modern section components with content-driven heights and design system colors
+  const SectionRecentClients = () => <Card className="smooth-card">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-        <CardTitle className="text-lg flex items-center gap-2">
+        <CardTitle className="text-xl flex items-center gap-2">
           <User className="h-5 w-5 text-blue-600" />
           Recent Clients
         </CardTitle>
-        <Button variant="ghost" size="sm" className="text-blue-600">
+        <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
           See all <ArrowRight className="h-4 w-4 ml-1" />
         </Button>
       </CardHeader>
-      <CardContent className="space-y-3 flex-1 flex flex-col justify-between">
-        {recentClients.map((client, index) => <div key={index} className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 transition-colors">
+      <CardContent className="space-y-3">
+        {recentClients.map((client, index) => <div key={index} className="flex items-center justify-between p-4 rounded-xl border border-gray-200/60 hover:border-blue-200 hover:bg-blue-50/30 transition-all duration-200 group">
             <div className="flex-1">
-              <div className="font-medium">{client.name}</div>
-              <div className="text-sm text-gray-500 flex items-center gap-1">
-                <Clock className="h-3 w-3" />
+              <div className="font-semibold text-gray-900 group-hover:text-blue-900">{client.name}</div>
+              <div className="text-sm text-muted-foreground flex items-center gap-1.5 mt-1">
+                <Clock className="h-3.5 w-3.5" />
                 {client.lastUpdated}
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Badge variant={client.status === 'active' ? 'default' : 'secondary'} className="text-xs">
+            <div className="flex items-center gap-3">
+              <Badge variant={client.status === 'active' ? 'default' : 'secondary'} className="pill-tag">
                 {client.status}
               </Badge>
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </div>
           </div>)}
       </CardContent>
     </Card>;
-  const SectionFavoriteReports = () => <Card className={cardClass}>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-        <CardTitle className="text-lg flex items-center gap-2">
-          <Star className="h-5 w-5 text-yellow-500" />
-          Favorite Reports
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-3 flex-1 flex flex-col justify-between">
-        {favoriteReports.map((report, index) => <div key={index} className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 transition-colors cursor-pointer">
-            <div className="flex items-center gap-3">
-              <FileText className="h-4 w-4 text-blue-600" />
-              <div>
-                <div className="font-medium">{report.name}</div>
-                <div className="text-sm text-gray-500">{report.type}</div>
-              </div>
-            </div>
-            <Button size="sm" variant="outline">
-              Open
-            </Button>
-          </div>)}
-      </CardContent>
-    </Card>;
-  const SectionWhatsNew = () => <Card className={cardClass}>
+
+  const SectionWhatsNew = () => <Card className="smooth-card">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           <Sparkles className="h-5 w-5 text-blue-600" />
           What's New
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4 flex-1 flex flex-col justify-between">
+      <CardContent className="space-y-4">
         <div className="space-y-4">
-          <div className="border-l-4 border-blue-500 pl-4">
-            <h4 className="font-medium">One Big Beautiful Bill Act of 2025 Update</h4>
-            <p className="text-sm text-gray-600">New visualizations for retirement goals</p>
-            <span className="text-xs text-blue-600">Aug 31, 2025</span>
+          <div className="relative pl-4 border-l-2 border-blue-500">
+            <div className="absolute -left-1.5 top-0 w-3 h-3 bg-blue-500 rounded-full"></div>
+            <h4 className="font-semibold text-gray-900">One Big Beautiful Bill Act of 2025 Update</h4>
+            <p className="text-sm text-muted-foreground mt-1">New visualizations for retirement goals</p>
+            <span className="inline-block mt-2 text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-full">Aug 31, 2025</span>
           </div>
-          <div className="border-l-4 border-green-500 pl-4">
-            <h4 className="font-medium">Improved PDF Exports</h4>
-            <p className="text-sm text-gray-600">Faster generation with better formatting</p>
-            <span className="text-xs text-green-600">Dec 8, 2024</span>
+          <div className="relative pl-4 border-l-2 border-green-500">
+            <div className="absolute -left-1.5 top-0 w-3 h-3 bg-green-500 rounded-full"></div>
+            <h4 className="font-semibold text-gray-900">Improved PDF Exports</h4>
+            <p className="text-sm text-muted-foreground mt-1">Faster generation with better formatting</p>
+            <span className="inline-block mt-2 text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">Dec 8, 2024</span>
           </div>
         </div>
       </CardContent>
     </Card>;
-  const SectionTwoMinuteTips = () => <Card className={cardClass}>
-      <CardHeader>
+
+  const SectionFavoriteReports = () => <Card className="smooth-card">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <CardTitle className="text-lg flex items-center gap-2">
-          <Zap className="h-5 w-5 text-yellow-500" />
-          Two Minute Tips
+          <Star className="h-5 w-5 text-amber-500" />
+          Favorite Reports
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4 flex-1 flex flex-col justify-between">
-        <div className="space-y-3">
-          {twoMinuteTips.map((tip, index) => <div key={index} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-gray-50 transition-colors cursor-pointer">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <Play className="h-5 w-5 text-blue-600" />
+      <CardContent className="space-y-3">
+        {favoriteReports.map((report, index) => <div key={index} className="flex items-center justify-between p-3 rounded-lg border border-gray-200/60 hover:border-amber-200 hover:bg-amber-50/30 transition-all duration-200 cursor-pointer group">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                <FileText className="h-4 w-4 text-blue-600" />
               </div>
-              <div className="flex-1">
-                <div className="font-medium">{tip.title}</div>
-                <div className="text-sm text-gray-500">{tip.duration}</div>
+              <div>
+                <div className="font-medium text-gray-900">{report.name}</div>
+                <div className="text-sm text-muted-foreground">{report.type}</div>
               </div>
-            </div>)}
-        </div>
+            </div>
+            <Button size="sm" variant="outline" className="modern-button opacity-0 group-hover:opacity-100 transition-opacity">
+              Open
+            </Button>
+          </div>)}
       </CardContent>
     </Card>;
-  const SectionLearnImprove = () => <Card className={cardClass}>
+
+  const SectionLearnImprove = () => <Card className="smooth-card">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           <GraduationCap className="h-5 w-5 text-blue-600" />
           Learn & Improve
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4 flex-1 flex flex-col justify-between">
-        <div className="space-y-4">
-          <div className="p-4 bg-blue-50 rounded-lg">
-            <h3 className="font-semibold mb-2">Getting Started Tour</h3>
-            <p className="text-sm text-gray-600 mb-3">Learn the basics in just 2 minutes</p>
-            <Button className="w-full">
-              <Play className="h-4 w-4 mr-2" />
-              Take 2-Minute Tour
-            </Button>
-          </div>
-          <div className="p-4 bg-green-50 rounded-lg">
-            <h3 className="font-semibold mb-2">Schedule Training</h3>
-            <p className="text-sm text-gray-600 mb-3">Book personalized training session</p>
-            <Button variant="outline" className="w-full">
-              <Calendar className="h-4 w-4 mr-2" />
-              Book Training
-            </Button>
-          </div>
+      <CardContent className="space-y-4">
+        <div className="p-4 bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-xl border border-blue-200/50">
+          <h3 className="font-semibold mb-2 text-gray-900">Getting Started Tour</h3>
+          <p className="text-sm text-muted-foreground mb-3">Learn the basics in just 2 minutes</p>
+          <Button className="w-full modern-button">
+            <Play className="h-4 w-4 mr-2" />
+            Take 2-Minute Tour
+          </Button>
+        </div>
+        <div className="p-4 bg-gradient-to-br from-green-50 to-green-100/50 rounded-xl border border-green-200/50">
+          <h3 className="font-semibold mb-2 text-gray-900">Schedule Training</h3>
+          <p className="text-sm text-muted-foreground mb-3">Book personalized training session</p>
+          <Button variant="outline" className="w-full modern-button">
+            <Calendar className="h-4 w-4 mr-2" />
+            Book Training
+          </Button>
         </div>
       </CardContent>
     </Card>;
-  const SectionWebinars = () => <Card className={cardClass}>
+
+  const SectionTwoMinuteTips = () => <Card className="smooth-card">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
-          <Video className="h-5 w-5 text-purple-600" />
+          <Zap className="h-5 w-5 text-amber-500" />
+          Two Minute Tips
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        {twoMinuteTips.map((tip, index) => <div key={index} className="flex items-center gap-3 p-3 rounded-xl border border-gray-200/60 hover:border-amber-200 hover:bg-amber-50/30 transition-all duration-200 cursor-pointer group">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center group-hover:from-blue-200 group-hover:to-blue-300 transition-all">
+              <Play className="h-5 w-5 text-blue-600" />
+            </div>
+            <div className="flex-1">
+              <div className="font-medium text-gray-900">{tip.title}</div>
+              <div className="text-sm text-muted-foreground">{tip.duration}</div>
+            </div>
+          </div>)}
+      </CardContent>
+    </Card>;
+
+  const SectionWebinars = () => <Card className="smooth-card">
+      <CardHeader>
+        <CardTitle className="text-lg flex items-center gap-2">
+          <Video className="h-5 w-5 text-violet-600" />
           Upcoming Webinars
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4 flex-1 flex flex-col justify-between">
-        <div className="space-y-3">
-          {upcomingWebinars.map((webinar, index) => <div key={index} className="flex items-center justify-between p-3 rounded-lg border">
-              <div>
-                <div className="font-medium">{webinar.title}</div>
-                <div className="text-sm text-gray-500">{webinar.date} at {webinar.time}</div>
-              </div>
-              <Button size="sm" variant="outline">
-                Join
-              </Button>
-            </div>)}
-        </div>
+      <CardContent className="space-y-3">
+        {upcomingWebinars.map((webinar, index) => <div key={index} className="flex items-center justify-between p-3 rounded-lg border border-gray-200/60 hover:border-violet-200 hover:bg-violet-50/30 transition-all duration-200 group">
+            <div>
+              <div className="font-medium text-gray-900">{webinar.title}</div>
+              <div className="text-sm text-muted-foreground">{webinar.date} at {webinar.time}</div>
+            </div>
+            <Button size="sm" variant="outline" className="modern-button opacity-0 group-hover:opacity-100 transition-opacity">
+              Join
+            </Button>
+          </div>)}
       </CardContent>
     </Card>;
-  const SectionMakeSuggestion = () => <Card className={cardClass}>
+
+  const SectionMakeSuggestion = () => <Card className="smooth-card">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
-          <MessageSquarePlus className="h-5 w-5 text-green-600" />
+          <MessageSquarePlus className="h-5 w-5 text-emerald-600" />
           Got an Idea?
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col justify-between">
-        <div>
-          <p className="text-sm text-gray-600 mb-4">
-            Help us improve eAdvisys with your feedback and suggestions.
-          </p>
-        </div>
-        <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white mt-auto">
+      <CardContent>
+        <p className="text-sm text-muted-foreground mb-4">
+          Help us improve eAdvisys with your feedback and suggestions.
+        </p>
+        <Button className="w-full modern-button bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white">
           Make a Suggestion
         </Button>
       </CardContent>
     </Card>;
-  return <div className="p-6 max-w-7xl mx-auto">
-      {/* Modernized Welcome Banner */}
-      <div className="relative rounded-xl p-6 text-white overflow-hidden mb-6 shadow-lg">
-        {/* Modern mesh gradient and subtle dot-pattern overlay */}
-        <div aria-hidden className="absolute inset-0 z-0">
-          {/* Main mesh gradient */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-700 via-blue-500 to-gray-800 opacity-95" />
-          {/* Subtle mesh/texture */}
-          <svg className="absolute inset-0 w-full h-full opacity-15" style={{
-          pointerEvents: 'none'
-        }} xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 600 400">
-            <defs>
-              <pattern id="dots" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
-                <circle cx="1" cy="1" r="1.5" fill="white" />
-              </pattern>
-            </defs>
-            <rect width="600" height="400" fill="url(#dots)" />
-          </svg>
-        </div>
-        <div className="relative z-10 flex items-center flex-wrap justify-between">
-          <div>
-            {isFirstTime ? <h1 className="text-2xl font-bold mb-2">Welcome to eAdvisys!</h1> : <TextShimmer as="h1" duration={1.2} className="text-2xl font-bold mb-2 [--base-color:theme(colors.blue.200)] [--base-gradient-color:theme(colors.white)] dark:[--base-color:theme(colors.blue.300)] dark:[--base-gradient-color:theme(colors.blue.100)]">
-                {`Welcome back, ${userName}!`}
-              </TextShimmer>}
-            {!isFirstTime && currentClient && <div className="flex items-center gap-2 mb-4">
-                <Folder className="h-4 w-4 text-blue-200" />
-                <p className="text-blue-100 text-sm">
-                  You're working on: <span className="text-white font-medium cursor-pointer hover:underline">{currentClient}</span>
-                </p>
-              </div>}
-            <p className="text-blue-100 mb-4">
-              {isFirstTime ? "Let's get you started with your financial advisory toolkit" : "Ready to continue where you left off?"}
-            </p>
-          </div>
-          <div className="flex gap-3 mt-4 lg:mt-0">
-            {isFirstTime ? <Button variant="secondary" className="bg-white text-blue-700 hover:bg-blue-50 shadow border">
-                Take a Quick Tour
-              </Button> : <>
-                <Button variant="secondary" className="bg-white text-blue-700 hover:bg-blue-50 border border-blue-200 shadow-sm font-semibold transition-all focus:ring-2 focus:ring-blue-300" style={{
-              minWidth: 148
-            }}>
-                  <ChevronDown className="h-4 w-4 mr-2 text-blue-700" />
-                  <span className="text-blue-800 font-semibold">Switch Client</span>
-                </Button>
-                <Button variant="secondary" className="bg-white text-blue-700 hover:bg-blue-50">
-                  Resume Working
-                </Button>
-              </>}
-          </div>
-        </div>
+  return <div className="p-8 max-w-7xl mx-auto space-y-8">
+      {/* Clean Welcome Header */}
+      <div className="space-y-2">
+        {isFirstTime ? (
+          <h1 className="text-3xl font-bold text-gray-900">Welcome to eAdvisys!</h1>
+        ) : (
+          <TextShimmer 
+            as="h1" 
+            duration={1.2} 
+            className="text-3xl font-bold text-gray-900"
+          >
+            {`Welcome back, ${userName}!`}
+          </TextShimmer>
+        )}
+        <p className="text-lg text-muted-foreground">
+          {isFirstTime ? "Let's get you started with your financial advisory toolkit" : "Your comprehensive financial planning dashboard"}
+        </p>
       </div>
 
-      {/* Main Content: 3-column grid with equal heights */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Row 1 */}
-        <SectionRecentClients />
-        <SectionFavoriteReports />
-        <SectionWhatsNew />
-        
-        {/* Row 2 */}
-        <SectionLearnImprove />
-        <SectionTwoMinuteTips />
-        <SectionWebinars />
-        
-        {/* Row 3 */}
-        <div className="lg:col-start-2">
+      {/* Modern Asymmetric Layout */}
+      <div className="space-y-8">
+        {/* Primary Row - Recent Clients (Larger) + What's New */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <SectionRecentClients />
+          </div>
+          <div className="lg:col-span-1">
+            <SectionWhatsNew />
+          </div>
+        </div>
+
+        {/* Secondary Row - Equal width cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <SectionFavoriteReports />
+          <SectionLearnImprove />
+          <div className="md:col-span-2 lg:col-span-1">
+            <Card className="smooth-card h-full">
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <TrendingUp className="h-5 w-5 text-emerald-600" />
+                  Quick Stats
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3 bg-blue-50 rounded-lg text-center">
+                    <div className="text-2xl font-bold text-blue-600">12</div>
+                    <div className="text-xs text-muted-foreground">Active Clients</div>
+                  </div>
+                  <div className="p-3 bg-green-50 rounded-lg text-center">
+                    <div className="text-2xl font-bold text-green-600">8</div>
+                    <div className="text-xs text-muted-foreground">Plans Created</div>
+                  </div>
+                </div>
+                <div className="p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg">
+                  <div className="text-sm font-medium text-gray-900 mb-1">This Month</div>
+                  <div className="text-2xl font-bold text-purple-600">$2.4M</div>
+                  <div className="text-xs text-muted-foreground">Assets Under Management</div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Supporting Row - Smaller cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <SectionTwoMinuteTips />
+          <SectionWebinars />
           <SectionMakeSuggestion />
         </div>
       </div>
