@@ -13,6 +13,7 @@ import { AlternativesToRetirementOutput } from "./AlternativesToRetirementOutput
 import { SurvivorNeedsOutput } from "./SurvivorNeedsOutput";
 import { RetirementTimelineOutput } from "./RetirementTimelineOutput";
 import { EducationFundingSummaryOutput } from "./EducationFundingSummaryOutput";
+import { TotalNeedsSpendingOutput } from "./TotalNeedsSpendingOutput";
 import { usePresentationContext } from "@/contexts/PresentationContext";
 const goalConfigs = {
   college: {
@@ -70,6 +71,29 @@ const goalConfigs = {
     description: "Analyze insurance needs for survivors",
     outputs: ["Survivor Needs - Client 1 dies", "Survivor's Immediate Needs - Client 1 dies", "Survivor Needs Timeline - Client 1 dies", "Survivor Analysis Detail - Client 1 dies", "Survivor Needs - Client 2 dies", "Survivor's Immediate Needs - Client 2 dies", "Survivor Needs Timeline - Client 2 dies", "Survivor Analysis Detail - Client 2 dies", "Survivor Needs Analysis Data - Fact Finder"],
     defaultOutput: "Survivor Needs - Client 1 dies"
+  },
+  "retirement-distribution": {
+    title: "Retirement Distribution",
+    icon: PiggyBank,
+    color: "text-green-600",
+    description: "Plan withdrawal strategies and income replacement during retirement years",
+    outputs: [
+      "You and Your Retirement",
+      "Essential Needs and Secure Income", 
+      "Essential Needs and Secure Income Timeline",
+      "Essential Needs (Capital use)",
+      "Essential Needs Timeline (Capital Use)",
+      "Essential Needs and Secure Income With a new annuity",
+      "Essential Needs and Secure Income Timeline (With annuity)",
+      "Essential Needs (Capital Use with new annuity)",
+      "Essential Needs Timeline (Capital Use with new annuity)",
+      "Essential Needs and Secure Income Needs",
+      "Essential Needs Timeline (Capital LTC)",
+      "Total Needs Spending",
+      "Retirement Timeline",
+      "Retirement Distribution Analysis Data - Fact Finder"
+    ],
+    defaultOutput: "You and Your Retirement"
   }
 };
 interface GoalDetailViewProps {
@@ -200,6 +224,8 @@ export const GoalDetailView = ({
                       <SurvivorNeedsOutput selectedForPresentation={selectedForPresentation} />
                     ) : goalId === "education-funding" && selectedOutput === "Education Funding Summary" ? (
                       <EducationFundingSummaryOutput selectedForPresentation={selectedForPresentation} />
+                    ) : goalId === "retirement-distribution" && selectedOutput === "Total Needs Spending" ? (
+                      <TotalNeedsSpendingOutput selectedForPresentation={selectedForPresentation} />
                     ) : (
                       <GoalOutputPanel goalId={goalId} outputType={selectedOutput} />
                     )}
