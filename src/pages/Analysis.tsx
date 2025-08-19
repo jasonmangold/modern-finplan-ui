@@ -62,7 +62,7 @@ const Analysis = () => {
 
   return (
     <FormProvider>
-      <div className="h-[calc(100vh-4rem)] overflow-hidden">
+      <div className="h-full overflow-hidden">
         <div className="h-full flex flex-col">
           {/* View Mode Toggle - centered and only show when not in goal detail or fitness score or financial inventory or fact finders */}
           {!selectedGoal && viewMode !== "fitness-score" && viewMode !== "analysis-goals" && viewMode !== "financial-inventory" && viewMode !== "fact-finders" && (
