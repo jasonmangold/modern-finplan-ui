@@ -100,13 +100,13 @@ const Home = () => {
             <div className="absolute -left-1.5 top-0 w-3 h-3 bg-blue-500 rounded-full"></div>
             <h4 className="font-semibold text-gray-900">One Big Beautiful Bill Act of 2025 Update</h4>
             <p className="text-sm text-muted-foreground mt-1">2 new reports and 24 updated reports</p>
-            <span className="inline-block mt-2 text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-full">Aug 31, 2025</span>
+            <span className="inline-block mt-2 text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-full">Aug 1, 2025</span>
           </div>
           <div className="relative pl-4 border-l-2 border-green-500">
             <div className="absolute -left-1.5 top-0 w-3 h-3 bg-green-500 rounded-full"></div>
             <h4 className="font-semibold text-gray-900">2025.01 Update</h4>
             <p className="text-sm text-muted-foreground mt-1">Updated with new inflation, tax, and cost-of-living stats; GPO and WEP reports removed per the Social Security Fairness Act.</p>
-            <span className="inline-block mt-2 text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">Dec 8, 2024</span>
+            <span className="inline-block mt-2 text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">Mar 1, 2025</span>
           </div>
         </div>
       </CardContent>
