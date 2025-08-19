@@ -16,11 +16,8 @@ export const SearchBar = ({ localSearchTerm, setLocalSearchTerm }: SearchBarProp
   const isMobile = useIsMobile();
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Determine search placeholder based on current page
+  // Determine search placeholder - consistent across all pages
   const getSearchPlaceholder = () => {
-    if (location.pathname === '/education') {
-      return 'Search reports...';
-    }
     return 'Search...';
   };
 

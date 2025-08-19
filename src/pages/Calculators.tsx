@@ -341,9 +341,9 @@ const Calculators = () => {
 
   // Main calculator list view with sidebar layout
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col min-h-0">
       {/* Header */}
-      <div className="p-6 border-b bg-background">
+      <div className="flex-shrink-0 p-6 border-b bg-background">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">Financial Calculators</h1>
           <div className="relative w-80">
