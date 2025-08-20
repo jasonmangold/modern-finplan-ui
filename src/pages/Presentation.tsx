@@ -812,17 +812,6 @@ const Presentation = () => {
             {/* Left Sidebar - Template Management */}
             <div className="w-96 flex-shrink-0 bg-white/60 backdrop-blur-sm border-r border-border/50 p-6 overflow-y-auto">
               <div className="space-y-6">
-                {/* Template Header */}
-                <div className="bg-gradient-to-br from-purple-500/5 to-purple-500/10 rounded-2xl p-6 border border-purple-500/20">
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <Layers className="h-6 w-6 text-purple-600" />
-                      <h2 className="text-lg font-semibold text-foreground">Template Library</h2>
-                    </div>
-                    
-                    {/* Removed export button from here - will show in right panel */}
-                  </div>
-                </div>
 
                 {/* Fast Track Section */}
                 <div className="bg-gradient-to-br from-orange-500/5 to-orange-500/10 rounded-2xl p-6 border border-orange-500/20">
@@ -884,36 +873,6 @@ const Presentation = () => {
                   </div>
                 </div>
 
-                {/* Selected Template Actions */}
-                {selectedTemplate && <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                        Actions
-                      </h3>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Button onClick={() => loadTemplate(selectedTemplate)} className="w-full bg-blue-600 hover:bg-blue-700" size="sm">
-                        <Plus className="h-4 w-4 mr-2" />
-                        Use Template
-                      </Button>
-
-                      <Button onClick={handleImportTemplate} variant="outline" className="w-full border-purple-200 text-purple-700 hover:bg-purple-50" size="sm">
-                        <Import className="h-4 w-4 mr-2" />
-                        Import Template
-                      </Button>
-                      
-                      <Button onClick={() => handleExportTemplate(selectedTemplate)} variant="outline" className="w-full border-purple-200 text-purple-700 hover:bg-purple-50" size="sm">
-                        <Download className="h-4 w-4 mr-2" />
-                        Export Template
-                      </Button>
-                      
-                      <Button onClick={() => handleDeleteTemplate(selectedTemplate.id)} variant="outline" className="w-full text-red-600 border-red-200 hover:bg-red-50" size="sm">
-                        <Trash2 className="h-4 w-4 mr-2" />
-                        Delete Template
-                      </Button>
-                    </div>
-                  </div>}
               </div>
             </div>
 
@@ -945,9 +904,9 @@ const Presentation = () => {
 
                   {/* Template Content */}
                   <div className="flex-1 overflow-y-auto px-6">
-                    <div className="max-w-4xl mx-auto pb-6">
-                      {/* Template Reports - Full Width */}
-                      <div className="space-y-4">
+                    <div className="flex gap-6 pb-6">
+                      {/* Template Reports - Left Side */}
+                      <div className="flex-1 space-y-4">
                         <div className="flex items-center gap-2">
                           <h3 className="text-lg font-medium text-foreground">Template Reports</h3>
                           <Badge variant="outline">{selectedTemplate.reports.length}</Badge>
@@ -984,6 +943,40 @@ const Presentation = () => {
                                 </div>
                               </div>)}
                           {templateDropIndicator === selectedTemplate.reports.length && selectedTemplate.reports.length > 0 && <div className="h-1 bg-gradient-to-r from-purple-500/50 to-purple-500 rounded-full shadow-lg animate-pulse" />}
+                        </div>
+                      </div>
+
+                      {/* Actions Section - Right Side */}
+                      <div className="w-80 flex-shrink-0 space-y-4">
+                        <div className="bg-gradient-to-br from-purple-500/5 to-purple-500/10 rounded-2xl p-6 border border-purple-500/20">
+                          <div className="space-y-4">
+                            <div className="flex items-center gap-3">
+                              <Settings className="h-5 w-5 text-purple-600" />
+                              <h3 className="text-lg font-semibold text-foreground">Actions</h3>
+                            </div>
+                            
+                            <div className="space-y-3">
+                              <Button onClick={() => loadTemplate(selectedTemplate)} className="w-full bg-blue-600 hover:bg-blue-700" size="sm">
+                                <Plus className="h-4 w-4 mr-2" />
+                                Use Template
+                              </Button>
+
+                              <Button onClick={handleImportTemplate} variant="outline" className="w-full border-purple-200 text-purple-700 hover:bg-purple-50" size="sm">
+                                <Import className="h-4 w-4 mr-2" />
+                                Import Template
+                              </Button>
+                              
+                              <Button onClick={() => handleExportTemplate(selectedTemplate)} variant="outline" className="w-full border-purple-200 text-purple-700 hover:bg-purple-50" size="sm">
+                                <Download className="h-4 w-4 mr-2" />
+                                Export Template
+                              </Button>
+                              
+                              <Button onClick={() => handleDeleteTemplate(selectedTemplate.id)} variant="outline" className="w-full text-red-600 border-red-200 hover:bg-red-50" size="sm">
+                                <Trash2 className="h-4 w-4 mr-2" />
+                                Delete Template
+                              </Button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
