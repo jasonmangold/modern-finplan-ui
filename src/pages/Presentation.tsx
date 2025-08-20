@@ -920,342 +920,344 @@ const Presentation = () => {
         )}
 
         {/* Other Tab Contents */}
-        {activeTab !== "Presentation" && (
-          <div className="p-8 max-w-6xl mx-auto space-y-8">
-            {activeTab === "Templates" && (
-              <>
-                {/* Left Sidebar - Template Management */}
-                <div className="w-96 flex-shrink-0 bg-white/60 backdrop-blur-sm border-r border-border/50 p-6 overflow-y-auto">
-                  <div className="space-y-6">
-                    {/* Template Header */}
-                    <div className="bg-gradient-to-br from-purple-500/5 to-purple-500/10 rounded-2xl p-6 border border-purple-500/20">
-                      <div className="space-y-4">
-                        <div className="flex items-center gap-3">
-                          <Layers className="h-6 w-6 text-purple-600" />
-                          <h2 className="text-lg font-semibold text-foreground">Template Library</h2>
-                        </div>
-                        
-                        <div className="flex gap-2">
-                          <Button
-                            onClick={handleCreateNewTemplate}
-                            className="flex-1 bg-purple-600 hover:bg-purple-700"
-                            size="sm"
-                          >
-                            <Plus className="h-4 w-4 mr-2" />
-                            New Template
-                          </Button>
-                        </div>
-
-                        <div className="flex gap-2">
-                          <Button 
-                            onClick={handleImportTemplate}
-                            variant="outline"
-                            className="flex-1 border-purple-200 text-purple-700 hover:bg-purple-50"
-                            size="sm"
-                          >
-                            <Import className="h-4 w-4 mr-2" />
-                            Import
-                          </Button>
-                          {selectedTemplate && (
-                            <Button
-                              onClick={() => handleExportTemplate(selectedTemplate)}
-                              variant="outline"
-                              className="flex-1 border-purple-200 text-purple-700 hover:bg-purple-50"
-                              size="sm"
-                            >
-                              <Download className="h-4 w-4 mr-2" />
-                              Export
-                            </Button>
-                          )}
-                        </div>
-                      </div>
+        {activeTab === "Templates" && (
+          <>
+            {/* Left Sidebar - Template Management */}
+            <div className="w-96 flex-shrink-0 bg-white/60 backdrop-blur-sm border-r border-border/50 p-6 overflow-y-auto">
+              <div className="space-y-6">
+                {/* Template Header */}
+                <div className="bg-gradient-to-br from-purple-500/5 to-purple-500/10 rounded-2xl p-6 border border-purple-500/20">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <Layers className="h-6 w-6 text-purple-600" />
+                      <h2 className="text-lg font-semibold text-foreground">Template Library</h2>
+                    </div>
+                    
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={handleCreateNewTemplate}
+                        className="flex-1 bg-purple-600 hover:bg-purple-700"
+                        size="sm"
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        New Template
+                      </Button>
                     </div>
 
-                    {/* Fast Track Section */}
-                    <div className="bg-gradient-to-br from-orange-500/5 to-orange-500/10 rounded-2xl p-6 border border-orange-500/20">
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-3">
-                          <Zap className="h-6 w-6 text-orange-600" />
-                          <h3 className="text-lg font-semibold text-foreground">Fast Track</h3>
-                        </div>
-                        <p className="text-sm text-muted-foreground">
-                          Quickly create a presentation by selecting your financial goals.
-                        </p>
-                        <Button 
-                          onClick={handleFastTrackClick}
-                          className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700"
+                    <div className="flex gap-2">
+                      <Button 
+                        onClick={handleImportTemplate}
+                        variant="outline"
+                        className="flex-1 border-purple-200 text-purple-700 hover:bg-purple-50"
+                        size="sm"
+                      >
+                        <Import className="h-4 w-4 mr-2" />
+                        Import
+                      </Button>
+                      {selectedTemplate && (
+                        <Button
+                          onClick={() => handleExportTemplate(selectedTemplate)}
+                          variant="outline"
+                          className="flex-1 border-purple-200 text-purple-700 hover:bg-purple-50"
                           size="sm"
                         >
-                          <Zap className="h-4 w-4 mr-2" />
-                          Start Fast Track
+                          <Download className="h-4 w-4 mr-2" />
+                          Export
                         </Button>
-                      </div>
+                      )}
                     </div>
+                  </div>
+                </div>
 
-                    {/* Template List */}
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                          Templates ({templatesData.length})
-                        </h3>
-                      </div>
-                      
-                      <div className="space-y-2">
-                        {templatesData.map((template) => (
-                          <div
-                            key={template.id}
-                            onClick={() => setSelectedTemplateId(template.id)}
-                            className={`group cursor-pointer p-4 rounded-xl border transition-all ${
-                              selectedTemplateId === template.id
-                                ? 'bg-purple-50 border-purple-300'
-                                : 'bg-white/50 border-border/50 hover:border-purple-200 hover:bg-purple-50/50'
-                            }`}
-                          >
-                            <div className="space-y-2">
-                              <div className="flex items-center justify-between">
-                                <h4 className="font-medium text-foreground">{template.name}</h4>
-                                <Badge variant="outline" className="text-xs">
-                                  {template.reports.length}
-                                </Badge>
-                              </div>
-                              <p className="text-xs text-muted-foreground line-clamp-2">
-                                {template.description}
-                              </p>
-                              <div className="flex flex-wrap gap-1">
-                                {[...new Set(template.reports.map(r => r.source))].map((source) => (
-                                  <Badge key={source} className={`text-xs ${getSourceColor(source)}`}>
-                                    {source}
-                                  </Badge>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-
-                        {isCreatingTemplate && (
-                          <div className="p-4 bg-white rounded-xl border-2 border-dashed border-purple-300">
-                            <div className="space-y-3">
-                              <Input
-                                placeholder="Template name"
-                                value={newTemplateName}
-                                onChange={(e) => setNewTemplateName(e.target.value)}
-                              />
-                              <Textarea
-                                placeholder="Template description"
-                                value={newTemplateDescription}
-                                onChange={(e) => setNewTemplateDescription(e.target.value)}
-                                rows={3}
-                              />
-                              <div className="flex gap-2">
-                                <Button
-                                  onClick={handleSaveNewTemplate}
-                                  disabled={!newTemplateName.trim()}
-                                  size="sm"
-                                  className="flex-1 bg-purple-600 hover:bg-purple-700"
-                                >
-                                  Save
-                                </Button>
-                                <Button
-                                  onClick={() => setIsCreatingTemplate(false)}
-                                  variant="outline"
-                                  size="sm"
-                                  className="flex-1"
-                                >
-                                  Cancel
-                                </Button>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
+                {/* Fast Track Section */}
+                <div className="bg-gradient-to-br from-orange-500/5 to-orange-500/10 rounded-2xl p-6 border border-orange-500/20">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <Zap className="h-6 w-6 text-orange-600" />
+                      <h3 className="text-lg font-semibold text-foreground">Fast Track</h3>
                     </div>
+                    <p className="text-sm text-muted-foreground">
+                      Quickly create a presentation by selecting your financial goals.
+                    </p>
+                    <Button 
+                      onClick={handleFastTrackClick}
+                      className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700"
+                      size="sm"
+                    >
+                      <Zap className="h-4 w-4 mr-2" />
+                      Start Fast Track
+                    </Button>
+                  </div>
+                </div>
 
-                    {/* Selected Template Actions */}
-                    {selectedTemplate && (
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                            Actions
-                          </h3>
-                        </div>
-                        
+                {/* Template List */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                      Templates ({templatesData.length})
+                    </h3>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    {templatesData.map((template) => (
+                      <div
+                        key={template.id}
+                        onClick={() => setSelectedTemplateId(template.id)}
+                        className={`group cursor-pointer p-4 rounded-xl border transition-all ${
+                          selectedTemplateId === template.id
+                            ? 'bg-purple-50 border-purple-300'
+                            : 'bg-white/50 border-border/50 hover:border-purple-200 hover:bg-purple-50/50'
+                        }`}
+                      >
                         <div className="space-y-2">
-                          <Button
-                            onClick={() => loadTemplate(selectedTemplate)}
-                            className="w-full bg-blue-600 hover:bg-blue-700"
-                            size="sm"
-                          >
-                            <Plus className="h-4 w-4 mr-2" />
-                            Use Template
-                          </Button>
-                          
-                          <Button
-                            onClick={() => handleDeleteTemplate(selectedTemplate.id)}
-                            variant="outline"
-                            className="w-full text-red-600 border-red-200 hover:bg-red-50"
-                            size="sm"
-                          >
-                            <Trash2 className="h-4 w-4 mr-2" />
-                            Delete Template
-                          </Button>
+                          <div className="flex items-center justify-between">
+                            <h4 className="font-medium text-foreground">{template.name}</h4>
+                            <Badge variant="outline" className="text-xs">
+                              {template.reports.length}
+                            </Badge>
+                          </div>
+                          <p className="text-xs text-muted-foreground line-clamp-2">
+                            {template.description}
+                          </p>
+                          <div className="flex flex-wrap gap-1">
+                            {[...new Set(template.reports.map(r => r.source))].map((source) => (
+                              <Badge key={source} className={`text-xs ${getSourceColor(source)}`}>
+                                {source}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+
+                    {isCreatingTemplate && (
+                      <div className="p-4 bg-white rounded-xl border-2 border-dashed border-purple-300">
+                        <div className="space-y-3">
+                          <Input
+                            placeholder="Template name"
+                            value={newTemplateName}
+                            onChange={(e) => setNewTemplateName(e.target.value)}
+                          />
+                          <Textarea
+                            placeholder="Template description"
+                            value={newTemplateDescription}
+                            onChange={(e) => setNewTemplateDescription(e.target.value)}
+                            rows={3}
+                          />
+                          <div className="flex gap-2">
+                            <Button
+                              onClick={handleSaveNewTemplate}
+                              disabled={!newTemplateName.trim()}
+                              size="sm"
+                              className="flex-1 bg-purple-600 hover:bg-purple-700"
+                            >
+                              Save
+                            </Button>
+                            <Button
+                              onClick={() => setIsCreatingTemplate(false)}
+                              variant="outline"
+                              size="sm"
+                              className="flex-1"
+                            >
+                              Cancel
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     )}
                   </div>
                 </div>
 
-                {/* Main Content Area */}
-                <div className="flex-1 flex flex-col overflow-hidden">
-                  {!selectedTemplate ? (
-                    /* No Template Selected State */
-                    <div className="flex-1 flex items-center justify-center">
-                      <div className="text-center space-y-4 max-w-md">
-                        <div className="w-32 h-32 bg-gradient-to-br from-purple-500/10 to-purple-500/20 rounded-2xl mx-auto flex items-center justify-center">
-                          <Layers className="h-16 w-16 text-purple-500" />
-                        </div>
-                        <h3 className="text-xl font-semibold text-foreground">Select a Template</h3>
-                        <p className="text-muted-foreground">
-                          Choose a template from the sidebar to view and edit its reports, or create a new template to get started.
+                {/* Selected Template Actions */}
+                {selectedTemplate && (
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                        Actions
+                      </h3>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Button
+                        onClick={() => loadTemplate(selectedTemplate)}
+                        className="w-full bg-blue-600 hover:bg-blue-700"
+                        size="sm"
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Use Template
+                      </Button>
+                      
+                      <Button
+                        onClick={() => handleDeleteTemplate(selectedTemplate.id)}
+                        variant="outline"
+                        className="w-full text-red-600 border-red-200 hover:bg-red-50"
+                        size="sm"
+                      >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Delete Template
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Main Content Area */}
+            <div className="flex-1 flex flex-col overflow-hidden">
+              {!selectedTemplate ? (
+                /* No Template Selected State */
+                <div className="flex-1 flex items-center justify-center">
+                  <div className="text-center space-y-4 max-w-md">
+                    <div className="w-32 h-32 bg-gradient-to-br from-purple-500/10 to-purple-500/20 rounded-2xl mx-auto flex items-center justify-center">
+                      <Layers className="h-16 w-16 text-purple-500" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-foreground">Select a Template</h3>
+                    <p className="text-muted-foreground">
+                      Choose a template from the sidebar to view and edit its reports, or create a new template to get started.
+                    </p>
+                    <Button 
+                      onClick={handleCreateNewTemplate}
+                      className="bg-purple-600 hover:bg-purple-700"
+                    >
+                      <Plus className="h-4 w-4 mr-2" />
+                      Create New Template
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {/* Template Header */}
+                  <div className="flex-shrink-0 p-6 pb-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h2 className="text-2xl font-semibold text-foreground">{selectedTemplate.name}</h2>
+                        <p className="text-muted-foreground">{selectedTemplate.description}</p>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {selectedTemplate.reports.length} reports • Drag to reorder or add from available reports
                         </p>
-                        <Button 
-                          onClick={handleCreateNewTemplate}
-                          className="bg-purple-600 hover:bg-purple-700"
-                        >
-                          <Plus className="h-4 w-4 mr-2" />
-                          Create New Template
-                        </Button>
                       </div>
                     </div>
-                  ) : (
-                    <>
-                      {/* Template Header */}
-                      <div className="flex-shrink-0 p-6 pb-4">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <h2 className="text-2xl font-semibold text-foreground">{selectedTemplate.name}</h2>
-                            <p className="text-muted-foreground">{selectedTemplate.description}</p>
-                            <p className="text-sm text-muted-foreground mt-1">
-                              {selectedTemplate.reports.length} reports • Drag to reorder or add from available reports
-                            </p>
-                          </div>
+                  </div>
+
+                  {/* Template Content */}
+                  <div className="flex-1 overflow-y-auto px-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6">
+                      {/* Available Reports */}
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-lg font-medium text-foreground">Available Reports</h3>
+                          <Badge variant="outline">{availableReports.length}</Badge>
+                        </div>
+                        
+                        <div className="space-y-2">
+                          {availableReports.length === 0 ? (
+                            <div className="text-center py-8 text-muted-foreground">
+                              All reports are already in this template
+                            </div>
+                          ) : (
+                            availableReports.map((item) => (
+                              <div
+                                key={item.id}
+                                draggable
+                                onDragStart={(e) => handleTemplateDragStart(e, item.id)}
+                                className={`group bg-white/80 backdrop-blur-sm border border-border/50 rounded-xl p-4 
+                                  hover:shadow-md hover:border-purple-300 transition-all duration-300 cursor-move
+                                  ${templateDraggedItem === item.id ? 'opacity-50 scale-95' : 'hover:-translate-y-1'}`}
+                              >
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-3">
+                                    <GripVertical className="h-4 w-4 text-muted-foreground group-hover:text-purple-500" />
+                                    <div className="space-y-1">
+                                      <h4 className="font-medium text-foreground">{item.name}</h4>
+                                      <Badge className={`text-xs ${getSourceColor(item.source)}`}>
+                                        {item.source}
+                                      </Badge>
+                                    </div>
+                                  </div>
+                                  <Plus className="h-4 w-4 text-muted-foreground" />
+                                </div>
+                              </div>
+                            ))
+                          )}
                         </div>
                       </div>
 
-                      {/* Template Content */}
-                      <div className="flex-1 overflow-y-auto px-6">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6">
-                          {/* Available Reports */}
-                          <div className="space-y-4">
-                            <div className="flex items-center gap-2">
-                              <h3 className="text-lg font-medium text-foreground">Available Reports</h3>
-                              <Badge variant="outline">{availableReports.length}</Badge>
+                      {/* Template Reports */}
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-lg font-medium text-foreground">Template Reports</h3>
+                          <Badge variant="outline">{selectedTemplate.reports.length}</Badge>
+                        </div>
+                        
+                        <div 
+                          className="space-y-2 min-h-[200px] bg-purple-50/50 rounded-xl p-4 border-2 border-dashed border-purple-200"
+                          onDragOver={(e) => e.preventDefault()}
+                          onDrop={(e) => handleTemplateDrop(e, selectedTemplate.reports.length, true)}
+                        >
+                          {selectedTemplate.reports.length === 0 ? (
+                            <div className="text-center py-8 text-muted-foreground">
+                              <Layers className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                              Drag reports here to add them to this template
                             </div>
-                            
-                            <div className="space-y-2">
-                              {availableReports.length === 0 ? (
-                                <div className="text-center py-8 text-muted-foreground">
-                                  All reports are already in this template
-                                </div>
-                              ) : (
-                                availableReports.map((item) => (
-                                  <div
-                                    key={item.id}
-                                    draggable
-                                    onDragStart={(e) => handleTemplateDragStart(e, item.id)}
-                                    className={`group bg-white/80 backdrop-blur-sm border border-border/50 rounded-xl p-4 
-                                      hover:shadow-md hover:border-purple-300 transition-all duration-300 cursor-move
-                                      ${templateDraggedItem === item.id ? 'opacity-50 scale-95' : 'hover:-translate-y-1'}`}
-                                  >
-                                    <div className="flex items-center justify-between">
-                                      <div className="flex items-center gap-3">
-                                        <GripVertical className="h-4 w-4 text-muted-foreground group-hover:text-purple-500" />
-                                        <div className="space-y-1">
-                                          <h4 className="font-medium text-foreground">{item.name}</h4>
-                                          <Badge className={`text-xs ${getSourceColor(item.source)}`}>
-                                            {item.source}
-                                          </Badge>
+                          ) : (
+                            selectedTemplate.reports.map((item, index) => (
+                              <div key={item.id}>
+                                {templateDropIndicator === index && (
+                                  <div className="h-1 bg-gradient-to-r from-purple-500/50 to-purple-500 rounded-full mb-2 shadow-lg animate-pulse" />
+                                )}
+                                <div
+                                  draggable
+                                  onDragStart={(e) => handleTemplateDragStart(e, item.id)}
+                                  onDragOver={(e) => handleTemplateDragOver(e, index)}
+                                  onDrop={(e) => handleTemplateDrop(e, index)}
+                                  className={`group bg-white/80 backdrop-blur-sm border border-border/50 rounded-xl p-4 
+                                    hover:shadow-md hover:border-purple-300 transition-all duration-300 cursor-move
+                                    ${templateDraggedItem === item.id ? 'opacity-50 scale-95' : 'hover:-translate-y-1'}`}
+                                >
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                      <div className="flex items-center gap-2 text-muted-foreground group-hover:text-purple-500 transition-colors">
+                                        <GripVertical className="h-4 w-4" />
+                                        <div className="flex items-center justify-center w-6 h-6 bg-purple-100 text-purple-600 rounded-lg text-xs font-semibold">
+                                          {index + 1}
                                         </div>
                                       </div>
-                                      <Plus className="h-4 w-4 text-muted-foreground" />
+                                      <div className="space-y-1">
+                                        <h4 className="font-medium text-foreground">{item.name}</h4>
+                                        <Badge className={`text-xs ${getSourceColor(item.source)}`}>
+                                          {item.source}
+                                        </Badge>
+                                      </div>
                                     </div>
-                                  </div>
-                                ))
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Template Reports */}
-                          <div className="space-y-4">
-                            <div className="flex items-center gap-2">
-                              <h3 className="text-lg font-medium text-foreground">Template Reports</h3>
-                              <Badge variant="outline">{selectedTemplate.reports.length}</Badge>
-                            </div>
-                            
-                            <div 
-                              className="space-y-2 min-h-[200px] bg-purple-50/50 rounded-xl p-4 border-2 border-dashed border-purple-200"
-                              onDragOver={(e) => e.preventDefault()}
-                              onDrop={(e) => handleTemplateDrop(e, selectedTemplate.reports.length, true)}
-                            >
-                              {selectedTemplate.reports.length === 0 ? (
-                                <div className="text-center py-8 text-muted-foreground">
-                                  <Layers className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                                  Drag reports here to add them to this template
-                                </div>
-                              ) : (
-                                selectedTemplate.reports.map((item, index) => (
-                                  <div key={item.id}>
-                                    {templateDropIndicator === index && (
-                                      <div className="h-1 bg-gradient-to-r from-purple-500/50 to-purple-500 rounded-full mb-2 shadow-lg animate-pulse" />
-                                    )}
-                                    <div
-                                      draggable
-                                      onDragStart={(e) => handleTemplateDragStart(e, item.id)}
-                                      onDragOver={(e) => handleTemplateDragOver(e, index)}
-                                      onDrop={(e) => handleTemplateDrop(e, index)}
-                                      className={`group bg-white/80 backdrop-blur-sm border border-border/50 rounded-xl p-4 
-                                        hover:shadow-md hover:border-purple-300 transition-all duration-300 cursor-move
-                                        ${templateDraggedItem === item.id ? 'opacity-50 scale-95' : 'hover:-translate-y-1'}`}
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      className="opacity-0 group-hover:opacity-100 text-red-600 border-red-200 hover:bg-red-50"
+                                      onClick={() => handleRemoveFromTemplate(item.id)}
                                     >
-                                      <div className="flex items-center justify-between">
-                                        <div className="flex items-center gap-3">
-                                          <div className="flex items-center gap-2 text-muted-foreground group-hover:text-purple-500 transition-colors">
-                                            <GripVertical className="h-4 w-4" />
-                                            <div className="flex items-center justify-center w-6 h-6 bg-purple-100 text-purple-600 rounded-lg text-xs font-semibold">
-                                              {index + 1}
-                                            </div>
-                                          </div>
-                                          <div className="space-y-1">
-                                            <h4 className="font-medium text-foreground">{item.name}</h4>
-                                            <Badge className={`text-xs ${getSourceColor(item.source)}`}>
-                                              {item.source}
-                                            </Badge>
-                                          </div>
-                                        </div>
-                                        <Button
-                                          size="sm"
-                                          variant="outline"
-                                          className="opacity-0 group-hover:opacity-100 text-red-600 border-red-200 hover:bg-red-50"
-                                          onClick={() => handleRemoveFromTemplate(item.id)}
-                                        >
-                                          <Trash2 className="h-4 w-4" />
-                                        </Button>
-                                      </div>
-                                    </div>
+                                      <Trash2 className="h-4 w-4" />
+                                    </Button>
                                   </div>
-                                ))
-                              )}
-                              {templateDropIndicator === selectedTemplate.reports.length && selectedTemplate.reports.length > 0 && (
-                                <div className="h-1 bg-gradient-to-r from-purple-500/50 to-purple-500 rounded-full shadow-lg animate-pulse" />
-                              )}
-                            </div>
-                          </div>
+                                </div>
+                              </div>
+                            ))
+                          )}
+                          {templateDropIndicator === selectedTemplate.reports.length && selectedTemplate.reports.length > 0 && (
+                            <div className="h-1 bg-gradient-to-r from-purple-500/50 to-purple-500 rounded-full shadow-lg animate-pulse" />
+                          )}
                         </div>
                       </div>
-                    </>
-                  )}
-                </div>
-              </>
-            )}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* Other tabs with constraining layout */}
+        {activeTab !== "Presentation" && activeTab !== "Templates" && (
+          <div className="p-8 max-w-6xl mx-auto space-y-8">
 
             {activeTab === "Company Information" && (
               <Card className="border-gray-200 shadow-sm">
