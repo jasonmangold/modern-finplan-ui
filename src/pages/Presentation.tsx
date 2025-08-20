@@ -1395,9 +1395,9 @@ const Presentation = () => {
 
       <TextEditorModal
         open={editorModal.open}
-        onOpenChange={(open) => setEditorModal({ open, field: editorModal.field })}
-        value={editorDraft}
-        onChange={setEditorDraft}
+        title={editorModal.field === 'disclaimer' ? 'Edit Disclaimer' : editorModal.field === 'disclosure' ? 'Edit Disclosure' : 'Edit Bio'}
+        initialValue={editorDraft}
+        onClose={() => setEditorModal({ open: false, field: null })}
         onSave={(content) => {
           if (editorModal.field === 'disclaimer') {
             setCompanyInfo(prev => ({ ...prev, disclaimer: content }));
