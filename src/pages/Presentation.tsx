@@ -820,20 +820,7 @@ const Presentation = () => {
                       <h2 className="text-lg font-semibold text-foreground">Template Library</h2>
                     </div>
                     
-                    <div className="flex gap-2">
-                      
-                    </div>
-
-                    <div className="flex gap-2">
-                      <Button onClick={handleImportTemplate} variant="outline" className="flex-1 border-purple-200 text-purple-700 hover:bg-purple-50" size="sm">
-                        <Import className="h-4 w-4 mr-2" />
-                        Import
-                      </Button>
-                      {selectedTemplate && <Button onClick={() => handleExportTemplate(selectedTemplate)} variant="outline" className="flex-1 border-purple-200 text-purple-700 hover:bg-purple-50" size="sm">
-                          <Download className="h-4 w-4 mr-2" />
-                          Export
-                        </Button>}
-                    </div>
+                    {/* Removed export button from here - will show in right panel */}
                   </div>
                 </div>
 
@@ -910,6 +897,16 @@ const Presentation = () => {
                         <Plus className="h-4 w-4 mr-2" />
                         Use Template
                       </Button>
+
+                      <Button onClick={handleImportTemplate} variant="outline" className="w-full border-purple-200 text-purple-700 hover:bg-purple-50" size="sm">
+                        <Import className="h-4 w-4 mr-2" />
+                        Import Template
+                      </Button>
+                      
+                      <Button onClick={() => handleExportTemplate(selectedTemplate)} variant="outline" className="w-full border-purple-200 text-purple-700 hover:bg-purple-50" size="sm">
+                        <Download className="h-4 w-4 mr-2" />
+                        Export Template
+                      </Button>
                       
                       <Button onClick={() => handleDeleteTemplate(selectedTemplate.id)} variant="outline" className="w-full text-red-600 border-red-200 hover:bg-red-50" size="sm">
                         <Trash2 className="h-4 w-4 mr-2" />
@@ -940,7 +937,7 @@ const Presentation = () => {
                         <h2 className="text-2xl font-semibold text-foreground">{selectedTemplate.name}</h2>
                         <p className="text-muted-foreground">{selectedTemplate.description}</p>
                         <p className="text-sm text-muted-foreground mt-1">
-                          {selectedTemplate.reports.length} reports • Drag to reorder or add from available reports
+                          {selectedTemplate.reports.length} reports • Drag to reorder
                         </p>
                       </div>
                     </div>
@@ -948,37 +945,8 @@ const Presentation = () => {
 
                   {/* Template Content */}
                   <div className="flex-1 overflow-y-auto px-6">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6">
-                      {/* Available Reports */}
-                      <div className="space-y-4">
-                        <div className="flex items-center gap-2">
-                          <h3 className="text-lg font-medium text-foreground">Available Reports</h3>
-                          <Badge variant="outline">{availableReports.length}</Badge>
-                        </div>
-                        
-                        <div className="space-y-2">
-                          {availableReports.length === 0 ? <div className="text-center py-8 text-muted-foreground">
-                              All reports are already in this template
-                            </div> : availableReports.map(item => <div key={item.id} draggable onDragStart={e => handleTemplateDragStart(e, item.id)} className={`group bg-white/80 backdrop-blur-sm border border-border/50 rounded-xl p-4 
-                                  hover:shadow-md hover:border-purple-300 transition-all duration-300 cursor-move
-                                  ${templateDraggedItem === item.id ? 'opacity-50 scale-95' : 'hover:-translate-y-1'}`}>
-                                <div className="flex items-center justify-between">
-                                  <div className="flex items-center gap-3">
-                                    <GripVertical className="h-4 w-4 text-muted-foreground group-hover:text-purple-500" />
-                                    <div className="space-y-1">
-                                      <h4 className="font-medium text-foreground">{item.name}</h4>
-                                      <Badge className={`text-xs ${getSourceColor(item.source)}`}>
-                                        {item.source}
-                                      </Badge>
-                                    </div>
-                                  </div>
-                                  <Plus className="h-4 w-4 text-muted-foreground" />
-                                </div>
-                              </div>)}
-                        </div>
-                      </div>
-
-                      {/* Template Reports */}
+                    <div className="max-w-4xl mx-auto pb-6">
+                      {/* Template Reports - Full Width */}
                       <div className="space-y-4">
                         <div className="flex items-center gap-2">
                           <h3 className="text-lg font-medium text-foreground">Template Reports</h3>
@@ -988,7 +956,7 @@ const Presentation = () => {
                         <div className="space-y-2 min-h-[200px] bg-purple-50/50 rounded-xl p-4 border-2 border-dashed border-purple-200" onDragOver={e => e.preventDefault()} onDrop={e => handleTemplateDrop(e, selectedTemplate.reports.length, true)}>
                           {selectedTemplate.reports.length === 0 ? <div className="text-center py-8 text-muted-foreground">
                               <Layers className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                              Drag reports here to add them to this template
+                              This template has no reports yet
                             </div> : selectedTemplate.reports.map((item, index) => <div key={item.id}>
                                 {templateDropIndicator === index && <div className="h-1 bg-gradient-to-r from-purple-500/50 to-purple-500 rounded-full mb-2 shadow-lg animate-pulse" />}
                                 <div draggable onDragStart={e => handleTemplateDragStart(e, item.id)} onDragOver={e => handleTemplateDragOver(e, index)} onDrop={e => handleTemplateDrop(e, index)} className={`group bg-white/80 backdrop-blur-sm border border-border/50 rounded-xl p-4 
