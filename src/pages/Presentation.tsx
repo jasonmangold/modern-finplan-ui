@@ -724,9 +724,14 @@ const Presentation = () => {
                       </DialogContent>
                     </Dialog>
                     
-                    <Button variant="outline" className="w-full justify-start" size="sm">
+                    <Button variant="outline" className="w-full justify-start" size="sm" onClick={() => setShowPreview(true)}>
                       <Eye className="h-4 w-4 mr-2" />
                       Preview Presentation
+                    </Button>
+                    
+                    <Button variant="outline" className="w-full justify-start" size="sm" onClick={() => setShowPreview(true)}>
+                      <Zap className="h-4 w-4 mr-2" />
+                      Online Presentation
                     </Button>
                   </div>
                 </div>
@@ -741,12 +746,7 @@ const Presentation = () => {
                     <h2 className="text-2xl font-semibold text-foreground">Presentation Reports</h2>
                     <p className="text-muted-foreground">Drag to reorder • {items.length} reports selected</p>
                   </div>
-                  <div className="flex gap-2">
-                    <Button className="bg-primary hover:bg-primary/90 shadow-md">
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add Report
-                    </Button>
-                  </div>
+                  {/* Removed Add Report button */}
                 </div>
               </div>
 
@@ -803,29 +803,7 @@ const Presentation = () => {
                 </div>
               </div>
 
-              {/* Floating Action Panel */}
-              {items.length > 0 && <div className="flex-shrink-0 p-6 pt-0">
-                  <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-2xl p-6 border border-primary/20">
-                    <div className="text-center space-y-4">
-                      <div className="space-y-2">
-                        <h4 className="text-lg font-semibold text-foreground">Ready to Generate</h4>
-                        <p className="text-muted-foreground">
-                          Your presentation with {items.length} reports is ready to be generated.
-                        </p>
-                      </div>
-                      <div className="flex justify-center gap-4">
-                        <Button className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-md px-8">
-                          <FileText className="h-4 w-4 mr-2" />
-                          Generate Presentation
-                        </Button>
-                        <Button variant="outline" className="border-primary/30 hover:bg-primary/5" onClick={() => setShowPreview(true)}>
-                          <Eye className="h-4 w-4 mr-2" />
-                          Preview
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>}
+              {/* Removed Ready to Generate section */}
             </div>
           </>}
 
