@@ -975,33 +975,7 @@ const Presentation = () => {
                   <div className="flex-1 overflow-y-auto px-6">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6">
                       {/* Available Reports */}
-                      <div className="space-y-4">
-                        <div className="flex items-center gap-2">
-                          <h3 className="text-lg font-medium text-foreground">Available Reports</h3>
-                          <Badge variant="outline">{availableReports.length}</Badge>
-                        </div>
-                        
-                        <div className="space-y-2">
-                          {availableReports.length === 0 ? <div className="text-center py-8 text-muted-foreground">
-                              All reports are already in this template
-                            </div> : availableReports.map(item => <div key={item.id} draggable onDragStart={e => handleTemplateDragStart(e, item.id)} className={`group bg-white/80 backdrop-blur-sm border border-border/50 rounded-xl p-4 
-                                  hover:shadow-md hover:border-purple-300 transition-all duration-300 cursor-move
-                                  ${templateDraggedItem === item.id ? 'opacity-50 scale-95' : 'hover:-translate-y-1'}`}>
-                                <div className="flex items-center justify-between">
-                                  <div className="flex items-center gap-3">
-                                    <GripVertical className="h-4 w-4 text-muted-foreground group-hover:text-purple-500" />
-                                    <div className="space-y-1">
-                                      <h4 className="font-medium text-foreground">{item.name}</h4>
-                                      <Badge className={`text-xs ${getSourceColor(item.source)}`}>
-                                        {item.source}
-                                      </Badge>
-                                    </div>
-                                  </div>
-                                  <Plus className="h-4 w-4 text-muted-foreground" />
-                                </div>
-                              </div>)}
-                        </div>
-                      </div>
+                      
 
                       {/* Template Reports */}
                       <div className="space-y-4">
