@@ -61,8 +61,9 @@ export const Header = () => {
   return <header className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-200/60 dark:border-gray-700/60 sticky top-0 z-50">
       <div className="h-16 flex items-center justify-between px-4 sm:px-8">
         <div className="flex items-center gap-3 sm:gap-6 min-w-0">
-          <div className="flex items-center flex-shrink-0">
+          <div className="flex flex-col items-center flex-shrink-0">
             <img alt="eAdvisys" className="h-8 flex-shrink-0" src="/lovable-uploads/d049ffc1-bfa2-4803-a78b-769c4f72c83e.png" />
+            <div className="text-xs text-muted-foreground font-medium">(800) 777-3162</div>
           </div>
           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <ClientSelector clientFiles={clientFiles} setClientFiles={setClientFiles} selectedClient={selectedClient} setSelectedClient={setSelectedClient} isFirstSave={isFirstSave} setIsFirstSave={setIsFirstSave} setHasUnsavedChanges={setHasUnsavedChanges} setSaveState={setSaveState} setLastSavedTime={setLastSavedTime} />
