@@ -763,29 +763,26 @@ const Presentation = () => {
                     </div> : items.map((item, index) => <div key={item.id}>
                         {/* Enhanced drop indicator */}
                         {dropIndicator === index && <div className="h-1 bg-gradient-to-r from-primary/50 to-primary rounded-full mb-3 shadow-lg animate-pulse" />}
-                        <div draggable onDragStart={e => handleDragStart(e, item.id)} onDragOver={e => handleDragOver(e, index)} onDrop={e => handleDrop(e, index)} onDragEnd={handleDragEnd} className={`group bg-white/80 backdrop-blur-sm border border-border/50 rounded-2xl p-6 
+                        <div draggable onDragStart={e => handleDragStart(e, item.id)} onDragOver={e => handleDragOver(e, index)} onDrop={e => handleDrop(e, index)} onDragEnd={handleDragEnd} className={`group bg-white/80 backdrop-blur-sm border border-border/50 rounded-2xl p-4 
                             hover:shadow-lg hover:border-primary/30 transition-all duration-300 cursor-move
                             ${draggedItem === item.id ? 'opacity-50 scale-95' : 'hover:-translate-y-1'}`}>
                           <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-6">
+                            <div className="flex items-center gap-4">
                               <div className="flex items-center gap-3 text-muted-foreground group-hover:text-primary transition-colors">
-                                <GripVertical className="h-5 w-5" />
-                                <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-primary/10 to-primary/20 text-primary rounded-xl font-semibold text-sm">
+                                <GripVertical className="h-4 w-4" />
+                                <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-primary/10 to-primary/20 text-primary rounded-xl font-semibold text-sm">
                                   {index + 1}
                                 </div>
                               </div>
-                              <div className="space-y-2">
+                              <div>
                                 <div className="flex items-center gap-3">
-                                  <h3 className="font-semibold text-lg text-foreground group-hover:text-primary transition-colors">
+                                  <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
                                     {item.name}
                                   </h3>
                                   <Badge className={`text-xs font-medium ${getSourceColor(item.source)}`}>
                                     {item.source}
                                   </Badge>
                                 </div>
-                                <p className="text-sm text-muted-foreground">
-                                  Ready to include in presentation
-                                </p>
                               </div>
                             </div>
                             <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200">
