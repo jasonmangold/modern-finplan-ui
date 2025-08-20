@@ -118,6 +118,14 @@ export const PresentationPreview: React.FC<PresentationPreviewProps> = ({
     }
   }, [open]);
 
+  // Reset scroll position when slide changes
+  useEffect(() => {
+    const scrollContainer = document.querySelector('[data-slide-content]');
+    if (scrollContainer) {
+      scrollContainer.scrollTop = 0;
+    }
+  }, [currentSlide]);
+
   const currentSlideData = slides[currentSlide];
   const canGoPrevious = currentSlide > 0;
   const canGoNext = currentSlide < totalSlides - 1;
@@ -220,19 +228,14 @@ export const PresentationPreview: React.FC<PresentationPreviewProps> = ({
               <div className="flex flex-col h-full">
                 {/* Slide Header */}
                 <div className="border-b bg-muted/50 p-6">
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-2xl font-semibold text-foreground">
-                      {currentSlideData.title}
-                    </h2>
-                    <Badge variant="secondary">
-                      {currentSlideData.source}
-                    </Badge>
-                  </div>
+                  <h2 className="text-2xl font-semibold text-foreground">
+                    {currentSlideData.title}
+                  </h2>
                 </div>
 
                 {/* Slide Content */}
                 <div className="flex-1 overflow-hidden">
-                  <div className="w-full h-full overflow-y-auto">
+                  <div className="w-full h-full overflow-y-auto p-6" data-slide-content>
                     <ReportComponent 
                       reportName={currentSlideData.title}
                       selectedForPresentation={[currentSlideData.title]}
