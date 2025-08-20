@@ -14,6 +14,7 @@ import { FastTrackInputDialog } from "@/components/FastTrackInputDialog";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { TextEditorModal } from "@/components/TextEditorModal";
+import { PresentationPreview } from "@/components/PresentationPreview";
 import { usePresentationContext } from "@/contexts/PresentationContext";
 
 interface PresentationItem {
@@ -158,6 +159,7 @@ const Presentation = () => {
   const [editorModal, setEditorModal] = useState<{ open: boolean, field: string | null }>({ open: false, field: null });
   const [profile, setProfile] = useState({ bio: "" });
   const [editorDraft, setEditorDraft] = useState<string>("");
+  const [showPreview, setShowPreview] = useState(false);
 
   const handleDragStart = (e: React.DragEvent, itemId: string) => {
     setDraggedItem(itemId);
@@ -773,7 +775,7 @@ const Presentation = () => {
                           <FileText className="h-4 w-4 mr-2" />
                           Generate Presentation
                         </Button>
-                        <Button variant="outline" className="border-primary/30 hover:bg-primary/5">
+                        <Button variant="outline" className="border-primary/30 hover:bg-primary/5" onClick={() => setShowPreview(true)}>
                           <Eye className="h-4 w-4 mr-2" />
                           Preview
                         </Button>
@@ -1407,6 +1409,29 @@ const Presentation = () => {
             setProfile(prev => ({ ...prev, bio: content }));
           }
           setEditorModal({ open: false, field: null });
+        }}
+      />
+
+      <PresentationPreview
+        open={showPreview}
+        onClose={() => setShowPreview(false)}
+        title={title}
+        clientName={clientName}
+        presentationItems={items}
+        companyInfo={{
+          name: companyInfo.companyName || "Company Name",
+          address: companyInfo.address,
+          phone: companyInfo.phone,
+          email: companyInfo.email,
+          website: companyInfo.website,
+          logo: companyInfo.logo?.name || "",
+          disclaimer: companyInfo.disclaimer,
+          disclosure: companyInfo.disclosure,
+          bio: profile.bio
+        }}
+        onExportPDF={() => {
+          // Add export functionality here
+          console.log("Exporting PDF...");
         }}
       />
     </div>
