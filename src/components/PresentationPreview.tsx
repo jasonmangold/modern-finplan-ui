@@ -184,7 +184,7 @@ export const PresentationPreview: React.FC<PresentationPreviewProps> = ({
           </Button>
 
           {/* Slide Content */}
-          <div className="w-full max-w-7xl mx-8 bg-background rounded-lg shadow-lg min-h-[90vh] flex flex-col animate-fade-in">
+          <div className="w-full max-w-7xl mx-8 bg-background rounded-lg shadow-lg h-[90vh] flex flex-col animate-fade-in">
             {currentSlideData.type === 'title' ? (
               // Title Slide
               <div className="flex flex-col items-center justify-center h-full text-center p-12">
@@ -231,8 +231,8 @@ export const PresentationPreview: React.FC<PresentationPreviewProps> = ({
                 </div>
 
                 {/* Slide Content */}
-                <div className="flex-1 p-6 overflow-y-auto">
-                  <div className="w-full mx-auto">
+                <div className="flex-1 overflow-hidden">
+                  <div className="w-full h-full overflow-y-auto">
                     <ReportComponent 
                       reportName={currentSlideData.title}
                       selectedForPresentation={[currentSlideData.title]}

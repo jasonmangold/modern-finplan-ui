@@ -1,7 +1,7 @@
 import React from 'react';
-import { AnalysisGoals } from '@/components/AnalysisGoals';
-import { FinancialInventory } from '@/components/FinancialInventory';
-import { FinancialFitnessScore } from '@/components/FinancialFitnessScore';
+import { AnalysisGoalsPresentation } from '@/components/presentation/AnalysisGoalsPresentation';
+import { FinancialInventoryPresentation } from '@/components/presentation/FinancialInventoryPresentation';
+import { FinancialFitnessPresentation } from '@/components/presentation/FinancialFitnessPresentation';
 import { RetirementAnalysisOutput } from '@/components/RetirementAnalysisOutput';
 import { CapitalAvailableOutput } from '@/components/CapitalAvailableOutput';
 import { RetirementTimelineOutput } from '@/components/RetirementTimelineOutput';
@@ -24,13 +24,13 @@ export const ReportComponent: React.FC<ReportComponentProps> = ({
 
   switch (reportName) {
     case "Analysis Goals":
-      return <AnalysisGoals onBack={mockOnBack} />;
+      return <AnalysisGoalsPresentation />;
     
     case "Financial Inventory":
-      return <FinancialInventory onBack={mockOnBack} />;
+      return <FinancialInventoryPresentation />;
     
     case "Financial Fitness":
-      return <FinancialFitnessScore onBack={mockOnBack} />;
+      return <FinancialFitnessPresentation />;
     
     case "Retirement Analysis":
       return <RetirementAnalysisOutput selectedForPresentation={selectedForPresentation} />;
