@@ -91,7 +91,7 @@ const Presentation = () => {
   const [activeTab, setActiveTab] = useState("Presentation");
   
   // Use presentation context instead of local state
-  const { presentationItems: items, setPresentationItems: setItems, removePresentationItem } = usePresentationContext();
+  const { presentationItems: items, setPresentationItems: setItems, removePresentationItem, loadMockClient } = usePresentationContext();
   
   // Company Information State
   const [companyInfo, setCompanyInfo] = useState({
@@ -313,6 +313,20 @@ const Presentation = () => {
     setActiveTab("Presentation");
   };
 
+  const handleLoadSampleClient = () => {
+    const result = loadMockClient("sample-client-1");
+    if (result) {
+      setClientName(result.clientData.name);
+      setClientPhone(result.clientData.phone);
+      setClientAddress(result.clientData.address);
+      setCompanyInfo(prev => ({
+        ...prev,
+        ...result.companyData
+      }));
+      setTitle("Comprehensive Financial Analysis");
+    }
+  };
+
   const handleBackToGoalSelection = () => {
     setShowFastTrackInput(false);
     setShowGoalSelection(true);
@@ -483,6 +497,15 @@ const Presentation = () => {
                     Quick Actions
                   </Label>
                   <div className="space-y-2">
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start"
+                      size="sm"
+                      onClick={handleLoadSampleClient}
+                    >
+                      <User className="h-4 w-4 mr-2" />
+                      Load Sample Client
+                    </Button>
                     <Dialog>
                       <DialogTrigger asChild>
                         <Button variant="outline" className="w-full justify-start" size="sm">

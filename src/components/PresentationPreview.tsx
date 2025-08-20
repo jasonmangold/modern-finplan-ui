@@ -3,6 +3,7 @@ import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, X, Download } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { ReportComponent } from '@/components/presentation/ReportComponentMap';
 
 interface PresentationItem {
   id: string;
@@ -183,7 +184,7 @@ export const PresentationPreview: React.FC<PresentationPreviewProps> = ({
           </Button>
 
           {/* Slide Content */}
-          <div className="w-full max-w-4xl mx-8 bg-background rounded-lg shadow-lg aspect-[16/9] flex flex-col animate-fade-in">
+          <div className="w-full max-w-7xl mx-8 bg-background rounded-lg shadow-lg min-h-[90vh] flex flex-col animate-fade-in">
             {currentSlideData.type === 'title' ? (
               // Title Slide
               <div className="flex flex-col items-center justify-center h-full text-center p-12">
@@ -230,17 +231,12 @@ export const PresentationPreview: React.FC<PresentationPreviewProps> = ({
                 </div>
 
                 {/* Slide Content */}
-                <div className="flex-1 p-8 flex items-center justify-center">
-                  <div className="text-center space-y-4">
-                    <div className="w-32 h-32 bg-muted rounded-lg mx-auto flex items-center justify-center">
-                      <div className="text-4xl text-muted-foreground">📊</div>
-                    </div>
-                    <p className="text-lg text-muted-foreground">
-                      {currentSlideData.content}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      This slide would display the actual {currentSlideData.title} content
-                    </p>
+                <div className="flex-1 p-6 overflow-y-auto">
+                  <div className="w-full mx-auto">
+                    <ReportComponent 
+                      reportName={currentSlideData.title}
+                      selectedForPresentation={[currentSlideData.title]}
+                    />
                   </div>
                 </div>
               </div>
