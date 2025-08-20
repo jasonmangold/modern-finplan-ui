@@ -776,7 +776,7 @@ const Presentation = () => {
                               </div>
                               <div>
                                 <div className="flex items-center gap-3">
-                                  <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                                 <h3 className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
                                     {item.name}
                                   </h3>
                                   <Badge className={`text-xs font-medium ${getSourceColor(item.source)}`}>
