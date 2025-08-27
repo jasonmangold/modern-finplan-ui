@@ -43,7 +43,7 @@ const presentationItems: PresentationItem[] = [{
 }, {
   id: "4",
   name: "Retirement Timeline",
-  source: "Calculators"
+  source: "Analysis"
 }, {
   id: "5",
   name: "Retirement Fact Finder",
@@ -68,7 +68,7 @@ const templates: Template[] = [{
   }, {
     id: "4",
     name: "Retirement Timeline",
-    source: "Calculators"
+    source: "Analysis"
   }, {
     id: "5",
     name: "Retirement Fact Finder",
@@ -102,7 +102,7 @@ const templates: Template[] = [{
   }, {
     id: "4",
     name: "Retirement Timeline",
-    source: "Calculators"
+    source: "Analysis"
   }]
 }];
 const titlePageDesigns = [{
@@ -347,7 +347,7 @@ const Presentation = () => {
       }, {
         id: "4",
         name: "Retirement Timeline",
-        source: "Calculators"
+        source: "Analysis"
       }],
       education: [{
         id: "5",
@@ -390,25 +390,25 @@ const Presentation = () => {
     // Map each report to its specific location and goal
     const reportMappings: Record<string, { route: string; goalId: string; reportView: string }> = {
       // Analysis section reports
-      "Retirement Analysis": { route: '/analysis', goalId: 'retirement', reportView: 'RetirementAnalysis' },
-      "Capital Available": { route: '/analysis', goalId: 'retirement', reportView: 'CapitalAvailable' },
-      "Capital Available for Retirement": { route: '/analysis', goalId: 'retirement', reportView: 'CapitalAvailable' },
-      "Alternatives Retirement": { route: '/analysis', goalId: 'retirement', reportView: 'AlternativesToRetirement' },
-      "Alternatives to Achieving Retirement Goals": { route: '/analysis', goalId: 'retirement', reportView: 'AlternativesToRetirement' },
-      "Graph": { route: '/analysis', goalId: 'retirement', reportView: 'RetirementAnalysis' },
+      "Retirement Analysis": { route: '/analysis', goalId: 'retirement-accumulation', reportView: 'RetirementAnalysis' },
+      "Capital Available": { route: '/analysis', goalId: 'retirement-accumulation', reportView: 'CapitalAvailable' },
+      "Capital Available for Retirement": { route: '/analysis', goalId: 'retirement-accumulation', reportView: 'CapitalAvailable' },
+      "Alternatives Retirement": { route: '/analysis', goalId: 'retirement-accumulation', reportView: 'AlternativesToRetirement' },
+      "Alternatives to Achieving Retirement Goals": { route: '/analysis', goalId: 'retirement-accumulation', reportView: 'AlternativesToRetirement' },
+      "Retirement Timeline": { route: '/analysis', goalId: 'retirement-accumulation', reportView: 'RetirementTimeline' },
+      "Graph": { route: '/analysis', goalId: 'retirement-accumulation', reportView: 'RetirementAnalysis' },
       "Analysis Goals": { route: '/analysis', goalId: 'goals', reportView: 'AnalysisGoals' },
       "Financial Inventory": { route: '/analysis', goalId: 'inventory', reportView: 'FinancialInventory' },
       "Financial Fitness": { route: '/analysis', goalId: 'fitness', reportView: 'FinancialFitness' },
-      "Survivor Needs - Client 1 Dies": { route: '/analysis', goalId: 'survivor', reportView: 'SurvivorNeeds' },
-      "Asset Allocation Comparison": { route: '/analysis', goalId: 'assetAllocation', reportView: 'AssetAllocation' },
+      "Survivor Needs - Client 1 Dies": { route: '/analysis', goalId: 'survivor-needs', reportView: 'SurvivorNeeds' },
+      "Asset Allocation Comparison": { route: '/analysis', goalId: 'asset-allocation', reportView: 'AssetAllocation' },
+      "Education Funding Summary": { route: '/analysis', goalId: 'education-funding', reportView: 'EducationFunding' },
       
       // Calculators section reports
       "Social Security Optimizer": { route: '/calculators', goalId: 'retirement', reportView: 'SocialSecurity' },
-      "Retirement Timeline": { route: '/calculators', goalId: 'retirement', reportView: 'RetirementTimeline' },
       
       // Education section reports
-      "Retirement Fact Finder": { route: '/education', goalId: 'retirement', reportView: 'RetirementFactFinder' },
-      "Education Funding Summary": { route: '/education', goalId: 'education', reportView: 'EducationFunding' }
+      "Retirement Fact Finder": { route: '/education', goalId: 'retirement', reportView: 'RetirementFactFinder' }
     };
 
     const mapping = reportMappings[item.name];
@@ -427,7 +427,7 @@ const Presentation = () => {
       // Fallback to analysis section
       navigate('/analysis', { 
         state: { 
-          goalId: 'retirement',
+          goalId: 'retirement-accumulation',
           reportName: item.name,
           showInputs: true,
           fromPresentation: true
