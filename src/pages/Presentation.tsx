@@ -7,7 +7,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { FileText, Settings, Eye, Edit3, GripVertical, Trash2, ChevronDown, ChevronRight, Layers, Plus, Upload, User, Building, Download, Import, Zap, Pencil } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { FileText, Settings, Eye, Edit3, GripVertical, Trash2, ChevronDown, ChevronRight, Layers, Plus, Upload, User, Building, Download, Import, Zap, Pencil, HelpCircle } from "lucide-react";
 import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { GoalSelectionDialog } from "@/components/GoalSelectionDialog";
 import { FastTrackInputDialog } from "@/components/FastTrackInputDialog";
@@ -807,7 +808,22 @@ const Presentation = () => {
                   {items.length === 0 ? <div className="flex flex-col items-center justify-center h-64 text-center bg-white/50 rounded-2xl border-2 border-dashed border-border">
                       <FileText className="h-12 w-12 text-muted-foreground mb-4" />
                       <h3 className="text-lg font-medium text-foreground mb-2">No reports selected</h3>
-                      <p className="text-muted-foreground">Add reports to start building your presentation</p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-muted-foreground">Add reports to start building your presentation</p>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-foreground cursor-help" />
+                            </TooltipTrigger>
+                            <TooltipContent className="max-w-xs">
+                              <p className="text-sm">
+                                Add reports by checking the boxes next to items in the Analysis, Education, or Calculators tabs. 
+                                Selected items will automatically appear here for your presentation.
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
                     </div> : items.map((item, index) => <div key={item.id}>
                         {/* Enhanced drop indicator */}
                         {dropIndicator === index && <div className="h-1 bg-gradient-to-r from-primary/50 to-primary rounded-full mb-3 shadow-lg animate-pulse" />}
