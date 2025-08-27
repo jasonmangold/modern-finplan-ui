@@ -10,6 +10,7 @@ import { ChevronDown, Search, Filter, Eye, FileText, FolderOpen, X, PanelLeftClo
 import { ReportViewer } from "@/components/ReportViewer";
 import { useEducationCategories, useEducationSearch, useEducationData } from "@/hooks/useEducationData";
 import { useSearch } from "@/contexts/SearchContext";
+import { usePresentationContext } from "@/contexts/PresentationContext";
 
 const clientInteractionForms = ["Agenda for Discussion", "Beneficiary Audit Checklist", "Business Events Checklist", "Business Owner Planning Needs", "Client Referral", "Divorce Checklist", "Financial Review Checklist", "Life Events Checklist", "Planning Task List", "Receipt for Documents"];
 const worksheetReports = ["Business Valuation", "Capital Needs Analysis Worksheet", "Federal Estate Tax Worksheet", "Odds of Disability", "Personal Alternative Minimum Tax", "The Personal Budget Worksheet", "Personal Net Worth", "Taxation of Social Security Benefits", "The Real Rate of Return Worksheet", "When to Refinance Your Home"];
@@ -61,6 +62,9 @@ const Education = () => {
   // Use global search context
   const { globalSearchTerm, setGlobalSearchTerm } = useSearch();
   
+  // Use presentation context
+  const { addPresentationItem, removePresentationItem, presentationItems } = usePresentationContext();
+  
   // Combine local and global search terms
   const effectiveSearchTerm = localSearchTerm || globalSearchTerm;
 
@@ -96,15 +100,36 @@ const Education = () => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [selectedPDF, selectedReport]);
 
-  // Scroll to top when PDF opens
+  // Initialize selected items from presentation
   useEffect(() => {
-    if (selectedPDF) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }, [selectedPDF]);
+    const educationItemsInPresentation = presentationItems
+      .filter(item => item.source === "Education")
+      .map(item => item.name);
+    setSelectedItems(educationItemsInPresentation);
+  }, [presentationItems]);
 
   const handleItemSelection = (item: string) => {
-    setSelectedItems(prev => prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]);
+    setSelectedItems(prev => {
+      const isCurrentlySelected = prev.includes(item);
+      
+      if (isCurrentlySelected) {
+        // Remove from local state and presentation
+        const existingPresentationItem = presentationItems.find(p => p.name === item && p.source === "Education");
+        if (existingPresentationItem) {
+          removePresentationItem(existingPresentationItem.id);
+        }
+        return prev.filter(i => i !== item);
+      } else {
+        // Add to local state and presentation
+        const newPresentationItem = {
+          id: crypto.randomUUID(),
+          name: item,
+          source: "Education" as const
+        };
+        addPresentationItem(newPresentationItem);
+        return [...prev, item];
+      }
+    });
   };
 
   const handleReportClick = (report: any) => {
