@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { TextEditorModal } from "@/components/TextEditorModal";
 import { PresentationPreview } from "@/components/PresentationPreview";
 import { usePresentationContext } from "@/contexts/PresentationContext";
+import { useNavigate } from "react-router-dom";
 interface PresentationItem {
   id: string;
   name: string;
@@ -118,6 +119,7 @@ const titlePageDesigns = [{
   name: "Corporate Navy"
 }];
 const Presentation = () => {
+  const navigate = useNavigate();
   const [title, setTitle] = useState("No Title");
   const [clientName, setClientName] = useState("Paul Johnson & Sally Johnson");
   const [clientPhone, setClientPhone] = useState("");
@@ -382,6 +384,34 @@ const Presentation = () => {
   const handleBackToGoalSelection = () => {
     setShowFastTrackInput(false);
     setShowGoalSelection(true);
+  };
+
+  const handleEditInputs = (item: PresentationItem) => {
+    // Determine which section/route the report belongs to based on its source and name
+    let targetRoute = '/analysis'; // default
+    let goalId = '';
+
+    // Map report names to their specific goals/locations
+    if (item.name === "Capital Available" || item.name === "Alternatives Retirement" || item.name === "Graph") {
+      targetRoute = '/analysis';
+      goalId = 'retirement';
+    } else if (item.name === "Social Security Optimizer" || item.name === "Retirement Timeline") {
+      targetRoute = '/calculators';
+      goalId = 'retirement';
+    } else if (item.name === "Retirement Fact Finder") {
+      targetRoute = '/education';
+      goalId = 'retirement';
+    }
+
+    // Navigate to the appropriate section with state indicating which report to show
+    navigate(targetRoute, { 
+      state: { 
+        goalId,
+        reportName: item.name,
+        showInputs: true,
+        fromPresentation: true
+      } 
+    });
   };
 
   // Template management handlers
@@ -790,7 +820,7 @@ const Presentation = () => {
                                 <Trash2 className="h-4 w-4 mr-2" />
                                 Remove
                               </Button>
-                              <Button size="sm" className="bg-primary hover:bg-primary/90">
+                              <Button size="sm" className="bg-primary hover:bg-primary/90" onClick={() => handleEditInputs(item)}>
                                 <Edit3 className="h-4 w-4 mr-2" />
                                 Edit Inputs
                               </Button>
