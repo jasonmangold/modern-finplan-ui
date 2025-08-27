@@ -388,8 +388,8 @@ const Presentation = () => {
   };
 
   const handleEditInputs = (item: PresentationItem) => {
-    // Map each report to its specific location and goal
-    const reportMappings: Record<string, { route: string; goalId: string; reportView: string }> = {
+    // Comprehensive mapping of reports to their specific locations and goals
+    const reportMappings: Record<string, { route: string; goalId?: string; reportView?: string; calculatorName?: string }> = {
       // Analysis section reports
       "Retirement Analysis": { route: '/analysis', goalId: 'retirement-accumulation', reportView: 'RetirementAnalysis' },
       "Capital Available": { route: '/analysis', goalId: 'retirement-accumulation', reportView: 'CapitalAvailable' },
@@ -402,38 +402,106 @@ const Presentation = () => {
       "Financial Inventory": { route: '/analysis', goalId: 'inventory', reportView: 'FinancialInventory' },
       "Financial Fitness": { route: '/analysis', goalId: 'fitness', reportView: 'FinancialFitness' },
       "Survivor Needs - Client 1 Dies": { route: '/analysis', goalId: 'survivor-needs', reportView: 'SurvivorNeeds' },
+      "Survivor Needs Analysis": { route: '/analysis', goalId: 'survivor-needs', reportView: 'SurvivorNeeds' },
       "Asset Allocation Comparison": { route: '/analysis', goalId: 'asset-allocation', reportView: 'AssetAllocation' },
       "Education Funding Summary": { route: '/analysis', goalId: 'education-funding', reportView: 'EducationFunding' },
+      "Education Planning Analysis": { route: '/analysis', goalId: 'education-funding', reportView: 'EducationFunding' },
+      "Disability Analysis": { route: '/analysis', goalId: 'disability', reportView: 'DisabilityAnalysis' },
+      "Total Needs vs Spending": { route: '/analysis', goalId: 'total-needs', reportView: 'TotalNeedsSpending' },
       
       // Calculators section reports
-      "Social Security Optimizer": { route: '/calculators', goalId: 'retirement', reportView: 'SocialSecurity' },
+      "Social Security Optimizer": { route: '/calculators', calculatorName: 'Social Security Optimizer' },
+      "Payments to Pay Off a Loan": { route: '/calculators', calculatorName: 'Loan Payment Calculator' },
+      "Length of Time Calculator": { route: '/calculators', calculatorName: 'Length of Time Calculator' },
+      "Retirement Accumulation Calculator": { route: '/calculators', calculatorName: 'Retirement Accumulation' },
+      "Retirement Distribution Calculator": { route: '/calculators', calculatorName: 'Retirement Distribution' },
+      "Future Value Calculator": { route: '/calculators', calculatorName: 'Future Value Calculator' },
+      "Present Value Calculator": { route: '/calculators', calculatorName: 'Present Value Calculator' },
+      "College Funding Calculator": { route: '/calculators', calculatorName: 'College Funding Calculator' },
+      "Life Insurance Calculator": { route: '/calculators', calculatorName: 'Life Insurance Calculator' },
+      "Mortgage Calculator": { route: '/calculators', calculatorName: 'Mortgage Calculator' },
+      "Debt Consolidation Calculator": { route: '/calculators', calculatorName: 'Debt Consolidation Calculator' },
+      "Tax Calculator": { route: '/calculators', calculatorName: 'Tax Calculator' },
+      "Investment Calculator": { route: '/calculators', calculatorName: 'Investment Calculator' },
       
       // Education section reports
-      "Retirement Fact Finder": { route: '/education', goalId: 'retirement', reportView: 'RetirementFactFinder' }
+      "Retirement Fact Finder": { route: '/education', reportView: 'RetirementFactFinder' },
+      "College Planning Guide": { route: '/education', reportView: 'CollegePlanning' },
+      "Estate Planning Basics": { route: '/education', reportView: 'EstatePlanning' },
+      "Tax Planning Strategies": { route: '/education', reportView: 'TaxPlanning' },
+      "Insurance Planning Guide": { route: '/education', reportView: 'InsurancePlanning' },
+      "Investment Planning Fundamentals": { route: '/education', reportView: 'InvestmentPlanning' },
+      "Retirement Planning Checklist": { route: '/education', reportView: 'RetirementChecklist' },
+      "Social Security Benefits Guide": { route: '/education', reportView: 'SocialSecurityGuide' },
+      "Medicare Planning Guide": { route: '/education', reportView: 'MedicarePlanning' },
+      "Long-Term Care Planning": { route: '/education', reportView: 'LongTermCare' }
     };
 
     const mapping = reportMappings[item.name];
     if (mapping) {
-      navigate(mapping.route, { 
-        state: { 
-          goalId: mapping.goalId,
-          reportName: item.name,
-          reportView: mapping.reportView,
-          showInputs: true,
-          showReport: true,
-          fromPresentation: true
-        } 
-      });
+      if (mapping.route === '/calculators') {
+        // For calculators, navigate with calculator-specific state
+        navigate(mapping.route, { 
+          state: { 
+            calculatorName: mapping.calculatorName || item.name,
+            reportName: item.name,
+            fromPresentation: true,
+            openCalculator: true
+          } 
+        });
+      } else if (mapping.route === '/education') {
+        // For education reports, navigate with search term to help find the report
+        navigate(mapping.route, { 
+          state: { 
+            reportName: item.name,
+            reportView: mapping.reportView,
+            fromPresentation: true,
+            searchTerm: item.name.split(' ')[0] // Use first word as search term
+          } 
+        });
+      } else {
+        // For analysis reports, use the existing logic
+        navigate(mapping.route, { 
+          state: { 
+            goalId: mapping.goalId,
+            reportName: item.name,
+            reportView: mapping.reportView,
+            showInputs: true,
+            showReport: true,
+            fromPresentation: true
+          } 
+        });
+      }
     } else {
-      // Fallback to analysis section
-      navigate('/analysis', { 
-        state: { 
-          goalId: 'retirement-accumulation',
-          reportName: item.name,
-          showInputs: true,
-          fromPresentation: true
-        } 
-      });
+      // Fallback based on source type
+      if (item.source === "Calculators") {
+        navigate('/calculators', { 
+          state: { 
+            calculatorName: item.name,
+            reportName: item.name,
+            fromPresentation: true,
+            openCalculator: true
+          } 
+        });
+      } else if (item.source === "Education") {
+        navigate('/education', { 
+          state: { 
+            reportName: item.name,
+            fromPresentation: true,
+            searchTerm: item.name.split(' ')[0]
+          } 
+        });
+      } else {
+        // Fallback to analysis section for unknown analysis reports
+        navigate('/analysis', { 
+          state: { 
+            goalId: 'retirement-accumulation',
+            reportName: item.name,
+            showInputs: true,
+            fromPresentation: true
+          } 
+        });
+      }
     }
   };
 
