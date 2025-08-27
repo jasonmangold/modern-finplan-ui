@@ -408,6 +408,7 @@ const Presentation = () => {
       "Survivor Needs Analysis": { route: '/analysis', goalId: 'survivor-needs', reportView: 'SurvivorNeeds' },
       "Asset Allocation Comparison": { route: '/analysis', goalId: 'asset-allocation', reportView: 'AssetAllocation' },
       "Education Funding Summary": { route: '/analysis', goalId: 'education-funding', reportView: 'EducationFunding' },
+      "Education Funding Analysis - Child 1": { route: '/analysis', goalId: 'education-funding', reportView: 'EducationFunding' },
       "Education Planning Analysis": { route: '/analysis', goalId: 'education-funding', reportView: 'EducationFunding' },
       "Disability Analysis": { route: '/analysis', goalId: 'disability', reportView: 'DisabilityAnalysis' },
       "Total Needs vs Spending": { route: '/analysis', goalId: 'total-needs', reportView: 'TotalNeedsSpending' },
