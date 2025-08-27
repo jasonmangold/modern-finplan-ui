@@ -464,20 +464,117 @@ const Presentation = () => {
       "Financial Fitness": { route: '/analysis', goalId: 'fitness', reportView: 'FinancialFitness' },
       "Disability Analysis": { route: '/analysis', goalId: 'disability', reportView: 'DisabilityAnalysis' },
       
-      // Calculators section reports
-      "Social Security Optimizer": { route: '/calculators', calculatorName: 'Social Security Optimizer' },
-      "Payments to Pay Off a Loan": { route: '/calculators', calculatorName: 'Payments To Pay Off A Loan' },
-      "Length of Time Calculator": { route: '/calculators', calculatorName: 'Length of Time Calculator' },
-      "Retirement Accumulation Calculator": { route: '/calculators', calculatorName: 'Retirement Accumulation' },
-      "Retirement Distribution Calculator": { route: '/calculators', calculatorName: 'Retirement Distribution' },
-      "Future Value Calculator": { route: '/calculators', calculatorName: 'Future Value Calculator' },
-      "Present Value Calculator": { route: '/calculators', calculatorName: 'Present Value Calculator' },
-      "College Funding Calculator": { route: '/calculators', calculatorName: 'College Funding Calculator' },
-      "Life Insurance Calculator": { route: '/calculators', calculatorName: 'Life Insurance Calculator' },
-      "Mortgage Calculator": { route: '/calculators', calculatorName: 'Mortgage Calculator' },
-      "Debt Consolidation Calculator": { route: '/calculators', calculatorName: 'Debt Consolidation Calculator' },
-      "Tax Calculator": { route: '/calculators', calculatorName: 'Tax Calculator' },
+      // Calculators section reports - Complete mapping for all calculators
+      
+      // Borrowing Calculators
+      "Bi-Weekly Mortgage": { route: '/calculators', calculatorName: 'Bi-Weekly Mortgage' },
+      "Impact of Making Additional Principal Payments": { route: '/calculators', calculatorName: 'Impact of Making Additional Principal Payments' },
+      "Loan Amortization Schedule": { route: '/calculators', calculatorName: 'Loan Amortization Schedule' },
+      "Mortgage Refinance Comparisons": { route: '/calculators', calculatorName: 'Mortgage Refinance Comparisons' },
+      "Payments To Pay Off A Loan": { route: '/calculators', calculatorName: 'Payments To Pay Off A Loan' },
+      "Rate of Interest for a Loan": { route: '/calculators', calculatorName: 'Rate of Interest for a Loan' },
       "Weighted Average Interest Rate": { route: '/calculators', calculatorName: 'Weighted Average Interest Rate' },
+      
+      // Discussion Organization Calculators
+      "Action Items": { route: '/calculators', calculatorName: 'Action Items' },
+      "Agenda": { route: '/calculators', calculatorName: 'Agenda' },
+      "Goals": { route: '/calculators', calculatorName: 'Goals' },
+      "Recommendations": { route: '/calculators', calculatorName: 'Recommendations' },
+      
+      // Education Funding Calculators
+      "529 Plan Rollover to Roth IRA": { route: '/calculators', calculatorName: '529 Plan Rollover to Roth IRA' },
+      "529 Plan Savings Calculator": { route: '/calculators', calculatorName: '529 Plan Savings Calculator' },
+      "Projected Costs of Education": { route: '/calculators', calculatorName: 'Projected Costs of Education' },
+      
+      // Estate Planning Calculators
+      "Effect of Life Insurance Transfers on Federal Estate Tax": { route: '/calculators', calculatorName: 'Effect of Life Insurance Transfers on Federal Estate Tax' },
+      "Family Limited Partnership - Grantor Trust": { route: '/calculators', calculatorName: 'Family Limited Partnership - Grantor Trust' },
+      "Federal Estate Tax Approximator": { route: '/calculators', calculatorName: 'Federal Estate Tax Approximator' },
+      "Federal Taxes on Income in Respect of a Decedent": { route: '/calculators', calculatorName: 'Federal Taxes on Income in Respect of a Decedent' },
+      "Grantor-Retained Annuity Trust (GRAT)": { route: '/calculators', calculatorName: 'Grantor-Retained Annuity Trust (GRAT)' },
+      "Grantor-Retained Income Trust - Graph": { route: '/calculators', calculatorName: 'Grantor-Retained Income Trust - Graph' },
+      "Grantor-Retained Interest Trust (GRIT)": { route: '/calculators', calculatorName: 'Grantor-Retained Interest Trust (GRIT)' },
+      "Grantor-Retained Interest Trust - Graph": { route: '/calculators', calculatorName: 'Grantor-Retained Interest Trust - Graph' },
+      "Grantor-Retained Unitrust (GRUT)": { route: '/calculators', calculatorName: 'Grantor-Retained Unitrust (GRUT)' },
+      "Grantor-Retained Unitrust - Graph": { route: '/calculators', calculatorName: 'Grantor-Retained Unitrust - Graph' },
+      "Qualified Personal Residence Trust": { route: '/calculators', calculatorName: 'Qualified Personal Residence Trust' },
+      "Qualified Personal Residence Trust - Graph": { route: '/calculators', calculatorName: 'Qualified Personal Residence Trust - Graph' },
+      "The Federal Gift Tax": { route: '/calculators', calculatorName: 'The Federal Gift Tax' },
+      
+      // Health and Medical Calculators
+      "Disability Break-Even": { route: '/calculators', calculatorName: 'Disability Break-Even' },
+      "Long-Term Care Break-Even": { route: '/calculators', calculatorName: 'Long-Term Care Break-Even' },
+      
+      // Income Taxes Calculators
+      "Federal Income Tax Approximator": { route: '/calculators', calculatorName: 'Federal Income Tax Approximator' },
+      "Tax Exempt vs. Taxable Income": { route: '/calculators', calculatorName: 'Tax Exempt vs. Taxable Income' },
+      "Traditional Portion of Social Security Benefits": { route: '/calculators', calculatorName: 'Traditional Portion of Social Security Benefits' },
+      
+      // Investments Calculators
+      "Dollar Cost Averaging Calculator": { route: '/calculators', calculatorName: 'Dollar Cost Averaging Calculator' },
+      "Effect of Not Rebalancing Assets": { route: '/calculators', calculatorName: 'Effect of Not Rebalancing Assets' },
+      "Internal Rate of Return": { route: '/calculators', calculatorName: 'Internal Rate of Return' },
+      "Impact of Fees": { route: '/calculators', calculatorName: 'Impact of Fees' },
+      "Impact of Fees Timeline": { route: '/calculators', calculatorName: 'Impact of Fees Timeline' },
+      "Impact of Inflation on Savings Growth": { route: '/calculators', calculatorName: 'Impact of Inflation on Savings Growth' },
+      "Impact of the Rate of Return": { route: '/calculators', calculatorName: 'Impact of the Rate of Return' },
+      "Market Timing": { route: '/calculators', calculatorName: 'Market Timing' },
+      "Monte Carlo Simulator": { route: '/calculators', calculatorName: 'Monte Carlo Simulator' },
+      "Present Value of a Future Sum": { route: '/calculators', calculatorName: 'Present Value of a Future Sum' },
+      "Rate of Return on a Single Amount": { route: '/calculators', calculatorName: 'Rate of Return on a Single Amount' },
+      "The Real Rate of Return": { route: '/calculators', calculatorName: 'The Real Rate of Return' },
+      "Value over Time": { route: '/calculators', calculatorName: 'Value over Time' },
+      "Weighted Average Rate of Return": { route: '/calculators', calculatorName: 'Weighted Average Rate of Return' },
+      
+      // Life Insurance Calculators
+      "Debt, Income, Mortgage and Education Analysis (DIME)": { route: '/calculators', calculatorName: 'Debt, Income, Mortgage and Education Analysis (DIME)' },
+      "How Much Life Insurance?": { route: '/calculators', calculatorName: 'How Much Life Insurance?' },
+      "How Much Life Insurance? - Graph": { route: '/calculators', calculatorName: 'How Much Life Insurance? - Graph' },
+      "Human Life Value": { route: '/calculators', calculatorName: 'Human Life Value' },
+      "Length of Time a Sum Will Last": { route: '/calculators', calculatorName: 'Length of Time a Sum Will Last' },
+      "Lifetime Earnings": { route: '/calculators', calculatorName: 'Lifetime Earnings' },
+      
+      // Personal Finance Calculators
+      "Accumulating One Million Dollars": { route: '/calculators', calculatorName: 'Accumulating One Million Dollars' },
+      "Amounts Needed to Accumulate a Future Sum": { route: '/calculators', calculatorName: 'Amounts Needed to Accumulate a Future Sum' },
+      "Cost of Procrastination": { route: '/calculators', calculatorName: 'Cost of Procrastination' },
+      "Effect of Inflation": { route: '/calculators', calculatorName: 'Effect of Inflation' },
+      "Future Value of a Single Sum": { route: '/calculators', calculatorName: 'Future Value of a Single Sum' },
+      "Future Value of a Single Sum and Periodic Additions": { route: '/calculators', calculatorName: 'Future Value of a Single Sum and Periodic Additions' },
+      "Future Value of Periodic Additions": { route: '/calculators', calculatorName: 'Future Value of Periodic Additions' },
+      "Inflation and Purchasing Power": { route: '/calculators', calculatorName: 'Inflation and Purchasing Power' },
+      "Pay Debt or Invest?": { route: '/calculators', calculatorName: 'Pay Debt or Invest?' },
+      "Pay Yourself First": { route: '/calculators', calculatorName: 'Pay Yourself First' },
+      "Personal Cash Flow Statement": { route: '/calculators', calculatorName: 'Personal Cash Flow Statement' },
+      "Personal Net Worth Statement": { route: '/calculators', calculatorName: 'Personal Net Worth Statement' },
+      "Present Value of Future Annuity Payments": { route: '/calculators', calculatorName: 'Present Value of Future Annuity Payments' },
+      "Rate of Inflation": { route: '/calculators', calculatorName: 'Rate of Inflation' },
+      "Rule of 72": { route: '/calculators', calculatorName: 'Rule of 72' },
+      
+      // Retirement Planning Calculators
+      "Annuity Maximization - Graph": { route: '/calculators', calculatorName: 'Annuity Maximization - Graph' },
+      "Annuity Maximization - Timeline": { route: '/calculators', calculatorName: 'Annuity Maximization - Timeline' },
+      "Begin Now Or Wait?": { route: '/calculators', calculatorName: 'Begin Now Or Wait?' },
+      "Comparing IRAs": { route: '/calculators', calculatorName: 'Comparing IRAs' },
+      "Does It Matter When You Contribute to an IRA?": { route: '/calculators', calculatorName: 'Does It Matter When You Contribute to an IRA?' },
+      "Employer Sponsored Plans": { route: '/calculators', calculatorName: 'Employer Sponsored Plans' },
+      "Employer Sponsored Safe Harbor Plans": { route: '/calculators', calculatorName: 'Employer Sponsored Safe Harbor Plans' },
+      "Impact of Qualified Plan Contributions on a Paycheck": { route: '/calculators', calculatorName: 'Impact of Qualified Plan Contributions on a Paycheck' },
+      "Impact of Tax Deferred Growth in an IRA": { route: '/calculators', calculatorName: 'Impact of Tax Deferred Growth in an IRA' },
+      "IRA Eligibility": { route: '/calculators', calculatorName: 'IRA Eligibility' },
+      "Qualified Plan Distribution Planner": { route: '/calculators', calculatorName: 'Qualified Plan Distribution Planner' },
+      "Rate of Withdrawal in Retirement": { route: '/calculators', calculatorName: 'Rate of Withdrawal in Retirement' },
+      "Required Minimum Distributions During Life": { route: '/calculators', calculatorName: 'Required Minimum Distributions During Life' },
+      "Qualified Plan Distribution Maximization": { route: '/calculators', calculatorName: 'Qualified Plan Distribution Maximization' },
+      "Qualified Plan Distribution Maximization Timeline": { route: '/calculators', calculatorName: 'Qualified Plan Distribution Maximization Timeline' },
+      "Roth IRA Conversion": { route: '/calculators', calculatorName: 'Roth IRA Conversion' },
+      "Substantially Equal Periodic Payments - 72(t)": { route: '/calculators', calculatorName: 'Substantially Equal Periodic Payments - 72(t)' },
+      "Tax-deductible Portion of Your Traditional IRA Contribution": { route: '/calculators', calculatorName: 'Tax-deductible Portion of Your Traditional IRA Contribution' },
+      "Tax-Deferred Growth in an IRA - Traditional IRA": { route: '/calculators', calculatorName: 'Tax-Deferred Growth in an IRA - Traditional IRA' },
+      "When Will Your Nest Egg Run Out?": { route: '/calculators', calculatorName: 'When Will Your Nest Egg Run Out?' },
+      "Social Security Break-Even": { route: '/calculators', calculatorName: 'Social Security Break-Even' },
+      "Social Security Optimizer": { route: '/calculators', calculatorName: 'Social Security Optimizer' },
+      "Taxable Portion of Social Security Benefits": { route: '/calculators', calculatorName: 'Taxable Portion of Social Security Benefits' },
       
       // Education section reports
       "Retirement Fact Finder": { route: '/education', reportView: 'RetirementFactFinder' },
