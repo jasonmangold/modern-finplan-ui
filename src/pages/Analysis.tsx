@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
@@ -15,39 +15,39 @@ import { Award } from "lucide-react";
 
 const Analysis = () => {
   const location = useLocation();
-  const [viewMode, setViewMode] = useState<"comprehensive" | "goals-based" | "fitness-score" | "analysis-goals" | "financial-inventory" | "fact-finders">("goals-based");
-  const [selectedGoal, setSelectedGoal] = useState<string | null>(null);
-  const [initialReportView, setInitialReportView] = useState<string | null>(null);
-
-  // Handle navigation from presentation page
-  useEffect(() => {
+  
+  // Initialize state based on navigation state to prevent glitches
+  const getInitialState = () => {
     if (location.state) {
-      const { goalId, reportView, fromPresentation, showInputs } = location.state as any;
+      const { goalId, reportView, fromPresentation } = location.state as any;
       
       if (fromPresentation && goalId) {
-        // Map goalId to specific view modes or goals
         if (goalId === 'goals') {
-          setViewMode('analysis-goals');
+          return { viewMode: 'analysis-goals' as const, selectedGoal: null, initialReportView: null };
         } else if (goalId === 'inventory') {
-          setViewMode('financial-inventory');
+          return { viewMode: 'financial-inventory' as const, selectedGoal: null, initialReportView: null };
         } else if (goalId === 'fitness') {
-          setViewMode('fitness-score');
-        } else if (goalId === 'survivor') {
-          setSelectedGoal('survivor-needs');
-          if (reportView) setInitialReportView(reportView);
-        } else if (goalId === 'assetAllocation') {
-          setSelectedGoal('asset-allocation');
-          if (reportView) setInitialReportView(reportView);
-        } else if (goalId === 'retirement') {
-          setSelectedGoal('retirement-accumulation');
-          if (reportView) setInitialReportView(reportView);
+          return { viewMode: 'fitness-score' as const, selectedGoal: null, initialReportView: null };
+        } else if (goalId === 'survivor-needs') {
+          return { viewMode: 'goals-based' as const, selectedGoal: 'survivor-needs', initialReportView: reportView };
+        } else if (goalId === 'asset-allocation') {
+          return { viewMode: 'goals-based' as const, selectedGoal: 'asset-allocation', initialReportView: reportView };
+        } else if (goalId === 'retirement-accumulation') {
+          return { viewMode: 'goals-based' as const, selectedGoal: 'retirement-accumulation', initialReportView: reportView };
+        } else if (goalId === 'education-funding') {
+          return { viewMode: 'goals-based' as const, selectedGoal: 'education-funding', initialReportView: reportView };
         } else {
-          setSelectedGoal(goalId);
-          if (reportView) setInitialReportView(reportView);
+          return { viewMode: 'goals-based' as const, selectedGoal: goalId, initialReportView: reportView };
         }
       }
     }
-  }, [location.state]);
+    return { viewMode: 'goals-based' as const, selectedGoal: null, initialReportView: null };
+  };
+
+  const initialState = getInitialState();
+  const [viewMode, setViewMode] = useState<"comprehensive" | "goals-based" | "fitness-score" | "analysis-goals" | "financial-inventory" | "fact-finders">(initialState.viewMode);
+  const [selectedGoal, setSelectedGoal] = useState<string | null>(initialState.selectedGoal);
+  const [initialReportView, setInitialReportView] = useState<string | null>(initialState.initialReportView);
 
   const handleGoalSelect = (goalId: string) => {
     setSelectedGoal(goalId);
