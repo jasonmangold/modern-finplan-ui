@@ -223,10 +223,10 @@ export const GoalDetailView = ({
                     </SelectTrigger>
                     <SelectContent className="max-w-80 min-w-80 bg-popover border-border">
                       {config.outputs.map(output => <div key={output} className="relative">
-                          <SelectItem value={output} className="pr-12 cursor-pointer">
-                            <span className="truncate">{output}</span>
+                          <SelectItem value={output} className="pr-16 cursor-pointer">
+                            <span className="truncate max-w-[calc(100%-3rem)]">{output}</span>
                           </SelectItem>
-                          <div className="absolute right-2 top-1/2 transform -translate-y-1/2 z-20" onMouseDown={e => {
+                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 z-20 pointer-events-auto" onMouseDown={e => {
                         e.preventDefault();
                         e.stopPropagation();
                       }} onClick={e => {
