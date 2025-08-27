@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { LengthOfTimeCalculator } from "@/components/calculators/LengthOfTimeCalculator";
+import { usePresentationContext } from "@/contexts/PresentationContext";
+import { Checkbox } from "@/components/ui/checkbox";
 
 // Mock calculator data organized by folders - moved outside component to prevent recreation
 const calculatorFolders = {
@@ -172,6 +174,16 @@ const Calculators = () => {
   const [selectedCalculator, setSelectedCalculator] = useState<any>(null);
   const [activeFolder, setActiveFolder] = useState("borrowing");
   const { toast } = useToast();
+  
+  // Presentation context
+  const {
+    addPresentationItem,
+    removePresentationItem,
+    presentationItems
+  } = usePresentationContext();
+
+  // Calculate which calculators are currently selected for presentation
+  const selectedForPresentation = presentationItems.filter(item => item.source === "Calculators").map(item => item.name);
 
   // Handle navigation from presentation page
   useEffect(() => {
@@ -280,10 +292,59 @@ const Calculators = () => {
   };
 
   const handleAddToPresentation = () => {
-    toast({
-      title: "Added to Presentation",
-      description: "Calculator results have been added to your presentation.",
-    });
+    if (selectedCalculator) {
+      const isCurrentlySelected = selectedForPresentation.includes(selectedCalculator.name);
+      if (isCurrentlySelected) {
+        // Remove from presentation
+        const existingItem = presentationItems.find(item => item.name === selectedCalculator.name);
+        if (existingItem) {
+          removePresentationItem(existingItem.id);
+          toast({
+            title: "Removed from Presentation",
+            description: `${selectedCalculator.name} has been removed from your presentation.`,
+          });
+        }
+      } else {
+        // Add to presentation
+        const newItem = {
+          id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+          name: selectedCalculator.name,
+          source: "Calculators" as const
+        };
+        addPresentationItem(newItem);
+        toast({
+          title: "Added to Presentation",
+          description: `${selectedCalculator.name} has been added to your presentation.`,
+        });
+      }
+    }
+  };
+
+  const handlePresentationToggle = (calculator: any) => {
+    const isCurrentlySelected = selectedForPresentation.includes(calculator.name);
+    if (isCurrentlySelected) {
+      // Remove from presentation
+      const existingItem = presentationItems.find(item => item.name === calculator.name);
+      if (existingItem) {
+        removePresentationItem(existingItem.id);
+        toast({
+          title: "Removed from Presentation",
+          description: `${calculator.name} has been removed from your presentation.`,
+        });
+      }
+    } else {
+      // Add to presentation
+      const newItem = {
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+        name: calculator.name,
+        source: "Calculators" as const
+      };
+      addPresentationItem(newItem);
+      toast({
+        title: "Added to Presentation",
+        description: `${calculator.name} has been added to your presentation.`,
+      });
+    }
   };
 
   // Full-screen calculator view
@@ -346,10 +407,10 @@ const Calculators = () => {
                       <Download className="h-4 w-4 mr-2" />
                       Save PDF
                     </Button>
-                    <Button size="sm" onClick={handleAddToPresentation}>
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add to Presentation
-                    </Button>
+                     <Button size="sm" onClick={handleAddToPresentation}>
+                       <Plus className="h-4 w-4 mr-2" />
+                       {selectedForPresentation.includes(selectedCalculator.name) ? "Remove from Presentation" : "Add to Presentation"}
+                     </Button>
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -461,11 +522,19 @@ const Calculators = () => {
                       </Button>
                     </div>
                   </CardHeader>
-                  <CardContent className="pt-0">
-                    <div className="flex justify-end">
-                      <CalculatorIcon className="h-4 w-4 text-gray-400" />
-                    </div>
-                  </CardContent>
+                   <CardContent className="pt-0">
+                     <div className="flex items-center justify-between">
+                       <div className="flex items-center gap-2">
+                         <Checkbox
+                           checked={selectedForPresentation.includes(calculator.name)}
+                           onCheckedChange={() => handlePresentationToggle(calculator)}
+                           onClick={(e) => e.stopPropagation()}
+                         />
+                         <span className="text-xs text-gray-600">Add to presentation</span>
+                       </div>
+                       <CalculatorIcon className="h-4 w-4 text-gray-400" />
+                     </div>
+                   </CardContent>
                 </Card>
               ))}
             </div>
