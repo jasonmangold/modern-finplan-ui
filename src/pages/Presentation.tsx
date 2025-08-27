@@ -807,11 +807,7 @@ const Presentation = () => {
                   {items.length === 0 ? <div className="flex flex-col items-center justify-center h-64 text-center bg-white/50 rounded-2xl border-2 border-dashed border-border">
                       <FileText className="h-12 w-12 text-muted-foreground mb-4" />
                       <h3 className="text-lg font-medium text-foreground mb-2">No reports selected</h3>
-                      <p className="text-muted-foreground mb-4">Add reports to start building your presentation</p>
-                      <Button className="bg-primary hover:bg-primary/90">
-                        <Plus className="h-4 w-4 mr-2" />
-                        Add Your First Report
-                      </Button>
+                      <p className="text-muted-foreground">Add reports to start building your presentation</p>
                     </div> : items.map((item, index) => <div key={item.id}>
                         {/* Enhanced drop indicator */}
                         {dropIndicator === index && <div className="h-1 bg-gradient-to-r from-primary/50 to-primary rounded-full mb-3 shadow-lg animate-pulse" />}
