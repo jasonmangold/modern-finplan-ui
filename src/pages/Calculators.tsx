@@ -364,14 +364,23 @@ const Calculators = () => {
           <div className="flex items-center gap-3">
             <CalculatorIcon className="h-6 w-6 text-blue-600" />
             <h1 className="text-xl font-semibold">{selectedCalculator.name}</h1>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => toggleFavorite(selectedCalculator.id)}
-              className={favorites.includes(selectedCalculator.id) ? "text-yellow-500" : "text-gray-400"}
-            >
-              <Star className={`h-4 w-4 ${favorites.includes(selectedCalculator.id) ? "fill-current" : ""}`} />
-            </Button>
+            <div className="flex items-center gap-3">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => toggleFavorite(selectedCalculator.id)}
+                className={favorites.includes(selectedCalculator.id) ? "text-yellow-500" : "text-gray-400"}
+              >
+                <Star className={`h-4 w-4 ${favorites.includes(selectedCalculator.id) ? "fill-current" : ""}`} />
+              </Button>
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  checked={selectedForPresentation.includes(selectedCalculator.name)}
+                  onCheckedChange={() => handlePresentationToggle(selectedCalculator)}
+                />
+                <span className="text-sm text-gray-600">Add to presentation</span>
+              </div>
+            </div>
           </div>
         </div>
 
