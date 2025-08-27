@@ -215,18 +215,18 @@ export const GoalDetailView = ({
                 <div className="flex items-center gap-3">
                   <span className="text-sm font-semibold text-foreground">View:</span>
                   <Select value={selectedOutput} onValueChange={setSelectedOutput}>
-                    <SelectTrigger className="w-64 bg-background">
-                      <SelectValue />
+                    <SelectTrigger className="w-80 bg-background border-input">
+                      <SelectValue placeholder="Select view..." />
                       {selectedForPresentation.length > 0 && <span className="ml-2 px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">
                           {selectedForPresentation.length} selected
                         </span>}
                     </SelectTrigger>
-                    <SelectContent className="w-full">
+                    <SelectContent className="max-w-80 min-w-80 bg-popover border-border">
                       {config.outputs.map(output => <div key={output} className="relative">
-                          <SelectItem value={output} className="pr-10">
-                            <span>{output}</span>
+                          <SelectItem value={output} className="pr-12 cursor-pointer">
+                            <span className="truncate">{output}</span>
                           </SelectItem>
-                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10" onMouseDown={e => {
+                          <div className="absolute right-2 top-1/2 transform -translate-y-1/2 z-20" onMouseDown={e => {
                         e.preventDefault();
                         e.stopPropagation();
                       }} onClick={e => {
