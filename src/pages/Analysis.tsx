@@ -34,6 +34,8 @@ const Analysis = () => {
           return { viewMode: 'goals-based' as const, selectedGoal: 'asset-allocation', initialReportView: reportView };
         } else if (goalId === 'retirement-accumulation') {
           return { viewMode: 'goals-based' as const, selectedGoal: 'retirement-accumulation', initialReportView: reportView };
+        } else if (goalId === 'retirement-distribution') {
+          return { viewMode: 'goals-based' as const, selectedGoal: 'retirement-distribution', initialReportView: reportView };
         } else if (goalId === 'education-funding') {
           return { viewMode: 'goals-based' as const, selectedGoal: 'education-funding', initialReportView: reportView };
         } else {
