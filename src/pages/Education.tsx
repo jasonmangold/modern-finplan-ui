@@ -374,6 +374,15 @@ const Education = () => {
               src={selectedPDF.url}
               className="w-full h-full border-0"
               title={`PDF: ${selectedPDF.title}`}
+              sandbox="allow-scripts allow-same-origin"
+              onError={(e) => {
+                console.warn('PDF iframe error:', e);
+              }}
+              style={{
+                border: 'none',
+                width: '100%',
+                height: '100%'
+              }}
             />
           </div>
         </div>

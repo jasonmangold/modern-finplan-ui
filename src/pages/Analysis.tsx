@@ -20,7 +20,6 @@ const Analysis = () => {
   const getInitialState = () => {
     if (location.state) {
       const { goalId, reportView, fromPresentation } = location.state as any;
-      console.log('Analysis page received navigation state:', { goalId, reportView, fromPresentation });
       
       if (fromPresentation && goalId) {
         if (goalId === 'goals') {

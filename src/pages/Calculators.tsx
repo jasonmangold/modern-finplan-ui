@@ -189,7 +189,6 @@ const Calculators = () => {
   useEffect(() => {
     if (location.state) {
       const { goalId, reportView, reportName, fromPresentation, calculatorName, openCalculator } = location.state as any;
-      console.log('Calculators page received navigation state:', { goalId, reportView, reportName, fromPresentation, calculatorName, openCalculator });
       
       if (fromPresentation && (reportName || calculatorName)) {
         // Map specific reports to calculators
