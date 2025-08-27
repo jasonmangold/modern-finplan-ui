@@ -1,5 +1,6 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { ComprehensiveInputMode } from "@/components/ComprehensiveInputMode";
@@ -13,8 +14,40 @@ import { FormProvider } from "@/contexts/FormContext";
 import { Award } from "lucide-react";
 
 const Analysis = () => {
+  const location = useLocation();
   const [viewMode, setViewMode] = useState<"comprehensive" | "goals-based" | "fitness-score" | "analysis-goals" | "financial-inventory" | "fact-finders">("goals-based");
   const [selectedGoal, setSelectedGoal] = useState<string | null>(null);
+  const [initialReportView, setInitialReportView] = useState<string | null>(null);
+
+  // Handle navigation from presentation page
+  useEffect(() => {
+    if (location.state) {
+      const { goalId, reportView, fromPresentation, showInputs } = location.state as any;
+      
+      if (fromPresentation && goalId) {
+        // Map goalId to specific view modes or goals
+        if (goalId === 'goals') {
+          setViewMode('analysis-goals');
+        } else if (goalId === 'inventory') {
+          setViewMode('financial-inventory');
+        } else if (goalId === 'fitness') {
+          setViewMode('fitness-score');
+        } else if (goalId === 'survivor') {
+          setSelectedGoal('survivor-needs');
+          if (reportView) setInitialReportView(reportView);
+        } else if (goalId === 'assetAllocation') {
+          setSelectedGoal('asset-allocation');
+          if (reportView) setInitialReportView(reportView);
+        } else if (goalId === 'retirement') {
+          setSelectedGoal('retirement-accumulation');
+          if (reportView) setInitialReportView(reportView);
+        } else {
+          setSelectedGoal(goalId);
+          if (reportView) setInitialReportView(reportView);
+        }
+      }
+    }
+  }, [location.state]);
 
   const handleGoalSelect = (goalId: string) => {
     setSelectedGoal(goalId);
@@ -84,6 +117,7 @@ const Analysis = () => {
               <GoalDetailView 
                 goalId={selectedGoal} 
                 onBack={handleBackToGoals}
+                initialReportView={initialReportView}
               />
             ) : viewMode === "comprehensive" ? (
               <ComprehensiveInputMode onSeeResults={() => setViewMode("goals-based")} />

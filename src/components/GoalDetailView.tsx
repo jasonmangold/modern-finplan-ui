@@ -115,13 +115,31 @@ const goalConfigs = {
 interface GoalDetailViewProps {
   goalId: string;
   onBack: () => void;
+  initialReportView?: string | null;
 }
 export const GoalDetailView = ({
   goalId,
-  onBack
+  onBack,
+  initialReportView
 }: GoalDetailViewProps) => {
   const config = goalConfigs[goalId as keyof typeof goalConfigs] || goalConfigs.college;
-  const [selectedOutput, setSelectedOutput] = useState(config.defaultOutput);
+  
+  // Map report view names to actual output names
+  const reportViewMap: Record<string, string> = {
+    'RetirementAnalysis': 'Retirement Analysis',
+    'CapitalAvailable': 'Capital Available for Retirement',
+    'AlternativesToRetirement': 'Alternatives to Achieving Retirement Goals',
+    'RetirementTimeline': 'Retirement Timeline',
+    'SurvivorNeeds': 'Survivor Needs - Client 1 dies',
+    'EducationFunding': 'Education Funding Summary',
+    'AssetAllocation': 'Asset Allocation Comparison'
+  };
+  
+  const initialOutput = initialReportView && reportViewMap[initialReportView] 
+    ? reportViewMap[initialReportView]
+    : config.defaultOutput;
+  
+  const [selectedOutput, setSelectedOutput] = useState(initialOutput);
   const {
     addPresentationItem,
     removePresentationItem,

@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -166,10 +167,38 @@ const calculatorFolders = {
   };
 
 const Calculators = () => {
+  const location = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCalculator, setSelectedCalculator] = useState<any>(null);
   const [activeFolder, setActiveFolder] = useState("borrowing");
   const { toast } = useToast();
+
+  // Handle navigation from presentation page
+  useEffect(() => {
+    if (location.state) {
+      const { goalId, reportView, reportName, fromPresentation } = location.state as any;
+      
+      if (fromPresentation && reportName) {
+        // Map specific reports to calculators
+        const calculatorMappings: Record<string, any> = {
+          "Social Security Optimizer": { 
+            folder: "retirementPlanning", 
+            calculator: calculatorFolders.retirementPlanning.calculators.find(calc => calc.name === "Social Security Optimizer")
+          },
+          "Retirement Timeline": { 
+            folder: "retirementPlanning", 
+            calculator: calculatorFolders.retirementPlanning.calculators.find(calc => calc.name === "Length of Time a Sum Will Last")
+          }
+        };
+        
+        const mapping = calculatorMappings[reportName];
+        if (mapping && mapping.calculator) {
+          setActiveFolder(mapping.folder);
+          setSelectedCalculator(mapping.calculator);
+        }
+      }
+    }
+  }, [location.state]);
 
   // Load favorites from localStorage
   const [favorites, setFavorites] = useState<string[]>(() => {

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,6 +23,7 @@ const formatOptions = ["One-Pagers", "Detailed Reports"];
 const topicTags = ["Retirement", "Life Insurance", "College", "Disability", "Long-Term Care", "Debt", "Estate Planning", "Tax Strategy"];
 
 const Education = () => {
+  const location = useLocation();
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [localSearchTerm, setLocalSearchTerm] = useState("");
   const [filtersVisible, setFiltersVisible] = useState(true);
@@ -36,6 +38,25 @@ const Education = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0);
   const scrollPositionRef = useRef<number>(0);
+
+  // Handle navigation from presentation page
+  useEffect(() => {
+    if (location.state) {
+      const { goalId, reportView, reportName, fromPresentation } = location.state as any;
+      
+      if (fromPresentation && reportName) {
+        // Set search term to help find the report
+        if (reportName === "Retirement Fact Finder") {
+          setLocalSearchTerm("Retirement");
+        } else if (reportName === "Education Funding Summary") {
+          setLocalSearchTerm("Education");
+        }
+        
+        // Auto-expand relevant categories
+        setExpandedCategories(["Retirement Planning", "Education Funding"]);
+      }
+    }
+  }, [location.state]);
 
   // Use global search context
   const { globalSearchTerm, setGlobalSearchTerm } = useSearch();
