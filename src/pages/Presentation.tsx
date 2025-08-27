@@ -387,31 +387,53 @@ const Presentation = () => {
   };
 
   const handleEditInputs = (item: PresentationItem) => {
-    // Determine which section/route the report belongs to based on its source and name
-    let targetRoute = '/analysis'; // default
-    let goalId = '';
+    // Map each report to its specific location and goal
+    const reportMappings: Record<string, { route: string; goalId: string; reportView: string }> = {
+      // Analysis section reports
+      "Retirement Analysis": { route: '/analysis', goalId: 'retirement', reportView: 'RetirementAnalysis' },
+      "Capital Available": { route: '/analysis', goalId: 'retirement', reportView: 'CapitalAvailable' },
+      "Capital Available for Retirement": { route: '/analysis', goalId: 'retirement', reportView: 'CapitalAvailable' },
+      "Alternatives Retirement": { route: '/analysis', goalId: 'retirement', reportView: 'AlternativesToRetirement' },
+      "Alternatives to Achieving Retirement Goals": { route: '/analysis', goalId: 'retirement', reportView: 'AlternativesToRetirement' },
+      "Graph": { route: '/analysis', goalId: 'retirement', reportView: 'RetirementAnalysis' },
+      "Analysis Goals": { route: '/analysis', goalId: 'goals', reportView: 'AnalysisGoals' },
+      "Financial Inventory": { route: '/analysis', goalId: 'inventory', reportView: 'FinancialInventory' },
+      "Financial Fitness": { route: '/analysis', goalId: 'fitness', reportView: 'FinancialFitness' },
+      "Survivor Needs - Client 1 Dies": { route: '/analysis', goalId: 'survivor', reportView: 'SurvivorNeeds' },
+      "Asset Allocation Comparison": { route: '/analysis', goalId: 'assetAllocation', reportView: 'AssetAllocation' },
+      
+      // Calculators section reports
+      "Social Security Optimizer": { route: '/calculators', goalId: 'retirement', reportView: 'SocialSecurity' },
+      "Retirement Timeline": { route: '/calculators', goalId: 'retirement', reportView: 'RetirementTimeline' },
+      
+      // Education section reports
+      "Retirement Fact Finder": { route: '/education', goalId: 'retirement', reportView: 'RetirementFactFinder' },
+      "Education Funding Summary": { route: '/education', goalId: 'education', reportView: 'EducationFunding' }
+    };
 
-    // Map report names to their specific goals/locations
-    if (item.name === "Capital Available" || item.name === "Alternatives Retirement" || item.name === "Graph") {
-      targetRoute = '/analysis';
-      goalId = 'retirement';
-    } else if (item.name === "Social Security Optimizer" || item.name === "Retirement Timeline") {
-      targetRoute = '/calculators';
-      goalId = 'retirement';
-    } else if (item.name === "Retirement Fact Finder") {
-      targetRoute = '/education';
-      goalId = 'retirement';
+    const mapping = reportMappings[item.name];
+    if (mapping) {
+      navigate(mapping.route, { 
+        state: { 
+          goalId: mapping.goalId,
+          reportName: item.name,
+          reportView: mapping.reportView,
+          showInputs: true,
+          showReport: true,
+          fromPresentation: true
+        } 
+      });
+    } else {
+      // Fallback to analysis section
+      navigate('/analysis', { 
+        state: { 
+          goalId: 'retirement',
+          reportName: item.name,
+          showInputs: true,
+          fromPresentation: true
+        } 
+      });
     }
-
-    // Navigate to the appropriate section with state indicating which report to show
-    navigate(targetRoute, { 
-      state: { 
-        goalId,
-        reportName: item.name,
-        showInputs: true,
-        fromPresentation: true
-      } 
-    });
   };
 
   // Template management handlers
