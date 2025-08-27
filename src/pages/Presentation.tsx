@@ -388,6 +388,8 @@ const Presentation = () => {
   };
 
   const handleEditInputs = (item: PresentationItem) => {
+    console.log('EditInputs clicked for:', item.name, 'Source:', item.source);
+    
     // Comprehensive mapping of reports to their specific locations and goals
     const reportMappings: Record<string, { route: string; goalId?: string; reportView?: string; calculatorName?: string }> = {
       // Analysis section reports
@@ -411,7 +413,7 @@ const Presentation = () => {
       
       // Calculators section reports
       "Social Security Optimizer": { route: '/calculators', calculatorName: 'Social Security Optimizer' },
-      "Payments to Pay Off a Loan": { route: '/calculators', calculatorName: 'Loan Payment Calculator' },
+      "Payments to Pay Off a Loan": { route: '/calculators', calculatorName: 'Payments To Pay Off A Loan' },
       "Length of Time Calculator": { route: '/calculators', calculatorName: 'Length of Time Calculator' },
       "Retirement Accumulation Calculator": { route: '/calculators', calculatorName: 'Retirement Accumulation' },
       "Retirement Distribution Calculator": { route: '/calculators', calculatorName: 'Retirement Distribution' },

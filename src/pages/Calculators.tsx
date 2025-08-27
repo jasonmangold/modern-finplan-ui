@@ -188,9 +188,10 @@ const Calculators = () => {
   // Handle navigation from presentation page
   useEffect(() => {
     if (location.state) {
-      const { goalId, reportView, reportName, fromPresentation } = location.state as any;
+      const { goalId, reportView, reportName, fromPresentation, calculatorName, openCalculator } = location.state as any;
+      console.log('Calculators page received navigation state:', { goalId, reportView, reportName, fromPresentation, calculatorName, openCalculator });
       
-      if (fromPresentation && reportName) {
+      if (fromPresentation && (reportName || calculatorName)) {
         // Map specific reports to calculators
         const calculatorMappings: Record<string, any> = {
           "Social Security Optimizer": { 
@@ -200,6 +201,18 @@ const Calculators = () => {
           "Retirement Timeline": { 
             folder: "retirementPlanning", 
             calculator: calculatorFolders.retirementPlanning.calculators.find(calc => calc.name === "Length of Time a Sum Will Last")
+          },
+          "Payments to Pay Off a Loan": {
+            folder: "borrowing",
+            calculator: calculatorFolders.borrowing.calculators.find(calc => calc.name === "Payments To Pay Off A Loan")
+          },
+          "Length of Time Calculator": {
+            folder: "retirementPlanning",
+            calculator: calculatorFolders.retirementPlanning.calculators.find(calc => calc.name === "Length of Time a Sum Will Last")
+          },
+          "Loan Payment Calculator": {
+            folder: "borrowing",
+            calculator: calculatorFolders.borrowing.calculators.find(calc => calc.name === "Payments To Pay Off A Loan")
           }
         };
         
