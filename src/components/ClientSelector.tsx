@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ClientFileManager } from "./ClientFileManager";
+import { usePresentationContext } from "@/contexts/PresentationContext";
 
 interface ClientSelectorProps {
   clientFiles: string[];
@@ -30,6 +31,7 @@ export const ClientSelector = ({
 }: ClientSelectorProps) => {
   const [clientSearch, setClientSearch] = useState("");
   const [showClientManager, setShowClientManager] = useState(false);
+  const { setPresentationItems } = usePresentationContext();
 
   const handleNewClient = () => {
     const inputs = document.querySelectorAll('input');
@@ -64,6 +66,9 @@ export const ClientSelector = ({
       }
     });
 
+    // Clear all presentation items
+    setPresentationItems([]);
+    
     window.dispatchEvent(new CustomEvent('clearAllFormData'));
     setSelectedClient("No Client Selected");
     setIsFirstSave(true);
