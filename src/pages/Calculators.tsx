@@ -411,15 +411,18 @@ const Calculators = () => {
               <Card className="h-full">
                 <CardHeader className="flex flex-row items-center justify-between">
                   <CardTitle>Results & Analysis</CardTitle>
-                  <div className="flex gap-2">
+                  <div className="flex items-center gap-4">
                     <Button size="sm" variant="outline" onClick={handleSavePDF}>
                       <Download className="h-4 w-4 mr-2" />
                       Save PDF
                     </Button>
-                     <Button size="sm" onClick={handleAddToPresentation}>
-                       <Plus className="h-4 w-4 mr-2" />
-                       {selectedForPresentation.includes(selectedCalculator.name) ? "Remove from Presentation" : "Add to Presentation"}
-                     </Button>
+                    <div className="flex items-center gap-2">
+                      <Checkbox
+                        checked={selectedForPresentation.includes(selectedCalculator.name)}
+                        onCheckedChange={() => handlePresentationToggle(selectedCalculator)}
+                      />
+                      <span className="text-sm text-gray-600">Add to presentation</span>
+                    </div>
                   </div>
                 </CardHeader>
                 <CardContent>
