@@ -191,43 +191,29 @@ const Calculators = () => {
       const { goalId, reportView, reportName, fromPresentation, calculatorName, openCalculator } = location.state as any;
       
       if (fromPresentation && (reportName || calculatorName)) {
-        // Map specific reports to calculators
-        const calculatorMappings: Record<string, any> = {
-          "Social Security Optimizer": { 
-            folder: "retirementPlanning", 
-            calculator: calculatorFolders.retirementPlanning.calculators.find(calc => calc.name === "Social Security Optimizer")
-          },
-          "Retirement Timeline": { 
-            folder: "retirementPlanning", 
-            calculator: calculatorFolders.retirementPlanning.calculators.find(calc => calc.name === "Length of Time a Sum Will Last")
-          },
-          "Payments to Pay Off a Loan": {
-            folder: "borrowing",
-            calculator: calculatorFolders.borrowing.calculators.find(calc => calc.name === "Payments To Pay Off A Loan")
-          },
-          "Length of Time Calculator": {
-            folder: "retirementPlanning",
-            calculator: calculatorFolders.retirementPlanning.calculators.find(calc => calc.name === "Length of Time a Sum Will Last")
-          },
-          "Weighted Average Interest Rate": {
-            folder: (() => {
-              // Check which folder contains this calculator
-              if (calculatorFolders.borrowing.calculators.find(calc => calc.name === "Weighted Average Interest Rate")) {
-                return "borrowing";
-              } else if (calculatorFolders.personalFinance.calculators.find(calc => calc.name === "Weighted Average Interest Rate")) {
-                return "personalFinance";
-              }
-              return "borrowing"; // fallback
-            })(),
-            calculator: calculatorFolders.borrowing.calculators.find(calc => calc.name === "Weighted Average Interest Rate") ||
-                       calculatorFolders.personalFinance.calculators.find(calc => calc.name === "Weighted Average Interest Rate")
-          }
-        };
+        const targetCalculatorName = calculatorName || reportName;
         
-        const mapping = calculatorMappings[reportName];
-        if (mapping && mapping.calculator) {
-          setActiveFolder(mapping.folder);
-          setSelectedCalculator(mapping.calculator);
+        // Search through all folders to find the calculator
+        let foundCalculator = null;
+        let foundFolder = null;
+        
+        // Search through all calculator folders
+        for (const [folderKey, folderData] of Object.entries(calculatorFolders)) {
+          const calculator = folderData.calculators.find(calc => calc.name === targetCalculatorName);
+          if (calculator) {
+            foundCalculator = calculator;
+            foundFolder = folderKey;
+            break;
+          }
+        }
+        
+        // If found, set the active folder and select the calculator
+        if (foundCalculator && foundFolder) {
+          console.log(`Found calculator "${targetCalculatorName}" in folder "${foundFolder}"`);
+          setActiveFolder(foundFolder);
+          setSelectedCalculator(foundCalculator);
+        } else {
+          console.warn(`Calculator "${targetCalculatorName}" not found in any folder`);
         }
       }
     }
