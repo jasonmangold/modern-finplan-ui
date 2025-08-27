@@ -215,28 +215,40 @@ export const GoalDetailView = ({
                 <div className="flex items-center gap-3">
                   <span className="text-sm font-semibold text-foreground">View:</span>
                   <Select value={selectedOutput} onValueChange={setSelectedOutput}>
-                    <SelectTrigger className="w-80 bg-background border-input">
+                    <SelectTrigger className="w-96 bg-background border-input">
                       <SelectValue placeholder="Select view..." />
                       {selectedForPresentation.length > 0 && <span className="ml-2 px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">
                           {selectedForPresentation.length} selected
                         </span>}
                     </SelectTrigger>
-                    <SelectContent className="max-w-80 min-w-80 bg-popover border-border">
-                      {config.outputs.map(output => <div key={output} className="relative">
-                          <SelectItem value={output} className="pr-16 cursor-pointer">
-                            <span className="truncate max-w-[calc(100%-3rem)]">{output}</span>
+                    <SelectContent className="w-96 bg-popover border-border">
+                      {config.outputs.map(output => (
+                        <div key={output} className="relative flex items-center">
+                          <SelectItem value={output} className="flex-1 pr-8 cursor-pointer">
+                            <div className="flex items-center w-full">
+                              <span className="truncate block max-w-[20rem]">{output}</span>
+                            </div>
                           </SelectItem>
-                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 z-20 pointer-events-auto" onMouseDown={e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                      }} onClick={e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handlePresentationToggle(output);
-                      }}>
-                            <Checkbox checked={selectedForPresentation.includes(output)} onCheckedChange={() => handlePresentationToggle(output)} />
+                          <div 
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2 z-30 flex-shrink-0" 
+                            onMouseDown={e => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                            }} 
+                            onClick={e => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handlePresentationToggle(output);
+                            }}
+                          >
+                            <Checkbox 
+                              checked={selectedForPresentation.includes(output)} 
+                              onCheckedChange={() => handlePresentationToggle(output)}
+                              className="flex-shrink-0" 
+                            />
                           </div>
-                        </div>)}
+                        </div>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
