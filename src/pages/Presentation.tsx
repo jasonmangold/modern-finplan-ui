@@ -388,6 +388,8 @@ const Presentation = () => {
   };
 
   const handleEditInputs = (item: PresentationItem) => {
+    console.log('EditInputs clicked for:', item.name, 'Source:', item.source);
+    
     // Comprehensive mapping of reports to their specific locations and goals
     const reportMappings: Record<string, { route: string; goalId?: string; reportView?: string; calculatorName?: string }> = {
       // Analysis section reports
@@ -402,6 +404,7 @@ const Presentation = () => {
       "Financial Inventory": { route: '/analysis', goalId: 'inventory', reportView: 'FinancialInventory' },
       "Financial Fitness": { route: '/analysis', goalId: 'fitness', reportView: 'FinancialFitness' },
       "Survivor Needs - Client 1 Dies": { route: '/analysis', goalId: 'survivor-needs', reportView: 'SurvivorNeeds' },
+      "Survivor Needs - Client 1 dies": { route: '/analysis', goalId: 'survivor-needs', reportView: 'SurvivorNeeds' },
       "Survivor Needs Analysis": { route: '/analysis', goalId: 'survivor-needs', reportView: 'SurvivorNeeds' },
       "Asset Allocation Comparison": { route: '/analysis', goalId: 'asset-allocation', reportView: 'AssetAllocation' },
       "Education Funding Summary": { route: '/analysis', goalId: 'education-funding', reportView: 'EducationFunding' },
@@ -422,7 +425,7 @@ const Presentation = () => {
       "Mortgage Calculator": { route: '/calculators', calculatorName: 'Mortgage Calculator' },
       "Debt Consolidation Calculator": { route: '/calculators', calculatorName: 'Debt Consolidation Calculator' },
       "Tax Calculator": { route: '/calculators', calculatorName: 'Tax Calculator' },
-      "Investment Calculator": { route: '/calculators', calculatorName: 'Investment Calculator' },
+      "Weighted Average Interest Rate": { route: '/calculators', calculatorName: 'Weighted Average Interest Rate' },
       
       // Education section reports
       "Retirement Fact Finder": { route: '/education', reportView: 'RetirementFactFinder' },
@@ -438,6 +441,8 @@ const Presentation = () => {
     };
 
     const mapping = reportMappings[item.name];
+    console.log('Found mapping for', item.name, ':', mapping);
+    
     if (mapping) {
       if (mapping.route === '/calculators') {
         // For calculators, navigate with calculator-specific state

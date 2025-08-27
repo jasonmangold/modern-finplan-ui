@@ -209,9 +209,18 @@ const Calculators = () => {
             folder: "retirementPlanning",
             calculator: calculatorFolders.retirementPlanning.calculators.find(calc => calc.name === "Length of Time a Sum Will Last")
           },
-          "Loan Payment Calculator": {
-            folder: "borrowing",
-            calculator: calculatorFolders.borrowing.calculators.find(calc => calc.name === "Payments To Pay Off A Loan")
+          "Weighted Average Interest Rate": {
+            folder: (() => {
+              // Check which folder contains this calculator
+              if (calculatorFolders.borrowing.calculators.find(calc => calc.name === "Weighted Average Interest Rate")) {
+                return "borrowing";
+              } else if (calculatorFolders.personalFinance.calculators.find(calc => calc.name === "Weighted Average Interest Rate")) {
+                return "personalFinance";
+              }
+              return "borrowing"; // fallback
+            })(),
+            calculator: calculatorFolders.borrowing.calculators.find(calc => calc.name === "Weighted Average Interest Rate") ||
+                       calculatorFolders.personalFinance.calculators.find(calc => calc.name === "Weighted Average Interest Rate")
           }
         };
         
