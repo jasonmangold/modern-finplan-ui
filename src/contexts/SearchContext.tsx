@@ -24,6 +24,8 @@ interface SearchContextType {
   setShowResults: (show: boolean) => void;
   lastSearchTerm: string;
   setLastSearchTerm: (term: string) => void;
+  recentSearches: string[];
+  addRecentSearch: (term: string) => void;
 }
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
@@ -43,6 +45,15 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [isSearching, setIsSearching] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [lastSearchTerm, setLastSearchTerm] = useState('');
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+
+  const addRecentSearch = (term: string) => {
+    if (!term.trim()) return;
+    setRecentSearches(prev => {
+      const filtered = prev.filter(search => search !== term);
+      return [term, ...filtered].slice(0, 5); // Keep only last 5 searches
+    });
+  };
 
   return (
     <SearchContext.Provider value={{ 
@@ -57,7 +68,9 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       showResults,
       setShowResults,
       lastSearchTerm,
-      setLastSearchTerm
+      setLastSearchTerm,
+      recentSearches,
+      addRecentSearch
     }}>
       {children}
     </SearchContext.Provider>

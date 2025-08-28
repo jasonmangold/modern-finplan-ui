@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, X, RotateCcw } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useSearch } from "@/contexts/SearchContext";
 import { useGlobalSearch } from "@/hooks/useGlobalSearch";
 import { SearchResults } from "./SearchResults";
+import { RecentSearches } from "./RecentSearches";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 
@@ -14,6 +15,7 @@ export const EnhancedSearchBar = () => {
   const isMobile = useIsMobile();
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [showRecentSearches, setShowRecentSearches] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
@@ -29,7 +31,9 @@ export const EnhancedSearchBar = () => {
     showResults,
     setShowResults,
     lastSearchTerm,
-    setLastSearchTerm
+    setLastSearchTerm,
+    recentSearches,
+    addRecentSearch
   } = useSearch();
 
   const { performSearch } = useGlobalSearch();
@@ -43,6 +47,11 @@ export const EnhancedSearchBar = () => {
         setSearchResults(results);
         setIsSearching(false);
         setShowResults(true);
+        setShowRecentSearches(false);
+        // Add to recent searches when search completes
+        if (results.length > 0) {
+          addRecentSearch(globalSearchTerm.trim());
+        }
       } else {
         setSearchResults([]);
         setShowResults(false);
@@ -50,13 +59,14 @@ export const EnhancedSearchBar = () => {
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [globalSearchTerm, performSearch, setSearchResults, setIsSearching, setShowResults]);
+  }, [globalSearchTerm, performSearch, setSearchResults, setIsSearching, setShowResults, addRecentSearch]);
 
   // Handle result selection
   const handleResultClick = useCallback((result: any) => {
     setLastSearchResults(searchResults);
     setLastSearchTerm(globalSearchTerm);
     setShowResults(false);
+    setShowRecentSearches(false);
     setGlobalSearchTerm("");
     
     // Navigate to the appropriate route with state
@@ -68,19 +78,12 @@ export const EnhancedSearchBar = () => {
     });
   }, [searchResults, globalSearchTerm, setLastSearchResults, setLastSearchTerm, setShowResults, setGlobalSearchTerm, navigate]);
 
-  // Handle "Search Again" functionality
-  const handleSearchAgain = useCallback(() => {
-    if (lastSearchResults.length > 0) {
-      setSearchResults(lastSearchResults);
-      setGlobalSearchTerm(lastSearchTerm);
-      setShowResults(true);
-      
-      toast({
-        title: "Previous search restored",
-        description: `Showing ${lastSearchResults.length} results for "${lastSearchTerm}"`,
-      });
-    }
-  }, [lastSearchResults, lastSearchTerm, setSearchResults, setGlobalSearchTerm, setShowResults]);
+  // Handle recent search selection
+  const handleRecentSearchClick = useCallback((term: string) => {
+    setGlobalSearchTerm(term);
+    setShowRecentSearches(false);
+    inputRef.current?.focus();
+  }, [setGlobalSearchTerm]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -106,6 +109,7 @@ export const EnhancedSearchBar = () => {
           break;
         case 'Escape':
           setShowResults(false);
+          setShowRecentSearches(false);
           inputRef.current?.blur();
           break;
       }
@@ -126,6 +130,7 @@ export const EnhancedSearchBar = () => {
         !inputRef.current?.contains(event.target as Node)
       ) {
         setShowResults(false);
+        setShowRecentSearches(false);
       }
     };
 
@@ -137,6 +142,7 @@ export const EnhancedSearchBar = () => {
   const clearSearch = () => {
     setGlobalSearchTerm("");
     setShowResults(false);
+    setShowRecentSearches(false);
     if (isMobile) {
       setIsExpanded(false);
     }
@@ -146,19 +152,6 @@ export const EnhancedSearchBar = () => {
   if (isMobile && !isExpanded && !globalSearchTerm) {
     return (
       <div className="flex items-center gap-2">
-        {/* Search Again button (if has last results) */}
-        {lastSearchResults.length > 0 && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleSearchAgain}
-            className="h-9 w-9 p-0 border border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800"
-            title="Search Again"
-          >
-            <RotateCcw className="h-4 w-4 text-gray-400 dark:text-gray-500" />
-          </Button>
-        )}
-        
         {/* Search button */}
         <Button
           variant="ghost"
@@ -175,22 +168,6 @@ export const EnhancedSearchBar = () => {
   return (
     <div className="relative" ref={resultsRef}>
       <div className="flex items-center gap-2">
-        {/* Search Again button (desktop) */}
-        {!isMobile && lastSearchResults.length > 0 && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleSearchAgain}
-            className="h-9 px-3 border border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 flex items-center gap-2"
-            title="Show Previous Search Results"
-          >
-            <RotateCcw className="h-4 w-4 text-gray-400 dark:text-gray-500" />
-            <span className="text-xs text-gray-500 dark:text-gray-400 hidden lg:inline">
-              Search Again
-            </span>
-          </Button>
-        )}
-
         {/* Search input container */}
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 h-4 w-4 z-10" />
@@ -202,6 +179,8 @@ export const EnhancedSearchBar = () => {
             onFocus={() => {
               if (searchResults.length > 0) {
                 setShowResults(true);
+              } else if (!globalSearchTerm.trim() && recentSearches.length > 0) {
+                setShowRecentSearches(true);
               }
             }}
             onBlur={() => {
@@ -236,6 +215,13 @@ export const EnhancedSearchBar = () => {
         results={searchResults}
         onResultClick={handleResultClick}
         isVisible={showResults}
+      />
+
+      {/* Recent Searches Dropdown */}
+      <RecentSearches
+        recentSearches={recentSearches}
+        onRecentSearchClick={handleRecentSearchClick}
+        isVisible={showRecentSearches}
       />
     </div>
   );

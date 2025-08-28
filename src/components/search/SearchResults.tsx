@@ -40,8 +40,8 @@ export const SearchResults = ({ results, onResultClick, isVisible }: SearchResul
 
   return (
     <div className="absolute top-full left-0 right-0 mt-2 z-50">
-      {/* Glass morphism container */}
-      <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border border-white/20 dark:border-gray-700/30 rounded-xl shadow-2xl max-h-96 overflow-hidden">
+      {/* Glass morphism container - wider and more frosted */}
+      <div className="search-result-glass dark:search-result-glass-dark rounded-xl max-h-96 overflow-hidden min-w-[600px] max-w-4xl">
         {/* Subtle gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-blue-500/5 pointer-events-none" />
         
