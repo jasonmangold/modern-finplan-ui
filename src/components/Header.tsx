@@ -2,9 +2,8 @@ import { useState, useEffect } from "react";
 import { TopNavigation } from "./TopNavigation";
 import { ClientSelector } from "./ClientSelector";
 import { SaveSection } from "./SaveSection";
-import { SearchBar } from "./SearchBar";
+import { EnhancedSearchBar } from "./search/EnhancedSearchBar";
 import { UserMenu } from "./UserMenu";
-import { useSearch } from "@/contexts/SearchContext";
 export const Header = () => {
   const [saveState, setSaveState] = useState<"initial" | "loading" | "success">("initial");
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
@@ -12,18 +11,6 @@ export const Header = () => {
   const [isFirstSave, setIsFirstSave] = useState(true);
   const [clientFiles, setClientFiles] = useState<string[]>(["No Client Selected"]);
   const [selectedClient, setSelectedClient] = useState("No Client Selected");
-  const [localSearchTerm, setLocalSearchTerm] = useState("");
-  const {
-    setGlobalSearchTerm
-  } = useSearch();
-
-  // Update global search when local search changes (with debounce)
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setGlobalSearchTerm(localSearchTerm);
-    }, 300);
-    return () => clearTimeout(timer);
-  }, [localSearchTerm, setGlobalSearchTerm]);
 
   // Listen for changes in inputs or checkboxes
   useEffect(() => {
@@ -77,7 +64,7 @@ export const Header = () => {
           </div>
           
           <div className="flex items-center gap-2 sm:gap-4">
-            <SearchBar localSearchTerm={localSearchTerm} setLocalSearchTerm={setLocalSearchTerm} />
+            <EnhancedSearchBar />
             <UserMenu />
           </div>
         </div>
