@@ -196,9 +196,11 @@ export const useGlobalSearch = () => {
           category: 'calculator',
           route: '/calculators',
           state: { 
+            folder: folderKey,
+            calculatorId: calculator.id,
             calculatorName: calculator.name,
             fromSearch: true,
-            openCalculator: true 
+            autoOpen: true
           },
           icon: 'Calculator'
         });
@@ -215,9 +217,10 @@ export const useGlobalSearch = () => {
           category: 'analysis',
           route: '/analysis',
           state: {
-            goalId: goalKey,
+            goalType: goalKey,
             reportName: report,
-            fromSearch: true
+            fromSearch: true,
+            autoOpen: true
           },
           icon: goal.icon
         });

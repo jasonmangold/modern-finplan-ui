@@ -70,13 +70,42 @@ export const EnhancedSearchBar = () => {
     setGlobalSearchTerm("");
     
     // Navigate to the appropriate route with state
-    navigate(result.route, { state: result.state });
+    if (result.category === 'analysis') {
+      // For analysis reports, navigate with goal type and specific report
+      navigate('/analysis', { 
+        state: { 
+          selectedGoal: result.state?.goalType,
+          selectedReport: result.state?.reportName,
+          autoOpen: true
+        }
+      });
+    } else if (result.category === 'calculator') {
+      // For calculators, navigate with specific calculator selected
+      navigate('/calculators', {
+        state: {
+          selectedFolder: result.state?.folder,
+          selectedCalculator: result.state?.calculatorId,
+          autoOpen: true
+        }
+      });
+    } else if (result.category === 'education') {
+      // For education materials, navigate with specific document
+      navigate('/education', {
+        state: {
+          selectedDocument: result.state?.documentId,
+          autoOpen: true
+        }
+      });
+    } else {
+      // Fallback to original navigation
+      navigate(result.route, { state: result.state });
+    }
     
     toast({
       title: "Navigating to result",
       description: result.title,
     });
-  }, [searchResults, globalSearchTerm, setLastSearchResults, setLastSearchTerm, setShowResults, setGlobalSearchTerm, navigate]);
+  }, [searchResults, globalSearchTerm, setLastSearchResults, setLastSearchTerm, setShowResults, setShowRecentSearches, setGlobalSearchTerm, navigate]);
 
   // Handle recent search selection
   const handleRecentSearchClick = useCallback((term: string) => {
