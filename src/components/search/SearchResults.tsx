@@ -39,7 +39,7 @@ export const SearchResults = ({ results, onResultClick, isVisible }: SearchResul
   };
 
   return (
-    <div className="absolute top-full right-0 mt-2 z-50" style={{ transform: 'translateX(-50%)' }}>
+    <div className="absolute top-full right-0 mt-2 z-50">
       {/* Glass morphism container - wider and more frosted */}
       <div className="search-result-glass dark:search-result-glass-dark rounded-xl max-h-96 overflow-hidden min-w-[600px] max-w-4xl">
         {/* Subtle gradient overlay */}
@@ -59,7 +59,7 @@ export const SearchResults = ({ results, onResultClick, isVisible }: SearchResul
           </div>
 
           {/* Scrollable results */}
-          <div className="max-h-72 overflow-y-auto">
+          <div className="max-h-80 overflow-y-auto">
             {Object.entries(groupedResults).map(([category, categoryResults]) => {
               const config = categoryConfig[category as keyof typeof categoryConfig];
               if (!config) return null;
