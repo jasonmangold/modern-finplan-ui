@@ -69,9 +69,9 @@ const Home = () => {
         </Button>
       </CardHeader>
       <CardContent className="space-y-3">
-        {recentClients.map((client, index) => <div key={index} className="flex items-center justify-between p-4 rounded-xl border border-white/40 bg-white/60 backdrop-blur-sm hover:border-blue-300/60 hover:bg-white/80 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 group">
+        {recentClients.map((client, index) => <div key={index} className="flex items-center justify-between p-4 rounded-xl border border-border/40 bg-card/60 backdrop-blur-sm hover:border-primary/60 hover:bg-card/80 hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 group">
             <div className="flex-1">
-              <div className="font-semibold text-gray-900 group-hover:text-blue-900">{client.name}</div>
+              <div className="font-semibold text-foreground group-hover:text-primary">{client.name}</div>
               <div className="text-sm text-muted-foreground flex items-center gap-3 mt-1">
                 <div className="flex items-center gap-1.5">
                   <Clock className="h-3.5 w-3.5" />
@@ -119,13 +119,13 @@ const Home = () => {
         <div className="space-y-4">
           <div className="relative pl-4 border-l-2 border-blue-500">
             <div className="absolute -left-1.5 top-0 w-3 h-3 bg-blue-500 rounded-full"></div>
-            <h4 className="font-semibold text-gray-900">One Big Beautiful Bill Act of 2025 Update</h4>
+            <h4 className="font-semibold text-foreground">One Big Beautiful Bill Act of 2025 Update</h4>
             <p className="text-sm text-muted-foreground mt-1">2 new reports and 24 updated reports</p>
             <span className="inline-block mt-2 text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-full">Aug 1, 2025</span>
           </div>
           <div className="relative pl-4 border-l-2 border-green-500">
             <div className="absolute -left-1.5 top-0 w-3 h-3 bg-green-500 rounded-full"></div>
-            <h4 className="font-semibold text-gray-900">2025.01 Update</h4>
+            <h4 className="font-semibold text-foreground">2025.01 Update</h4>
             <p className="text-sm text-muted-foreground mt-1">Updated with new inflation, tax, and cost-of-living stats; GPO and WEP reports removed per the Social Security Fairness Act.</p>
             <span className="inline-block mt-2 text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">Mar 1, 2025</span>
           </div>
@@ -140,13 +140,13 @@ const Home = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        {favoriteReports.map((report, index) => <div key={index} className="flex items-center justify-between p-3 rounded-lg border border-white/40 bg-white/60 backdrop-blur-sm hover:border-amber-300/60 hover:bg-white/80 hover:shadow-lg hover:shadow-amber-500/20 transition-all duration-300 cursor-pointer group">
+        {favoriteReports.map((report, index) => <div key={index} className="flex items-center justify-between p-3 rounded-lg border border-border/40 bg-card/60 backdrop-blur-sm hover:border-accent/60 hover:bg-card/80 hover:shadow-lg hover:shadow-accent/20 transition-all duration-300 cursor-pointer group">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
-                <FileText className="h-4 w-4 text-blue-600" />
+              <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <FileText className="h-4 w-4 text-primary" />
               </div>
               <div>
-                <div className="font-medium text-gray-900">{report.name}</div>
+                <div className="font-medium text-foreground">{report.name}</div>
                 <div className="text-sm text-muted-foreground">{report.type}</div>
               </div>
             </div>
@@ -164,16 +164,16 @@ const Home = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="p-4 bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-xl border border-blue-200/50">
-          <h3 className="font-semibold mb-2 text-gray-900">Getting Started Tour</h3>
+        <div className="p-4 bg-gradient-to-br from-primary/10 to-primary/20 rounded-xl border border-primary/20">
+          <h3 className="font-semibold mb-2 text-foreground">Getting Started Tour</h3>
           <p className="text-sm text-muted-foreground mb-3">Learn the basics in just 2 minutes</p>
           <Button className="w-full modern-button">
             <Play className="h-4 w-4 mr-2" />
             Take 2-Minute Tour
           </Button>
         </div>
-        <div className="p-4 bg-gradient-to-br from-green-50 to-green-100/50 rounded-xl border border-green-200/50">
-          <h3 className="font-semibold mb-2 text-gray-900">Schedule Training</h3>
+        <div className="p-4 bg-gradient-to-br from-secondary/10 to-secondary/20 rounded-xl border border-secondary/20">
+          <h3 className="font-semibold mb-2 text-foreground">Schedule Training</h3>
           <p className="text-sm text-muted-foreground mb-3">Book personalized training session</p>
           <Button variant="outline" className="w-full modern-button">
             <Calendar className="h-4 w-4 mr-2" />
@@ -190,12 +190,12 @@ const Home = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        {twoMinuteTips.map((tip, index) => <div key={index} className="flex items-center gap-3 p-3 rounded-xl border border-gray-200/60 hover:border-amber-200 hover:bg-amber-50/30 transition-all duration-200 cursor-pointer group">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center group-hover:from-blue-200 group-hover:to-blue-300 transition-all">
-              <Play className="h-5 w-5 text-blue-600" />
+        {twoMinuteTips.map((tip, index) => <div key={index} className="flex items-center gap-3 p-3 rounded-xl border border-border/60 hover:border-accent hover:bg-accent/10 transition-all duration-200 cursor-pointer group">
+            <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/40 rounded-xl flex items-center justify-center group-hover:from-primary/30 group-hover:to-primary/50 transition-all">
+              <Play className="h-5 w-5 text-primary" />
             </div>
             <div className="flex-1">
-              <div className="font-medium text-gray-900">{tip.title}</div>
+              <div className="font-medium text-foreground">{tip.title}</div>
               <div className="text-sm text-muted-foreground">{tip.duration}</div>
             </div>
           </div>)}
@@ -209,9 +209,9 @@ const Home = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        {upcomingWebinars.map((webinar, index) => <div key={index} className="flex items-center justify-between p-3 rounded-lg border border-gray-200/60 hover:border-violet-200 hover:bg-violet-50/30 transition-all duration-200 group">
+        {upcomingWebinars.map((webinar, index) => <div key={index} className="flex items-center justify-between p-3 rounded-lg border border-border/60 hover:border-accent hover:bg-accent/10 transition-all duration-200 group">
             <div>
-              <div className="font-medium text-gray-900">{webinar.title}</div>
+              <div className="font-medium text-foreground">{webinar.title}</div>
               <div className="text-sm text-muted-foreground">{webinar.date} at {webinar.time}</div>
             </div>
             <Button size="sm" variant="outline" className="modern-button opacity-0 group-hover:opacity-100 transition-opacity">
@@ -231,15 +231,15 @@ const Home = () => {
         <p className="text-sm text-muted-foreground mb-4">
           Help us improve eAdvisys with your feedback and suggestions.
         </p>
-        <Button className="w-full modern-button bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white">
+        <Button className="w-full modern-button bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary text-primary-foreground">
           Make a Suggestion
         </Button>
       </CardContent>
     </Card>;
-  return <div className="p-6 lg:p-8 space-y-8 min-h-screen bg-gradient-to-br from-blue-50/50 via-white to-gray-50/50">
+  return <div className="p-6 lg:p-8 space-y-8 min-h-screen bg-background">
       {/* Clean Welcome Header */}
       <div className="space-y-2">
-        {isFirstTime ? <h1 className="text-3xl font-bold text-gray-900">Welcome to eAdvisys!</h1> : <TextShimmer as="h1" duration={1.2} className="text-3xl font-bold text-gray-900">
+        {isFirstTime ? <h1 className="text-3xl font-bold text-foreground">Welcome to eAdvisys!</h1> : <TextShimmer as="h1" duration={1.2} className="text-3xl font-bold text-foreground">
             {`Welcome back, ${userName}!`}
           </TextShimmer>}
         <p className="text-lg text-muted-foreground">
@@ -273,18 +273,18 @@ const Home = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="p-3 bg-blue-50 rounded-lg text-center">
-                    <div className="text-2xl font-bold text-blue-600">12</div>
+                  <div className="p-3 bg-primary/10 rounded-lg text-center">
+                    <div className="text-2xl font-bold text-primary">12</div>
                     <div className="text-xs text-muted-foreground">Active Clients</div>
                   </div>
-                  <div className="p-3 bg-green-50 rounded-lg text-center">
-                    <div className="text-2xl font-bold text-green-600">8</div>
+                  <div className="p-3 bg-secondary/10 rounded-lg text-center">
+                    <div className="text-2xl font-bold text-secondary">8</div>
                     <div className="text-xs text-muted-foreground">Plans Created</div>
                   </div>
                 </div>
-                <div className="p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg">
-                  <div className="text-sm font-medium text-gray-900 mb-1">This Month</div>
-                  <div className="text-2xl font-bold text-purple-600">$2.4M</div>
+                <div className="p-4 bg-gradient-to-r from-accent/20 to-accent/30 rounded-lg">
+                  <div className="text-sm font-medium text-foreground mb-1">This Month</div>
+                  <div className="text-2xl font-bold text-accent-foreground">$2.4M</div>
                   <div className="text-xs text-muted-foreground">Assets Under Management</div>
                 </div>
               </CardContent>
