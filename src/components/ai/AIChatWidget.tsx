@@ -108,9 +108,10 @@ export const AIChatWidget = () => {
             className="fixed bottom-6 right-6 z-50"
             transition={{ type: "spring", damping: 20, stiffness: 300 }}
           >
-            <Card className="w-96 h-full glass-morphism shadow-2xl border-0">
+            <Card className="w-96 glass-morphism shadow-2xl border-0 overflow-hidden" 
+                  style={{ height: isMinimized ? '60px' : '600px' }}>
               {/* Header */}
-              <div className="flex items-center justify-between p-4 border-b border-border/20">
+              <div className="flex items-center justify-between p-4 border-b border-border/20 bg-background/95 backdrop-blur-sm">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                   <h3 className="font-semibold text-sm">AI Financial Assistant</h3>
@@ -140,13 +141,13 @@ export const AIChatWidget = () => {
                 {!isMinimized && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
+                    animate={{ height: 540, opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    className="flex flex-col h-[500px]"
+                    className="flex flex-col overflow-hidden"
                   >
-                    <CardContent className="flex-1 flex flex-col p-0">
+                    <div className="flex-1 flex flex-col min-h-0">
                       {/* Messages */}
-                      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                      <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
                         {messages.map((message) => (
                           <ChatMessage key={message.id} message={message} />
                         ))}
@@ -156,11 +157,13 @@ export const AIChatWidget = () => {
 
                       {/* Quick Suggestions */}
                       {messages.length === 1 && (
-                        <QuickSuggestions onSuggestionClick={handleSendMessage} />
+                        <div className="flex-shrink-0">
+                          <QuickSuggestions onSuggestionClick={handleSendMessage} />
+                        </div>
                       )}
 
                       {/* Input */}
-                      <div className="p-4 border-t border-border/20">
+                      <div className="flex-shrink-0 p-4 border-t border-border/20 bg-background/95 backdrop-blur-sm">
                         <div className="flex gap-2">
                           <Input
                             value={inputValue}
@@ -180,7 +183,7 @@ export const AIChatWidget = () => {
                           </Button>
                         </div>
                       </div>
-                    </CardContent>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
