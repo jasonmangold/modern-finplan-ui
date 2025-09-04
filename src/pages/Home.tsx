@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TextShimmer } from "@/components/ui/text-shimmer";
+import { AIChatWidget } from "@/components/ai/AIChatWidget";
 import { useState, useRef, useEffect } from "react";
 import { User, FileText, Play, Calendar, Lightbulb, Star, MoreHorizontal, Clock, ArrowRight, ChevronDown, Folder, GraduationCap, Video, Zap, Sparkles, MessageSquarePlus, TrendingUp, GripVertical, Edit2, FileBarChart } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -299,6 +300,9 @@ const Home = () => {
           <SectionMakeSuggestion />
         </div>
       </div>
+
+      {/* AI Chat Widget */}
+      <AIChatWidget />
     </div>;
 };
 export default Home;
