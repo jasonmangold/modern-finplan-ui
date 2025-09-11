@@ -359,13 +359,19 @@ const Education = () => {
               <h1 className="font-semibold text-lg truncate">{selectedPDF.title}</h1>
             </div>
             <div className="flex items-center gap-2">
-              <Button 
-                variant="default" 
-                onClick={() => handleItemSelection(selectedPDF.title)}
-                className="flex items-center gap-2"
-              >
-                Add to Presentation
-              </Button>
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  id={`presentation-${selectedPDF.title}`}
+                  checked={selectedItems.includes(selectedPDF.title)}
+                  onCheckedChange={() => handleItemSelection(selectedPDF.title)}
+                />
+                <label 
+                  htmlFor={`presentation-${selectedPDF.title}`}
+                  className="text-sm font-medium cursor-pointer"
+                >
+                  Add to Presentation
+                </label>
+              </div>
               <Button 
                 variant="outline" 
                 onClick={handleBackToReports} 
