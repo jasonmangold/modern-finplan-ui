@@ -118,50 +118,50 @@ export const DebtRepaymentInputs = () => {
             <CardContent className="space-y-6">
               <div className="space-y-4">
                 {debts.map((debt, index) => (
-                  <div key={debt.id} className="grid grid-cols-6 gap-4 p-4 border rounded-lg bg-background">
+                  <div key={debt.id} className="grid grid-cols-6 gap-6 p-6 border rounded-lg bg-background">
                     <div>
-                      <Label className="text-sm font-medium text-foreground mb-1.5 block">Name</Label>
+                      <Label className="text-sm font-medium text-foreground mb-2 block">Name</Label>
                       <Input
                         value={debt.name}
                         onChange={(e) => updateDebt(debt.id, 'name', e.target.value)}
                         placeholder="Debt name"
-                        className="h-10"
+                        className="h-12 text-base"
                       />
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-foreground mb-1.5 block">Balance</Label>
+                      <Label className="text-sm font-medium text-foreground mb-2 block">Balance</Label>
                       <Input
                         value={debt.balance}
                         onChange={(e) => updateDebt(debt.id, 'balance', e.target.value)}
                         placeholder="$0"
-                        className="h-10"
+                        className="h-12 text-base"
                       />
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-foreground mb-1.5 block">Rate</Label>
+                      <Label className="text-sm font-medium text-foreground mb-2 block">Rate</Label>
                       <Input
                         value={debt.rate}
                         onChange={(e) => updateDebt(debt.id, 'rate', e.target.value)}
                         placeholder="0%"
-                        className="h-10"
+                        className="h-12 text-base"
                       />
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-foreground mb-1.5 block">Payment</Label>
+                      <Label className="text-sm font-medium text-foreground mb-2 block">Payment</Label>
                       <Input
                         value={debt.payment}
                         onChange={(e) => updateDebt(debt.id, 'payment', e.target.value)}
                         placeholder="$0"
-                        className="h-10"
+                        className="h-12 text-base"
                       />
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-foreground mb-1.5 block">Type</Label>
+                      <Label className="text-sm font-medium text-foreground mb-2 block">Type</Label>
                       <Select 
                         value={debt.type} 
                         onValueChange={(value) => updateDebt(debt.id, 'type', value)}
                       >
-                        <SelectTrigger className="h-10">
+                        <SelectTrigger className="h-12 text-base">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="bg-background border shadow-lg z-50">
@@ -180,9 +180,9 @@ export const DebtRepaymentInputs = () => {
                         size="sm"
                         onClick={() => removeDebt(debt.id)}
                         disabled={debts.length === 1}
-                        className="h-10 w-10 p-0 hover:bg-destructive/10"
+                        className="h-12 w-12 p-0 hover:bg-destructive/10"
                       >
-                        <Trash2 className="h-4 w-4 text-destructive" />
+                        <Trash2 className="h-5 w-5 text-destructive" />
                       </Button>
                     </div>
                   </div>
