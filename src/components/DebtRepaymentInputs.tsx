@@ -8,7 +8,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { CalendarIcon, Trash2, Plus } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -116,105 +115,96 @@ export const DebtRepaymentInputs = () => {
             <CardHeader className="pb-4">
               <CardTitle className="text-base font-medium">Debt Details</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="border rounded-lg overflow-hidden">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[200px]">Name</TableHead>
-                      <TableHead className="w-[120px]">Balance</TableHead>
-                      <TableHead className="w-[100px]">Rate</TableHead>
-                      <TableHead className="w-[120px]">Payment</TableHead>
-                      <TableHead className="w-[150px]">Type</TableHead>
-                      <TableHead className="w-[60px]"></TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {debts.map((debt) => (
-                      <TableRow key={debt.id}>
-                        <TableCell>
-                          <Input
-                            value={debt.name}
-                            onChange={(e) => updateDebt(debt.id, 'name', e.target.value)}
-                            placeholder="Debt name"
-                            className="h-8"
-                          />
-                        </TableCell>
-                        <TableCell>
-                          <Input
-                            value={debt.balance}
-                            onChange={(e) => updateDebt(debt.id, 'balance', e.target.value)}
-                            placeholder="$0"
-                            className="h-8"
-                          />
-                        </TableCell>
-                        <TableCell>
-                          <Input
-                            value={debt.rate}
-                            onChange={(e) => updateDebt(debt.id, 'rate', e.target.value)}
-                            placeholder="0%"
-                            className="h-8"
-                          />
-                        </TableCell>
-                        <TableCell>
-                          <Input
-                            value={debt.payment}
-                            onChange={(e) => updateDebt(debt.id, 'payment', e.target.value)}
-                            placeholder="$0"
-                            className="h-8"
-                          />
-                        </TableCell>
-                        <TableCell>
-                          <Select 
-                            value={debt.type} 
-                            onValueChange={(value) => updateDebt(debt.id, 'type', value)}
-                          >
-                            <SelectTrigger className="h-8">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="Credit card">Credit card</SelectItem>
-                              <SelectItem value="Personal loan">Personal loan</SelectItem>
-                              <SelectItem value="Auto loan">Auto loan</SelectItem>
-                              <SelectItem value="Student loan">Student loan</SelectItem>
-                              <SelectItem value="Mortgage">Mortgage</SelectItem>
-                              <SelectItem value="Other">Other</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </TableCell>
-                        <TableCell>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => removeDebt(debt.id)}
-                            disabled={debts.length === 1}
-                            className="h-8 w-8 p-0 hover:bg-destructive/10"
-                          >
-                            <Trash2 className="h-4 w-4 text-destructive" />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                {debts.map((debt, index) => (
+                  <div key={debt.id} className="grid grid-cols-6 gap-4 p-4 border rounded-lg bg-background">
+                    <div>
+                      <Label className="text-sm font-medium text-foreground mb-1.5 block">Name</Label>
+                      <Input
+                        value={debt.name}
+                        onChange={(e) => updateDebt(debt.id, 'name', e.target.value)}
+                        placeholder="Debt name"
+                        className="h-10"
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground mb-1.5 block">Balance</Label>
+                      <Input
+                        value={debt.balance}
+                        onChange={(e) => updateDebt(debt.id, 'balance', e.target.value)}
+                        placeholder="$0"
+                        className="h-10"
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground mb-1.5 block">Rate</Label>
+                      <Input
+                        value={debt.rate}
+                        onChange={(e) => updateDebt(debt.id, 'rate', e.target.value)}
+                        placeholder="0%"
+                        className="h-10"
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground mb-1.5 block">Payment</Label>
+                      <Input
+                        value={debt.payment}
+                        onChange={(e) => updateDebt(debt.id, 'payment', e.target.value)}
+                        placeholder="$0"
+                        className="h-10"
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground mb-1.5 block">Type</Label>
+                      <Select 
+                        value={debt.type} 
+                        onValueChange={(value) => updateDebt(debt.id, 'type', value)}
+                      >
+                        <SelectTrigger className="h-10">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="bg-background border shadow-lg z-50">
+                          <SelectItem value="Credit card">Credit card</SelectItem>
+                          <SelectItem value="Personal loan">Personal loan</SelectItem>
+                          <SelectItem value="Auto loan">Auto loan</SelectItem>
+                          <SelectItem value="Student loan">Student loan</SelectItem>
+                          <SelectItem value="Mortgage">Mortgage</SelectItem>
+                          <SelectItem value="Other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="flex items-end">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeDebt(debt.id)}
+                        disabled={debts.length === 1}
+                        className="h-10 w-10 p-0 hover:bg-destructive/10"
+                      >
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
               </div>
 
-              <div className="flex justify-between pt-4">
+              <div className="flex justify-between pt-6">
                 <Button
                   variant="outline"
-                  size="sm"
+                  size="default"
                   onClick={addDebt}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 px-4 py-2"
                 >
                   <Plus className="h-4 w-4" />
                   Add new
                 </Button>
                 <Button
                   variant="outline"
-                  size="sm"
+                  size="default"
                   onClick={() => removeDebt(debts[debts.length - 1]?.id)}
                   disabled={debts.length === 1}
-                  className="flex items-center gap-2 text-destructive border-destructive/30 hover:bg-destructive/10"
+                  className="flex items-center gap-2 px-4 py-2 text-destructive border-destructive/30 hover:bg-destructive/10"
                 >
                   <Trash2 className="h-4 w-4" />
                   Delete
