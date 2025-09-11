@@ -358,14 +358,23 @@ const Education = () => {
               )}
               <h1 className="font-semibold text-lg truncate">{selectedPDF.title}</h1>
             </div>
-            <Button 
-              variant="outline" 
-              onClick={handleBackToReports} 
-              className="flex items-center gap-2"
-            >
-              <X className="h-4 w-4" />
-              Close
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button 
+                variant="default" 
+                onClick={() => handleItemSelection(selectedPDF.title)}
+                className="flex items-center gap-2"
+              >
+                Add to Presentation
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={handleBackToReports} 
+                className="flex items-center gap-2"
+              >
+                <X className="h-4 w-4" />
+                Close
+              </Button>
+            </div>
           </div>
 
           {/* PDF Content */}
