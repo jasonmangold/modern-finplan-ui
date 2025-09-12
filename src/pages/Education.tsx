@@ -138,9 +138,16 @@ const Education = () => {
     scrollPositionRef.current = window.scrollY;
     setSavedScrollPosition(window.scrollY);
     
+    console.log('Report clicked:', report.DocumentTitle);
+    console.log('Raw file path:', report.file_path);
+    
     // Check if PDF file path exists
     if (report.file_path && report.file_path.trim() !== '') {
-      setSelectedPDF({ url: report.file_path, title: report.DocumentTitle });
+      // Clean up URL by removing double slashes
+      const cleanUrl = report.file_path.replace(/([^:]\/)\/+/g, "$1");
+      console.log('Cleaned file path:', cleanUrl);
+      
+      setSelectedPDF({ url: cleanUrl, title: report.DocumentTitle });
     } else {
       // Show message for reports without PDF files
       setSelectedPDF({ 
@@ -404,7 +411,11 @@ const Education = () => {
                 title={`PDF: ${selectedPDF.title}`}
                 sandbox="allow-scripts allow-same-origin"
                 onError={(e) => {
-                  console.warn('PDF iframe error:', e);
+                  console.error('PDF iframe error:', e);
+                  console.error('Failed to load PDF URL:', selectedPDF.url);
+                }}
+                onLoad={() => {
+                  console.log('PDF loaded successfully:', selectedPDF.url);
                 }}
                 style={{
                   border: 'none',
