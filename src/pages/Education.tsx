@@ -11,7 +11,7 @@ import { ReportViewer } from "@/components/ReportViewer";
 import { useEducationCategories, useEducationSearch, useEducationData } from "@/hooks/useEducationData";
 import { useSearch } from "@/contexts/SearchContext";
 import { usePresentationContext } from "@/contexts/PresentationContext";
-import { RetirementPlanningHtmlReport } from "@/components/reports/RetirementPlanningHtmlReport";
+
 
 const clientInteractionForms = ["Agenda for Discussion", "Beneficiary Audit Checklist", "Business Events Checklist", "Business Owner Planning Needs", "Client Referral", "Divorce Checklist", "Financial Review Checklist", "Life Events Checklist", "Planning Task List", "Receipt for Documents"];
 const worksheetReports = ["Business Valuation", "Capital Needs Analysis Worksheet", "Federal Estate Tax Worksheet", "Odds of Disability", "Personal Alternative Minimum Tax", "The Personal Budget Worksheet", "Personal Net Worth", "Taxation of Social Security Benefits", "The Real Rate of Return Worksheet", "When to Refinance Your Home"];
@@ -398,13 +398,9 @@ const Education = () => {
             </div>
           </div>
 
-          {/* PDF Content or HTML Report */}
+          {/* PDF Content */}
           <div className="flex-1 bg-gray-100">
-            {selectedPDF.title === "The Need for Retirement Planning" ? (
-              <div className="w-full h-full overflow-auto p-6">
-                <RetirementPlanningHtmlReport />
-              </div>
-            ) : selectedPDF.url ? (
+            {selectedPDF.url ? (
               <iframe
                 src={selectedPDF.url}
                 className="w-full h-full border-0"
