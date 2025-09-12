@@ -32,7 +32,7 @@ const Education = () => {
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [selectedFormats, setSelectedFormats] = useState<string[]>([]);
   const [selectedReport, setSelectedReport] = useState<string | null>(null);
-  const [selectedPDF, setSelectedPDF] = useState<{ url: string; title: string } | null>(null);
+  const [selectedPDF, setSelectedPDF] = useState<{ url: string; title: string; message?: string } | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
   const [expandedSubfolders, setExpandedSubfolders] = useState<string[]>([]);
@@ -138,9 +138,16 @@ const Education = () => {
     scrollPositionRef.current = window.scrollY;
     setSavedScrollPosition(window.scrollY);
     
-    // Only check file_path column for PDF URL
-    if (report.file_path) {
+    // Check if PDF file path exists
+    if (report.file_path && report.file_path.trim() !== '') {
       setSelectedPDF({ url: report.file_path, title: report.DocumentTitle });
+    } else {
+      // Show message for reports without PDF files
+      setSelectedPDF({ 
+        url: '', 
+        title: report.DocumentTitle,
+        message: 'PDF file not available for this report. Please check that the file_path is set in the database.'
+      });
     }
   };
 
@@ -390,7 +397,7 @@ const Education = () => {
               <div className="w-full h-full overflow-auto p-6">
                 <RetirementPlanningHtmlReport />
               </div>
-            ) : (
+            ) : selectedPDF.url ? (
               <iframe
                 src={selectedPDF.url}
                 className="w-full h-full border-0"
@@ -405,6 +412,23 @@ const Education = () => {
                   height: '100%'
                 }}
               />
+            ) : (
+              <div className="flex items-center justify-center h-full">
+                <div className="text-center p-8 max-w-md">
+                  <div className="w-16 h-16 mx-auto mb-4 text-gray-400">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">PDF Not Available</h3>
+                  <p className="text-gray-600 mb-4">
+                    {selectedPDF.message || 'This report does not have an associated PDF file.'}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    To display PDFs, add the file URL to the 'file_path' column in the Education table.
+                  </p>
+                </div>
+              </div>
             )}
           </div>
         </div>
