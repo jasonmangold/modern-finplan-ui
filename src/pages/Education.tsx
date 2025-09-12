@@ -409,7 +409,6 @@ const Education = () => {
                 src={selectedPDF.url}
                 className="w-full h-full border-0"
                 title={`PDF: ${selectedPDF.title}`}
-                sandbox="allow-scripts allow-same-origin"
                 onError={(e) => {
                   console.error('PDF iframe error:', e);
                   console.error('Failed to load PDF URL:', selectedPDF.url);
