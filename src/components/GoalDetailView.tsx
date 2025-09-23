@@ -227,6 +227,19 @@ const goalConfigs = {
       "Cost Analysis"
     ],
     defaultOutput: "Key Employee Analysis"
+  },
+  "disability": {
+    title: "Disability Analysis",
+    icon: Shield,
+    color: "text-orange-600",
+    description: "Analyze disability insurance needs and income protection strategies",
+    outputs: [
+      "Coverage Assessment",
+      "Income Replacement Analysis",
+      "Benefit Options",
+      "Cost Analysis"
+    ],
+    defaultOutput: "Coverage Assessment"
   }
 };
 interface GoalDetailViewProps {
