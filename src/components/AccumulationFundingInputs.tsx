@@ -266,8 +266,8 @@ export const AccumulationFundingInputs = () => {
                       <Label className="text-sm">Annual inflation rate:</Label>
                       <div className="relative mt-1">
                         <Input 
-                          value={sharedInputs.inflationRate}
-                          onChange={(e) => updateSharedInput('inflationRate', e.target.value)}
+                          value={sharedInputs.AnnualInflationRate}
+                          onChange={(e) => updateSharedInput('AnnualInflationRate', e.target.value)}
                           placeholder="3" 
                           className="pr-8"
                         />

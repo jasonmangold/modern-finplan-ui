@@ -44,8 +44,8 @@ export const CriticalIllnessInputs = () => {
           <Label className="text-sm">Analysis date:</Label>
           <Input 
             type="date"
-            value={sharedInputs.analysisDate || ''}
-            onChange={(e) => updateSharedInput('analysisDate', e.target.value)}
+            value={sharedInputs.AnalysisDate || ''}
+            onChange={(e) => updateSharedInput('AnalysisDate', e.target.value)}
             className="mt-1 w-48" 
           />
         </div>

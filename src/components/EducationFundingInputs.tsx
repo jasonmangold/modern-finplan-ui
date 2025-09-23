@@ -291,8 +291,8 @@ export const EducationFundingInputs = () => {
                 <Label className="text-sm">Analysis Date</Label>
                 <Input 
                   type="date" 
-                  value={sharedInputs.analysisDate}
-                  onChange={(e) => updateSharedInput('analysisDate', e.target.value)}
+                  value={sharedInputs.AnalysisDate}
+                  onChange={(e) => updateSharedInput('AnalysisDate', e.target.value)}
                   className="mt-1" 
                 />
               </div>
@@ -301,8 +301,8 @@ export const EducationFundingInputs = () => {
                 <div>
                   <Label className="text-sm">Annual Education Inflation Rate</Label>
                   <Input 
-                    value={sharedInputs.educationInflationRate}
-                    onChange={(e) => updateSharedInput('educationInflationRate', e.target.value)}
+                    value={sharedInputs.AnnualEducationInflationRate}
+                    onChange={(e) => updateSharedInput('AnnualEducationInflationRate', e.target.value)}
                     placeholder="5.0%" 
                     className="mt-1" 
                   />
@@ -310,8 +310,8 @@ export const EducationFundingInputs = () => {
                 <div>
                   <Label className="text-sm">Annual Rate of Return on Education Assets</Label>
                   <Input 
-                    value={sharedInputs.educationROR}
-                    onChange={(e) => updateSharedInput('educationROR', e.target.value)}
+                    value={sharedInputs.RateOfReturnOnEducationAssets}
+                    onChange={(e) => updateSharedInput('RateOfReturnOnEducationAssets', e.target.value)}
                     placeholder="7.0%" 
                     className="mt-1" 
                   />
