@@ -112,6 +112,48 @@ interface SharedInputs {
   client1AlternateAge2: string;
   client2AlternateAge1: string;
   client2AlternateAge2: string;
+  
+  // Critical Illness fields - Client 1
+  client1CriticalIllnessNameAmount: string;
+  client1CriticalIllnessIncomeReplacementAmount: string;
+  client1CriticalIllnessIncomeReplacementMonths: string;
+  client1CriticalIllnessClientsAmount: string;
+  client1CriticalIllnessClientsMonths: string;
+  client1CriticalIllnessDomesticHelpAmount: string;
+  client1CriticalIllnessDomesticHelpMonths: string;
+  client1CriticalIllnessChildcareAmount: string;
+  client1CriticalIllnessChildcareMonths: string;
+  client1CriticalIllnessHomeModificationsAmount: string;
+  client1CriticalIllnessMedicalEquipmentAmount: string;
+  client1CriticalIllnessOutOfPocketMedicalAmount: string;
+  client1CriticalIllnessContinueRetirementSavingsClientAmount: string;
+  client1CriticalIllnessContinueRetirementSavingsClientMonths: string;
+  client1CriticalIllnessContinueRetirementSavingsOtherClientAmount: string;
+  client1CriticalIllnessContinueRetirementSavingsOtherClientMonths: string;
+  client1CriticalIllnessOtherAmount: string;
+  client1CriticalIllnessOtherMonths: string;
+  client1CriticalIllnessCurrentCriticalIllnessAmountAmount: string;
+  
+  // Critical Illness fields - Client 2
+  client2CriticalIllnessNameAmount: string;
+  client2CriticalIllnessIncomeReplacementAmount: string;
+  client2CriticalIllnessIncomeReplacementMonths: string;
+  client2CriticalIllnessClientsAmount: string;
+  client2CriticalIllnessClientsMonths: string;
+  client2CriticalIllnessDomesticHelpAmount: string;
+  client2CriticalIllnessDomesticHelpMonths: string;
+  client2CriticalIllnessChildcareAmount: string;
+  client2CriticalIllnessChildcareMonths: string;
+  client2CriticalIllnessHomeModificationsAmount: string;
+  client2CriticalIllnessMedicalEquipmentAmount: string;
+  client2CriticalIllnessOutOfPocketMedicalAmount: string;
+  client2CriticalIllnessContinueRetirementSavingsClientAmount: string;
+  client2CriticalIllnessContinueRetirementSavingsClientMonths: string;
+  client2CriticalIllnessContinueRetirementSavingsOtherClientAmount: string;
+  client2CriticalIllnessContinueRetirementSavingsOtherClientMonths: string;
+  client2CriticalIllnessOtherAmount: string;
+  client2CriticalIllnessOtherMonths: string;
+  client2CriticalIllnessCurrentCriticalIllnessAmountAmount: string;
 }
 
 interface FormContextType {
@@ -229,7 +271,49 @@ const initialSharedInputs: SharedInputs = {
   client1AlternateAge1: '',
   client1AlternateAge2: '',
   client2AlternateAge1: '',
-  client2AlternateAge2: ''
+  client2AlternateAge2: '',
+  
+  // Critical Illness fields - Client 1
+  client1CriticalIllnessNameAmount: '',
+  client1CriticalIllnessIncomeReplacementAmount: '',
+  client1CriticalIllnessIncomeReplacementMonths: '',
+  client1CriticalIllnessClientsAmount: '',
+  client1CriticalIllnessClientsMonths: '',
+  client1CriticalIllnessDomesticHelpAmount: '',
+  client1CriticalIllnessDomesticHelpMonths: '',
+  client1CriticalIllnessChildcareAmount: '',
+  client1CriticalIllnessChildcareMonths: '',
+  client1CriticalIllnessHomeModificationsAmount: '',
+  client1CriticalIllnessMedicalEquipmentAmount: '',
+  client1CriticalIllnessOutOfPocketMedicalAmount: '',
+  client1CriticalIllnessContinueRetirementSavingsClientAmount: '',
+  client1CriticalIllnessContinueRetirementSavingsClientMonths: '',
+  client1CriticalIllnessContinueRetirementSavingsOtherClientAmount: '',
+  client1CriticalIllnessContinueRetirementSavingsOtherClientMonths: '',
+  client1CriticalIllnessOtherAmount: '',
+  client1CriticalIllnessOtherMonths: '',
+  client1CriticalIllnessCurrentCriticalIllnessAmountAmount: '',
+  
+  // Critical Illness fields - Client 2
+  client2CriticalIllnessNameAmount: '',
+  client2CriticalIllnessIncomeReplacementAmount: '',
+  client2CriticalIllnessIncomeReplacementMonths: '',
+  client2CriticalIllnessClientsAmount: '',
+  client2CriticalIllnessClientsMonths: '',
+  client2CriticalIllnessDomesticHelpAmount: '',
+  client2CriticalIllnessDomesticHelpMonths: '',
+  client2CriticalIllnessChildcareAmount: '',
+  client2CriticalIllnessChildcareMonths: '',
+  client2CriticalIllnessHomeModificationsAmount: '',
+  client2CriticalIllnessMedicalEquipmentAmount: '',
+  client2CriticalIllnessOutOfPocketMedicalAmount: '',
+  client2CriticalIllnessContinueRetirementSavingsClientAmount: '',
+  client2CriticalIllnessContinueRetirementSavingsClientMonths: '',
+  client2CriticalIllnessContinueRetirementSavingsOtherClientAmount: '',
+  client2CriticalIllnessContinueRetirementSavingsOtherClientMonths: '',
+  client2CriticalIllnessOtherAmount: '',
+  client2CriticalIllnessOtherMonths: '',
+  client2CriticalIllnessCurrentCriticalIllnessAmountAmount: ''
 };
 
 export const FormProvider = ({ children }: { children: ReactNode }) => {

@@ -110,6 +110,19 @@ const goalConfigs = {
       "Asset Allocation Data - Fact Finder"
     ],
     defaultOutput: "Current Allocation for Assets"
+  },
+  "critical-illness": {
+    title: "Critical Illness",
+    icon: Shield,
+    color: "text-red-600",
+    description: "Plan for financial impact of critical illness diagnosis",
+    outputs: [
+      "Coverage Assessment",
+      "Benefit Options",
+      "Cost Analysis",
+      "Risk Factors"
+    ],
+    defaultOutput: "Coverage Assessment"
   }
 };
 interface GoalDetailViewProps {

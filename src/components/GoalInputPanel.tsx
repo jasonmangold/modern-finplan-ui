@@ -12,6 +12,7 @@ import { RetirementDistributionInputs } from "./RetirementDistributionInputs";
 import { SocialSecurityInputs } from "./SocialSecurityInputs";
 import { DisabilityInputs } from "./DisabilityInputs";
 import { DebtRepaymentInputs } from "./DebtRepaymentInputs";
+import { CriticalIllnessInputs } from "./CriticalIllnessInputs";
 import { HelpDialog } from "./HelpDialog";
 import { getHelpText } from "@/data/helpTexts";
 import { useState } from "react";
@@ -197,6 +198,7 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
       {goalId === "social-security" && <SocialSecurityInputs />}
       {goalId === "disability" && <DisabilityInputs />}
       {goalId === "debt-repayment" && <DebtRepaymentInputs />}
+      {goalId === "critical-illness" && <CriticalIllnessInputs />}
       {goalId === "college" && (
         <>
           <div className="flex items-center gap-2 mb-4">
@@ -219,7 +221,7 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
           />
         </>
       )}
-      {(goalId !== "college" && goalId !== "retirement" && goalId !== "education-funding" && goalId !== "retirement-accumulation" && goalId !== "survivor-needs" && goalId !== "retirement-distribution" && goalId !== "social-security" && goalId !== "disability" && goalId !== "debt-repayment") && (
+      {(goalId !== "college" && goalId !== "retirement" && goalId !== "education-funding" && goalId !== "retirement-accumulation" && goalId !== "survivor-needs" && goalId !== "retirement-distribution" && goalId !== "social-security" && goalId !== "disability" && goalId !== "debt-repayment" && goalId !== "critical-illness") && (
         <>
           <div className="flex items-center gap-2 mb-4">
             <h2 className="text-lg font-semibold text-foreground">Analysis Inputs</h2>
