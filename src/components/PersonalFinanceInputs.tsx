@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useFormContext } from "@/contexts/FormContext";
 
 export const PersonalFinanceInputs = () => {
@@ -24,350 +23,308 @@ export const PersonalFinanceInputs = () => {
 
         <div className="space-y-4">
           <TabsContent value="personal" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Personal Information</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="client1-name">Client 1 Name</Label>
-                    <Input 
-                      id="client1-name" 
-                      value={sharedInputs.client1Name}
-                      onChange={(e) => updateSharedInput('client1Name', e.target.value)}
-                      placeholder="Paul"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="client2-name">Client 2 Name</Label>
-                    <Input 
-                      id="client2-name" 
-                      value={sharedInputs.client2Name}
-                      onChange={(e) => updateSharedInput('client2Name', e.target.value)}
-                      placeholder="Sally"
-                    />
+            <fieldset className="border border-border rounded-lg p-4 space-y-4">
+              <legend className="text-sm font-medium px-2">Client Information</legend>
+              
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <Label htmlFor="client1-name" className="w-24 text-sm">Client 1 name:</Label>
+                  <div className="flex space-x-2 flex-1">
+                    <Input className="h-8" />
+                    <Input className="h-8" />
+                    <Input className="h-8" />
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="client1-age">Client 1 Age</Label>
-                    <Input 
-                      id="client1-age" 
-                      type="number" 
-                      value={sharedInputs.client1Age}
-                      onChange={(e) => updateSharedInput('client1Age', Number(e.target.value))}
-                      placeholder="45"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="client2-age">Client 2 Age</Label>
-                    <Input 
-                      id="client2-age" 
-                      type="number" 
-                      value={sharedInputs.client2Age}
-                      onChange={(e) => updateSharedInput('client2Age', Number(e.target.value))}
-                      placeholder="42"
-                    />
+                
+                <div className="flex items-center space-x-2">
+                  <Label htmlFor="client2-name" className="w-24 text-sm">Client 2 name:</Label>
+                  <div className="flex space-x-2 flex-1">
+                    <Input className="h-8" />
+                    <Input className="h-8" />
+                    <Input className="h-8" />
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="client1-gender">Client 1 Gender</Label>
-                    <Select 
-                      value={sharedInputs.client1Gender} 
-                      onValueChange={(value) => updateSharedInput('client1Gender', value)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select gender" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <Label htmlFor="client2-gender">Client 2 Gender</Label>
-                    <Select 
-                      value={sharedInputs.client2Gender} 
-                      onValueChange={(value) => updateSharedInput('client2Gender', value)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select gender" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="client1-retirement">Client 1 Retirement Age</Label>
-                    <Input 
-                      id="client1-retirement" 
-                      type="number" 
-                      value={sharedInputs.client1RetirementAge}
-                      onChange={(e) => updateSharedInput('client1RetirementAge', Number(e.target.value))}
-                      placeholder="67"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="client2-retirement">Client 2 Retirement Age</Label>
-                    <Input 
-                      id="client2-retirement" 
-                      type="number" 
-                      value={sharedInputs.client2RetirementAge}
-                      onChange={(e) => updateSharedInput('client2RetirementAge', Number(e.target.value))}
-                      placeholder="67"
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="client1-life-expectancy">Client 1 Life Expectancy</Label>
-                    <Input 
-                      id="client1-life-expectancy" 
-                      type="number" 
-                      value={sharedInputs.client1LifeExpectancy}
-                      onChange={(e) => updateSharedInput('client1LifeExpectancy', Number(e.target.value))}
-                      placeholder="90"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="client2-life-expectancy">Client 2 Life Expectancy</Label>
-                    <Input 
-                      id="client2-life-expectancy" 
-                      type="number" 
-                      value={sharedInputs.client2LifeExpectancy}
-                      onChange={(e) => updateSharedInput('client2LifeExpectancy', Number(e.target.value))}
-                      placeholder="90"
-                    />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+            </fieldset>
           </TabsContent>
 
           <TabsContent value="income" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Income Sources</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="paul-employment">Paul's Employment Income</Label>
-                  <Input 
-                    id="paul-employment" 
-                    type="number" 
-                    value={sharedInputs.paulEmploymentIncome}
-                    onChange={(e) => updateSharedInput('paulEmploymentIncome', Number(e.target.value))}
-                    placeholder="65000"
-                  />
+            <fieldset className="border border-border rounded-lg p-4 space-y-4">
+              <legend className="text-sm font-medium px-2">Annual Employment Income</legend>
+              
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <Label className="w-16 text-sm">Client 1:</Label>
+                  <div className="flex-1 flex justify-end">
+                    <Input className="h-8 w-24 text-right" defaultValue="$ 0" />
+                  </div>
                 </div>
-                <div>
-                  <Label htmlFor="sally-employment">Sally's Employment Income</Label>
-                  <Input 
-                    id="sally-employment" 
-                    type="number" 
-                    value={sharedInputs.sallyEmploymentIncome}
-                    onChange={(e) => updateSharedInput('sallyEmploymentIncome', Number(e.target.value))}
-                    placeholder="50000"
-                  />
+                
+                <div className="flex items-center space-x-2">
+                  <Label className="w-16 text-sm text-muted-foreground">Client 2:</Label>
+                  <div className="flex-1 flex justify-end">
+                    <Input className="h-8 w-24 text-right text-muted-foreground" defaultValue="$ 0" disabled />
+                  </div>
                 </div>
-                <div>
-                  <Label htmlFor="interest-dividends">Interest and Dividends</Label>
-                  <Input 
-                    id="interest-dividends" 
-                    type="number" 
-                    value={sharedInputs.interestDividends}
-                    onChange={(e) => updateSharedInput('interestDividends', Number(e.target.value))}
-                    placeholder="25000"
-                  />
+              </div>
+            </fieldset>
+
+            <fieldset className="border border-border rounded-lg p-4 space-y-4">
+              <legend className="text-sm font-medium px-2">Other Income</legend>
+              
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <Label className="w-32 text-sm">Interest and dividends:</Label>
+                  <div className="flex-1 flex justify-end">
+                    <Input className="h-8 w-24 text-right" defaultValue="$ 0" />
+                  </div>
                 </div>
-                <div>
-                  <Label htmlFor="other-income">Other Income</Label>
-                  <Input 
-                    id="other-income" 
-                    type="number" 
-                    value={sharedInputs.otherIncome}
-                    onChange={(e) => updateSharedInput('otherIncome', Number(e.target.value))}
-                    placeholder="17000"
-                  />
+                
+                <div className="flex items-center space-x-2">
+                  <Label className="w-32 text-sm">Other:</Label>
+                  <div className="flex-1 flex justify-end">
+                    <Input className="h-8 w-24 text-right" defaultValue="$ 0" />
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </fieldset>
           </TabsContent>
 
           <TabsContent value="savings" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Savings & Expenses</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="education-savings">Education Savings</Label>
-                  <Input 
-                    id="education-savings" 
-                    type="number" 
-                    value={sharedInputs.educationSavings}
-                    onChange={(e) => updateSharedInput('educationSavings', Number(e.target.value))}
-                    placeholder="3600"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="retirement-savings">Retirement Savings</Label>
-                  <Input 
-                    id="retirement-savings" 
-                    type="number" 
-                    value={sharedInputs.retirementSavings}
-                    onChange={(e) => updateSharedInput('retirementSavings', Number(e.target.value))}
-                    placeholder="6000"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="other-savings">Other Savings</Label>
-                  <Input 
-                    id="other-savings" 
-                    type="number" 
-                    value={sharedInputs.otherSavings}
-                    onChange={(e) => updateSharedInput('otherSavings', Number(e.target.value))}
-                    placeholder="4800"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="household-expenses">Household Expenses</Label>
-                  <Input 
-                    id="household-expenses" 
-                    type="number" 
-                    value={sharedInputs.householdExpenses}
-                    onChange={(e) => updateSharedInput('householdExpenses', Number(e.target.value))}
-                    placeholder="55908"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="taxes">Taxes</Label>
-                  <Input 
-                    id="taxes" 
-                    type="number" 
-                    value={sharedInputs.taxes}
-                    onChange={(e) => updateSharedInput('taxes', Number(e.target.value))}
-                    placeholder="53484"
-                  />
-                </div>
-              </CardContent>
-            </Card>
+            <div className="grid grid-cols-2 gap-6">
+              {/* Left Column */}
+              <div className="space-y-4">
+                <fieldset className="border border-border rounded-lg p-4 space-y-3">
+                  <legend className="text-sm font-medium px-2">Monthly Expenses - Household</legend>
+                  
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm">Housing:</Label>
+                    <Input className="h-8 w-20 text-right" defaultValue="$ 0" />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm">Food:</Label>
+                    <Input className="h-8 w-20 text-right" defaultValue="$ 0" />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm">Clothing:</Label>
+                    <Input className="h-8 w-20 text-right" defaultValue="$ 0" />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm">Utilities:</Label>
+                    <Input className="h-8 w-20 text-right" defaultValue="$ 0" />
+                  </div>
+                </fieldset>
+
+                <fieldset className="border border-border rounded-lg p-4 space-y-3">
+                  <legend className="text-sm font-medium px-2">Taxes</legend>
+                  
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm">Federal:</Label>
+                    <Input className="h-8 w-20 text-right" defaultValue="$ 0" />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm">State:</Label>
+                    <Input className="h-8 w-20 text-right" defaultValue="$ 0" />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm">Other:</Label>
+                    <Input className="h-8 w-20 text-right" defaultValue="$ 0" />
+                  </div>
+                </fieldset>
+              </div>
+
+              {/* Right Column */}
+              <div className="space-y-4">
+                <fieldset className="border border-border rounded-lg p-4 space-y-3">
+                  <legend className="text-sm font-medium px-2">Other Expenses</legend>
+                  
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm">Insurance:</Label>
+                    <Input className="h-8 w-20 text-right" defaultValue="$ 0" />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm">Medical:</Label>
+                    <Input className="h-8 w-20 text-right" defaultValue="$ 0" />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm">Transportation:</Label>
+                    <Input className="h-8 w-20 text-right" defaultValue="$ 0" />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm">Entertainment:</Label>
+                    <Input className="h-8 w-20 text-right" defaultValue="$ 0" />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm">Education:</Label>
+                    <Input className="h-8 w-20 text-right" defaultValue="$ 0" />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm">Debt repayment:</Label>
+                    <Input className="h-8 w-20 text-right" defaultValue="$ 0" />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm">Personal:</Label>
+                    <Input className="h-8 w-20 text-right" defaultValue="$ 0" />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm">Other:</Label>
+                    <Input className="h-8 w-20 text-right" defaultValue="$ 0" />
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+
+            <fieldset className="border border-border rounded-lg p-4 space-y-3">
+              <legend className="text-sm font-medium px-2">Monthly Savings</legend>
+              
+              <div className="flex items-center justify-between">
+                <Label className="text-sm">Education:</Label>
+                <Input className="h-8 w-20 text-right" defaultValue="$ 0" />
+              </div>
+              <div className="flex items-center justify-between">
+                <Label className="text-sm">Retirement:</Label>
+                <Input className="h-8 w-20 text-right" defaultValue="$ 0" />
+              </div>
+              <div className="flex items-center justify-between">
+                <Label className="text-sm">Other:</Label>
+                <Input className="h-8 w-20 text-right" defaultValue="$ 0" />
+              </div>
+            </fieldset>
           </TabsContent>
 
           <TabsContent value="retirement" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Retirement Assets</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="paul-retirement-assets">Paul's Retirement Assets</Label>
-                  <Input 
-                    id="paul-retirement-assets" 
-                    type="number" 
-                    value={sharedInputs.paulRetirementAssets}
-                    onChange={(e) => updateSharedInput('paulRetirementAssets', Number(e.target.value))}
-                    placeholder="136000"
-                  />
+            <div className="grid grid-cols-2 gap-6">
+              {/* Client 1 */}
+              <div>
+                <h3 className="text-sm font-medium mb-4">Client 1</h3>
+                <div className="border border-border rounded-lg overflow-hidden">
+                  <div className="bg-muted p-2 grid grid-cols-3 gap-2 text-xs font-medium">
+                    <div>Account Name</div>
+                    <div className="text-center">Balance</div>
+                    <div className="text-center">Annual ROR</div>
+                  </div>
+                  {Array.from({ length: 7 }, (_, i) => (
+                    <div key={i} className="p-2 grid grid-cols-3 gap-2 border-t border-border">
+                      <Input className="h-7 text-xs" />
+                      <div className="flex items-center justify-center">
+                        <Input className="h-7 w-16 text-xs text-right" defaultValue="$ 0" />
+                      </div>
+                      <div className="flex items-center justify-center space-x-1">
+                        <Input className="h-7 w-8 text-xs text-right" defaultValue="0" />
+                        <span className="text-xs">%</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div>
-                  <Label htmlFor="sally-retirement-assets">Sally's Retirement Assets</Label>
-                  <Input 
-                    id="sally-retirement-assets" 
-                    type="number" 
-                    value={sharedInputs.sallyRetirementAssets}
-                    onChange={(e) => updateSharedInput('sallyRetirementAssets', Number(e.target.value))}
-                    placeholder="76500"
-                  />
+              </div>
+
+              {/* Client 2 */}
+              <div>
+                <h3 className="text-sm font-medium mb-4">Client 2</h3>
+                <div className="border border-border rounded-lg overflow-hidden">
+                  <div className="bg-muted p-2 grid grid-cols-3 gap-2 text-xs font-medium">
+                    <div>Account Name</div>
+                    <div className="text-center">Balance</div>
+                    <div className="text-center">Annual ROR</div>
+                  </div>
+                  {Array.from({ length: 7 }, (_, i) => (
+                    <div key={i} className="p-2 grid grid-cols-3 gap-2 border-t border-border">
+                      <Input className="h-7 text-xs text-muted-foreground" disabled />
+                      <div className="flex items-center justify-center">
+                        <Input className="h-7 w-16 text-xs text-right text-muted-foreground" defaultValue="$ 0" disabled />
+                      </div>
+                      <div className="flex items-center justify-center space-x-1">
+                        <Input className="h-7 w-8 text-xs text-right text-muted-foreground" defaultValue="0" disabled />
+                        <span className="text-xs text-muted-foreground">%</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </TabsContent>
 
           <TabsContent value="other" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Other Assets & Liabilities</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="residence">Residence Value</Label>
-                  <Input 
-                    id="residence" 
-                    type="number" 
-                    value={sharedInputs.residenceValue}
-                    onChange={(e) => updateSharedInput('residenceValue', Number(e.target.value))}
-                    placeholder="700000"
-                  />
+            <div className="border border-border rounded-lg overflow-hidden">
+              <div className="bg-muted p-2 grid grid-cols-4 gap-2 text-xs font-medium">
+                <div>Asset name</div>
+                <div className="text-center">Balance</div>
+                <div className="text-center">Annual ROR</div>
+                <div className="text-center">Asset Debt</div>
+              </div>
+              
+              {/* Regular asset rows */}
+              {Array.from({ length: 8 }, (_, i) => (
+                <div key={i} className="p-2 grid grid-cols-4 gap-2 border-t border-border">
+                  <Input className="h-7 text-xs" />
+                  <div className="flex items-center justify-center">
+                    <Input className="h-7 w-16 text-xs text-right" defaultValue="$ 0" />
+                  </div>
+                  <div className="flex items-center justify-center space-x-1">
+                    <Input className="h-7 w-8 text-xs text-right" defaultValue="0" />
+                    <span className="text-xs">%</span>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <Input className="h-7 w-16 text-xs text-right" defaultValue="$ 0" />
+                  </div>
                 </div>
-                <div>
-                  <Label htmlFor="cash">Cash</Label>
-                  <Input 
-                    id="cash" 
-                    type="number" 
-                    value={sharedInputs.cash}
-                    onChange={(e) => updateSharedInput('cash', Number(e.target.value))}
-                    placeholder="500"
-                  />
+              ))}
+              
+              {/* Cash row */}
+              <div className="p-2 grid grid-cols-4 gap-2 border-t border-border">
+                <div className="flex items-center text-xs font-medium">Cash</div>
+                <div className="flex items-center justify-center">
+                  <Input className="h-7 w-16 text-xs text-right" defaultValue="$ 0" />
                 </div>
-                <div>
-                  <Label htmlFor="other-assets">Other Assets</Label>
-                  <Input 
-                    id="other-assets" 
-                    type="number" 
-                    value={sharedInputs.otherAssets}
-                    onChange={(e) => updateSharedInput('otherAssets', Number(e.target.value))}
-                    placeholder="90000"
-                  />
+                <div className="flex items-center justify-center space-x-1">
+                  <Input className="h-7 w-8 text-xs text-right" defaultValue="0" />
+                  <span className="text-xs">%</span>
                 </div>
-                <div>
-                  <Label htmlFor="mortgage">Mortgage</Label>
-                  <Input 
-                    id="mortgage" 
-                    type="number" 
-                    value={sharedInputs.mortgage}
-                    onChange={(e) => updateSharedInput('mortgage', Number(e.target.value))}
-                    placeholder="550000"
-                  />
+                <div></div>
+              </div>
+              
+              {/* Residence/mortgage row */}
+              <div className="p-2 grid grid-cols-4 gap-2 border-t border-border">
+                <div className="flex items-center text-xs font-medium">Residence/mortgage</div>
+                <div className="flex items-center justify-center">
+                  <Input className="h-7 w-16 text-xs text-right" defaultValue="$ 0" />
                 </div>
-                <div>
-                  <Label htmlFor="asset-debt">Asset Debt</Label>
-                  <Input 
-                    id="asset-debt" 
-                    type="number" 
-                    value={sharedInputs.assetDebt}
-                    onChange={(e) => updateSharedInput('assetDebt', Number(e.target.value))}
-                    placeholder="25000"
-                  />
+                <div className="flex items-center justify-center space-x-1">
+                  <Input className="h-7 w-8 text-xs text-right" defaultValue="0" />
+                  <span className="text-xs">%</span>
                 </div>
-              </CardContent>
-            </Card>
+                <div className="flex items-center justify-center">
+                  <Input className="h-7 w-16 text-xs text-right" defaultValue="$ 0" />
+                </div>
+              </div>
+              
+              {/* Other Debt row */}
+              <div className="p-2 grid grid-cols-4 gap-2 border-t border-border">
+                <div className="flex items-center text-xs font-medium">Other Debt</div>
+                <div></div>
+                <div></div>
+                <div className="flex items-center justify-center">
+                  <Input className="h-7 w-16 text-xs text-right" defaultValue="$ 0" />
+                </div>
+              </div>
+            </div>
           </TabsContent>
 
           <TabsContent value="assumptions" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Analysis Date</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="analysis-date">Analysis Date</Label>
+            <fieldset className="border border-border rounded-lg p-4 space-y-4">
+              <legend className="text-sm font-medium px-2">Applicable to all analyses</legend>
+              
+              <div className="flex items-center space-x-2">
+                <Label className="text-sm">Analysis date:</Label>
+                <div className="flex-1 flex justify-end">
                   <Input 
-                    id="analysis-date" 
+                    className="h-8 w-32" 
                     type="date" 
-                    value={sharedInputs.analysisDate}
-                    onChange={(e) => updateSharedInput('analysisDate', e.target.value)}
+                    defaultValue="2025-09-23"
                   />
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </fieldset>
           </TabsContent>
         </div>
       </Tabs>
