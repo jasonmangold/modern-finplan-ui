@@ -84,42 +84,42 @@ interface SharedInputs {
   plannedMonthlySavings: string;
   
   // Income Sources shared data
-  client1EmploymentIncome: string;
-  client2EmploymentIncome: string;
-  client1SocialSecurity: string;
-  client2SocialSecurity: string;
+  Client1_AnnualSalary: string;
+  Client2_AnnualSalary: string;
+  Client1_SocialSecurityCalculation: string;
+  Client2_SocialSecurityCalculation: string;
   client1SSStartAge: string;
   client2SSStartAge: string;
   otherIncomeSources: Array<{
-    name: string;
-    type: string;
-    owner: string;
-    startAge: string;
-    amount: string;
-    frequency: string;
-    valueType: string;
-    payableFor: string;
-    endAge: string;
-    inflationRate: string;
-    percentAvailableToSurvivors: string;
+    Name: string;
+    TypeOfIncome: string;
+    Owner1BasedIndex: string;
+    StartAge: string;
+    Amount: string;
+    IncomeTimeFrame: string;
+    Period: string;
+    PayableForLife: string;
+    EndAge: string;
+    AnnualInflationRate: string;
+    PercentAvailableToSurvivor: string;
   }>;
   
   // Capital shared data
-  client1RetirementBalance: string;
-  client2RetirementBalance: string;
-  client1MonthlyContributions: string;
-  client2MonthlyContributions: string;
-  client1CompanyMatch: string;
-  client2CompanyMatch: string;
-  client1AnnualIncrease: string;
-  client2AnnualIncrease: string;
-  client1ROR: string;
-  client2ROR: string;
+  Client1_RPBalance: string;
+  Client2_RPBalance: string;
+  Client1_RPMonthlyContribution: string;
+  Client2_RPMonthlyContribution: string;
+  Client1_RPCompanyMatch: string;
+  Client2_RPCompanyMatch: string;
+  Client1_RPAnnualIncrease: string;
+  Client2_RPAnnualIncrease: string;
+  Client1_RPRateOfReturn: string;
+  Client2_RPRateOfReturn: string;
   
   // Other Assets
-  otherAssetsBalance: string;
-  otherAssetsMonthlyContributions: string;
-  otherAssetsROR: string;
+  OtherAssetBalance: string;
+  OtherAssetMonthlyContribution: string;
+  OtherAssetRoR: string;
   
   // Survivor needs specific fields
   delayRetirementFunds: boolean;
@@ -132,15 +132,15 @@ interface SharedInputs {
   otherDebt: string;
   
   // Assumptions shared data
-  analysisDate: string;
-  client1MortalityAge: string;
-  client2MortalityAge: string;
-  inflationRate: string;
-  client1EmploymentInflationRate: string;
-  client2EmploymentInflationRate: string;
-  educationInflationRate: string;
-  educationROR: string;
-  ssBenefitInflationRate: string;
+  AnalysisDate: string;
+  MortalityAge: string;
+  MortalityAgeOfClient2: string;
+  AnnualInflationRate: string;
+  Client1_AnnualEmploymentInflationRate: string;
+  Client2_AnnualEmploymentInflationRate: string;
+  AnnualEducationInflationRate: string;
+  RateOfReturnOnEducationAssets: string;
+  AnnualSocialSecurityBenefitInflationRate: string;
   incomeTaxRate: string;
   
   // Business Continuation fields
@@ -472,26 +472,26 @@ const initialSharedInputs: SharedInputs = {
   percentageToFund: '100',
   amountCurrentlySaved: '',
   plannedMonthlySavings: '',
-  client1EmploymentIncome: '',
-  client2EmploymentIncome: '',
-  client1SocialSecurity: '',
-  client2SocialSecurity: '',
+  Client1_AnnualSalary: '',
+  Client2_AnnualSalary: '',
+  Client1_SocialSecurityCalculation: '',
+  Client2_SocialSecurityCalculation: '',
   client1SSStartAge: '67',
   client2SSStartAge: '67',
   otherIncomeSources: [],
-  client1RetirementBalance: '',
-  client2RetirementBalance: '',
-  client1MonthlyContributions: '',
-  client2MonthlyContributions: '',
-  client1CompanyMatch: '',
-  client2CompanyMatch: '',
-  client1AnnualIncrease: '',
-  client2AnnualIncrease: '',
-  client1ROR: '',
-  client2ROR: '',
-  otherAssetsBalance: '',
-  otherAssetsMonthlyContributions: '',
-  otherAssetsROR: '',
+  Client1_RPBalance: '',
+  Client2_RPBalance: '',
+  Client1_RPMonthlyContribution: '',
+  Client2_RPMonthlyContribution: '',
+  Client1_RPCompanyMatch: '',
+  Client2_RPCompanyMatch: '',
+  Client1_RPAnnualIncrease: '',
+  Client2_RPAnnualIncrease: '',
+  Client1_RPRateOfReturn: '',
+  Client2_RPRateOfReturn: '',
+  OtherAssetBalance: '',
+  OtherAssetMonthlyContribution: '',
+  OtherAssetRoR: '',
   delayRetirementFunds: false,
   cashAndOtherAssets: '',
   cash: '',
@@ -500,7 +500,7 @@ const initialSharedInputs: SharedInputs = {
   client2LifeInsurance: '',
   mortgageBalance: '',
   otherDebt: '',
-  analysisDate: new Date().toISOString().split('T')[0],
+  AnalysisDate: new Date().toISOString().split('T')[0],
   
   // Business Continuation fields
   businessOwnerName: '',
@@ -522,14 +522,42 @@ const initialSharedInputs: SharedInputs = {
   premiumAnnualIncreaseRate: 0,
   lifeInsuranceDeathBenefitIncreaseRate: 0,
   
-  client1MortalityAge: '90',
-  client2MortalityAge: '90',
-  inflationRate: '3.0%',
-  client1EmploymentInflationRate: '3.0%',
-  client2EmploymentInflationRate: '3.0%',
-  educationInflationRate: '5.0%',
-  educationROR: '7.0%',
-  ssBenefitInflationRate: '2.5%',
+  MortalityAge: '90',
+  MortalityAgeOfClient2: '90',
+  AnnualInflationRate: '3.0%',
+  Client1_AnnualEmploymentInflationRate: '3.0%',
+  Client2_AnnualEmploymentInflationRate: '3.0%',
+  AnnualEducationInflationRate: '5.0%',
+  RateOfReturnOnEducationAssets: '7.0%',
+  AnnualSocialSecurityBenefitInflationRate: '2.5%',
+  // Income Needs fields
+  AtRetirementUsePercent: false,
+  AtRetirementFlatAmount: '',
+  AtRetirementPercentOfIncome: '',
+  
+  XYearsAfterRetiredYearsAfter: '',
+  XYearsAfterRetiredUsePercent: false,
+  XYearsAfterRetiredFlatAmount: '',
+  XYearsAfterRetiredPercentOfIncome: '',
+  
+  YYearsAfterRetiredYearsAfter: '',
+  YYearsAfterRetiredUsePercent: false,
+  YYearsAfterRetiredFlatAmount: '',
+  YYearsAfterRetiredPercentOfIncome: '',
+  
+  // Social Security and other fields
+  UseOptimizer: false,
+  Client1_SocialSecurityMonthlyRetirementBenefit: '',
+  Client1_SocialSecurityMonthlySurvivorBenefit: '',
+  Client2_SocialSecurityMonthlyRetirementBenefit: '',
+  Client2_SocialSecurityMonthlySurvivorBenefit: '',
+  SocialSecurityTaxablePercent: '',
+  
+  FinalExpenses: '',
+  RetirementRateOfReturn: '',
+  RetirementSolutionRateOfReturn: '',
+  RetirementMonthsSinceLastReview: '',
+  
   incomeTaxRate: '0',
   client1AlternateAge1: '',
   client1AlternateAge2: '',
