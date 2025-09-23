@@ -14,13 +14,19 @@ interface ClientData {
 
 interface SharedInputs {
   // Personal data shared across goals
-  client1Name: string;
-  client1DateOfBirth: string;
-  client1RetirementAge: string;
-  client2Name: string;
-  client2DateOfBirth: string;
-  client2RetirementAge: string;
-  isMarried: boolean;
+  Client1_FirstName: string;
+  Client1_MiddleName: string;
+  Client1_LastName: string;
+  Client1_BirthDate: string;
+  Client1_RetirementAge: string;
+  Client1_SocialSecurityPaymentsStartAge: string;
+  Client2_FirstName: string;
+  Client2_MiddleName: string;
+  Client2_LastName: string;
+  Client2_BirthDate: string;
+  Client2_RetirementAge: string;
+  Client2_SocialSecurityPaymentsStartAge: string;
+  ClientsAreMarried: boolean;
   hasClient2: boolean;
   
   // Additional personal info fields
@@ -412,13 +418,19 @@ const predefinedClients: Record<string, ClientData> = {
 };
 
 const initialSharedInputs: SharedInputs = {
-  client1Name: '',
-  client1DateOfBirth: '',
-  client1RetirementAge: '67',
-  client2Name: '',
-  client2DateOfBirth: '',
-  client2RetirementAge: '67',
-  isMarried: false,
+  Client1_FirstName: '',
+  Client1_MiddleName: '',
+  Client1_LastName: '',
+  Client1_BirthDate: '',
+  Client1_RetirementAge: '67',
+  Client1_SocialSecurityPaymentsStartAge: '67',
+  Client2_FirstName: '',
+  Client2_MiddleName: '',
+  Client2_LastName: '',
+  Client2_BirthDate: '',
+  Client2_RetirementAge: '67',
+  Client2_SocialSecurityPaymentsStartAge: '67',
+  ClientsAreMarried: false,
   hasClient2: false,
   
   // Additional personal info fields
