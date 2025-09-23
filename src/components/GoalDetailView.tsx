@@ -240,6 +240,19 @@ const goalConfigs = {
       "Cost Analysis"
     ],
     defaultOutput: "Coverage Assessment"
+  },
+  "social-security": {
+    title: "Social Security Analysis",
+    icon: Shield,
+    color: "text-blue-600",
+    description: "Optimize Social Security benefits and claiming strategies",
+    outputs: [
+      "Benefit Analysis",
+      "Claiming Strategies",
+      "Optimization Report",
+      "Timeline Projections"
+    ],
+    defaultOutput: "Benefit Analysis"
   }
 };
 interface GoalDetailViewProps {
