@@ -201,6 +201,19 @@ const goalConfigs = {
       "Succession Planning"
     ],
     defaultOutput: "Business Valuation Analysis"
+  },
+  "business-valuation": {
+    title: "Business Valuation",
+    icon: Target,
+    color: "text-indigo-600",
+    description: "Comprehensive business valuation analysis and projections",
+    outputs: [
+      "Valuation Summary",
+      "Income Approach",
+      "Asset Approach",
+      "Market Approach"
+    ],
+    defaultOutput: "Valuation Summary"
   }
 };
 interface GoalDetailViewProps {
