@@ -62,23 +62,32 @@ export const DisabilityInputs = () => {
             <CardContent className="pt-0 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-sm font-medium text-foreground">Client 1 Name</Label>
+                  <Label className="text-sm font-medium text-foreground">Client 1 First Name</Label>
                   <Input 
-                    value={sharedInputs.client1Name}
-                    onChange={(e) => updateSharedInput('client1Name', e.target.value)}
-                    placeholder="Enter client 1 name" 
+                    value={sharedInputs.Client1_FirstName}
+                    onChange={(e) => updateSharedInput('Client1_FirstName', e.target.value)}
+                    placeholder="First name" 
                     className="mt-1.5 h-9" 
                   />
                 </div>
                 <div>
-                  <Label className="text-sm font-medium text-foreground">Client 1 Date of Birth</Label>
+                  <Label className="text-sm font-medium text-foreground">Client 1 Last Name</Label>
                   <Input 
-                    type="date"
-                    value={sharedInputs.client1DateOfBirth}
-                    onChange={(e) => updateSharedInput('client1DateOfBirth', e.target.value)}
+                    value={sharedInputs.Client1_LastName}
+                    onChange={(e) => updateSharedInput('Client1_LastName', e.target.value)}
+                    placeholder="Last name" 
                     className="mt-1.5 h-9" 
                   />
                 </div>
+              </div>
+              <div>
+                <Label className="text-sm font-medium text-foreground">Client 1 Date of Birth</Label>
+                <Input 
+                  type="date"
+                  value={sharedInputs.Client1_BirthDate}
+                  onChange={(e) => updateSharedInput('Client1_BirthDate', e.target.value)}
+                  className="mt-1.5 h-9" 
+                />
               </div>
 
               <div className="flex items-center space-x-2">
@@ -94,23 +103,32 @@ export const DisabilityInputs = () => {
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label className="text-sm font-medium text-foreground">Client 2 Name</Label>
+                      <Label className="text-sm font-medium text-foreground">Client 2 First Name</Label>
                       <Input 
-                        value={sharedInputs.client2Name}
-                        onChange={(e) => updateSharedInput('client2Name', e.target.value)}
-                        placeholder="Enter client 2 name" 
+                        value={sharedInputs.Client2_FirstName}
+                        onChange={(e) => updateSharedInput('Client2_FirstName', e.target.value)}
+                        placeholder="First name" 
                         className="mt-1.5 h-9" 
                       />
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-foreground">Client 2 Date of Birth</Label>
+                      <Label className="text-sm font-medium text-foreground">Client 2 Last Name</Label>
                       <Input 
-                        type="date"
-                        value={sharedInputs.client2DateOfBirth}
-                        onChange={(e) => updateSharedInput('client2DateOfBirth', e.target.value)}
+                        value={sharedInputs.Client2_LastName}
+                        onChange={(e) => updateSharedInput('Client2_LastName', e.target.value)}
+                        placeholder="Last name" 
                         className="mt-1.5 h-9" 
                       />
                     </div>
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-foreground">Client 2 Date of Birth</Label>
+                    <Input 
+                      type="date"
+                      value={sharedInputs.Client2_BirthDate}
+                      onChange={(e) => updateSharedInput('Client2_BirthDate', e.target.value)}
+                      className="mt-1.5 h-9" 
+                    />
                   </div>
                 </div>
               )}

@@ -38,11 +38,20 @@ export const LongTermCareInputs = () => {
                 <Label className="text-sm font-medium text-muted-foreground">Client 1</Label>
                 <div className="grid grid-cols-3 gap-4">
                   <div>
-                    <Label className="text-sm">Name:</Label>
+                    <Label className="text-sm">First Name:</Label>
                     <Input 
-                      value={sharedInputs.client1Name}
-                      onChange={(e) => updateSharedInput('client1Name', e.target.value)}
-                      placeholder="Enter name" 
+                      value={sharedInputs.Client1_FirstName}
+                      onChange={(e) => updateSharedInput('Client1_FirstName', e.target.value)}
+                      placeholder="First name" 
+                      className="mt-1" 
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm">Last Name:</Label>
+                    <Input 
+                      value={sharedInputs.Client1_LastName}
+                      onChange={(e) => updateSharedInput('Client1_LastName', e.target.value)}
+                      placeholder="Last name" 
                       className="mt-1" 
                     />
                   </div>
@@ -50,16 +59,16 @@ export const LongTermCareInputs = () => {
                     <Label className="text-sm">Date of birth:</Label>
                     <Input 
                       type="date"
-                      value={sharedInputs.client1DateOfBirth}
-                      onChange={(e) => updateSharedInput('client1DateOfBirth', e.target.value)}
+                      value={sharedInputs.Client1_BirthDate}
+                      onChange={(e) => updateSharedInput('Client1_BirthDate', e.target.value)}
                       className="mt-1" 
                     />
                   </div>
                   <div>
                     <Label className="text-sm">Retirement age:</Label>
                     <Input 
-                      value={sharedInputs.client1RetirementAge}
-                      onChange={(e) => updateSharedInput('client1RetirementAge', e.target.value)}
+                      value={sharedInputs.Client1_RetirementAge}
+                      onChange={(e) => updateSharedInput('Client1_RetirementAge', e.target.value)}
                       placeholder="65" 
                       className="mt-1" 
                     />
@@ -72,11 +81,20 @@ export const LongTermCareInputs = () => {
                 <Label className="text-sm font-medium text-muted-foreground">Client 2</Label>
                 <div className="grid grid-cols-3 gap-4">
                   <div>
-                    <Label className="text-sm">Name:</Label>
+                    <Label className="text-sm">First Name:</Label>
                     <Input 
-                      value={sharedInputs.client2Name}
-                      onChange={(e) => updateSharedInput('client2Name', e.target.value)}
-                      placeholder="Enter name" 
+                      value={sharedInputs.Client2_FirstName}
+                      onChange={(e) => updateSharedInput('Client2_FirstName', e.target.value)}
+                      placeholder="First name" 
+                      className="mt-1" 
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm">Last Name:</Label>
+                    <Input 
+                      value={sharedInputs.Client2_LastName}
+                      onChange={(e) => updateSharedInput('Client2_LastName', e.target.value)}
+                      placeholder="Last name" 
                       className="mt-1" 
                     />
                   </div>
@@ -84,16 +102,16 @@ export const LongTermCareInputs = () => {
                     <Label className="text-sm">Date of birth:</Label>
                     <Input 
                       type="date"
-                      value={sharedInputs.client2DateOfBirth}
-                      onChange={(e) => updateSharedInput('client2DateOfBirth', e.target.value)}
+                      value={sharedInputs.Client2_BirthDate}
+                      onChange={(e) => updateSharedInput('Client2_BirthDate', e.target.value)}
                       className="mt-1" 
                     />
                   </div>
                   <div>
                     <Label className="text-sm">Retirement age:</Label>
                     <Input 
-                      value={sharedInputs.client2RetirementAge}
-                      onChange={(e) => updateSharedInput('client2RetirementAge', e.target.value)}
+                      value={sharedInputs.Client2_RetirementAge}
+                      onChange={(e) => updateSharedInput('Client2_RetirementAge', e.target.value)}
                       placeholder="65" 
                       className="mt-1" 
                     />

@@ -45,27 +45,57 @@ export const EstateAnalysisInputs = () => {
               <div className="space-y-4">
                 <div className="space-y-3 p-3 border rounded-md">
                   <Label className="text-sm font-medium text-muted-foreground">Personal Information</Label>
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-4 gap-4">
                     <div>
-                      <Label className="text-sm">Client 1 name:</Label>
+                      <Label className="text-sm">Client 1 first name:</Label>
                       <Input 
-                        value={sharedInputs.client1Name}
-                        onChange={(e) => updateSharedInput('client1Name', e.target.value)}
-                        placeholder="Enter name" 
+                        value={sharedInputs.Client1_FirstName}
+                        onChange={(e) => updateSharedInput('Client1_FirstName', e.target.value)}
+                        placeholder="First name" 
                         className="mt-1" 
                       />
                     </div>
                     <div>
-                      <Label className="text-sm">Client 2 name:</Label>
+                      <Label className="text-sm">Client 1 last name:</Label>
                       <Input 
-                        value={sharedInputs.client2Name}
-                        onChange={(e) => updateSharedInput('client2Name', e.target.value)}
-                        placeholder="Enter name" 
+                        value={sharedInputs.Client1_LastName}
+                        onChange={(e) => updateSharedInput('Client1_LastName', e.target.value)}
+                        placeholder="Last name" 
+                        className="mt-1" 
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm">Client 2 first name:</Label>
+                      <Input 
+                        value={sharedInputs.Client2_FirstName}
+                        onChange={(e) => updateSharedInput('Client2_FirstName', e.target.value)}
+                        placeholder="First name" 
+                        className="mt-1" 
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm">Client 2 last name:</Label>
+                      <Input 
+                        value={sharedInputs.Client2_LastName}
+                        onChange={(e) => updateSharedInput('Client2_LastName', e.target.value)}
+                        placeholder="Last name" 
                         className="mt-1" 
                       />
                     </div>
                   </div>
-                  
+
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="estateMarried" 
+                      checked={sharedInputs.ClientsAreMarried}
+                      onCheckedChange={(checked) => updateSharedInput('ClientsAreMarried', checked)}
+                    />
+                    <Label htmlFor="estateMarried" className="text-sm">Clients are married</Label>
+                  </div>
+                </div>
+
+                <div className="space-y-3 p-3 border rounded-md">
+                  <Label className="text-sm font-medium text-muted-foreground">Death Assumptions</Label>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label className="text-sm">Number of years until Client 1's death:</Label>
@@ -90,8 +120,8 @@ export const EstateAnalysisInputs = () => {
                   <div className="flex items-center space-x-2">
                     <Checkbox 
                       id="estateMarried" 
-                      checked={sharedInputs.isMarried}
-                      onCheckedChange={(checked) => updateSharedInput('isMarried', checked)}
+                      checked={sharedInputs.ClientsAreMarried}
+                      onCheckedChange={(checked) => updateSharedInput('ClientsAreMarried', checked)}
                     />
                     <Label htmlFor="estateMarried" className="text-sm">Clients are married</Label>
                   </div>
