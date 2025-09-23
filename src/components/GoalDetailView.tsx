@@ -136,6 +136,19 @@ const goalConfigs = {
       "Funding Strategies"
     ],
     defaultOutput: "Care Assessment"
+  },
+  "estate-analysis": {
+    title: "Estate Analysis",
+    icon: Shield,
+    color: "text-indigo-600",
+    description: "Analyze estate tax implications and planning strategies",
+    outputs: [
+      "Estate Tax Planning",
+      "Trust Analysis", 
+      "Wealth Transfer",
+      "Tax Strategies"
+    ],
+    defaultOutput: "Estate Tax Planning"
   }
 };
 interface GoalDetailViewProps {

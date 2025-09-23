@@ -166,6 +166,60 @@ interface SharedInputs {
   ltcAgeCareBeginsAge: string;
   ltcCareDurationYears: string;
   ltcInflationRate: string;
+  
+  // Estate Analysis fields
+  estateClient1YearsUntilDeath: string;
+  estateClient2YearsUntilDeath: string;
+  estateClient1RetirementBalance: string;
+  estateClient1RetirementRate: string;
+  estateClient2RetirementBalance: string;
+  estateClient2RetirementRate: string;
+  estateOtherAssetsBalance: string;
+  estateOtherAssetsJoint: string;
+  estateOtherAssetsNonJoint: string;
+  estateOtherAssetsOwnershipClient1: string;
+  estateOtherAssetsOwnershipClient2: string;
+  estateOtherAssetsRate: string;
+  estateCashBalance: string;
+  estateCashJoint: string;
+  estateCashNonJoint: string;
+  estateCashOwnershipClient1: string;
+  estateCashOwnershipClient2: string;
+  estateCashRate: string;
+  estateResidenceBalance: string;
+  estateResidenceJoint: string;
+  estateResidenceNonJoint: string;
+  estateResidenceOwnershipClient1: string;
+  estateResidenceOwnershipClient2: string;
+  estateResidenceRate: string;
+  estateMortgageBalance: string;
+  estateMortgageOwnershipClient1: string;
+  estateMortgageOwnershipClient2: string;
+  estateOtherDebtBalance: string;
+  estateOtherDebtOwnershipClient1: string;
+  estateOtherDebtOwnershipClient2: string;
+  estateBequestsClient1Death: string;
+  estateBequestsClient2Death: string;
+  estateExclusionAmount: string;
+  estateLifeInsClient1BenefitSurviving: string;
+  estateLifeInsClient1BenefitOther: string;
+  estateLifeInsClient2BenefitSurviving: string;
+  estateLifeInsClient2BenefitOther: string;
+  estateLifeInsNotOwnedClient1: string;
+  estateLifeInsNotOwnedClient2: string;
+  estateNewInsurancePremium: string;
+  estateYearsToPayPremium: string;
+  estateFinalExpenses: string;
+  estateAssetGrowthRate: string;
+  estateExclusionInflationRate: string;
+  estateProbateFeeDollar: string;
+  estateProbateFeePercent: string;
+  estateAdminFeeDollar: string;
+  estateAdminFeePercent: string;
+  estateStateDeathTaxFirstDollar: string;
+  estateStateDeathTaxFirstPercent: string;
+  estateStateDeathTaxSecondDollar: string;
+  estateStateDeathTaxSecondPercent: string;
 }
 
 interface FormContextType {
@@ -337,7 +391,61 @@ const initialSharedInputs: SharedInputs = {
   ltcRateOfReturn: '',
   ltcAgeCareBeginsAge: '',
   ltcCareDurationYears: '',
-  ltcInflationRate: ''
+  ltcInflationRate: '',
+  
+  // Estate Analysis fields
+  estateClient1YearsUntilDeath: '',
+  estateClient2YearsUntilDeath: '',
+  estateClient1RetirementBalance: '',
+  estateClient1RetirementRate: '',
+  estateClient2RetirementBalance: '',
+  estateClient2RetirementRate: '',
+  estateOtherAssetsBalance: '',
+  estateOtherAssetsJoint: '',
+  estateOtherAssetsNonJoint: '',
+  estateOtherAssetsOwnershipClient1: '',
+  estateOtherAssetsOwnershipClient2: '',
+  estateOtherAssetsRate: '',
+  estateCashBalance: '',
+  estateCashJoint: '',
+  estateCashNonJoint: '',
+  estateCashOwnershipClient1: '',
+  estateCashOwnershipClient2: '',
+  estateCashRate: '',
+  estateResidenceBalance: '',
+  estateResidenceJoint: '',
+  estateResidenceNonJoint: '',
+  estateResidenceOwnershipClient1: '',
+  estateResidenceOwnershipClient2: '',
+  estateResidenceRate: '',
+  estateMortgageBalance: '',
+  estateMortgageOwnershipClient1: '',
+  estateMortgageOwnershipClient2: '',
+  estateOtherDebtBalance: '',
+  estateOtherDebtOwnershipClient1: '',
+  estateOtherDebtOwnershipClient2: '',
+  estateBequestsClient1Death: '',
+  estateBequestsClient2Death: '',
+  estateExclusionAmount: '',
+  estateLifeInsClient1BenefitSurviving: '',
+  estateLifeInsClient1BenefitOther: '',
+  estateLifeInsClient2BenefitSurviving: '',
+  estateLifeInsClient2BenefitOther: '',
+  estateLifeInsNotOwnedClient1: '',
+  estateLifeInsNotOwnedClient2: '',
+  estateNewInsurancePremium: '',
+  estateYearsToPayPremium: '',
+  estateFinalExpenses: '',
+  estateAssetGrowthRate: '',
+  estateExclusionInflationRate: '',
+  estateProbateFeeDollar: '',
+  estateProbateFeePercent: '',
+  estateAdminFeeDollar: '',
+  estateAdminFeePercent: '',
+  estateStateDeathTaxFirstDollar: '',
+  estateStateDeathTaxFirstPercent: '',
+  estateStateDeathTaxSecondDollar: '',
+  estateStateDeathTaxSecondPercent: ''
 };
 
 export const FormProvider = ({ children }: { children: ReactNode }) => {
