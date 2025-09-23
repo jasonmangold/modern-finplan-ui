@@ -18,6 +18,7 @@ import { EstateAnalysisInputs } from "./EstateAnalysisInputs";
 import { AccumulationFundingInputs } from "./AccumulationFundingInputs";
 import { AssetAllocationInputs } from "./AssetAllocationInputs";
 import { CharitableRemainderTrustInputs } from "./CharitableRemainderTrustInputs";
+import { PersonalFinanceInputs } from "./PersonalFinanceInputs";
 import { HelpDialog } from "./HelpDialog";
 import { getHelpText } from "@/data/helpTexts";
 import { useState } from "react";
@@ -209,6 +210,7 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
       {goalId === "accumulation-funding" && <AccumulationFundingInputs />}
       {goalId === "asset-allocation" && <AssetAllocationInputs />}
       {goalId === "charitable-remainder-trust" && <CharitableRemainderTrustInputs />}
+      {goalId === "personal-finance" && <PersonalFinanceInputs />}
       {goalId === "college" && (
         <>
           <div className="flex items-center gap-2 mb-4">

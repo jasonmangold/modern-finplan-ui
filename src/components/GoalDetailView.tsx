@@ -175,6 +175,19 @@ const goalConfigs = {
       "Remainder Calculation"
     ],
     defaultOutput: "CRT Analysis"
+  },
+  "personal-finance": {
+    title: "Personal Finance",
+    icon: Target,
+    color: "text-green-600",
+    description: "Comprehensive personal financial planning and analysis",
+    outputs: [
+      "Financial Summary",
+      "Cash Flow Analysis",
+      "Net Worth Statement",
+      "Budget Planning"
+    ],
+    defaultOutput: "Financial Summary"
   }
 };
 interface GoalDetailViewProps {

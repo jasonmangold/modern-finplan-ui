@@ -23,6 +23,36 @@ interface SharedInputs {
   isMarried: boolean;
   hasClient2: boolean;
   
+  // Additional personal info fields
+  client1Age: number;
+  client2Age: number;
+  client1Gender: string;
+  client2Gender: string;
+  client1LifeExpectancy: number;
+  client2LifeExpectancy: number;
+  
+  // Income fields
+  paulEmploymentIncome: number;
+  sallyEmploymentIncome: number;
+  interestDividends: number;
+  otherIncome: number;
+  
+  // Savings and Expenses
+  educationSavings: number;
+  retirementSavings: number;
+  otherSavings: number;
+  householdExpenses: number;
+  taxes: number;
+  
+  // Retirement Assets
+  paulRetirementAssets: number;
+  sallyRetirementAssets: number;
+  
+  // Other Assets and Liabilities
+  residenceValue: number;
+  mortgage: number;
+  assetDebt: number;
+  
   // Children data from Education Funding
   children: Array<{
     name: string;
@@ -370,6 +400,37 @@ const initialSharedInputs: SharedInputs = {
   client2RetirementAge: '67',
   isMarried: false,
   hasClient2: false,
+  
+  // Additional personal info fields
+  client1Age: 0,
+  client2Age: 0,
+  client1Gender: '',
+  client2Gender: '',
+  client1LifeExpectancy: 90,
+  client2LifeExpectancy: 90,
+  
+  // Income fields
+  paulEmploymentIncome: 0,
+  sallyEmploymentIncome: 0,
+  interestDividends: 0,
+  otherIncome: 0,
+  
+  // Savings and Expenses
+  educationSavings: 0,
+  retirementSavings: 0,
+  otherSavings: 0,
+  householdExpenses: 0,
+  taxes: 0,
+  
+  // Retirement Assets
+  paulRetirementAssets: 0,
+  sallyRetirementAssets: 0,
+  
+  // Other Assets and Liabilities
+  residenceValue: 0,
+  mortgage: 0,
+  assetDebt: 0,
+  
   children: [],
   schoolName: '',
   annualTuitionCost: '',

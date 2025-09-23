@@ -1,18 +1,13 @@
-import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { ArrowLeft } from "lucide-react";
+import { PersonalFinanceInputs } from "./PersonalFinanceInputs";
 
 interface FinancialInventoryProps {
   onBack: () => void;
 }
 
 export const FinancialInventory = ({ onBack }: FinancialInventoryProps) => {
-  const [activeTab, setActiveTab] = useState("personal");
-
   return (
     <div className="h-full flex">
       {/* Left Side - Input Panel */}
@@ -26,201 +21,9 @@ export const FinancialInventory = ({ onBack }: FinancialInventoryProps) => {
           <p className="text-muted-foreground mt-1">Comprehensive financial data collection</p>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="h-[calc(100%-120px)]">
-          <TabsList className="grid w-full grid-cols-3 lg:grid-cols-7 mb-4">
-            <TabsTrigger value="personal" className="text-xs">Personal</TabsTrigger>
-            <TabsTrigger value="income" className="text-xs">Income</TabsTrigger>
-            <TabsTrigger value="savings" className="text-xs">Savings & Expenses</TabsTrigger>
-            <TabsTrigger value="retirement" className="text-xs">Retirement</TabsTrigger>
-            <TabsTrigger value="other" className="text-xs">Other</TabsTrigger>
-            <TabsTrigger value="insurance" className="text-xs">Insurance</TabsTrigger>
-            <TabsTrigger value="assumptions" className="text-xs">Assumptions</TabsTrigger>
-          </TabsList>
-
-          <div className="h-[calc(100%-60px)] overflow-y-auto">
-            <TabsContent value="personal" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Personal Information</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="client1-name">Client 1 Name</Label>
-                      <Input id="client1-name" placeholder="Paul" />
-                    </div>
-                    <div>
-                      <Label htmlFor="client2-name">Client 2 Name</Label>
-                      <Input id="client2-name" placeholder="Sally" />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="client1-age">Client 1 Age</Label>
-                      <Input id="client1-age" type="number" placeholder="45" />
-                    </div>
-                    <div>
-                      <Label htmlFor="client2-age">Client 2 Age</Label>
-                      <Input id="client2-age" type="number" placeholder="42" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="income" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Income Sources</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <Label htmlFor="paul-employment">Paul's Employment Income</Label>
-                    <Input id="paul-employment" type="number" placeholder="65000" />
-                  </div>
-                  <div>
-                    <Label htmlFor="sally-employment">Sally's Employment Income</Label>
-                    <Input id="sally-employment" type="number" placeholder="50000" />
-                  </div>
-                  <div>
-                    <Label htmlFor="interest-dividends">Interest and Dividends</Label>
-                    <Input id="interest-dividends" type="number" placeholder="25000" />
-                  </div>
-                  <div>
-                    <Label htmlFor="other-income">Other Income</Label>
-                    <Input id="other-income" type="number" placeholder="17000" />
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="savings" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Savings & Expenses</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <Label htmlFor="education-savings">Education Savings</Label>
-                    <Input id="education-savings" type="number" placeholder="3600" />
-                  </div>
-                  <div>
-                    <Label htmlFor="retirement-savings">Retirement Savings</Label>
-                    <Input id="retirement-savings" type="number" placeholder="6000" />
-                  </div>
-                  <div>
-                    <Label htmlFor="other-savings">Other Savings</Label>
-                    <Input id="other-savings" type="number" placeholder="4800" />
-                  </div>
-                  <div>
-                    <Label htmlFor="household-expenses">Household Expenses</Label>
-                    <Input id="household-expenses" type="number" placeholder="55908" />
-                  </div>
-                  <div>
-                    <Label htmlFor="taxes">Taxes</Label>
-                    <Input id="taxes" type="number" placeholder="53484" />
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="retirement" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Retirement Assets</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <Label htmlFor="paul-retirement">Paul's Retirement</Label>
-                    <Input id="paul-retirement" type="number" placeholder="136000" />
-                  </div>
-                  <div>
-                    <Label htmlFor="sally-retirement">Sally's Retirement</Label>
-                    <Input id="sally-retirement" type="number" placeholder="76500" />
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="other" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Other Assets & Liabilities</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <Label htmlFor="residence">Residence Value</Label>
-                    <Input id="residence" type="number" placeholder="700000" />
-                  </div>
-                  <div>
-                    <Label htmlFor="cash">Cash</Label>
-                    <Input id="cash" type="number" placeholder="500" />
-                  </div>
-                  <div>
-                    <Label htmlFor="other-assets">Other Assets</Label>
-                    <Input id="other-assets" type="number" placeholder="90000" />
-                  </div>
-                  <div>
-                    <Label htmlFor="mortgage">Mortgage</Label>
-                    <Input id="mortgage" type="number" placeholder="550000" />
-                  </div>
-                  <div>
-                    <Label htmlFor="asset-debt">Asset Debt</Label>
-                    <Input id="asset-debt" type="number" placeholder="25000" />
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="insurance" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Insurance Coverage</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <Label htmlFor="paul-life">Paul's Life Insurance</Label>
-                    <Input id="paul-life" type="number" placeholder="65000" />
-                  </div>
-                  <div>
-                    <Label htmlFor="paul-disability">Paul's Disability Insurance</Label>
-                    <Input id="paul-disability" type="number" placeholder="0" />
-                  </div>
-                  <div>
-                    <Label htmlFor="sally-life">Sally's Life Insurance</Label>
-                    <Input id="sally-life" type="number" placeholder="50000" />
-                  </div>
-                  <div>
-                    <Label htmlFor="sally-disability">Sally's Disability Insurance</Label>
-                    <Input id="sally-disability" type="number" placeholder="0" />
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="assumptions" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Planning Assumptions</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <Label htmlFor="inflation-rate">Inflation Rate (%)</Label>
-                    <Input id="inflation-rate" type="number" placeholder="3.0" step="0.1" />
-                  </div>
-                  <div>
-                    <Label htmlFor="investment-return">Investment Return (%)</Label>
-                    <Input id="investment-return" type="number" placeholder="7.0" step="0.1" />
-                  </div>
-                  <div>
-                    <Label htmlFor="tax-rate">Tax Rate (%)</Label>
-                    <Input id="tax-rate" type="number" placeholder="25.0" step="0.1" />
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </div>
-        </Tabs>
+        <div className="h-[calc(100%-120px)] overflow-y-auto">
+          <PersonalFinanceInputs />
+        </div>
       </div>
 
       {/* Right Side - Output Panel */}
