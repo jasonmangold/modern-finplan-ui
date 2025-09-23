@@ -162,6 +162,19 @@ const goalConfigs = {
       "Timeline Analysis"
     ],
     defaultOutput: "Savings Plan"
+  },
+  "charitable-remainder-trust": {
+    title: "Charitable Remainder Trust",
+    icon: Shield,
+    color: "text-blue-600",
+    description: "Evaluate charitable remainder trust strategies for tax and legacy planning",
+    outputs: [
+      "CRT Analysis",
+      "Tax Benefits",
+      "Income Stream",
+      "Remainder Calculation"
+    ],
+    defaultOutput: "CRT Analysis"
   }
 };
 interface GoalDetailViewProps {

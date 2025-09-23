@@ -284,6 +284,24 @@ interface SharedInputs {
   riskQuestion7Answer: string;
   riskQuestion8Answer: string;
   riskQuestionnaireScore: string;
+  
+  // Charitable Remainder Trust fields
+  crtDonorName: string;
+  crtFirstIncomeBeneficiary: string;
+  crtFirstBeneficiaryDOB: string;
+  crtSecondIncomeBeneficiary: string;
+  crtSecondBeneficiaryDOB: string;
+  crtTransferDate: string;
+  crtCharitableBeneficiary: string;
+  crtAssetsTransferred: string;
+  crtRateOfReturn: string;
+  crtDurationOfPayments: string;
+  crtTrustTerm: string;
+  crtAnnualIncomeCRAT: string;
+  crtAnnualIncomeCRUT: string;
+  crtIRCSection7520Rate: string;
+  crtLifeInsuranceAmount: string;
+  crtFirstYearPremium: string;
 }
 
 interface FormContextType {
@@ -573,7 +591,25 @@ const initialSharedInputs: SharedInputs = {
   riskQuestion6Answer: '',
   riskQuestion7Answer: '',
   riskQuestion8Answer: '',
-  riskQuestionnaireScore: ''
+  riskQuestionnaireScore: '',
+  
+  // Charitable Remainder Trust fields
+  crtDonorName: '',
+  crtFirstIncomeBeneficiary: '',
+  crtFirstBeneficiaryDOB: '',
+  crtSecondIncomeBeneficiary: '',
+  crtSecondBeneficiaryDOB: '',
+  crtTransferDate: '',
+  crtCharitableBeneficiary: '',
+  crtAssetsTransferred: '',
+  crtRateOfReturn: '',
+  crtDurationOfPayments: '',
+  crtTrustTerm: '',
+  crtAnnualIncomeCRAT: '',
+  crtAnnualIncomeCRUT: '',
+  crtIRCSection7520Rate: '',
+  crtLifeInsuranceAmount: '',
+  crtFirstYearPremium: ''
 };
 
 export const FormProvider = ({ children }: { children: ReactNode }) => {

@@ -17,6 +17,7 @@ import { LongTermCareInputs } from "./LongTermCareInputs";
 import { EstateAnalysisInputs } from "./EstateAnalysisInputs";
 import { AccumulationFundingInputs } from "./AccumulationFundingInputs";
 import { AssetAllocationInputs } from "./AssetAllocationInputs";
+import { CharitableRemainderTrustInputs } from "./CharitableRemainderTrustInputs";
 import { HelpDialog } from "./HelpDialog";
 import { getHelpText } from "@/data/helpTexts";
 import { useState } from "react";
@@ -207,6 +208,7 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
       {goalId === "estate-analysis" && <EstateAnalysisInputs />}
       {goalId === "accumulation-funding" && <AccumulationFundingInputs />}
       {goalId === "asset-allocation" && <AssetAllocationInputs />}
+      {goalId === "charitable-remainder-trust" && <CharitableRemainderTrustInputs />}
       {goalId === "college" && (
         <>
           <div className="flex items-center gap-2 mb-4">
@@ -229,7 +231,7 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
           />
         </>
       )}
-      {(goalId !== "college" && goalId !== "retirement" && goalId !== "education-funding" && goalId !== "retirement-accumulation" && goalId !== "survivor-needs" && goalId !== "retirement-distribution" && goalId !== "social-security" && goalId !== "disability" && goalId !== "debt-repayment" && goalId !== "critical-illness" && goalId !== "long-term-care" && goalId !== "estate-analysis" && goalId !== "accumulation-funding" && goalId !== "asset-allocation") && (
+      {(goalId !== "college" && goalId !== "retirement" && goalId !== "education-funding" && goalId !== "retirement-accumulation" && goalId !== "survivor-needs" && goalId !== "retirement-distribution" && goalId !== "social-security" && goalId !== "disability" && goalId !== "debt-repayment" && goalId !== "critical-illness" && goalId !== "long-term-care" && goalId !== "estate-analysis" && goalId !== "accumulation-funding" && goalId !== "asset-allocation" && goalId !== "charitable-remainder-trust") && (
         <>
           <div className="flex items-center gap-2 mb-4">
             <h2 className="text-lg font-semibold text-foreground">Analysis Inputs</h2>
