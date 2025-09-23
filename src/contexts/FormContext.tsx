@@ -105,6 +105,13 @@ interface SharedInputs {
   educationInflationRate: string;
   educationROR: string;
   ssBenefitInflationRate: string;
+  incomeTaxRate: string;
+  
+  // Alternate Social Security ages
+  client1AlternateAge1: string;
+  client1AlternateAge2: string;
+  client2AlternateAge1: string;
+  client2AlternateAge2: string;
 }
 
 interface FormContextType {
@@ -217,7 +224,12 @@ const initialSharedInputs: SharedInputs = {
   client2EmploymentInflationRate: '3.0%',
   educationInflationRate: '5.0%',
   educationROR: '7.0%',
-  ssBenefitInflationRate: '2.5%'
+  ssBenefitInflationRate: '2.5%',
+  incomeTaxRate: '0',
+  client1AlternateAge1: '',
+  client1AlternateAge2: '',
+  client2AlternateAge1: '',
+  client2AlternateAge2: ''
 };
 
 export const FormProvider = ({ children }: { children: ReactNode }) => {
