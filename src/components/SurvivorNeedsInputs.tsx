@@ -50,12 +50,12 @@ export const SurvivorNeedsInputs = () => {
 
   const addChild = () => {
     const newChildren = [...sharedInputs.children, { 
-      name: '', 
-      dateOfBirth: '',
+      StudentName: '', 
+      StudentBirth: '',
       schools: [],
-      percentageToFund: '100',
-      amountCurrentlySaved: '',
-      plannedMonthlySavings: ''
+      EduPercentageToFund: '100',
+      EduAmountCurrentlySaved: '',
+      EduPlannedMonthlySavings: ''
     }];
     updateSharedInput('children', newChildren);
   };
@@ -74,10 +74,10 @@ export const SurvivorNeedsInputs = () => {
   const addSchool = (childIndex: number) => {
     const newChildren = [...sharedInputs.children];
     newChildren[childIndex].schools.push({
-      schoolName: '',
-      annualTuitionCost: '',
-      ageWhenSchoolBegins: '18',
-      numberOfYearsInSchool: '4'
+      CollegeName: '',
+      AnnualCosts: '',
+      AgeWhenSchoolBegins: '18',
+      YearsInSchool: '4'
     });
     updateSharedInput('children', newChildren);
   };
@@ -106,7 +106,7 @@ export const SurvivorNeedsInputs = () => {
 
   const handlePercentageChange = (childIndex: number, value: string) => {
     const formattedValue = formatPercentageInput(value);
-    updateChild(childIndex, 'percentageToFund', formattedValue);
+    updateChild(childIndex, 'EduPercentageToFund', formattedValue);
   };
 
   return (
@@ -281,8 +281,8 @@ export const SurvivorNeedsInputs = () => {
                   <div>
                     <Label className="text-sm">Child {index + 1} Name</Label>
                     <Input 
-                      value={child.name}
-                      onChange={(e) => updateChild(index, 'name', e.target.value)}
+                      value={child.StudentName}
+                      onChange={(e) => updateChild(index, 'StudentName', e.target.value)}
                       placeholder={`Enter child ${index + 1} name`} 
                       className="mt-1" 
                     />
@@ -292,8 +292,8 @@ export const SurvivorNeedsInputs = () => {
                       <Label className="text-sm">Date of Birth</Label>
                       <Input 
                         type="date"
-                        value={child.dateOfBirth}
-                        onChange={(e) => updateChild(index, 'dateOfBirth', e.target.value)}
+                        value={child.StudentBirth}
+                        onChange={(e) => updateChild(index, 'StudentBirth', e.target.value)}
                         className="mt-1" 
                       />
                     </div>
@@ -757,7 +757,7 @@ export const SurvivorNeedsInputs = () => {
               {sharedInputs.children.map((child, index) => (
                 <TabsTrigger key={index} value={`child-${index}`} className="flex items-center gap-2">
                   <GraduationCap className="h-4 w-4 flex-shrink-0" />
-                  <span>{child.name || `Child ${index + 1}`}</span>
+                  <span>{child.StudentName || `Child ${index + 1}`}</span>
                 </TabsTrigger>
               ))}
             </TabsList>
@@ -767,7 +767,7 @@ export const SurvivorNeedsInputs = () => {
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-lg flex items-center justify-between">
-                      Education Planning for {child.name || `Child ${childIndex + 1}`}
+                      Education Planning for {child.StudentName || `Child ${childIndex + 1}`}
                       <Button onClick={() => addSchool(childIndex)} size="sm" variant="outline">
                         <Plus className="h-4 w-4 mr-2" />
                         Add School
@@ -800,8 +800,8 @@ export const SurvivorNeedsInputs = () => {
                             <div>
                               <Label className="text-sm">School Name</Label>
                               <Input 
-                                value={school.schoolName}
-                                onChange={(e) => updateSchool(childIndex, schoolIndex, 'schoolName', e.target.value)}
+                                value={school.CollegeName}
+                                onChange={(e) => updateSchool(childIndex, schoolIndex, 'CollegeName', e.target.value)}
                                 placeholder="Enter school name" 
                                 className="mt-1" 
                               />
@@ -809,8 +809,8 @@ export const SurvivorNeedsInputs = () => {
                             <div>
                               <Label className="text-sm">Annual Tuition Cost</Label>
                               <Input 
-                                value={school.annualTuitionCost}
-                                onChange={(e) => updateSchool(childIndex, schoolIndex, 'annualTuitionCost', e.target.value)}
+                                value={school.AnnualCosts}
+                                onChange={(e) => updateSchool(childIndex, schoolIndex, 'AnnualCosts', e.target.value)}
                                 placeholder="$50,000" 
                                 className="mt-1" 
                               />
@@ -818,8 +818,8 @@ export const SurvivorNeedsInputs = () => {
                             <div>
                               <Label className="text-sm">Age When School Begins</Label>
                               <Input 
-                                value={school.ageWhenSchoolBegins}
-                                onChange={(e) => updateSchool(childIndex, schoolIndex, 'ageWhenSchoolBegins', e.target.value)}
+                                value={school.AgeWhenSchoolBegins}
+                                onChange={(e) => updateSchool(childIndex, schoolIndex, 'AgeWhenSchoolBegins', e.target.value)}
                                 placeholder="18" 
                                 className="mt-1" 
                               />
@@ -827,8 +827,8 @@ export const SurvivorNeedsInputs = () => {
                             <div>
                               <Label className="text-sm">Number of Years in School</Label>
                               <Input 
-                                value={school.numberOfYearsInSchool}
-                                onChange={(e) => updateSchool(childIndex, schoolIndex, 'numberOfYearsInSchool', e.target.value)}
+                                value={school.YearsInSchool}
+                                onChange={(e) => updateSchool(childIndex, schoolIndex, 'YearsInSchool', e.target.value)}
                                 placeholder="4" 
                                 className="mt-1" 
                               />
@@ -849,7 +849,7 @@ export const SurvivorNeedsInputs = () => {
                         <div>
                           <Label className="text-sm">Percent to Fund</Label>
                           <Input 
-                            value={child.percentageToFund}
+                            value={child.EduPercentageToFund}
                             onChange={(e) => handlePercentageChange(childIndex, e.target.value)}
                             placeholder="100%" 
                             className="mt-1" 
@@ -858,8 +858,8 @@ export const SurvivorNeedsInputs = () => {
                         <div>
                           <Label className="text-sm">Amount Currently Saved</Label>
                           <Input 
-                            value={child.amountCurrentlySaved}
-                            onChange={(e) => updateChild(childIndex, 'amountCurrentlySaved', e.target.value)}
+                            value={child.EduAmountCurrentlySaved}
+                            onChange={(e) => updateChild(childIndex, 'EduAmountCurrentlySaved', e.target.value)}
                             placeholder="$10,000" 
                             className="mt-1" 
                           />
@@ -867,8 +867,8 @@ export const SurvivorNeedsInputs = () => {
                         <div>
                           <Label className="text-sm">Planned Monthly Savings</Label>
                           <Input 
-                            value={child.plannedMonthlySavings}
-                            onChange={(e) => updateChild(childIndex, 'plannedMonthlySavings', e.target.value)}
+                            value={child.EduPlannedMonthlySavings}
+                            onChange={(e) => updateChild(childIndex, 'EduPlannedMonthlySavings', e.target.value)}
                             placeholder="$500" 
                             className="mt-1" 
                           />
