@@ -13,7 +13,17 @@ interface ClientData {
 }
 
 interface SharedInputs {
-  // Personal data shared across goals
+  // Personal data shared across goals (legacy names for compatibility)
+  client1Name: string;
+  client1DateOfBirth: string;
+  client1RetirementAge: string;
+  client2Name: string;
+  client2DateOfBirth: string;
+  client2RetirementAge: string;
+  isMarried: boolean;
+  hasClient2: boolean;
+
+  // New naming convention for Retirement Accumulation
   Client1_FirstName: string;
   Client1_MiddleName: string;
   Client1_LastName: string;
@@ -27,7 +37,6 @@ interface SharedInputs {
   Client2_RetirementAge: string;
   Client2_SocialSecurityPaymentsStartAge: string;
   ClientsAreMarried: boolean;
-  hasClient2: boolean;
   
   // Additional personal info fields
   client1Age: number;
@@ -418,6 +427,17 @@ const predefinedClients: Record<string, ClientData> = {
 };
 
 const initialSharedInputs: SharedInputs = {
+  // Legacy field names for compatibility
+  client1Name: '',
+  client1DateOfBirth: '',
+  client1RetirementAge: '67',
+  client2Name: '',
+  client2DateOfBirth: '',
+  client2RetirementAge: '67',
+  isMarried: false,
+  hasClient2: false,
+
+  // New naming convention for Retirement Accumulation
   Client1_FirstName: '',
   Client1_MiddleName: '',
   Client1_LastName: '',
@@ -431,7 +451,6 @@ const initialSharedInputs: SharedInputs = {
   Client2_RetirementAge: '67',
   Client2_SocialSecurityPaymentsStartAge: '67',
   ClientsAreMarried: false,
-  hasClient2: false,
   
   // Additional personal info fields
   client1Age: 0,
