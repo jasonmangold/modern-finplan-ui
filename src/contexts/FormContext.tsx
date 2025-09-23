@@ -358,6 +358,32 @@ interface SharedInputs {
   crtIRCSection7520Rate: string;
   crtLifeInsuranceAmount: string;
   crtFirstYearPremium: string;
+  
+  // Income Needs fields
+  AtRetirementUsePercent: boolean;
+  AtRetirementFlatAmount: string;
+  AtRetirementPercentOfIncome: string;
+  
+  XYearsAfterRetiredYearsAfter: string;
+  XYearsAfterRetiredUsePercent: boolean;
+  XYearsAfterRetiredFlatAmount: string;
+  XYearsAfterRetiredPercentOfIncome: string;
+  
+  YYearsAfterRetiredYearsAfter: string;
+  YYearsAfterRetiredUsePercent: boolean;
+  YYearsAfterRetiredFlatAmount: string;
+  YYearsAfterRetiredPercentOfIncome: string;
+  
+  UseOptimizer: boolean;
+  Client1_SocialSecurityMonthlyRetirementBenefit: string;
+  Client1_SocialSecurityMonthlySurvivorBenefit: string;
+  Client2_SocialSecurityMonthlyRetirementBenefit: string;
+  Client2_SocialSecurityMonthlySurvivorBenefit: string;
+  SocialSecurityTaxablePercent: string;
+  FinalExpenses: string;
+  RetirementRateOfReturn: string;
+  RetirementSolutionRateOfReturn: string;
+  RetirementMonthsSinceLastReview: string;
 }
 
 interface FormContextType {

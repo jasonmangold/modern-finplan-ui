@@ -452,8 +452,8 @@ export const SocialSecurityInputs = () => {
                 <div>
                   <Label className="text-sm">Mortality age - Client 1:</Label>
                   <Input 
-                    value={sharedInputs.client1MortalityAge || ''}
-                    onChange={(e) => updateSharedInput('client1MortalityAge', e.target.value)}
+                    value={sharedInputs.MortalityAge || ''}
+                     onChange={(e) => updateSharedInput('MortalityAge', e.target.value)}
                     placeholder="90" 
                     className="mt-1" 
                   />
@@ -461,8 +461,8 @@ export const SocialSecurityInputs = () => {
                 <div>
                   <Label className="text-sm">Client 2:</Label>
                   <Input 
-                    value={sharedInputs.client2MortalityAge || ''}
-                    onChange={(e) => updateSharedInput('client2MortalityAge', e.target.value)}
+                    value={sharedInputs.MortalityAgeOfClient2 || ''}
+                     onChange={(e) => updateSharedInput('MortalityAgeOfClient2', e.target.value)}
                     placeholder="90" 
                     className="mt-1" 
                   />
@@ -474,8 +474,8 @@ export const SocialSecurityInputs = () => {
                   <Label className="text-sm">Annual employment inflation rate - Client 1:</Label>
                   <div className="relative mt-1">
                     <Input 
-                      value={sharedInputs.client1EmploymentInflationRate || ''}
-                      onChange={(e) => updateSharedInput('client1EmploymentInflationRate', e.target.value)}
+                      value={sharedInputs.Client1_AnnualEmploymentInflationRate || ''}
+                       onChange={(e) => updateSharedInput('Client1_AnnualEmploymentInflationRate', e.target.value)}
                       placeholder="4" 
                       className="pr-8" 
                     />
@@ -486,8 +486,8 @@ export const SocialSecurityInputs = () => {
                   <Label className="text-sm">Client 2:</Label>
                   <div className="relative mt-1">
                     <Input 
-                      value={sharedInputs.client2EmploymentInflationRate || ''}
-                      onChange={(e) => updateSharedInput('client2EmploymentInflationRate', e.target.value)}
+                      value={sharedInputs.Client2_AnnualEmploymentInflationRate || ''}
+                       onChange={(e) => updateSharedInput('Client2_AnnualEmploymentInflationRate', e.target.value)}
                       placeholder="4" 
                       className="pr-8" 
                     />
@@ -501,8 +501,8 @@ export const SocialSecurityInputs = () => {
                   <Label className="text-sm">Annual social security benefit inflation rate:</Label>
                   <div className="relative mt-1">
                     <Input 
-                      value={sharedInputs.ssBenefitInflationRate || ''}
-                      onChange={(e) => updateSharedInput('ssBenefitInflationRate', e.target.value)}
+                      value={sharedInputs.AnnualSocialSecurityBenefitInflationRate || ''}
+                       onChange={(e) => updateSharedInput('AnnualSocialSecurityBenefitInflationRate', e.target.value)}
                       placeholder="2" 
                       className="pr-8" 
                     />
