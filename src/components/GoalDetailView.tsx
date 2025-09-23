@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ArrowLeft, GraduationCap, Home, Car, PiggyBank, Shield, Check, PieChart } from "lucide-react";
+import { ArrowLeft, GraduationCap, Home, Car, PiggyBank, Shield, Check, PieChart, Target } from "lucide-react";
 import { useState, useEffect } from "react";
 import { GoalInputPanel } from "./GoalInputPanel";
 import { GoalOutputPanel } from "./GoalOutputPanel";
@@ -149,6 +149,19 @@ const goalConfigs = {
       "Tax Strategies"
     ],
     defaultOutput: "Estate Tax Planning"
+  },
+  "accumulation-funding": {
+    title: "Accumulation Funding",
+    icon: Target,
+    color: "text-green-600",
+    description: "Plan systematic saving and investment strategies for multiple goals",
+    outputs: [
+      "Savings Plan",
+      "Investment Strategy", 
+      "Goal Progress",
+      "Timeline Analysis"
+    ],
+    defaultOutput: "Savings Plan"
   }
 };
 interface GoalDetailViewProps {

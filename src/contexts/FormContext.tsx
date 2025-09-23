@@ -220,6 +220,18 @@ interface SharedInputs {
   estateStateDeathTaxFirstPercent: string;
   estateStateDeathTaxSecondDollar: string;
   estateStateDeathTaxSecondPercent: string;
+  
+  // Accumulation Funding fields
+  accumulationGoals: Array<{
+    name: string;
+    yearsUntilStart: string;
+    goalDurationYears: string;
+    goalAmountTodaysDollars: string;
+    inflateGoalAmount: string;
+    amountCurrentlySaved: string;
+    plannedMonthlySavings: string;
+    rateOfReturn: string;
+  }>;
 }
 
 interface FormContextType {
@@ -445,7 +457,19 @@ const initialSharedInputs: SharedInputs = {
   estateStateDeathTaxFirstDollar: '',
   estateStateDeathTaxFirstPercent: '',
   estateStateDeathTaxSecondDollar: '',
-  estateStateDeathTaxSecondPercent: ''
+  estateStateDeathTaxSecondPercent: '',
+  
+  // Accumulation Funding fields
+  accumulationGoals: [{
+    name: '',
+    yearsUntilStart: '',
+    goalDurationYears: '',
+    goalAmountTodaysDollars: '',
+    inflateGoalAmount: 'No',
+    amountCurrentlySaved: '',
+    plannedMonthlySavings: '',
+    rateOfReturn: ''
+  }]
 };
 
 export const FormProvider = ({ children }: { children: ReactNode }) => {
