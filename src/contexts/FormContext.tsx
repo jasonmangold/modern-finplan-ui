@@ -232,6 +232,58 @@ interface SharedInputs {
     plannedMonthlySavings: string;
     rateOfReturn: string;
   }>;
+  
+  // Asset Allocation fields
+  // Balance fields
+  assetAllocRetirementPlansClient1Balance: string;
+  assetAllocRetirementPlansClient2Balance: string;
+  assetAllocCashBalance: string;
+  assetAllocOtherAssetsBalance: string;
+  
+  // Large/Mid Cap allocations
+  assetAllocLargeMidCapRetirementPlansClient1: string;
+  assetAllocLargeMidCapRetirementPlansClient2: string;
+  assetAllocLargeMidCapCash: string;
+  assetAllocLargeMidCapOtherAssets: string;
+  
+  // Small Cap allocations
+  assetAllocSmallCapRetirementPlansClient1: string;
+  assetAllocSmallCapRetirementPlansClient2: string;
+  assetAllocSmallCapCash: string;
+  assetAllocSmallCapOtherAssets: string;
+  
+  // US Bonds allocations
+  assetAllocUsBondsRetirementPlansClient1: string;
+  assetAllocUsBondsRetirementPlansClient2: string;
+  assetAllocUsBondsCash: string;
+  assetAllocUsBondsOtherAssets: string;
+  
+  // Cash allocations
+  assetAllocCashRetirementPlansClient1: string;
+  assetAllocCashRetirementPlansClient2: string;
+  assetAllocCashCash: string;
+  assetAllocCashOtherAssets: string;
+  
+  // International Equity allocations
+  assetAllocIntlEquityRetirementPlansClient1: string;
+  assetAllocIntlEquityRetirementPlansClient2: string;
+  assetAllocIntlEquityCash: string;
+  assetAllocIntlEquityOtherAssets: string;
+  
+  // Risk Profile fields
+  useRiskProfileByScore: boolean;
+  alternateRiskProfile: string;
+  
+  // Risk Questionnaire fields
+  riskQuestion1Answer: string;
+  riskQuestion2Answer: string;
+  riskQuestion3Answer: string;
+  riskQuestion4Answer: string;
+  riskQuestion5Answer: string;
+  riskQuestion6Answer: string;
+  riskQuestion7Answer: string;
+  riskQuestion8Answer: string;
+  riskQuestionnaireScore: string;
 }
 
 interface FormContextType {
@@ -469,7 +521,59 @@ const initialSharedInputs: SharedInputs = {
     amountCurrentlySaved: '',
     plannedMonthlySavings: '',
     rateOfReturn: ''
-  }]
+  }],
+  
+  // Asset Allocation fields
+  // Balance fields
+  assetAllocRetirementPlansClient1Balance: '',
+  assetAllocRetirementPlansClient2Balance: '',
+  assetAllocCashBalance: '',
+  assetAllocOtherAssetsBalance: '',
+  
+  // Large/Mid Cap allocations
+  assetAllocLargeMidCapRetirementPlansClient1: '',
+  assetAllocLargeMidCapRetirementPlansClient2: '',
+  assetAllocLargeMidCapCash: '',
+  assetAllocLargeMidCapOtherAssets: '',
+  
+  // Small Cap allocations
+  assetAllocSmallCapRetirementPlansClient1: '',
+  assetAllocSmallCapRetirementPlansClient2: '',
+  assetAllocSmallCapCash: '',
+  assetAllocSmallCapOtherAssets: '',
+  
+  // US Bonds allocations
+  assetAllocUsBondsRetirementPlansClient1: '',
+  assetAllocUsBondsRetirementPlansClient2: '',
+  assetAllocUsBondsCash: '',
+  assetAllocUsBondsOtherAssets: '',
+  
+  // Cash allocations
+  assetAllocCashRetirementPlansClient1: '',
+  assetAllocCashRetirementPlansClient2: '',
+  assetAllocCashCash: '',
+  assetAllocCashOtherAssets: '',
+  
+  // International Equity allocations
+  assetAllocIntlEquityRetirementPlansClient1: '',
+  assetAllocIntlEquityRetirementPlansClient2: '',
+  assetAllocIntlEquityCash: '',
+  assetAllocIntlEquityOtherAssets: '',
+  
+  // Risk Profile fields
+  useRiskProfileByScore: false,
+  alternateRiskProfile: '',
+  
+  // Risk Questionnaire fields
+  riskQuestion1Answer: '',
+  riskQuestion2Answer: '',
+  riskQuestion3Answer: '',
+  riskQuestion4Answer: '',
+  riskQuestion5Answer: '',
+  riskQuestion6Answer: '',
+  riskQuestion7Answer: '',
+  riskQuestion8Answer: '',
+  riskQuestionnaireScore: ''
 };
 
 export const FormProvider = ({ children }: { children: ReactNode }) => {
