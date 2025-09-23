@@ -154,6 +154,18 @@ interface SharedInputs {
   client2CriticalIllnessOtherAmount: string;
   client2CriticalIllnessOtherMonths: string;
   client2CriticalIllnessCurrentCriticalIllnessAmountAmount: string;
+  
+  // Long-Term Care fields
+  ltcClient1MonthlyBenefit: string;
+  ltcClient2MonthlyBenefit: string;
+  ltcClient1BenefitCOLA: string;
+  ltcClient2BenefitCOLA: string;
+  ltcEstimatedMonthlyCost: string;
+  ltcMarketValueAssets: string;
+  ltcRateOfReturn: string;
+  ltcAgeCareBeginsAge: string;
+  ltcCareDurationYears: string;
+  ltcInflationRate: string;
 }
 
 interface FormContextType {
@@ -313,7 +325,19 @@ const initialSharedInputs: SharedInputs = {
   client2CriticalIllnessContinueRetirementSavingsOtherClientMonths: '',
   client2CriticalIllnessOtherAmount: '',
   client2CriticalIllnessOtherMonths: '',
-  client2CriticalIllnessCurrentCriticalIllnessAmountAmount: ''
+  client2CriticalIllnessCurrentCriticalIllnessAmountAmount: '',
+  
+  // Long-Term Care fields
+  ltcClient1MonthlyBenefit: '',
+  ltcClient2MonthlyBenefit: '',
+  ltcClient1BenefitCOLA: '',
+  ltcClient2BenefitCOLA: '',
+  ltcEstimatedMonthlyCost: '',
+  ltcMarketValueAssets: '',
+  ltcRateOfReturn: '',
+  ltcAgeCareBeginsAge: '',
+  ltcCareDurationYears: '',
+  ltcInflationRate: ''
 };
 
 export const FormProvider = ({ children }: { children: ReactNode }) => {

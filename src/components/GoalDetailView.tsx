@@ -123,6 +123,19 @@ const goalConfigs = {
       "Risk Factors"
     ],
     defaultOutput: "Coverage Assessment"
+  },
+  "long-term-care": {
+    title: "Long-Term Care",
+    icon: Shield,
+    color: "text-purple-600",
+    description: "Plan for long-term care needs and insurance options",
+    outputs: [
+      "Care Assessment",
+      "Insurance Options",
+      "Cost Projections",
+      "Funding Strategies"
+    ],
+    defaultOutput: "Care Assessment"
   }
 };
 interface GoalDetailViewProps {
