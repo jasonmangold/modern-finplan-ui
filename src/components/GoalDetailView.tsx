@@ -188,6 +188,19 @@ const goalConfigs = {
       "Budget Planning"
     ],
     defaultOutput: "Financial Summary"
+  },
+  "business-continuation": {
+    title: "Business Continuation",
+    icon: Target,
+    color: "text-orange-600",
+    description: "Plan for business continuation and succession strategies",
+    outputs: [
+      "Business Valuation Analysis",
+      "Four Ways to Pay Comparison",
+      "Funding Strategy",
+      "Succession Planning"
+    ],
+    defaultOutput: "Business Valuation Analysis"
   }
 };
 interface GoalDetailViewProps {

@@ -137,6 +137,26 @@ interface SharedInputs {
   ssBenefitInflationRate: string;
   incomeTaxRate: string;
   
+  // Business Continuation fields
+  businessOwnerName: string;
+  yearsUntilRetirement: number;
+  percentageCompanyOwned: number;
+  currentLifeInsuranceBenefits: number;
+  deathBenefitAnnualIncreaseRate: number;
+  businessName: string;
+  businessCurrentValue: number;
+  businessGrowthRate: number;
+  yearsToIllustrate: number;
+  loanInterestRate: number;
+  loanTermYears: number;
+  loanPaymentFrequency: string;
+  sinkingFundRateOfReturn: number;
+  sinkingFundPaymentFrequency: string;
+  lifeInsurancePremiumPer1000: number;
+  yearsToPayPremiums: number;
+  premiumAnnualIncreaseRate: number;
+  lifeInsuranceDeathBenefitIncreaseRate: number;
+  
   // Alternate Social Security ages
   client1AlternateAge1: string;
   client1AlternateAge2: string;
@@ -468,6 +488,27 @@ const initialSharedInputs: SharedInputs = {
   mortgageBalance: '',
   otherDebt: '',
   analysisDate: new Date().toISOString().split('T')[0],
+  
+  // Business Continuation fields
+  businessOwnerName: '',
+  yearsUntilRetirement: 3,
+  percentageCompanyOwned: 1,
+  currentLifeInsuranceBenefits: 0,
+  deathBenefitAnnualIncreaseRate: 0,
+  businessName: '',
+  businessCurrentValue: 0,
+  businessGrowthRate: 0,
+  yearsToIllustrate: 1,
+  loanInterestRate: 0,
+  loanTermYears: 5,
+  loanPaymentFrequency: 'monthly',
+  sinkingFundRateOfReturn: 0,
+  sinkingFundPaymentFrequency: 'monthly',
+  lifeInsurancePremiumPer1000: 0,
+  yearsToPayPremiums: 0,
+  premiumAnnualIncreaseRate: 0,
+  lifeInsuranceDeathBenefitIncreaseRate: 0,
+  
   client1MortalityAge: '90',
   client2MortalityAge: '90',
   inflationRate: '3.0%',
