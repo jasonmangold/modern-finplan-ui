@@ -21,6 +21,7 @@ import { CharitableRemainderTrustInputs } from "./CharitableRemainderTrustInputs
 import { PersonalFinanceInputs } from "./PersonalFinanceInputs";
 import { BusinessContinuationInputs } from "./BusinessContinuationInputs";
 import { BusinessValuationInputs } from "./BusinessValuationInputs";
+import { KeyEmployeeInputs } from "./KeyEmployeeInputs";
 import { HelpDialog } from "./HelpDialog";
 import { getHelpText } from "@/data/helpTexts";
 import { useState } from "react";
@@ -215,6 +216,7 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
       {goalId === "personal-finance" && <PersonalFinanceInputs />}
       {goalId === "business-continuation" && <BusinessContinuationInputs />}
       {goalId === "business-valuation" && <BusinessValuationInputs />}
+      {goalId === "key-employee" && <KeyEmployeeInputs />}
       {goalId === "college" && (
         <>
           <div className="flex items-center gap-2 mb-4">
@@ -237,7 +239,7 @@ export const GoalInputPanel = ({ goalId }: GoalInputPanelProps) => {
           />
         </>
       )}
-      {(goalId !== "college" && goalId !== "retirement" && goalId !== "education-funding" && goalId !== "retirement-accumulation" && goalId !== "survivor-needs" && goalId !== "retirement-distribution" && goalId !== "social-security" && goalId !== "disability" && goalId !== "debt-repayment" && goalId !== "critical-illness" && goalId !== "long-term-care" && goalId !== "estate-analysis" && goalId !== "accumulation-funding" && goalId !== "asset-allocation" && goalId !== "charitable-remainder-trust" && goalId !== "personal-finance" && goalId !== "business-continuation" && goalId !== "business-valuation") && (
+      {(goalId !== "college" && goalId !== "retirement" && goalId !== "education-funding" && goalId !== "retirement-accumulation" && goalId !== "survivor-needs" && goalId !== "retirement-distribution" && goalId !== "social-security" && goalId !== "disability" && goalId !== "debt-repayment" && goalId !== "critical-illness" && goalId !== "long-term-care" && goalId !== "estate-analysis" && goalId !== "accumulation-funding" && goalId !== "asset-allocation" && goalId !== "charitable-remainder-trust" && goalId !== "personal-finance" && goalId !== "business-continuation" && goalId !== "business-valuation" && goalId !== "key-employee") && (
         <>
           <div className="flex items-center gap-2 mb-4">
             <h2 className="text-lg font-semibold text-foreground">Analysis Inputs</h2>

@@ -214,6 +214,19 @@ const goalConfigs = {
       "Market Approach"
     ],
     defaultOutput: "Valuation Summary"
+  },
+  "key-employee": {
+    title: "Key Employee",
+    icon: Target,
+    color: "text-purple-600",
+    description: "Key employee insurance analysis and protection strategies",
+    outputs: [
+      "Key Employee Analysis",
+      "Loss Assessment",
+      "Insurance Solutions",
+      "Cost Analysis"
+    ],
+    defaultOutput: "Key Employee Analysis"
   }
 };
 interface GoalDetailViewProps {
