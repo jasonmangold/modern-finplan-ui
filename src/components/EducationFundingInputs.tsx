@@ -103,7 +103,9 @@ export const EducationFundingInputs = () => {
       schools: [],
       EduPercentageToFund: '100',
       EduAmountCurrentlySaved: '',
-      EduPlannedMonthlySavings: ''
+      EduPlannedMonthlySavings: '',
+      DependentOfClient1: false,
+      DependentOfClient2: false
     }];
     updateSharedInput('children', newChildren);
   };

@@ -77,6 +77,8 @@ interface SharedInputs {
     EduPercentageToFund: string;
     EduAmountCurrentlySaved: string;
     EduPlannedMonthlySavings: string;
+    DependentOfClient1?: boolean;
+    DependentOfClient2?: boolean;
   }>;
   
   // Legacy education data (kept for compatibility)

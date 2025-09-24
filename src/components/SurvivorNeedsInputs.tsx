@@ -55,7 +55,9 @@ export const SurvivorNeedsInputs = () => {
       schools: [],
       EduPercentageToFund: '100',
       EduAmountCurrentlySaved: '',
-      EduPlannedMonthlySavings: ''
+      EduPlannedMonthlySavings: '',
+      DependentOfClient1: false,
+      DependentOfClient2: false
     }];
     updateSharedInput('children', newChildren);
   };
@@ -281,41 +283,68 @@ export const SurvivorNeedsInputs = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {sharedInputs.children.map((child, index) => (
-                <div key={index} className="grid grid-cols-2 gap-4 p-4 border rounded-lg bg-gray-50/50">
-                  <div>
-                    <Label className="text-sm">Child {index + 1} Name</Label>
-                    <Input 
-                      value={child.StudentName}
-                      onChange={(e) => updateChild(index, 'StudentName', e.target.value)}
-                      placeholder={`Enter child ${index + 1} name`} 
-                      className="mt-1" 
-                    />
+              <div className="space-y-4">
+                <div className="grid grid-cols-4 gap-4 p-2 border-b font-medium text-sm bg-muted/30">
+                  <div>Name</div>
+                  <div>Date of birth</div>
+                  <div className="text-center">--- Dependent of ---</div>
+                  <div></div>
+                </div>
+                <div className="grid grid-cols-4 gap-4 p-2 border-b font-medium text-sm bg-muted/30">
+                  <div></div>
+                  <div></div>
+                  <div className="grid grid-cols-2 gap-2 text-center">
+                    <div>Client 1</div>
+                    <div>Client 2</div>
                   </div>
-                  <div className="flex items-end gap-2">
-                    <div className="flex-1">
-                      <Label className="text-sm">Date of Birth</Label>
+                  <div></div>
+                </div>
+                
+                {sharedInputs.children.map((child, index) => (
+                  <div key={index} className="grid grid-cols-4 gap-4 p-2 items-center border rounded-lg">
+                    <div>
+                      <Input 
+                        value={child.StudentName}
+                        onChange={(e) => updateChild(index, 'StudentName', e.target.value)}
+                        placeholder={`Child ${index + 1} name`} 
+                        className="h-8" 
+                      />
+                    </div>
+                    <div>
                       <Input 
                         type="date"
                         value={child.StudentBirth}
                         onChange={(e) => updateChild(index, 'StudentBirth', e.target.value)}
-                        className="mt-1" 
+                        className="h-8" 
                       />
                     </div>
-                    <Button 
-                      onClick={() => removeChild(index)} 
-                      size="sm" 
-                      variant="outline"
-                      className="mb-1"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    <div className="grid grid-cols-2 gap-2 justify-items-center">
+                      <Checkbox 
+                        checked={child.DependentOfClient1 || false}
+                        onCheckedChange={(checked) => updateChild(index, 'DependentOfClient1', checked)}
+                      />
+                      <Checkbox 
+                        checked={child.DependentOfClient2 || false}
+                        onCheckedChange={(checked) => updateChild(index, 'DependentOfClient2', checked)}
+                      />
+                    </div>
+                    <div className="flex justify-end">
+                      <Button 
+                        onClick={() => removeChild(index)} 
+                        size="sm" 
+                        variant="outline"
+                        className="h-8 w-8 p-0"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              ))}
-              {sharedInputs.children.length === 0 && (
-                <p className="text-gray-500 text-center py-4">No children added yet</p>
-              )}
+                ))}
+                
+                {sharedInputs.children.length === 0 && (
+                  <p className="text-gray-500 text-center py-4">No children added yet</p>
+                )}
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
