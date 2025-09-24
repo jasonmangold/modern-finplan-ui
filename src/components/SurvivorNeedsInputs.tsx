@@ -700,6 +700,7 @@ export const SurvivorNeedsInputs = () => {
       <HelpDialog 
         isOpen={isHelpOpen} 
         onClose={() => setIsHelpOpen(false)} 
+        sections={getHelpText('survivor-needs')}
       />
     </div>
   );

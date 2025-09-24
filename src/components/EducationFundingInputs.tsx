@@ -233,6 +233,7 @@ export const EducationFundingInputs = () => {
       <HelpDialog 
         isOpen={isHelpOpen} 
         onClose={() => setIsHelpOpen(false)} 
+        sections={getHelpText('education-funding')}
       />
     </div>
   );
