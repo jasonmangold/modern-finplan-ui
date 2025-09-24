@@ -63,13 +63,13 @@ const TabsList = React.forwardRef<
   return (
     <div className="relative w-full">
       {showLeftArrow && (
-        <div className="absolute left-0 top-0 z-30 h-10 w-10 bg-background flex items-center justify-center">
+        <div className="absolute left-0 top-1 z-30 h-8 w-10 bg-background flex items-center justify-center">
           <button
             onClick={scrollLeft}
-            className="h-8 w-8 bg-muted hover:bg-muted/80 flex items-center justify-center transition-all duration-200 rounded-md shadow-sm border border-border/50"
+            className="h-7 w-7 bg-muted hover:bg-muted/80 flex items-center justify-center transition-all duration-200 rounded-md shadow-sm border border-border/50"
             aria-label="Scroll tabs left"
           >
-            <ChevronLeft className="h-4 w-4 text-foreground" />
+            <ChevronLeft className="h-3.5 w-3.5 text-foreground" />
           </button>
         </div>
       )}
@@ -98,13 +98,13 @@ const TabsList = React.forwardRef<
       </div>
 
       {showRightArrow && (
-        <div className="absolute right-0 top-0 z-30 h-10 w-10 bg-background flex items-center justify-center">
+        <div className="absolute right-0 top-1 z-30 h-8 w-10 bg-background flex items-center justify-center">
           <button
             onClick={scrollRight}
-            className="h-8 w-8 bg-muted hover:bg-muted/80 flex items-center justify-center transition-all duration-200 rounded-md shadow-sm border border-border/50"
+            className="h-7 w-7 bg-muted hover:bg-muted/80 flex items-center justify-center transition-all duration-200 rounded-md shadow-sm border border-border/50"
             aria-label="Scroll tabs right"
           >
-            <ChevronRight className="h-4 w-4 text-foreground" />
+            <ChevronRight className="h-3.5 w-3.5 text-foreground" />
           </button>
         </div>
       )}

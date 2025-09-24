@@ -766,224 +766,215 @@ export const SurvivorNeedsInputs = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="assumptions" className="space-y-4 mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Applicable to all analyses</CardTitle>
+        <TabsContent value="assumptions" className="space-y-6 mt-4">
+          <Card className="border-border shadow-sm">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-base font-medium">General Analysis Settings</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label className="text-sm">Analysis Date</Label>
-                  <Input 
-                    type="date"
-                    value={sharedInputs.AnalysisDate}
-                    onChange={(e) => updateSharedInput('AnalysisDate', e.target.value)}
-                    placeholder="1/1/2025"
-                    className="mt-1" 
-                  />
-                </div>
-                <div></div>
-              </div>
-              
-              <div className="grid grid-cols-4 gap-4">
-                <div>
-                  <Label className="text-sm">Mortality age - Client 1:</Label>
-                  <Input 
-                    value={sharedInputs.MortalityAge}
-                    onChange={(e) => updateSharedInput('MortalityAge', e.target.value)}
-                    placeholder="90" 
-                    className="mt-1" 
-                  />
-                </div>
-                <div>
-                  <Label className="text-sm">Client 2:</Label>
-                  <Input 
-                    value={sharedInputs.MortalityAgeOfClient2}
-                    onChange={(e) => updateSharedInput('MortalityAgeOfClient2', e.target.value)}
-                    placeholder="90" 
-                    className="mt-1" 
-                  />
-                </div>
-                <div></div>
-                <div></div>
-              </div>
-              
-              <div className="grid grid-cols-4 gap-4">
-                <div>
-                  <Label className="text-sm">Annual inflation rate:</Label>
-                  <div className="flex items-center mt-1">
+            <CardContent className="space-y-6">
+              {/* Analysis Date & Mortality Ages */}
+              <div className="space-y-4">
+                <h4 className="text-sm font-medium text-foreground border-b border-border pb-2">Analysis Parameters</h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <Label className="text-sm font-medium">Analysis Date</Label>
                     <Input 
-                      value={sharedInputs.AnnualInflationRate.replace('%', '')}
-                      onChange={(e) => updateSharedInput('AnnualInflationRate', e.target.value + '%')}
-                      placeholder="2.5" 
-                      className="flex-1" 
+                      type="date"
+                      value={sharedInputs.AnalysisDate}
+                      onChange={(e) => updateSharedInput('AnalysisDate', e.target.value)}
+                      className="mt-1.5" 
                     />
-                    <span className="ml-1 text-sm">%</span>
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium">Mortality Age - Client 1</Label>
+                    <Input 
+                      value={sharedInputs.MortalityAge}
+                      onChange={(e) => updateSharedInput('MortalityAge', e.target.value)}
+                      placeholder="90" 
+                      className="mt-1.5" 
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium">Mortality Age - Client 2</Label>
+                    <Input 
+                      value={sharedInputs.MortalityAgeOfClient2}
+                      onChange={(e) => updateSharedInput('MortalityAgeOfClient2', e.target.value)}
+                      placeholder="90" 
+                      className="mt-1.5" 
+                    />
                   </div>
                 </div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-
-              <div className="grid grid-cols-4 gap-4">
-                <div>
-                  <Label className="text-sm">Annual employment inflation rate - Client 1:</Label>
-                  <div className="flex items-center mt-1">
-                    <Input 
-                      value={sharedInputs.Client1_AnnualEmploymentInflationRate.replace('%', '')}
-                      onChange={(e) => updateSharedInput('Client1_AnnualEmploymentInflationRate', e.target.value + '%')}
-                      placeholder="1.5" 
-                      className="flex-1" 
-                    />
-                    <span className="ml-1 text-sm">%</span>
-                  </div>
-                </div>
-                <div>
-                  <Label className="text-sm">Client 2:</Label>
-                  <div className="flex items-center mt-1">
-                    <Input 
-                      value={sharedInputs.Client2_AnnualEmploymentInflationRate.replace('%', '')}
-                      onChange={(e) => updateSharedInput('Client2_AnnualEmploymentInflationRate', e.target.value + '%')}
-                      placeholder="1.5" 
-                      className="flex-1" 
-                    />
-                    <span className="ml-1 text-sm">%</span>
-                  </div>
-                </div>
-                <div></div>
-                <div></div>
-              </div>
-
-              <div className="grid grid-cols-4 gap-4">
-                <div>
-                  <Label className="text-sm">Annual education inflation rate:</Label>
-                  <div className="flex items-center mt-1">
-                    <Input 
-                      value={sharedInputs.AnnualEducationInflationRate.replace('%', '')}
-                      onChange={(e) => updateSharedInput('AnnualEducationInflationRate', e.target.value + '%')}
-                      placeholder="5" 
-                      className="flex-1" 
-                    />
-                    <span className="ml-1 text-sm">%</span>
-                  </div>
-                </div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-
-              <div className="grid grid-cols-4 gap-4">
-                <div>
-                  <Label className="text-sm">Annual rate of return on education assets:</Label>
-                  <div className="flex items-center mt-1">
-                    <Input 
-                      value={sharedInputs.RateOfReturnOnEducationAssets.replace('%', '')}
-                      onChange={(e) => updateSharedInput('RateOfReturnOnEducationAssets', e.target.value + '%')}
-                      placeholder="6" 
-                      className="flex-1" 
-                    />
-                    <span className="ml-1 text-sm">%</span>
-                  </div>
-                </div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-
-              <div className="grid grid-cols-4 gap-4">
-                <div>
-                  <Label className="text-sm">Annual social security benefit inflation rate:</Label>
-                  <div className="flex items-center mt-1">
-                    <Input 
-                      value={sharedInputs.AnnualSocialSecurityBenefitInflationRate.replace('%', '')}
-                      onChange={(e) => updateSharedInput('AnnualSocialSecurityBenefitInflationRate', e.target.value + '%')}
-                      placeholder="2" 
-                      className="flex-1" 
-                    />
-                    <span className="ml-1 text-sm">%</span>
-                  </div>
-                </div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-
-              <div className="grid grid-cols-4 gap-4">
-                <div>
-                  <Label className="text-sm">Final expenses:</Label>
-                  <Input 
-                    value={sharedInputs.FinalExpenses}
-                    onChange={(e) => updateSharedInput('FinalExpenses', e.target.value)}
-                    placeholder="$10,000" 
-                    className="mt-1" 
-                  />
-                </div>
-                <div></div>
-                <div></div>
-                <div></div>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Specific to the survivor analysis</CardTitle>
+          <Card className="border-border shadow-sm">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-base font-medium">Inflation Rate Assumptions</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-4 gap-4">
-                <div>
-                  <Label className="text-sm">Emergency reserves should be equal to</Label>
-                  <div className="flex items-center mt-1 space-x-2">
-                    <Input 
-                      value={sharedInputs.ReserveInIncomeMonths}
-                      onChange={(e) => updateSharedInput('ReserveInIncomeMonths', e.target.value)}
-                      placeholder="3" 
-                      className="flex-1" 
-                    />
-                    <span className="text-sm">months total income</span>
+            <CardContent className="space-y-6">
+              {/* General Inflation */}
+              <div className="space-y-4">
+                <h4 className="text-sm font-medium text-foreground border-b border-border pb-2">General Inflation</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-sm font-medium">Annual Inflation Rate</Label>
+                    <div className="flex items-center mt-1.5 space-x-2">
+                      <Input 
+                        value={sharedInputs.AnnualInflationRate.replace('%', '')}
+                        onChange={(e) => updateSharedInput('AnnualInflationRate', e.target.value + '%')}
+                        placeholder="2.5" 
+                        className="flex-1" 
+                      />
+                      <span className="text-sm font-medium text-muted-foreground min-w-fit">%</span>
+                    </div>
                   </div>
                 </div>
-                <div></div>
-                <div></div>
-                <div></div>
               </div>
 
-              <div className="grid grid-cols-4 gap-4">
-                <div>
-                  <Label className="text-sm">Assumed rate of return for survivor's assets:</Label>
-                  <div className="flex items-center mt-1">
-                    <Input 
-                      value={sharedInputs.ReserveRateOfReturn.replace('%', '')}
-                      onChange={(e) => updateSharedInput('ReserveRateOfReturn', e.target.value + '%')}
-                      placeholder="5" 
-                      className="flex-1" 
-                    />
-                    <span className="ml-1 text-sm">%</span>
+              {/* Employment Inflation Rates */}
+              <div className="space-y-4">
+                <h4 className="text-sm font-medium text-foreground border-b border-border pb-2">Employment Inflation Rates</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-sm font-medium">Client 1 Employment Inflation Rate</Label>
+                    <div className="flex items-center mt-1.5 space-x-2">
+                      <Input 
+                        value={sharedInputs.Client1_AnnualEmploymentInflationRate.replace('%', '')}
+                        onChange={(e) => updateSharedInput('Client1_AnnualEmploymentInflationRate', e.target.value + '%')}
+                        placeholder="1.5" 
+                        className="flex-1" 
+                      />
+                      <span className="text-sm font-medium text-muted-foreground min-w-fit">%</span>
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium">Client 2 Employment Inflation Rate</Label>
+                    <div className="flex items-center mt-1.5 space-x-2">
+                      <Input 
+                        value={sharedInputs.Client2_AnnualEmploymentInflationRate.replace('%', '')}
+                        onChange={(e) => updateSharedInput('Client2_AnnualEmploymentInflationRate', e.target.value + '%')}
+                        placeholder="1.5" 
+                        className="flex-1" 
+                      />
+                      <span className="text-sm font-medium text-muted-foreground min-w-fit">%</span>
+                    </div>
                   </div>
                 </div>
-                <div></div>
-                <div></div>
-                <div></div>
               </div>
 
-              <div className="grid grid-cols-4 gap-4">
-                <div>
-                  <Label className="text-sm">Assumed rate of return during retirement:</Label>
-                  <div className="flex items-center mt-1">
-                    <Input 
-                      value={sharedInputs.RetirementRateOfReturn.replace('%', '')}
-                      onChange={(e) => updateSharedInput('RetirementRateOfReturn', e.target.value + '%')}
-                      placeholder="5" 
-                      className="flex-1" 
-                    />
-                    <span className="ml-1 text-sm">%</span>
+              {/* Education & Social Security Inflation */}
+              <div className="space-y-4">
+                <h4 className="text-sm font-medium text-foreground border-b border-border pb-2">Specialized Inflation Rates</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-sm font-medium">Education Inflation Rate</Label>
+                    <div className="flex items-center mt-1.5 space-x-2">
+                      <Input 
+                        value={sharedInputs.AnnualEducationInflationRate.replace('%', '')}
+                        onChange={(e) => updateSharedInput('AnnualEducationInflationRate', e.target.value + '%')}
+                        placeholder="5" 
+                        className="flex-1" 
+                      />
+                      <span className="text-sm font-medium text-muted-foreground min-w-fit">%</span>
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium">Social Security Benefit Inflation Rate</Label>
+                    <div className="flex items-center mt-1.5 space-x-2">
+                      <Input 
+                        value={sharedInputs.AnnualSocialSecurityBenefitInflationRate.replace('%', '')}
+                        onChange={(e) => updateSharedInput('AnnualSocialSecurityBenefitInflationRate', e.target.value + '%')}
+                        placeholder="2" 
+                        className="flex-1" 
+                      />
+                      <span className="text-sm font-medium text-muted-foreground min-w-fit">%</span>
+                    </div>
                   </div>
                 </div>
-                <div></div>
-                <div></div>
-                <div></div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-border shadow-sm">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-base font-medium">Return Rate Assumptions</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <h4 className="text-sm font-medium text-foreground border-b border-border pb-2">Asset Return Rates</h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <Label className="text-sm font-medium">Education Assets Return Rate</Label>
+                    <div className="flex items-center mt-1.5 space-x-2">
+                      <Input 
+                        value={sharedInputs.RateOfReturnOnEducationAssets.replace('%', '')}
+                        onChange={(e) => updateSharedInput('RateOfReturnOnEducationAssets', e.target.value + '%')}
+                        placeholder="6" 
+                        className="flex-1" 
+                      />
+                      <span className="text-sm font-medium text-muted-foreground min-w-fit">%</span>
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium">Survivor's Assets Return Rate</Label>
+                    <div className="flex items-center mt-1.5 space-x-2">
+                      <Input 
+                        value={sharedInputs.ReserveRateOfReturn.replace('%', '')}
+                        onChange={(e) => updateSharedInput('ReserveRateOfReturn', e.target.value + '%')}
+                        placeholder="5" 
+                        className="flex-1" 
+                      />
+                      <span className="text-sm font-medium text-muted-foreground min-w-fit">%</span>
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium">Retirement Return Rate</Label>
+                    <div className="flex items-center mt-1.5 space-x-2">
+                      <Input 
+                        value={sharedInputs.RetirementRateOfReturn.replace('%', '')}
+                        onChange={(e) => updateSharedInput('RetirementRateOfReturn', e.target.value + '%')}
+                        placeholder="5" 
+                        className="flex-1" 
+                      />
+                      <span className="text-sm font-medium text-muted-foreground min-w-fit">%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-border shadow-sm">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-base font-medium">Final Expenses & Emergency Reserves</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <h4 className="text-sm font-medium text-foreground border-b border-border pb-2">One-Time Expenses</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-sm font-medium">Final Expenses</Label>
+                    <Input 
+                      value={sharedInputs.FinalExpenses}
+                      onChange={(e) => updateSharedInput('FinalExpenses', e.target.value)}
+                      placeholder="$10,000" 
+                      className="mt-1.5" 
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium">Emergency Reserve Requirement</Label>
+                    <div className="flex items-center mt-1.5 space-x-2">
+                      <Input 
+                        value={sharedInputs.ReserveInIncomeMonths}
+                        onChange={(e) => updateSharedInput('ReserveInIncomeMonths', e.target.value)}
+                        placeholder="3" 
+                        className="flex-1" 
+                      />
+                      <span className="text-sm font-medium text-muted-foreground min-w-fit">months of income</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
