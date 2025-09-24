@@ -240,99 +240,125 @@ export const RetirementAccumulationInputs = () => {
         </TabsContent>
 
         <TabsContent value="income-needs" className="space-y-4 mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Monthly Income Needs</CardTitle>
+          <Card className="border-border shadow-sm">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-base font-medium">Monthly Income Needs</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Beginning at retirement */}
-              <div className="space-y-3">
+            <CardContent className="pt-0 space-y-4">
+              {/* Monthly income needs header */}
+              <div className="border-l-4 border-primary/20 pl-3">
+                <Label className="text-sm font-medium text-muted-foreground">Monthly income needs</Label>
+              </div>
+
+              {/* Beginning at retirement section */}
+              <div className="bg-muted/30 p-4 rounded-lg space-y-3">
                 <Label className="text-sm font-medium">Beginning at retirement</Label>
-                <div className="space-y-2">
+                <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2">
-                    <input 
-                      type="radio" 
-                      id="retirement-dollar" 
-                      name="retirement-method"
-                      className="w-4 h-4" 
+                    <input
+                      type="radio"
+                      id="retirementAmount"
+                      name="retirementIncomeType"
+                      className="h-4 w-4"
                       defaultChecked
                     />
-                    <Input placeholder="$0" className="w-24" />
-                    <span className="text-sm">or</span>
+                    <Label htmlFor="retirementAmount" className="text-sm">$</Label>
+                    <Input 
+                      placeholder="0"
+                      className="w-24 h-8"
+                    />
+                    <Label className="text-sm">or</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <input 
-                      type="radio" 
-                      id="retirement-percent" 
-                      name="retirement-method"
-                      className="w-4 h-4" 
+                    <input
+                      type="radio"
+                      id="retirementPercent"
+                      name="retirementIncomeType"
+                      className="h-4 w-4"
                     />
-                    <Input placeholder="0" className="w-16" />
-                    <span className="text-sm">% of total current income</span>
+                    <Input 
+                      placeholder="0"
+                      className="w-16 h-8"
+                    />
+                    <Label className="text-sm">% of total current income</Label>
                   </div>
                 </div>
               </div>
 
               {/* Beginning X years after retirement - Period 1 */}
-              <div className="space-y-3">
+              <div className="bg-muted/30 p-4 rounded-lg space-y-3">
                 <div className="flex items-center space-x-2">
                   <Label className="text-sm font-medium">Beginning</Label>
-                  <Input placeholder="0" className="w-16" />
+                  <Input placeholder="0" className="w-16 h-8" />
                   <Label className="text-sm font-medium">years after retirement</Label>
                 </div>
-                <div className="space-y-2">
+                <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2">
-                    <input 
-                      type="radio" 
-                      id="period1-dollar" 
-                      name="period1-method"
-                      className="w-4 h-4" 
+                    <input
+                      type="radio"
+                      id="period1Amount"
+                      name="period1IncomeType"
+                      className="h-4 w-4"
                       defaultChecked
                     />
-                    <Input placeholder="$0" className="w-24" />
-                    <span className="text-sm">or</span>
+                    <Label htmlFor="period1Amount" className="text-sm">$</Label>
+                    <Input 
+                      placeholder="0"
+                      className="w-24 h-8"
+                    />
+                    <Label className="text-sm">or</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <input 
-                      type="radio" 
-                      id="period1-percent" 
-                      name="period1-method"
-                      className="w-4 h-4" 
+                    <input
+                      type="radio"
+                      id="period1Percent"
+                      name="period1IncomeType"
+                      className="h-4 w-4"
                     />
-                    <Input placeholder="0" className="w-16" />
-                    <span className="text-sm">% of total current income</span>
+                    <Input 
+                      placeholder="0"
+                      className="w-16 h-8"
+                    />
+                    <Label className="text-sm">% of total current income</Label>
                   </div>
                 </div>
               </div>
 
               {/* Beginning X years after retirement - Period 2 */}
-              <div className="space-y-3">
+              <div className="bg-muted/30 p-4 rounded-lg space-y-3">
                 <div className="flex items-center space-x-2">
                   <Label className="text-sm font-medium">Beginning</Label>
-                  <Input placeholder="0" className="w-16" />
+                  <Input placeholder="0" className="w-16 h-8" />
                   <Label className="text-sm font-medium">years after retirement</Label>
                 </div>
-                <div className="space-y-2">
+                <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2">
-                    <input 
-                      type="radio" 
-                      id="period2-dollar" 
-                      name="period2-method"
-                      className="w-4 h-4" 
+                    <input
+                      type="radio"
+                      id="period2Amount"
+                      name="period2IncomeType"
+                      className="h-4 w-4"
                       defaultChecked
                     />
-                    <Input placeholder="$0" className="w-24" />
-                    <span className="text-sm">or</span>
+                    <Label htmlFor="period2Amount" className="text-sm">$</Label>
+                    <Input 
+                      placeholder="0"
+                      className="w-24 h-8"
+                    />
+                    <Label className="text-sm">or</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <input 
-                      type="radio" 
-                      id="period2-percent" 
-                      name="period2-method"
-                      className="w-4 h-4" 
+                    <input
+                      type="radio"
+                      id="period2Percent"
+                      name="period2IncomeType"
+                      className="h-4 w-4"
                     />
-                    <Input placeholder="0" className="w-16" />
-                    <span className="text-sm">% of total current income</span>
+                    <Input 
+                      placeholder="0"
+                      className="w-16 h-8"
+                    />
+                    <Label className="text-sm">% of total current income</Label>
                   </div>
                 </div>
               </div>
@@ -341,11 +367,11 @@ export const RetirementAccumulationInputs = () => {
         </TabsContent>
 
         <TabsContent value="income-sources" className="space-y-4 mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Income Sources</CardTitle>
+          <Card className="border-border shadow-sm">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-base font-medium">Income Sources</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="pt-0 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label className="text-sm">Client 1 Annual Employment Income</Label>
@@ -546,34 +572,91 @@ export const RetirementAccumulationInputs = () => {
         </TabsContent>
 
         <TabsContent value="capital" className="space-y-4 mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Capital</CardTitle>
+          <Card className="border-border shadow-sm">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-base font-medium">Capital</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-6">
-                <div>
-                  <Label className="text-base font-medium mb-4 block">Retirement Plans</Label>
-                </div>
+            <CardContent className="pt-0 space-y-6">
+              {/* Retirement Plans header */}
+              <div className="border-l-4 border-primary/20 pl-3">
+                <Label className="text-sm font-medium text-muted-foreground">Retirement Plans</Label>
+              </div>
 
-                <div className="space-y-4 p-4 border rounded-lg bg-background">
-                  <Label className="text-sm font-medium">Client 1:</Label>
+              {/* Client 1 Retirement Plans */}
+              <div className="bg-muted/30 p-4 rounded-lg space-y-4">
+                <Label className="text-sm font-medium">Client 1</Label>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-sm">Retirement Balance</Label>
+                    <Input 
+                      value={sharedInputs.Client1_RPBalance}
+                      onChange={(e) => updateSharedInput('Client1_RPBalance', e.target.value)}
+                      placeholder="$500,000" 
+                      className="mt-1" 
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm">Monthly Contributions</Label>
+                    <Input 
+                      value={sharedInputs.Client1_RPMonthlyContribution}
+                      onChange={(e) => updateSharedInput('Client1_RPMonthlyContribution', e.target.value)}
+                      placeholder="$2,000" 
+                      className="mt-1" 
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <Label className="text-sm">Company Match</Label>
+                    <Input 
+                      value={sharedInputs.Client1_RPCompanyMatch}
+                      onChange={(e) => updateSharedInput('Client1_RPCompanyMatch', e.target.value)}
+                      placeholder="$500" 
+                      className="mt-1" 
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm">Annual Increase</Label>
+                    <Input 
+                      value={sharedInputs.Client1_RPAnnualIncrease}
+                      onChange={(e) => updateSharedInput('Client1_RPAnnualIncrease', e.target.value)}
+                      placeholder="3%" 
+                      className="mt-1" 
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm">Rate of Return</Label>
+                    <Input 
+                      value={sharedInputs.Client1_RPRateOfReturn}
+                      onChange={(e) => updateSharedInput('Client1_RPRateOfReturn', e.target.value)}
+                      placeholder="7%" 
+                      className="mt-1" 
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Client 2 Retirement Plans */}
+              {sharedInputs.hasClient2 && (
+                <div className="bg-muted/30 p-4 rounded-lg space-y-4">
+                  <Label className="text-sm font-medium">Client 2</Label>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label className="text-sm">Retirement Balance</Label>
                       <Input 
-                        value={sharedInputs.Client1_RPBalance}
-                        onChange={(e) => updateSharedInput('Client1_RPBalance', e.target.value)}
-                        placeholder="$500,000" 
+                        value={sharedInputs.Client2_RPBalance}
+                        onChange={(e) => updateSharedInput('Client2_RPBalance', e.target.value)}
+                        placeholder="$300,000" 
                         className="mt-1" 
                       />
                     </div>
                     <div>
                       <Label className="text-sm">Monthly Contributions</Label>
                       <Input 
-                        value={sharedInputs.Client1_RPMonthlyContribution}
-                        onChange={(e) => updateSharedInput('Client1_RPMonthlyContribution', e.target.value)}
-                        placeholder="$2,000" 
+                        value={sharedInputs.Client2_RPMonthlyContribution}
+                        onChange={(e) => updateSharedInput('Client2_RPMonthlyContribution', e.target.value)}
+                        placeholder="$1,500" 
                         className="mt-1" 
                       />
                     </div>
@@ -583,17 +666,17 @@ export const RetirementAccumulationInputs = () => {
                     <div>
                       <Label className="text-sm">Company Match</Label>
                       <Input 
-                        value={sharedInputs.Client1_RPCompanyMatch}
-                        onChange={(e) => updateSharedInput('Client1_RPCompanyMatch', e.target.value)}
-                        placeholder="$500" 
+                        value={sharedInputs.Client2_RPCompanyMatch}
+                        onChange={(e) => updateSharedInput('Client2_RPCompanyMatch', e.target.value)}
+                        placeholder="$400" 
                         className="mt-1" 
                       />
                     </div>
                     <div>
                       <Label className="text-sm">Annual Increase</Label>
                       <Input 
-                        value={sharedInputs.Client1_RPAnnualIncrease}
-                        onChange={(e) => updateSharedInput('Client1_RPAnnualIncrease', e.target.value)}
+                        value={sharedInputs.Client2_RPAnnualIncrease}
+                        onChange={(e) => updateSharedInput('Client2_RPAnnualIncrease', e.target.value)}
                         placeholder="3%" 
                         className="mt-1" 
                       />
@@ -601,101 +684,46 @@ export const RetirementAccumulationInputs = () => {
                     <div>
                       <Label className="text-sm">Rate of Return</Label>
                       <Input 
-                        value={sharedInputs.Client1_RPRateOfReturn}
-                        onChange={(e) => updateSharedInput('Client1_RPRateOfReturn', e.target.value)}
+                        value={sharedInputs.Client2_RPRateOfReturn}
+                        onChange={(e) => updateSharedInput('Client2_RPRateOfReturn', e.target.value)}
                         placeholder="7%" 
                         className="mt-1" 
                       />
                     </div>
                   </div>
                 </div>
+              )}
 
-                {sharedInputs.hasClient2 && (
-                  <div className="space-y-4 p-4 border rounded-lg bg-background">
-                    <Label className="text-sm font-medium">Client 2:</Label>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label className="text-sm">Retirement Balance</Label>
-                        <Input 
-                          value={sharedInputs.Client2_RPBalance}
-                          onChange={(e) => updateSharedInput('Client2_RPBalance', e.target.value)}
-                          placeholder="$300,000" 
-                          className="mt-1" 
-                        />
-                      </div>
-                      <div>
-                        <Label className="text-sm">Monthly Contributions</Label>
-                        <Input 
-                          value={sharedInputs.Client2_RPMonthlyContribution}
-                          onChange={(e) => updateSharedInput('Client2_RPMonthlyContribution', e.target.value)}
-                          placeholder="$1,500" 
-                          className="mt-1" 
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-3 gap-4">
-                      <div>
-                        <Label className="text-sm">Company Match</Label>
-                        <Input 
-                          value={sharedInputs.Client2_RPCompanyMatch}
-                          onChange={(e) => updateSharedInput('Client2_RPCompanyMatch', e.target.value)}
-                          placeholder="$400" 
-                          className="mt-1" 
-                        />
-                      </div>
-                      <div>
-                        <Label className="text-sm">Annual Increase</Label>
-                        <Input 
-                          value={sharedInputs.Client2_RPAnnualIncrease}
-                          onChange={(e) => updateSharedInput('Client2_RPAnnualIncrease', e.target.value)}
-                          placeholder="3%" 
-                          className="mt-1" 
-                        />
-                      </div>
-                      <div>
-                        <Label className="text-sm">Rate of Return</Label>
-                        <Input 
-                          value={sharedInputs.Client2_RPRateOfReturn}
-                          onChange={(e) => updateSharedInput('Client2_RPRateOfReturn', e.target.value)}
-                          placeholder="7%" 
-                          className="mt-1" 
-                        />
-                      </div>
-                    </div>
+              {/* Other Assets */}
+              <div className="bg-muted/30 p-4 rounded-lg space-y-4">
+                <Label className="text-sm font-medium">Other Assets</Label>
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <Label className="text-sm">Balance</Label>
+                    <Input 
+                      value={sharedInputs.OtherAssetBalance}
+                      onChange={(e) => updateSharedInput('OtherAssetBalance', e.target.value)}
+                      placeholder="$100,000" 
+                      className="mt-1" 
+                    />
                   </div>
-                )}
-
-                <div className="space-y-4 p-4 border rounded-lg bg-background">
-                  <Label className="text-sm font-medium">Other Assets:</Label>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div>
-                      <Label className="text-sm">Balance</Label>
-                      <Input 
-                        value={sharedInputs.OtherAssetBalance}
-                        onChange={(e) => updateSharedInput('OtherAssetBalance', e.target.value)}
-                        placeholder="$100,000" 
-                        className="mt-1" 
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-sm">Monthly Contributions</Label>
-                      <Input 
-                        value={sharedInputs.OtherAssetMonthlyContribution}
-                        onChange={(e) => updateSharedInput('OtherAssetMonthlyContribution', e.target.value)}
-                        placeholder="$500" 
-                        className="mt-1" 
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-sm">Rate of Return</Label>
-                      <Input 
-                        value={sharedInputs.OtherAssetRoR}
-                        onChange={(e) => updateSharedInput('OtherAssetRoR', e.target.value)}
-                        placeholder="6%" 
-                        className="mt-1" 
-                      />
-                    </div>
+                  <div>
+                    <Label className="text-sm">Monthly Contributions</Label>
+                    <Input 
+                      value={sharedInputs.OtherAssetMonthlyContribution}
+                      onChange={(e) => updateSharedInput('OtherAssetMonthlyContribution', e.target.value)}
+                      placeholder="$500" 
+                      className="mt-1" 
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm">Rate of Return</Label>
+                    <Input 
+                      value={sharedInputs.OtherAssetRoR}
+                      onChange={(e) => updateSharedInput('OtherAssetRoR', e.target.value)}
+                      placeholder="6%" 
+                      className="mt-1" 
+                    />
                   </div>
                 </div>
               </div>
@@ -704,11 +732,11 @@ export const RetirementAccumulationInputs = () => {
         </TabsContent>
 
         <TabsContent value="assumptions" className="space-y-4 mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Analysis Assumptions</CardTitle>
+          <Card className="border-border shadow-sm">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-base font-medium">Analysis Assumptions</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="pt-0 space-y-4">
               <div>
                 <Label className="text-sm">Analysis Date</Label>
                 <Input 
@@ -781,23 +809,24 @@ export const RetirementAccumulationInputs = () => {
                 />
               </div>
 
-              <div className="border-t pt-4 mt-6">
-                <h4 className="text-sm font-medium mb-4">Specific to the Retirement Analysis</h4>
-                <div className="space-y-4">
-                  <div>
-                    <Label className="text-sm">Assumed Rate of Return During Retirement</Label>
-                    <Input placeholder="5%" className="mt-1" />
-                  </div>
-                  
-                  <div>
-                    <Label className="text-sm">Solution Rate of Return</Label>
-                    <Input placeholder="6%" className="mt-1" />
-                  </div>
-                  
-                  <div>
-                    <Label className="text-sm">Number of Months Since the Last Review</Label>
-                    <Input placeholder="12" className="mt-1" />
-                  </div>
+              <div className="border-l-4 border-primary/20 pl-3 pt-4 mt-6">
+                <Label className="text-sm font-medium text-muted-foreground">Specific to the Retirement Analysis</Label>
+              </div>
+
+              <div className="bg-muted/30 p-4 rounded-lg space-y-4">
+                <div>
+                  <Label className="text-sm">Assumed Rate of Return During Retirement</Label>
+                  <Input placeholder="5%" className="mt-1" />
+                </div>
+                
+                <div>
+                  <Label className="text-sm">Solution Rate of Return</Label>
+                  <Input placeholder="6%" className="mt-1" />
+                </div>
+                
+                <div>
+                  <Label className="text-sm">Number of Months Since the Last Review</Label>
+                  <Input placeholder="12" className="mt-1" />
                 </div>
               </div>
             </CardContent>
