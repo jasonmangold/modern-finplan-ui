@@ -368,6 +368,10 @@ export const SurvivorNeedsInputs = () => {
                   onChange={(e) => updateSharedInput('ForNumberOfYears', e.target.value)}
                   placeholder="15"
                   className="w-16 h-8"
+                  data-backend-name="ForNumberOfYears"
+                  data-label="Number of Years"
+                  data-xtype="number"
+                  data-min-value={0}
                 />
                 <Label className="text-sm">years</Label>
               </div>
@@ -396,6 +400,10 @@ export const SurvivorNeedsInputs = () => {
                       onChange={(e) => updateSharedInput('SurviveTodayFlatAmount', e.target.value)}
                       placeholder="7,000"
                       className="w-24 h-8"
+                      data-backend-name="SurviveTodayFlatAmount"
+                      data-label="Survive Today Flat Amount"
+                      data-xtype="currency"
+                      data-min-value={0}
                     />
                     <Label className="text-sm">or</Label>
                   </div>
@@ -413,6 +421,11 @@ export const SurvivorNeedsInputs = () => {
                       onChange={(e) => updateSharedInput('SurviveTodayPercentOfIncome', e.target.value)}
                       placeholder="100"
                       className="w-16 h-8"
+                      data-backend-name="SurviveTodayPercentOfIncome"
+                      data-label="Survive Today Percent of Income"
+                      data-xtype="percentage"
+                      data-min-value={0}
+                      data-max-value={100}
                     />
                     <Label className="text-sm">% of total current income</Label>
                   </div>
@@ -432,6 +445,10 @@ export const SurvivorNeedsInputs = () => {
                         onChange={(e) => updateSharedInput('XYearsAfterSurvivalYearsAfter', e.target.value)}
                         placeholder="18"
                         className="w-12 h-8"
+                        data-backend-name="XYearsAfterSurvivalYearsAfter"
+                        data-label="Years After Survival"
+                        data-xtype="number"
+                        data-min-value={0}
                       />
                     </div>
                     <div className="flex items-center space-x-4">
@@ -450,6 +467,10 @@ export const SurvivorNeedsInputs = () => {
                           onChange={(e) => updateSharedInput('XYearsAfterSurvivalFlatAmount', e.target.value)}
                           placeholder="6,000"
                           className="w-24 h-8"
+                          data-backend-name="XYearsAfterSurvivalFlatAmount"
+                          data-label="X Years After Survival Flat Amount"
+                          data-xtype="currency"
+                          data-min-value={0}
                         />
                         <Label className="text-sm">or</Label>
                       </div>
@@ -467,6 +488,11 @@ export const SurvivorNeedsInputs = () => {
                           onChange={(e) => updateSharedInput('XYearsAfterSurvivalPercentOfIncome', e.target.value)}
                           placeholder="50"
                           className="w-16 h-8"
+                          data-backend-name="XYearsAfterSurvivalPercentOfIncome"
+                          data-label="X Years After Survival Percent of Income"
+                          data-xtype="percentage"
+                          data-min-value={0}
+                          data-max-value={100}
                         />
                         <Label className="text-sm">% of total current income</Label>
                       </div>
@@ -492,6 +518,10 @@ export const SurvivorNeedsInputs = () => {
                           onChange={(e) => updateSharedInput('AtSurviveRetirementFlatAmount', e.target.value)}
                           placeholder="5,000"
                           className="w-24 h-8"
+                          data-backend-name="AtSurviveRetirementFlatAmount"
+                          data-label="At Survive Retirement Flat Amount"
+                          data-xtype="currency"
+                          data-min-value={0}
                         />
                         <Label className="text-sm">or</Label>
                       </div>
@@ -509,6 +539,11 @@ export const SurvivorNeedsInputs = () => {
                           onChange={(e) => updateSharedInput('AtSurviveRetirementPercentOfIncome', e.target.value)}
                           placeholder="50"
                           className="w-16 h-8"
+                          data-backend-name="AtSurviveRetirementPercentOfIncome"
+                          data-label="At Survive Retirement Percent of Income"
+                          data-xtype="percentage"
+                          data-min-value={0}
+                          data-max-value={100}
                         />
                         <Label className="text-sm">% of total current income</Label>
                       </div>
