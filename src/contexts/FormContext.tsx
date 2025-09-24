@@ -373,19 +373,19 @@ interface SharedInputs {
   AtRetirementPercentOfIncome: string;
   
   // Survivor Needs Income fields
-  provideIncomeForLife: boolean;
-  incomeYears: string;
-  todayIncomeType: string;
-  todayIncomeAmount: string;
-  todayIncomePercent: string;
-  youngestChildAge: string;
-  childIncomeType: string;
-  childIncomeAmount: string;
-  childIncomePercent: string;
-  retirementIncomeType: string;
-  retirementIncomeAmount: string;
-  retirementIncomePercent: string;
-  includeEducationFunding: boolean;
+  ForLifetime: boolean;
+  ForNumberOfYears: string;
+  SurviveTodayUsePercent: boolean;
+  SurviveTodayFlatAmount: string;
+  SurviveTodayPercentOfIncome: string;
+  XYearsAfterSurvivalYearsAfter: string;
+  XYearsAfterSurvivalUsePercent: boolean;
+  XYearsAfterSurvivalFlatAmount: string;
+  XYearsAfterSurvivalPercentOfIncome: string;
+  AtSurviveRetirementUsePercent: boolean;
+  AtSurviveRetirementFlatAmount: string;
+  AtSurviveRetirementPercentOfIncome: string;
+  IncludeCollegeFundingForDependants: boolean;
   
   XYearsAfterRetiredYearsAfter: string;
   XYearsAfterRetiredUsePercent: boolean;
@@ -602,19 +602,19 @@ const initialSharedInputs: SharedInputs = {
   AtRetirementPercentOfIncome: '',
   
   // Survivor Needs Income fields
-  provideIncomeForLife: false,
-  incomeYears: '15',
-  todayIncomeType: 'amount',
-  todayIncomeAmount: '7000',
-  todayIncomePercent: '100',
-  youngestChildAge: '18',
-  childIncomeType: 'amount',
-  childIncomeAmount: '6000',
-  childIncomePercent: '50',
-  retirementIncomeType: 'amount',
-  retirementIncomeAmount: '5000',
-  retirementIncomePercent: '50',
-  includeEducationFunding: false,
+  ForLifetime: false,
+  ForNumberOfYears: '15',
+  SurviveTodayUsePercent: false,
+  SurviveTodayFlatAmount: '7000',
+  SurviveTodayPercentOfIncome: '100',
+  XYearsAfterSurvivalYearsAfter: '18',
+  XYearsAfterSurvivalUsePercent: false,
+  XYearsAfterSurvivalFlatAmount: '6000',
+  XYearsAfterSurvivalPercentOfIncome: '50',
+  AtSurviveRetirementUsePercent: false,
+  AtSurviveRetirementFlatAmount: '5000',
+  AtSurviveRetirementPercentOfIncome: '50',
+  IncludeCollegeFundingForDependants: false,
   
   XYearsAfterRetiredYearsAfter: '',
   XYearsAfterRetiredUsePercent: false,

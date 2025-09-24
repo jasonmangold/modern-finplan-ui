@@ -358,14 +358,14 @@ export const SurvivorNeedsInputs = () => {
               <div className="flex items-center space-x-2 mb-4">
                 <Label className="text-sm">Provide income for</Label>
                 <Checkbox 
-                  id="provideIncomeForLife" 
-                  checked={sharedInputs.provideIncomeForLife}
-                  onCheckedChange={(checked) => updateSharedInput('provideIncomeForLife', checked)}
+                  id="ForLifetime" 
+                  checked={sharedInputs.ForLifetime}
+                  onCheckedChange={(checked) => updateSharedInput('ForLifetime', checked)}
                 />
-                <Label htmlFor="provideIncomeForLife" className="text-sm">life OR</Label>
+                <Label htmlFor="ForLifetime" className="text-sm">life OR</Label>
                 <Input 
-                  value={sharedInputs.incomeYears || "15"}
-                  onChange={(e) => updateSharedInput('incomeYears', e.target.value)}
+                  value={sharedInputs.ForNumberOfYears || "15"}
+                  onChange={(e) => updateSharedInput('ForNumberOfYears', e.target.value)}
                   placeholder="15"
                   className="w-16 h-8"
                 />
@@ -386,14 +386,14 @@ export const SurvivorNeedsInputs = () => {
                       type="radio"
                       id="todayAmount"
                       name="todayIncomeType"
-                      checked={sharedInputs.todayIncomeType === 'amount'}
-                      onChange={() => updateSharedInput('todayIncomeType', 'amount')}
+                      checked={!sharedInputs.SurviveTodayUsePercent}
+                      onChange={() => updateSharedInput('SurviveTodayUsePercent', false)}
                       className="h-4 w-4"
                     />
                     <Label htmlFor="todayAmount" className="text-sm">$</Label>
                     <Input 
-                      value={sharedInputs.todayIncomeAmount || "7,000"}
-                      onChange={(e) => updateSharedInput('todayIncomeAmount', e.target.value)}
+                      value={sharedInputs.SurviveTodayFlatAmount || "7,000"}
+                      onChange={(e) => updateSharedInput('SurviveTodayFlatAmount', e.target.value)}
                       placeholder="7,000"
                       className="w-24 h-8"
                     />
@@ -404,13 +404,13 @@ export const SurvivorNeedsInputs = () => {
                       type="radio"
                       id="todayPercent"
                       name="todayIncomeType"
-                      checked={sharedInputs.todayIncomeType === 'percent'}
-                      onChange={() => updateSharedInput('todayIncomeType', 'percent')}
+                      checked={sharedInputs.SurviveTodayUsePercent}
+                      onChange={() => updateSharedInput('SurviveTodayUsePercent', true)}
                       className="h-4 w-4"
                     />
                     <Input 
-                      value={sharedInputs.todayIncomePercent || "100"}
-                      onChange={(e) => updateSharedInput('todayIncomePercent', e.target.value)}
+                      value={sharedInputs.SurviveTodayPercentOfIncome || "100"}
+                      onChange={(e) => updateSharedInput('SurviveTodayPercentOfIncome', e.target.value)}
                       placeholder="100"
                       className="w-16 h-8"
                     />
@@ -420,7 +420,7 @@ export const SurvivorNeedsInputs = () => {
               </div>
 
               {/* Conditional sections when provide income for life is checked */}
-              {sharedInputs.provideIncomeForLife && (
+              {sharedInputs.ForLifetime && (
                 <>
                   {/* Beginning when youngest child reaches age section */}
                   <div className="bg-muted/30 p-4 rounded-lg space-y-3">
@@ -428,8 +428,8 @@ export const SurvivorNeedsInputs = () => {
                       <Label className="text-sm font-medium">Beginning</Label>
                       <Label className="text-sm font-medium">When youngest child reaches</Label>
                       <Input 
-                        value={sharedInputs.youngestChildAge || "18"}
-                        onChange={(e) => updateSharedInput('youngestChildAge', e.target.value)}
+                        value={sharedInputs.XYearsAfterSurvivalYearsAfter || "18"}
+                        onChange={(e) => updateSharedInput('XYearsAfterSurvivalYearsAfter', e.target.value)}
                         placeholder="18"
                         className="w-12 h-8"
                       />
@@ -440,14 +440,14 @@ export const SurvivorNeedsInputs = () => {
                           type="radio"
                           id="childAmount"
                           name="childIncomeType"
-                          checked={sharedInputs.childIncomeType === 'amount'}
-                          onChange={() => updateSharedInput('childIncomeType', 'amount')}
+                          checked={!sharedInputs.XYearsAfterSurvivalUsePercent}
+                          onChange={() => updateSharedInput('XYearsAfterSurvivalUsePercent', false)}
                           className="h-4 w-4"
                         />
                         <Label htmlFor="childAmount" className="text-sm">$</Label>
                         <Input 
-                          value={sharedInputs.childIncomeAmount || "6,000"}
-                          onChange={(e) => updateSharedInput('childIncomeAmount', e.target.value)}
+                          value={sharedInputs.XYearsAfterSurvivalFlatAmount || "6,000"}
+                          onChange={(e) => updateSharedInput('XYearsAfterSurvivalFlatAmount', e.target.value)}
                           placeholder="6,000"
                           className="w-24 h-8"
                         />
@@ -458,13 +458,13 @@ export const SurvivorNeedsInputs = () => {
                           type="radio"
                           id="childPercent"
                           name="childIncomeType"
-                          checked={sharedInputs.childIncomeType === 'percent'}
-                          onChange={() => updateSharedInput('childIncomeType', 'percent')}
+                          checked={sharedInputs.XYearsAfterSurvivalUsePercent}
+                          onChange={() => updateSharedInput('XYearsAfterSurvivalUsePercent', true)}
                           className="h-4 w-4"
                         />
                         <Input 
-                          value={sharedInputs.childIncomePercent || "50"}
-                          onChange={(e) => updateSharedInput('childIncomePercent', e.target.value)}
+                          value={sharedInputs.XYearsAfterSurvivalPercentOfIncome || "50"}
+                          onChange={(e) => updateSharedInput('XYearsAfterSurvivalPercentOfIncome', e.target.value)}
                           placeholder="50"
                           className="w-16 h-8"
                         />
@@ -482,14 +482,14 @@ export const SurvivorNeedsInputs = () => {
                           type="radio"
                           id="retirementAmount"
                           name="retirementIncomeType"
-                          checked={sharedInputs.retirementIncomeType === 'amount'}
-                          onChange={() => updateSharedInput('retirementIncomeType', 'amount')}
+                          checked={!sharedInputs.AtSurviveRetirementUsePercent}
+                          onChange={() => updateSharedInput('AtSurviveRetirementUsePercent', false)}
                           className="h-4 w-4"
                         />
                         <Label htmlFor="retirementAmount" className="text-sm">$</Label>
                         <Input 
-                          value={sharedInputs.retirementIncomeAmount || "5,000"}
-                          onChange={(e) => updateSharedInput('retirementIncomeAmount', e.target.value)}
+                          value={sharedInputs.AtSurviveRetirementFlatAmount || "5,000"}
+                          onChange={(e) => updateSharedInput('AtSurviveRetirementFlatAmount', e.target.value)}
                           placeholder="5,000"
                           className="w-24 h-8"
                         />
@@ -500,13 +500,13 @@ export const SurvivorNeedsInputs = () => {
                           type="radio"
                           id="retirementPercent"
                           name="retirementIncomeType"
-                          checked={sharedInputs.retirementIncomeType === 'percent'}
-                          onChange={() => updateSharedInput('retirementIncomeType', 'percent')}
+                          checked={sharedInputs.AtSurviveRetirementUsePercent}
+                          onChange={() => updateSharedInput('AtSurviveRetirementUsePercent', true)}
                           className="h-4 w-4"
                         />
                         <Input 
-                          value={sharedInputs.retirementIncomePercent || "50"}
-                          onChange={(e) => updateSharedInput('retirementIncomePercent', e.target.value)}
+                          value={sharedInputs.AtSurviveRetirementPercentOfIncome || "50"}
+                          onChange={(e) => updateSharedInput('AtSurviveRetirementPercentOfIncome', e.target.value)}
                           placeholder="50"
                           className="w-16 h-8"
                         />
@@ -519,11 +519,11 @@ export const SurvivorNeedsInputs = () => {
 
               <div className="flex items-center space-x-2">
                 <Checkbox 
-                  id="includeEducation" 
-                  checked={sharedInputs.includeEducationFunding}
-                  onCheckedChange={(checked) => updateSharedInput('includeEducationFunding', checked)}
+                  id="IncludeCollegeFundingForDependants" 
+                  checked={sharedInputs.IncludeCollegeFundingForDependants}
+                  onCheckedChange={(checked) => updateSharedInput('IncludeCollegeFundingForDependants', checked)}
                 />
-                <Label htmlFor="includeEducation" className="text-sm">Include education funding for dependents</Label>
+                <Label htmlFor="IncludeCollegeFundingForDependants" className="text-sm">Include education funding for dependents</Label>
               </div>
             </CardContent>
           </Card>
