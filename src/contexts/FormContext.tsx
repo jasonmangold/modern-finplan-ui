@@ -59,27 +59,17 @@ interface SharedInputs {
   mortgage: number;
   assetDebt: number;
   
-  // Children data from Education Funding
-  children: Array<{
-    StudentName: string;
-    StudentBirth: string;
-    schools: Array<{
-      CollegeName: string;
-      CollegeStateText: string;
-      AnnualCosts: string;
-      AgeWhenSchoolBegins: string;
-      YearsInSchool: string;
-      UseCollegeBoardInfo?: boolean;
-      CollegeState?: string;
-      IncludeOutOfStateFees?: boolean;
-      IncludeRoomBoardBooksAndOther?: boolean;
-    }>;
-    EduPercentageToFund: string;
-    EduAmountCurrentlySaved: string;
-    EduPlannedMonthlySavings: string;
-    DependentOfClient1?: boolean;
-    DependentOfClient2?: boolean;
-  }>;
+  // Children data - indexed fields for up to 5 students
+  StudentName0: string;
+  StudentBirth0: string;
+  StudentName1: string;
+  StudentBirth1: string;
+  StudentName2: string;
+  StudentBirth2: string;
+  StudentName3: string;
+  StudentBirth3: string;
+  StudentName4: string;
+  StudentBirth4: string;
   
   // Legacy education data (kept for compatibility)
   schoolName: string;
@@ -497,7 +487,17 @@ const initialSharedInputs: SharedInputs = {
   mortgage: 0,
   assetDebt: 0,
   
-  children: [],
+  // Children data - indexed fields for up to 5 students
+  StudentName0: '',
+  StudentBirth0: '',
+  StudentName1: '',
+  StudentBirth1: '',
+  StudentName2: '',
+  StudentBirth2: '',
+  StudentName3: '',
+  StudentBirth3: '',
+  StudentName4: '',
+  StudentBirth4: '',
   schoolName: '',
   annualTuitionCost: '',
   ageWhenSchoolBegins: '18',
