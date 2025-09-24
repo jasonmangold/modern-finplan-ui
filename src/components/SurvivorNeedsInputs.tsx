@@ -535,49 +535,159 @@ export const SurvivorNeedsInputs = () => {
         <TabsContent value="capital-debt" className="space-y-4 mt-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Capital & Investments</CardTitle>
+              <CardTitle className="text-lg">Retirement Plans</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label className="text-sm">Client 1 Retirement Plan Balance</Label>
-                  <Input 
-                    value={sharedInputs.Client1_RPBalance}
-                    onChange={(e) => updateSharedInput('Client1_RPBalance', e.target.value)}
-                    placeholder="$500,000" 
-                    className="mt-1" 
-                  />
-                </div>
-                {sharedInputs.hasClient2 && (
-                  <div>
-                    <Label className="text-sm">Client 2 Retirement Plan Balance</Label>
-                    <Input 
-                      value={sharedInputs.Client2_RPBalance}
-                      onChange={(e) => updateSharedInput('Client2_RPBalance', e.target.value)}
-                      placeholder="$300,000" 
-                      className="mt-1" 
-                    />
-                  </div>
-                )}
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left p-2 font-medium"></th>
+                      <th className="text-center p-2 font-medium">Balance</th>
+                      <th className="text-center p-2 font-medium">Monthly Contributions</th>
+                      <th className="text-center p-2 font-medium">Company Match</th>
+                      <th className="text-center p-2 font-medium">Annual Increase</th>
+                      <th className="text-center p-2 font-medium">Rate of Return</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b">
+                      <td className="p-2 font-medium">Client 1</td>
+                      <td className="p-2">
+                        <Input 
+                          value={sharedInputs.Client1_RPBalance}
+                          onChange={(e) => updateSharedInput('Client1_RPBalance', e.target.value)}
+                          placeholder="$91,000" 
+                          className="text-center" 
+                        />
+                      </td>
+                      <td className="p-2">
+                        <Input 
+                          value={sharedInputs.Client1_RPMonthlyContribution}
+                          onChange={(e) => updateSharedInput('Client1_RPMonthlyContribution', e.target.value)}
+                          placeholder="$300" 
+                          className="text-center" 
+                        />
+                      </td>
+                      <td className="p-2">
+                        <Input 
+                          value={sharedInputs.Client1_RPCompanyMatch}
+                          onChange={(e) => updateSharedInput('Client1_RPCompanyMatch', e.target.value)}
+                          placeholder="$0" 
+                          className="text-center" 
+                        />
+                      </td>
+                      <td className="p-2">
+                        <div className="flex items-center">
+                          <Input 
+                            value={sharedInputs.Client1_RPAnnualIncrease}
+                            onChange={(e) => updateSharedInput('Client1_RPAnnualIncrease', e.target.value)}
+                            placeholder="1" 
+                            className="text-center flex-1" 
+                          />
+                          <span className="ml-1 text-sm">%</span>
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        <div className="flex items-center">
+                          <Input 
+                            value={sharedInputs.Client1_RPRateOfReturn}
+                            onChange={(e) => updateSharedInput('Client1_RPRateOfReturn', e.target.value)}
+                            placeholder="6" 
+                            className="text-center flex-1" 
+                          />
+                          <span className="ml-1 text-sm">%</span>
+                        </div>
+                      </td>
+                    </tr>
+                    {sharedInputs.hasClient2 && (
+                      <tr className="border-b">
+                        <td className="p-2 font-medium">Client 2</td>
+                        <td className="p-2">
+                          <Input 
+                            value={sharedInputs.Client2_RPBalance}
+                            onChange={(e) => updateSharedInput('Client2_RPBalance', e.target.value)}
+                            placeholder="$80,000" 
+                            className="text-center" 
+                          />
+                        </td>
+                        <td className="p-2">
+                          <Input 
+                            value={sharedInputs.Client2_RPMonthlyContribution}
+                            onChange={(e) => updateSharedInput('Client2_RPMonthlyContribution', e.target.value)}
+                            placeholder="$200" 
+                            className="text-center" 
+                          />
+                        </td>
+                        <td className="p-2">
+                          <Input 
+                            value={sharedInputs.Client2_RPCompanyMatch}
+                            onChange={(e) => updateSharedInput('Client2_RPCompanyMatch', e.target.value)}
+                            placeholder="$0" 
+                            className="text-center" 
+                          />
+                        </td>
+                        <td className="p-2">
+                          <div className="flex items-center">
+                            <Input 
+                              value={sharedInputs.Client2_RPAnnualIncrease}
+                              onChange={(e) => updateSharedInput('Client2_RPAnnualIncrease', e.target.value)}
+                              placeholder="1" 
+                              className="text-center flex-1" 
+                            />
+                            <span className="ml-1 text-sm">%</span>
+                          </div>
+                        </td>
+                        <td className="p-2">
+                          <div className="flex items-center">
+                            <Input 
+                              value={sharedInputs.Client2_RPRateOfReturn}
+                              onChange={(e) => updateSharedInput('Client2_RPRateOfReturn', e.target.value)}
+                              placeholder="6" 
+                              className="text-center flex-1" 
+                            />
+                            <span className="ml-1 text-sm">%</span>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
               </div>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label className="text-sm">Other Asset Balance</Label>
+
+              <div className="flex items-center space-x-2 pt-4">
+                <Checkbox 
+                  id="delayRetirement" 
+                  checked={sharedInputs.DelayUseOfRetirement}
+                  onCheckedChange={(checked) => updateSharedInput('DelayUseOfRetirement', checked)}
+                />
+                <Label htmlFor="delayRetirement" className="text-sm">Delay using retirement funds until retired</Label>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Other Assets</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-2 gap-4 items-center">
+                <div className="flex items-center space-x-2">
+                  <Label className="text-sm w-20">Cash:</Label>
                   <Input 
-                    value={sharedInputs.OtherAssetBalance}
-                    onChange={(e) => updateSharedInput('OtherAssetBalance', e.target.value)}
-                    placeholder="$100,000" 
-                    className="mt-1" 
+                    value={sharedInputs.Cash_Balance}
+                    onChange={(e) => updateSharedInput('Cash_Balance', e.target.value)}
+                    placeholder="$0" 
+                    className="flex-1" 
                   />
                 </div>
-                <div>
-                  <Label className="text-sm">Cash and Cash Equivalents</Label>
+                <div className="flex items-center space-x-2">
+                  <Label className="text-sm w-20">Other:</Label>
                   <Input 
-                    value={sharedInputs.cash}
-                    onChange={(e) => updateSharedInput('cash', e.target.value)}
-                    placeholder="$50,000" 
-                    className="mt-1" 
+                    value={sharedInputs.OtherAsset_Balance}
+                    onChange={(e) => updateSharedInput('OtherAsset_Balance', e.target.value)}
+                    placeholder="$35,000" 
+                    className="flex-1" 
                   />
                 </div>
               </div>
@@ -586,37 +696,58 @@ export const SurvivorNeedsInputs = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Debt & Liabilities</CardTitle>
+              <CardTitle className="text-lg">Life Insurance Benefits</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label className="text-sm">Mortgage Balance</Label>
+              <div className="grid grid-cols-2 gap-4 items-center">
+                <div className="flex items-center space-x-2">
+                  <Label className="text-sm w-20">Client 1:</Label>
                   <Input 
-                    value={sharedInputs.mortgageBalance}
-                    onChange={(e) => updateSharedInput('mortgageBalance', e.target.value)}
-                    placeholder="$250,000" 
-                    className="mt-1" 
+                    value={sharedInputs.Client1_SurvivorLifeInsurance_DeathBenefit}
+                    onChange={(e) => updateSharedInput('Client1_SurvivorLifeInsurance_DeathBenefit', e.target.value)}
+                    placeholder="$500,000" 
+                    className="flex-1" 
                   />
                 </div>
-                <div>
-                  <Label className="text-sm">Other Debt</Label>
-                  <Input 
-                    value={sharedInputs.otherDebt}
-                    onChange={(e) => updateSharedInput('otherDebt', e.target.value)}
-                    placeholder="$25,000" 
-                    className="mt-1" 
-                  />
-                </div>
+                {sharedInputs.hasClient2 && (
+                  <div className="flex items-center space-x-2">
+                    <Label className="text-sm w-20">Client 2:</Label>
+                    <Input 
+                      value={sharedInputs.Client2_SurvivorLifeInsurance_DeathBenefit}
+                      onChange={(e) => updateSharedInput('Client2_SurvivorLifeInsurance_DeathBenefit', e.target.value)}
+                      placeholder="$500,000" 
+                      className="flex-1" 
+                    />
+                  </div>
+                )}
               </div>
+            </CardContent>
+          </Card>
 
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="delayRetirement" 
-                  checked={sharedInputs.delayRetirementFunds}
-                  onCheckedChange={(checked) => updateSharedInput('delayRetirementFunds', checked)}
-                />
-                <Label htmlFor="delayRetirement" className="text-sm">Delay retirement funds until retirement age</Label>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Debts to be repaid</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-2 gap-4 items-center">
+                <div className="flex items-center space-x-2">
+                  <Label className="text-sm w-32">Mortgage balance:</Label>
+                  <Input 
+                    value={sharedInputs.Mortgage_Debt}
+                    onChange={(e) => updateSharedInput('Mortgage_Debt', e.target.value)}
+                    placeholder="$205,000" 
+                    className="flex-1" 
+                  />
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Label className="text-sm w-32">Other debt:</Label>
+                  <Input 
+                    value={sharedInputs.OtherDebt_Debt}
+                    onChange={(e) => updateSharedInput('OtherDebt_Debt', e.target.value)}
+                    placeholder="$105,000" 
+                    className="flex-1" 
+                  />
+                </div>
               </div>
             </CardContent>
           </Card>

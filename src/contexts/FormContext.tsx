@@ -120,13 +120,20 @@ interface SharedInputs {
   
   // Survivor needs specific fields
   delayRetirementFunds: boolean;
+  DelayUseOfRetirement: boolean;
+  Cash_Balance: string;
+  OtherAsset_Balance: string;
   cashAndOtherAssets: string;
   cash: string;
   otherAssets: string;
   client1LifeInsurance: string;
   client2LifeInsurance: string;
+  Client1_SurvivorLifeInsurance_DeathBenefit: string;
+  Client2_SurvivorLifeInsurance_DeathBenefit: string;
   mortgageBalance: string;
   otherDebt: string;
+  Mortgage_Debt: string;
+  OtherDebt_Debt: string;
   
   // Assumptions shared data
   AnalysisDate: string;
@@ -526,13 +533,20 @@ const initialSharedInputs: SharedInputs = {
   OtherAssetMonthlyContribution: '',
   OtherAssetRoR: '',
   delayRetirementFunds: false,
+  DelayUseOfRetirement: false,
+  Cash_Balance: '',
+  OtherAsset_Balance: '',
   cashAndOtherAssets: '',
   cash: '',
   otherAssets: '',
   client1LifeInsurance: '',
   client2LifeInsurance: '',
+  Client1_SurvivorLifeInsurance_DeathBenefit: '',
+  Client2_SurvivorLifeInsurance_DeathBenefit: '',
   mortgageBalance: '',
   otherDebt: '',
+  Mortgage_Debt: '',
+  OtherDebt_Debt: '',
   AnalysisDate: new Date().toISOString().split('T')[0],
   
   // Business Continuation fields
