@@ -154,7 +154,11 @@ export const SurvivorNeedsInputs = () => {
                     value={sharedInputs.Client1_FirstName}
                     onChange={(e) => updateSharedInput('Client1_FirstName', e.target.value)}
                     placeholder="First name" 
-                    className="mt-1" 
+                    className="mt-1"
+                    data-backend-name="Client1_FirstName"
+                    data-label="Client 1 First Name"
+                    data-xtype="text"
+                    data-max-length={50}
                   />
                 </div>
                 <div>
@@ -163,7 +167,11 @@ export const SurvivorNeedsInputs = () => {
                     value={sharedInputs.Client1_LastName}
                     onChange={(e) => updateSharedInput('Client1_LastName', e.target.value)}
                     placeholder="Last name" 
-                    className="mt-1" 
+                    className="mt-1"
+                    data-backend-name="Client1_LastName"
+                    data-label="Client 1 Last Name"
+                    data-xtype="text"
+                    data-max-length={50}
                   />
                 </div>
               </div>
@@ -174,7 +182,10 @@ export const SurvivorNeedsInputs = () => {
                     type="date"
                     value={sharedInputs.Client1_BirthDate}
                     onChange={(e) => updateSharedInput('Client1_BirthDate', e.target.value)}
-                    className="mt-1" 
+                    className="mt-1"
+                    data-backend-name="Client1_BirthDate"
+                    data-label="Client 1 Date of Birth"
+                    data-xtype="date"
                   />
                 </div>
                 <div>
@@ -183,7 +194,12 @@ export const SurvivorNeedsInputs = () => {
                     value={sharedInputs.Client1_RetirementAge}
                     onChange={(e) => updateSharedInput('Client1_RetirementAge', e.target.value)}
                     placeholder="67" 
-                    className="mt-1" 
+                    className="mt-1"
+                    data-backend-name="Client1_RetirementAge"
+                    data-label="Client 1 Retirement Age"
+                    data-xtype="number"
+                    data-min-value={50}
+                    data-max-value={80}
                   />
                 </div>
               </div>
@@ -870,11 +886,16 @@ export const SurvivorNeedsInputs = () => {
                   <div>
                     <Label className="text-sm font-medium">Education Inflation Rate</Label>
                     <div className="flex items-center mt-1.5 space-x-2">
-                      <Input 
+                       <Input 
                         value={sharedInputs.AnnualEducationInflationRate.replace('%', '')}
                         onChange={(e) => updateSharedInput('AnnualEducationInflationRate', e.target.value + '%')}
                         placeholder="5" 
-                        className="flex-1" 
+                        className="flex-1"
+                        data-backend-name="AnnualEducationInflationRate"
+                        data-label="Education Inflation Rate"
+                        data-xtype="percentage"
+                        data-min-value={0}
+                        data-max-value={20}
                       />
                       <span className="text-sm font-medium text-muted-foreground min-w-fit">%</span>
                     </div>
@@ -907,11 +928,16 @@ export const SurvivorNeedsInputs = () => {
                   <div>
                     <Label className="text-sm font-medium">Education Assets Return Rate</Label>
                     <div className="flex items-center mt-1.5 space-x-2">
-                      <Input 
+                       <Input 
                         value={sharedInputs.RateOfReturnOnEducationAssets.replace('%', '')}
                         onChange={(e) => updateSharedInput('RateOfReturnOnEducationAssets', e.target.value + '%')}
                         placeholder="6" 
-                        className="flex-1" 
+                        className="flex-1"
+                        data-backend-name="RateOfReturnOnEducationAssets"
+                        data-label="Education Assets Return Rate"
+                        data-xtype="percentage"
+                        data-min-value={0}
+                        data-max-value={25}
                       />
                       <span className="text-sm font-medium text-muted-foreground min-w-fit">%</span>
                     </div>

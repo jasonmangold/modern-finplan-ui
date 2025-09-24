@@ -14,8 +14,35 @@ import NotFound from "./pages/NotFound";
 import { SearchProvider } from "./contexts/SearchContext";
 import { FormProvider } from "./contexts/FormContext";
 import { PresentationProvider } from "./contexts/PresentationContext";
+import { useInputDebug } from "./hooks/useInputDebug";
+import { InputDebugDialog } from "./components/debug/InputDebugDialog";
 
 const queryClient = new QueryClient();
+
+const AppContent = () => {
+  const { isDebugOpen, debugInfo, closeDebug } = useInputDebug();
+
+  return (
+    <>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Navigate to="/home" replace />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/analysis" element={<Analysis />} />
+          <Route path="/education" element={<Education />} />
+          <Route path="/calculators" element={<Calculators />} />
+          <Route path="/presentation" element={<Presentation />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Layout>
+      <InputDebugDialog 
+        isOpen={isDebugOpen} 
+        onClose={closeDebug} 
+        debugInfo={debugInfo} 
+      />
+    </>
+  );
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -26,17 +53,7 @@ const App = () => (
         <SearchProvider>
           <FormProvider>
             <PresentationProvider>
-              <Layout>
-                <Routes>
-                  <Route path="/" element={<Navigate to="/home" replace />} />
-                  <Route path="/home" element={<Home />} />
-                  <Route path="/analysis" element={<Analysis />} />
-                  <Route path="/education" element={<Education />} />
-                  <Route path="/calculators" element={<Calculators />} />
-                  <Route path="/presentation" element={<Presentation />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Layout>
+              <AppContent />
             </PresentationProvider>
           </FormProvider>
         </SearchProvider>

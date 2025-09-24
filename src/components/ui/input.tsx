@@ -2,7 +2,17 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
+export interface InputProps extends React.ComponentProps<"input"> {
+  'data-backend-name'?: string;
+  'data-label'?: string;
+  'data-xtype'?: 'text' | 'number' | 'currency' | 'percentage' | 'date' | 'email' | 'tel';
+  'data-min-length'?: number;
+  'data-max-length'?: number;
+  'data-min-value'?: number;
+  'data-max-value'?: number;
+}
+
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
     return (
       <input
