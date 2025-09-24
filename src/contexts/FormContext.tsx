@@ -372,6 +372,21 @@ interface SharedInputs {
   AtRetirementFlatAmount: string;
   AtRetirementPercentOfIncome: string;
   
+  // Survivor Needs Income fields
+  provideIncomeForLife: boolean;
+  incomeYears: string;
+  todayIncomeType: string;
+  todayIncomeAmount: string;
+  todayIncomePercent: string;
+  youngestChildAge: string;
+  childIncomeType: string;
+  childIncomeAmount: string;
+  childIncomePercent: string;
+  retirementIncomeType: string;
+  retirementIncomeAmount: string;
+  retirementIncomePercent: string;
+  includeEducationFunding: boolean;
+  
   XYearsAfterRetiredYearsAfter: string;
   XYearsAfterRetiredUsePercent: boolean;
   XYearsAfterRetiredFlatAmount: string;
@@ -585,6 +600,21 @@ const initialSharedInputs: SharedInputs = {
   AtRetirementUsePercent: false,
   AtRetirementFlatAmount: '',
   AtRetirementPercentOfIncome: '',
+  
+  // Survivor Needs Income fields
+  provideIncomeForLife: false,
+  incomeYears: '15',
+  todayIncomeType: 'amount',
+  todayIncomeAmount: '7000',
+  todayIncomePercent: '100',
+  youngestChildAge: '18',
+  childIncomeType: 'amount',
+  childIncomeAmount: '6000',
+  childIncomePercent: '50',
+  retirementIncomeType: 'amount',
+  retirementIncomeAmount: '5000',
+  retirementIncomePercent: '50',
+  includeEducationFunding: false,
   
   XYearsAfterRetiredYearsAfter: '',
   XYearsAfterRetiredUsePercent: false,

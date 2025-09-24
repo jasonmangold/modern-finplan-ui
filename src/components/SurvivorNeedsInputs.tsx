@@ -354,30 +354,176 @@ export const SurvivorNeedsInputs = () => {
               <CardTitle className="text-lg">Income Needs</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div>
-                <Label className="text-sm">Monthly Income Need Today</Label>
-                <Input placeholder="$8,000" className="mt-1" />
+              {/* Provide income for life section */}
+              <div className="flex items-center space-x-2 mb-4">
+                <Label className="text-sm">Provide income for</Label>
+                <Checkbox 
+                  id="provideIncomeForLife" 
+                  checked={sharedInputs.provideIncomeForLife}
+                  onCheckedChange={(checked) => updateSharedInput('provideIncomeForLife', checked)}
+                />
+                <Label htmlFor="provideIncomeForLife" className="text-sm">life OR</Label>
+                <Input 
+                  value={sharedInputs.incomeYears || "15"}
+                  onChange={(e) => updateSharedInput('incomeYears', e.target.value)}
+                  placeholder="15"
+                  className="w-16 h-8"
+                />
+                <Label className="text-sm">years</Label>
               </div>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label className="text-sm">When Youngest Child Reaches Age</Label>
-                  <Input placeholder="18" className="mt-1" />
-                </div>
-                <div>
-                  <Label className="text-sm">Amount</Label>
-                  <Input placeholder="$6,000" className="mt-1" />
+
+              {/* Monthly income needs header */}
+              <div className="border-l-4 border-primary/20 pl-3">
+                <Label className="text-sm font-medium text-muted-foreground">Monthly income needs</Label>
+              </div>
+
+              {/* Beginning today section */}
+              <div className="bg-muted/30 p-4 rounded-lg space-y-3">
+                <Label className="text-sm font-medium">Beginning today</Label>
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      id="todayAmount"
+                      name="todayIncomeType"
+                      checked={sharedInputs.todayIncomeType === 'amount'}
+                      onChange={() => updateSharedInput('todayIncomeType', 'amount')}
+                      className="h-4 w-4"
+                    />
+                    <Label htmlFor="todayAmount" className="text-sm">$</Label>
+                    <Input 
+                      value={sharedInputs.todayIncomeAmount || "7,000"}
+                      onChange={(e) => updateSharedInput('todayIncomeAmount', e.target.value)}
+                      placeholder="7,000"
+                      className="w-24 h-8"
+                    />
+                    <Label className="text-sm">or</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      id="todayPercent"
+                      name="todayIncomeType"
+                      checked={sharedInputs.todayIncomeType === 'percent'}
+                      onChange={() => updateSharedInput('todayIncomeType', 'percent')}
+                      className="h-4 w-4"
+                    />
+                    <Input 
+                      value={sharedInputs.todayIncomePercent || "100"}
+                      onChange={(e) => updateSharedInput('todayIncomePercent', e.target.value)}
+                      placeholder="100"
+                      className="w-16 h-8"
+                    />
+                    <Label className="text-sm">% of total current income</Label>
+                  </div>
                 </div>
               </div>
 
-              <div>
-                <Label className="text-sm">Beginning at Retirement</Label>
-                <Input placeholder="$5,000" className="mt-1" />
-              </div>
+              {/* Conditional sections when provide income for life is checked */}
+              {sharedInputs.provideIncomeForLife && (
+                <>
+                  {/* Beginning when youngest child reaches age section */}
+                  <div className="bg-muted/30 p-4 rounded-lg space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <Label className="text-sm font-medium">Beginning</Label>
+                      <Label className="text-sm font-medium">When youngest child reaches</Label>
+                      <Input 
+                        value={sharedInputs.youngestChildAge || "18"}
+                        onChange={(e) => updateSharedInput('youngestChildAge', e.target.value)}
+                        placeholder="18"
+                        className="w-12 h-8"
+                      />
+                    </div>
+                    <div className="flex items-center space-x-4">
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="radio"
+                          id="childAmount"
+                          name="childIncomeType"
+                          checked={sharedInputs.childIncomeType === 'amount'}
+                          onChange={() => updateSharedInput('childIncomeType', 'amount')}
+                          className="h-4 w-4"
+                        />
+                        <Label htmlFor="childAmount" className="text-sm">$</Label>
+                        <Input 
+                          value={sharedInputs.childIncomeAmount || "6,000"}
+                          onChange={(e) => updateSharedInput('childIncomeAmount', e.target.value)}
+                          placeholder="6,000"
+                          className="w-24 h-8"
+                        />
+                        <Label className="text-sm">or</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="radio"
+                          id="childPercent"
+                          name="childIncomeType"
+                          checked={sharedInputs.childIncomeType === 'percent'}
+                          onChange={() => updateSharedInput('childIncomeType', 'percent')}
+                          className="h-4 w-4"
+                        />
+                        <Input 
+                          value={sharedInputs.childIncomePercent || "50"}
+                          onChange={(e) => updateSharedInput('childIncomePercent', e.target.value)}
+                          placeholder="50"
+                          className="w-16 h-8"
+                        />
+                        <Label className="text-sm">% of total current income</Label>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Beginning at retirement section */}
+                  <div className="bg-muted/30 p-4 rounded-lg space-y-3">
+                    <Label className="text-sm font-medium">Beginning at retirement</Label>
+                    <div className="flex items-center space-x-4">
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="radio"
+                          id="retirementAmount"
+                          name="retirementIncomeType"
+                          checked={sharedInputs.retirementIncomeType === 'amount'}
+                          onChange={() => updateSharedInput('retirementIncomeType', 'amount')}
+                          className="h-4 w-4"
+                        />
+                        <Label htmlFor="retirementAmount" className="text-sm">$</Label>
+                        <Input 
+                          value={sharedInputs.retirementIncomeAmount || "5,000"}
+                          onChange={(e) => updateSharedInput('retirementIncomeAmount', e.target.value)}
+                          placeholder="5,000"
+                          className="w-24 h-8"
+                        />
+                        <Label className="text-sm">or</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="radio"
+                          id="retirementPercent"
+                          name="retirementIncomeType"
+                          checked={sharedInputs.retirementIncomeType === 'percent'}
+                          onChange={() => updateSharedInput('retirementIncomeType', 'percent')}
+                          className="h-4 w-4"
+                        />
+                        <Input 
+                          value={sharedInputs.retirementIncomePercent || "50"}
+                          onChange={(e) => updateSharedInput('retirementIncomePercent', e.target.value)}
+                          placeholder="50"
+                          className="w-16 h-8"
+                        />
+                        <Label className="text-sm">% of total current income</Label>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
 
               <div className="flex items-center space-x-2">
-                <Checkbox id="includeEducation" />
-                <Label htmlFor="includeEducation" className="text-sm">Include Education Funding for Dependents</Label>
+                <Checkbox 
+                  id="includeEducation" 
+                  checked={sharedInputs.includeEducationFunding}
+                  onCheckedChange={(checked) => updateSharedInput('includeEducationFunding', checked)}
+                />
+                <Label htmlFor="includeEducation" className="text-sm">Include education funding for dependents</Label>
               </div>
             </CardContent>
           </Card>
