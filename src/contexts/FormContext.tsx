@@ -147,6 +147,10 @@ interface SharedInputs {
   AnnualSocialSecurityBenefitInflationRate: string;
   incomeTaxRate: string;
   
+  // Survivor needs analysis specific fields
+  ReserveInIncomeMonths: string;
+  ReserveRateOfReturn: string;
+  
   // Business Continuation fields
   businessOwnerName: string;
   yearsUntilRetirement: number;
@@ -601,6 +605,8 @@ const initialSharedInputs: SharedInputs = {
   SocialSecurityTaxablePercent: '',
   
   FinalExpenses: '',
+  ReserveInIncomeMonths: '',
+  ReserveRateOfReturn: '',
   RetirementRateOfReturn: '',
   RetirementSolutionRateOfReturn: '',
   RetirementMonthsSinceLastReview: '',
