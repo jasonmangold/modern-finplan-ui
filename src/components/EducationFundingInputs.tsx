@@ -3,6 +3,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Users, GraduationCap, Settings, Plus, Trash2, School, HelpCircle } from "lucide-react";
 import { useFormContext } from "@/contexts/FormContext";
 import { HelpDialog } from "./HelpDialog";
@@ -12,6 +14,83 @@ import { useState } from "react";
 export const EducationFundingInputs = () => {
   const { sharedInputs, updateSharedInput } = useFormContext();
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+
+  // Mock data for states and schools
+  const states = [
+    { value: 'AL', label: 'Alabama' },
+    { value: 'AK', label: 'Alaska' },
+    { value: 'AZ', label: 'Arizona' },
+    { value: 'AR', label: 'Arkansas' },
+    { value: 'CA', label: 'California' },
+    { value: 'CO', label: 'Colorado' },
+    { value: 'CT', label: 'Connecticut' },
+    { value: 'DE', label: 'Delaware' },
+    { value: 'FL', label: 'Florida' },
+    { value: 'GA', label: 'Georgia' },
+    { value: 'HI', label: 'Hawaii' },
+    { value: 'ID', label: 'Idaho' },
+    { value: 'IL', label: 'Illinois' },
+    { value: 'IN', label: 'Indiana' },
+    { value: 'IA', label: 'Iowa' },
+    { value: 'KS', label: 'Kansas' },
+    { value: 'KY', label: 'Kentucky' },
+    { value: 'LA', label: 'Louisiana' },
+    { value: 'ME', label: 'Maine' },
+    { value: 'MD', label: 'Maryland' },
+    { value: 'MA', label: 'Massachusetts' },
+    { value: 'MI', label: 'Michigan' },
+    { value: 'MN', label: 'Minnesota' },
+    { value: 'MS', label: 'Mississippi' },
+    { value: 'MO', label: 'Missouri' },
+    { value: 'MT', label: 'Montana' },
+    { value: 'NE', label: 'Nebraska' },
+    { value: 'NV', label: 'Nevada' },
+    { value: 'NH', label: 'New Hampshire' },
+    { value: 'NJ', label: 'New Jersey' },
+    { value: 'NM', label: 'New Mexico' },
+    { value: 'NY', label: 'New York' },
+    { value: 'NC', label: 'North Carolina' },
+    { value: 'ND', label: 'North Dakota' },
+    { value: 'OH', label: 'Ohio' },
+    { value: 'OK', label: 'Oklahoma' },
+    { value: 'OR', label: 'Oregon' },
+    { value: 'PA', label: 'Pennsylvania' },
+    { value: 'RI', label: 'Rhode Island' },
+    { value: 'SC', label: 'South Carolina' },
+    { value: 'SD', label: 'South Dakota' },
+    { value: 'TN', label: 'Tennessee' },
+    { value: 'TX', label: 'Texas' },
+    { value: 'UT', label: 'Utah' },
+    { value: 'VT', label: 'Vermont' },
+    { value: 'VA', label: 'Virginia' },
+    { value: 'WA', label: 'Washington' },
+    { value: 'WV', label: 'West Virginia' },
+    { value: 'WI', label: 'Wisconsin' },
+    { value: 'WY', label: 'Wyoming' }
+  ];
+
+  const schoolsByState: Record<string, Array<{ value: string; label: string; cost: string }>> = {
+    'CA': [
+      { value: 'cal-state-fullerton', label: 'California State University: Fullerton', cost: '32686' },
+      { value: 'ucla', label: 'University of California, Los Angeles', cost: '45000' },
+      { value: 'usc', label: 'University of Southern California', cost: '65000' },
+      { value: 'stanford', label: 'Stanford University', cost: '75000' }
+    ],
+    'NY': [
+      { value: 'nyu', label: 'New York University', cost: '60000' },
+      { value: 'columbia', label: 'Columbia University', cost: '70000' },
+      { value: 'suny-buffalo', label: 'SUNY Buffalo', cost: '25000' }
+    ],
+    'TX': [
+      { value: 'ut-austin', label: 'University of Texas at Austin', cost: '40000' },
+      { value: 'rice', label: 'Rice University', cost: '65000' },
+      { value: 'texas-am', label: 'Texas A&M University', cost: '35000' }
+    ]
+  };
+
+  const getSchoolsForState = (stateCode: string) => {
+    return schoolsByState[stateCode] || [];
+  };
   
   const handleHelpClick = () => {
     setIsHelpOpen(true);
@@ -44,9 +123,14 @@ export const EducationFundingInputs = () => {
     const newChildren = [...sharedInputs.children];
     newChildren[childIndex].schools.push({
       CollegeName: '',
+      CollegeStateText: '',
       AnnualCosts: '',
       AgeWhenSchoolBegins: '18',
-      YearsInSchool: '4'
+      YearsInSchool: '4',
+      UseCollegeBoardInfo: false,
+      CollegeState: '',
+      IncludeOutOfStateFees: false,
+      IncludeRoomBoardBooksAndOther: false
     });
     updateSharedInput('children', newChildren);
   };
@@ -57,7 +141,7 @@ export const EducationFundingInputs = () => {
     updateSharedInput('children', newChildren);
   };
 
-  const updateSchool = (childIndex: number, schoolIndex: number, field: string, value: string) => {
+  const updateSchool = (childIndex: number, schoolIndex: number, field: string, value: string | boolean) => {
     const newChildren = [...sharedInputs.children];
     newChildren[childIndex].schools[schoolIndex] = {
       ...newChildren[childIndex].schools[schoolIndex],
@@ -195,42 +279,144 @@ export const EducationFundingInputs = () => {
                         </Button>
                       </div>
                       
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <Label className="text-sm">School Name</Label>
-                          <Input 
-                            value={school.CollegeName}
-                            onChange={(e) => updateSchool(childIndex, schoolIndex, 'CollegeName', e.target.value)}
-                            placeholder="Enter school name" 
-                            className="mt-1" 
-                          />
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <Label className="text-sm">Age When School Begins</Label>
+                            <Input 
+                              value={school.AgeWhenSchoolBegins}
+                              onChange={(e) => updateSchool(childIndex, schoolIndex, 'AgeWhenSchoolBegins', e.target.value)}
+                              placeholder="18" 
+                              className="mt-1" 
+                            />
+                          </div>
+                          <div>
+                            <Label className="text-sm">Number of Years in School</Label>
+                            <Input 
+                              value={school.YearsInSchool}
+                              onChange={(e) => updateSchool(childIndex, schoolIndex, 'YearsInSchool', e.target.value)}
+                              placeholder="4" 
+                              className="mt-1" 
+                            />
+                          </div>
                         </div>
-                        <div>
-                          <Label className="text-sm">Annual Tuition Cost</Label>
-                          <Input 
-                            value={school.AnnualCosts}
-                            onChange={(e) => updateSchool(childIndex, schoolIndex, 'AnnualCosts', e.target.value)}
-                            placeholder="$50,000" 
-                            className="mt-1" 
+
+                        <div className="flex items-center space-x-2">
+                          <Checkbox 
+                            id={`college-board-${childIndex}-${schoolIndex}`}
+                            checked={school.UseCollegeBoardInfo || false}
+                            onCheckedChange={(checked) => updateSchool(childIndex, schoolIndex, 'UseCollegeBoardInfo', checked as boolean)}
                           />
+                          <Label htmlFor={`college-board-${childIndex}-${schoolIndex}`} className="text-sm">
+                            Use college board information
+                          </Label>
                         </div>
-                        <div>
-                          <Label className="text-sm">Age When School Begins</Label>
-                          <Input 
-                            value={school.AgeWhenSchoolBegins}
-                            onChange={(e) => updateSchool(childIndex, schoolIndex, 'AgeWhenSchoolBegins', e.target.value)}
-                            placeholder="18" 
-                            className="mt-1" 
-                          />
-                        </div>
-                        <div>
-                          <Label className="text-sm">Number of Years in School</Label>
-                          <Input 
-                            value={school.YearsInSchool}
-                            onChange={(e) => updateSchool(childIndex, schoolIndex, 'YearsInSchool', e.target.value)}
-                            placeholder="4" 
-                            className="mt-1" 
-                          />
+
+                        {school.UseCollegeBoardInfo && (
+                          <div className="space-y-4 p-4 bg-muted/50 rounded-lg">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <Label className="text-sm">Location</Label>
+                                <Select 
+                                  value={school.CollegeState || ''} 
+                                  onValueChange={(value) => {
+                                    updateSchool(childIndex, schoolIndex, 'CollegeState', value);
+                                    updateSchool(childIndex, schoolIndex, 'CollegeName', '');
+                                  }}
+                                >
+                                  <SelectTrigger className="mt-1">
+                                    <SelectValue placeholder="Select state" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    {states.map((state) => (
+                                      <SelectItem key={state.value} value={state.value}>
+                                        {state.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div>
+                                <Label className="text-sm">School</Label>
+                                <Select 
+                                  value={school.CollegeName || ''} 
+                                  onValueChange={(value) => {
+                                    const selectedSchool = getSchoolsForState(school.CollegeState || '').find(s => s.value === value);
+                                    updateSchool(childIndex, schoolIndex, 'CollegeName', selectedSchool?.label || '');
+                                    updateSchool(childIndex, schoolIndex, 'AnnualCosts', selectedSchool?.cost || '');
+                                  }}
+                                  disabled={!school.CollegeState}
+                                >
+                                  <SelectTrigger className="mt-1">
+                                    <SelectValue placeholder="Select school" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    {getSchoolsForState(school.CollegeState || '').map((schoolOption) => (
+                                      <SelectItem key={schoolOption.value} value={schoolOption.value}>
+                                        {schoolOption.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                            </div>
+
+                            <div className="space-y-2">
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id={`out-of-state-${childIndex}-${schoolIndex}`}
+                                  checked={school.IncludeOutOfStateFees || false}
+                                  onCheckedChange={(checked) => updateSchool(childIndex, schoolIndex, 'IncludeOutOfStateFees', checked as boolean)}
+                                />
+                                <Label htmlFor={`out-of-state-${childIndex}-${schoolIndex}`} className="text-sm">
+                                  Include additional out-of-state fees
+                                </Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id={`room-board-${childIndex}-${schoolIndex}`}
+                                  checked={school.IncludeRoomBoardBooksAndOther || false}
+                                  onCheckedChange={(checked) => updateSchool(childIndex, schoolIndex, 'IncludeRoomBoardBooksAndOther', checked as boolean)}
+                                />
+                                <Label htmlFor={`room-board-${childIndex}-${schoolIndex}`} className="text-sm">
+                                  Include room, board, and other fees
+                                </Label>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        <div className={`grid grid-cols-3 gap-4 ${school.UseCollegeBoardInfo ? 'opacity-50 pointer-events-none' : ''}`}>
+                          <div>
+                            <Label className="text-sm">School Name</Label>
+                            <Input 
+                              value={school.CollegeName}
+                              onChange={(e) => updateSchool(childIndex, schoolIndex, 'CollegeName', e.target.value)}
+                              placeholder="Enter school name" 
+                              className="mt-1" 
+                              disabled={school.UseCollegeBoardInfo}
+                            />
+                          </div>
+                          <div>
+                            <Label className="text-sm">State</Label>
+                            <Input 
+                              value={school.CollegeStateText || ''}
+                              onChange={(e) => updateSchool(childIndex, schoolIndex, 'CollegeStateText', e.target.value)}
+                              placeholder="CA" 
+                              className="mt-1" 
+                              disabled={school.UseCollegeBoardInfo}
+                            />
+                          </div>
+                          <div>
+                            <Label className="text-sm">Annual Costs</Label>
+                            <Input 
+                              value={school.AnnualCosts}
+                              onChange={(e) => updateSchool(childIndex, schoolIndex, 'AnnualCosts', e.target.value)}
+                              placeholder="$50,000" 
+                              className="mt-1" 
+                              disabled={school.UseCollegeBoardInfo}
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -65,9 +65,14 @@ interface SharedInputs {
     StudentBirth: string;
     schools: Array<{
       CollegeName: string;
+      CollegeStateText: string;
       AnnualCosts: string;
       AgeWhenSchoolBegins: string;
       YearsInSchool: string;
+      UseCollegeBoardInfo?: boolean;
+      CollegeState?: string;
+      IncludeOutOfStateFees?: boolean;
+      IncludeRoomBoardBooksAndOther?: boolean;
     }>;
     EduPercentageToFund: string;
     EduAmountCurrentlySaved: string;

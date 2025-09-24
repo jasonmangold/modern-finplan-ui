@@ -73,12 +73,17 @@ export const SurvivorNeedsInputs = () => {
 
   const addSchool = (childIndex: number) => {
     const newChildren = [...sharedInputs.children];
-    newChildren[childIndex].schools.push({
-      CollegeName: '',
-      AnnualCosts: '',
-      AgeWhenSchoolBegins: '18',
-      YearsInSchool: '4'
-    });
+        newChildren[childIndex].schools.push({
+          CollegeName: '',
+          CollegeStateText: '',
+          AnnualCosts: '',
+          AgeWhenSchoolBegins: '18',
+          YearsInSchool: '4',
+          UseCollegeBoardInfo: false,
+          CollegeState: '',
+          IncludeOutOfStateFees: false,
+          IncludeRoomBoardBooksAndOther: false
+        });
     updateSharedInput('children', newChildren);
   };
 
