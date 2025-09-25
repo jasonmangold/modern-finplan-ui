@@ -1037,40 +1037,42 @@ export const RetirementAccumulationInputs = () => {
                      <div className="space-y-1.5">
                        <Label className="text-sm">Annual Increase</Label>
                        <div className="relative flex items-center">
-                         <Input 
-                           value={sharedInputs.Client2_RPAnnualIncrease} 
-                           onChange={e => handlePercentageChange('Client2_RPAnnualIncrease', e.target.value)}
-                           placeholder="3"
-                           className="text-right pr-6"
-                           maxLength={5}
-                           data-backend-name="Client2_RPAnnualIncrease"
-                           data-label="Client 2 Annual Increase"
-                           data-xtype="percentage"
-                           data-min-length={0}
-                           data-max-length={5}
-                           data-min-value={0}
-                           data-max-value={25}
-                         />
+                          <Input 
+                            value={sharedInputs.Client2_RPAnnualIncrease} 
+                            onChange={e => handleDecimalPercentageChange('Client2_RPAnnualIncrease', e.target.value)}
+                            placeholder="3.00"
+                            className="text-right pr-6"
+                            maxLength={5}
+                            data-backend-name="Client2_RPAnnualIncrease"
+                            data-label="Client 2 Annual Increase"
+                            data-xtype="percentage"
+                            data-min-length={0}
+                            data-max-length={5}
+                            data-min-value={0}
+                            data-allow-decimals={true}
+                            data-decimal-precision={2}
+                          />
                          <span className="absolute right-2 text-sm text-muted-foreground pointer-events-none">%</span>
                        </div>
                      </div>
                      <div className="space-y-1.5">
                        <Label className="text-sm">Rate of Return</Label>
                        <div className="relative flex items-center">
-                         <Input 
-                           value={sharedInputs.Client2_RPRateOfReturn} 
-                           onChange={e => handlePercentageChange('Client2_RPRateOfReturn', e.target.value)}
-                           placeholder="7"
-                           className="text-right pr-6"
-                           maxLength={5}
-                           data-backend-name="Client2_RPRateOfReturn"
-                           data-label="Client 2 Rate of Return"
-                           data-xtype="percentage"
-                           data-min-length={0}
-                           data-max-length={5}
-                           data-min-value={0}
-                           data-max-value={25}
-                         />
+                          <Input 
+                            value={sharedInputs.Client2_RPRateOfReturn} 
+                            onChange={e => handleDecimalPercentageChange('Client2_RPRateOfReturn', e.target.value)}
+                            placeholder="7.00"
+                            className="text-right pr-6"
+                            maxLength={5}
+                            data-backend-name="Client2_RPRateOfReturn"
+                            data-label="Client 2 Rate of Return"
+                            data-xtype="percentage"
+                            data-min-length={0}
+                            data-max-length={5}
+                            data-min-value={0}
+                            data-allow-decimals={true}
+                            data-decimal-precision={2}
+                          />
                          <span className="absolute right-2 text-sm text-muted-foreground pointer-events-none">%</span>
                        </div>
                      </div>
@@ -1114,20 +1116,21 @@ export const RetirementAccumulationInputs = () => {
                    <div className="space-y-1.5">
                      <Label className="text-sm">Rate of Return</Label>
                      <div className="relative flex items-center">
-                       <Input 
-                         value={sharedInputs.OtherAssetRoR} 
-                         onChange={e => handlePercentageChange('OtherAssetRoR', e.target.value)}
-                         placeholder="6"
-                         className="text-right pr-6"
-                         maxLength={5}
-                         data-backend-name="OtherAssetRoR"
-                         data-label="Other Assets Rate of Return"
-                         data-xtype="percentage"
-                         data-min-length={0}
-                         data-max-length={5}
-                         data-min-value={0}
-                         data-max-value={25}
-                       />
+                        <Input 
+                          value={sharedInputs.OtherAssetRoR} 
+                          onChange={e => handleDecimalPercentageChange('OtherAssetRoR', e.target.value)}
+                          placeholder="6.00"
+                          className="text-right pr-6"
+                          maxLength={5}
+                          data-backend-name="OtherAssetRoR"
+                          data-label="Other Assets Rate of Return"
+                          data-xtype="percentage"
+                          data-min-length={0}
+                          data-max-length={5}
+                          data-min-value={0}
+                          data-allow-decimals={true}
+                          data-decimal-precision={2}
+                        />
                        <span className="absolute right-2 text-sm text-muted-foreground pointer-events-none">%</span>
                      </div>
                    </div>
@@ -1162,20 +1165,21 @@ export const RetirementAccumulationInputs = () => {
                <div className="space-y-1.5">
                  <Label className="text-sm">Annual Inflation Rate</Label>
                  <div className="relative flex items-center">
-                   <Input 
-                     value={sharedInputs.AnnualInflationRate} 
-                     onChange={e => handlePercentageChange('AnnualInflationRate', e.target.value)}
-                     placeholder="3.0"
-                     className="text-right pr-6"
-                     maxLength={5}
-                     data-backend-name="AnnualInflationRate"
-                     data-label="Annual Inflation Rate"
-                     data-xtype="percentage"
-                     data-min-length={0}
-                     data-max-length={5}
-                     data-min-value={0}
-                     data-max-value={25}
-                   />
+                    <Input 
+                      value={sharedInputs.AnnualInflationRate} 
+                      onChange={e => handleDecimalPercentageChange('AnnualInflationRate', e.target.value)}
+                      placeholder="3.00"
+                      className="text-right pr-6"
+                      maxLength={5}
+                      data-backend-name="AnnualInflationRate"
+                      data-label="Annual Inflation Rate"
+                      data-xtype="percentage"
+                      data-min-length={0}
+                      data-max-length={5}
+                      data-min-value={0}
+                      data-allow-decimals={true}
+                      data-decimal-precision={2}
+                    />
                    <span className="absolute right-2 text-sm text-muted-foreground pointer-events-none">%</span>
                  </div>
                </div>
@@ -1184,40 +1188,42 @@ export const RetirementAccumulationInputs = () => {
                  <div className="space-y-1.5">
                    <Label className="text-sm">Annual Employment Inflation Rate - Client 1</Label>
                    <div className="relative flex items-center">
-                     <Input 
-                       value={sharedInputs.Client1_AnnualEmploymentInflationRate} 
-                       onChange={e => handlePercentageChange('Client1_AnnualEmploymentInflationRate', e.target.value)}
-                       placeholder="3.0"
-                       className="text-right pr-6"
-                       maxLength={5}
-                       data-backend-name="Client1_AnnualEmploymentInflationRate"
-                       data-label="Client 1 Annual Employment Inflation Rate"
-                       data-xtype="percentage"
-                       data-min-length={0}
-                       data-max-length={5}
-                       data-min-value={0}
-                       data-max-value={25}
-                     />
+                      <Input 
+                        value={sharedInputs.Client1_AnnualEmploymentInflationRate} 
+                        onChange={e => handleDecimalPercentageChange('Client1_AnnualEmploymentInflationRate', e.target.value)}
+                        placeholder="3.00"
+                        className="text-right pr-6"
+                        maxLength={5}
+                        data-backend-name="Client1_AnnualEmploymentInflationRate"
+                        data-label="Client 1 Annual Employment Inflation Rate"
+                        data-xtype="percentage"
+                        data-min-length={0}
+                        data-max-length={5}
+                        data-min-value={0}
+                        data-allow-decimals={true}
+                        data-decimal-precision={2}
+                      />
                      <span className="absolute right-2 text-sm text-muted-foreground pointer-events-none">%</span>
                    </div>
                  </div>
                  <div className="space-y-1.5">
                    <Label className="text-sm">Annual Employment Inflation Rate - Client 2</Label>
                    <div className="relative flex items-center">
-                     <Input 
-                       value={sharedInputs.Client2_AnnualEmploymentInflationRate} 
-                       onChange={e => handlePercentageChange('Client2_AnnualEmploymentInflationRate', e.target.value)}
-                       placeholder="3.0"
-                       className="text-right pr-6"
-                       maxLength={5}
-                       data-backend-name="Client2_AnnualEmploymentInflationRate"
-                       data-label="Client 2 Annual Employment Inflation Rate"
-                       data-xtype="percentage"
-                       data-min-length={0}
-                       data-max-length={5}
-                       data-min-value={0}
-                       data-max-value={25}
-                     />
+                      <Input 
+                        value={sharedInputs.Client2_AnnualEmploymentInflationRate} 
+                        onChange={e => handleDecimalPercentageChange('Client2_AnnualEmploymentInflationRate', e.target.value)}
+                        placeholder="3.00"
+                        className="text-right pr-6"
+                        maxLength={5}
+                        data-backend-name="Client2_AnnualEmploymentInflationRate"
+                        data-label="Client 2 Annual Employment Inflation Rate"
+                        data-xtype="percentage"
+                        data-min-length={0}
+                        data-max-length={5}
+                        data-min-value={0}
+                        data-allow-decimals={true}
+                        data-decimal-precision={2}
+                      />
                      <span className="absolute right-2 text-sm text-muted-foreground pointer-events-none">%</span>
                    </div>
                  </div>
@@ -1226,20 +1232,21 @@ export const RetirementAccumulationInputs = () => {
                <div className="space-y-1.5">
                  <Label className="text-sm">Annual Social Security Benefit Inflation Rate</Label>
                  <div className="relative flex items-center">
-                   <Input 
-                     value={sharedInputs.AnnualSocialSecurityBenefitInflationRate} 
-                     onChange={e => handlePercentageChange('AnnualSocialSecurityBenefitInflationRate', e.target.value)}
-                     placeholder="2.5"
-                     className="text-right pr-6"
-                     maxLength={5}
-                     data-backend-name="AnnualSocialSecurityBenefitInflationRate"
-                     data-label="Annual Social Security Benefit Inflation Rate"
-                     data-xtype="percentage"
-                     data-min-length={0}
-                     data-max-length={5}
-                     data-min-value={0}
-                     data-max-value={25}
-                   />
+                    <Input 
+                      value={sharedInputs.AnnualSocialSecurityBenefitInflationRate} 
+                      onChange={e => handleDecimalPercentageChange('AnnualSocialSecurityBenefitInflationRate', e.target.value)}
+                      placeholder="2.50"
+                      className="text-right pr-6"
+                      maxLength={5}
+                      data-backend-name="AnnualSocialSecurityBenefitInflationRate"
+                      data-label="Annual Social Security Benefit Inflation Rate"
+                      data-xtype="percentage"
+                      data-min-length={0}
+                      data-max-length={5}
+                      data-min-value={0}
+                      data-allow-decimals={true}
+                      data-decimal-precision={2}
+                    />
                    <span className="absolute right-2 text-sm text-muted-foreground pointer-events-none">%</span>
                  </div>
                </div>
@@ -1252,20 +1259,21 @@ export const RetirementAccumulationInputs = () => {
                  <div className="space-y-1.5">
                    <Label className="text-sm">Assumed Rate of Return During Retirement</Label>
                    <div className="relative flex items-center">
-                     <Input 
-                       value="" 
-                       onChange={() => {}}
-                       placeholder="5"
-                       className="text-right pr-6"
-                       maxLength={5}
-                       data-backend-name="AssumedRateOfReturnDuringRetirement"
-                       data-label="Assumed Rate of Return During Retirement"
-                       data-xtype="percentage"
-                       data-min-length={0}
-                       data-max-length={5}
-                       data-min-value={0}
-                       data-max-value={25}
-                     />
+                      <Input 
+                        value={sharedInputs.RetirementRateOfReturn} 
+                        onChange={e => handleDecimalPercentageChange('RetirementRateOfReturn', e.target.value)}
+                        placeholder="5.00"
+                        className="text-right pr-6"
+                        maxLength={5}
+                        data-backend-name="RetirementRateOfReturn"
+                        data-label="Assumed Rate of Return During Retirement"
+                        data-xtype="percentage"
+                        data-min-length={0}
+                        data-max-length={5}
+                        data-min-value={0}
+                        data-allow-decimals={true}
+                        data-decimal-precision={2}
+                      />
                      <span className="absolute right-2 text-sm text-muted-foreground pointer-events-none">%</span>
                    </div>
                  </div>
@@ -1273,20 +1281,21 @@ export const RetirementAccumulationInputs = () => {
                  <div className="space-y-1.5">
                    <Label className="text-sm">Solution Rate of Return</Label>
                    <div className="relative flex items-center">
-                     <Input 
-                       value=""
-                       onChange={() => {}}
-                       placeholder="6"
-                       className="text-right pr-6"
-                       maxLength={5}
-                       data-backend-name="SolutionRateOfReturn"
-                       data-label="Solution Rate of Return"
-                       data-xtype="percentage"
-                       data-min-length={0}
-                       data-max-length={5}
-                       data-min-value={0}
-                       data-max-value={25}
-                     />
+                      <Input 
+                        value={sharedInputs.RetirementSolutionRateOfReturn}
+                        onChange={e => handleDecimalPercentageChange('RetirementSolutionRateOfReturn', e.target.value)}
+                        placeholder="6.00"
+                        className="text-right pr-6"
+                        maxLength={5}
+                        data-backend-name="RetirementSolutionRateOfReturn"
+                        data-label="Solution Rate of Return"
+                        data-xtype="percentage"
+                        data-min-length={0}
+                        data-max-length={5}
+                        data-min-value={0}
+                        data-allow-decimals={true}
+                        data-decimal-precision={2}
+                      />
                      <span className="absolute right-2 text-sm text-muted-foreground pointer-events-none">%</span>
                    </div>
                  </div>
