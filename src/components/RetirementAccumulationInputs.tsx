@@ -273,6 +273,57 @@ export const RetirementAccumulationInputs = () => {
                   <Label className="text-base font-medium text-foreground">Social Security</Label>
                 </div>
                 
+                <div className="flex items-center space-x-2 mb-4">
+                  <Checkbox 
+                    id="useOptimizer" 
+                    checked={sharedInputs.UseOptimizer} 
+                    onCheckedChange={checked => updateSharedInput('UseOptimizer', checked)} 
+                  />
+                  <Label htmlFor="useOptimizer" className="text-sm font-medium text-foreground">Use Optimizer</Label>
+                </div>
+
+                <div className="grid grid-cols-3 gap-4 mb-4">
+                  <div>
+                    <Label className="text-sm font-medium text-foreground">Social Security Type</Label>
+                    <Select 
+                      value={sharedInputs.socialSecurityType || 'Earnings'} 
+                      onValueChange={value => updateSharedInput('socialSecurityType', value)}
+                    >
+                      <SelectTrigger className="mt-1.5 h-9">
+                        <SelectValue placeholder="Select type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Spousal Only">Spousal Only</SelectItem>
+                        <SelectItem value="Earnings">Earnings</SelectItem>
+                        <SelectItem value="Maximum">Maximum</SelectItem>
+                        <SelectItem value="PIA User Input">PIA User Input</SelectItem>
+                        <SelectItem value="Not Eligible">Not Eligible</SelectItem>
+                        <SelectItem value="Monthly Amount">Monthly Amount</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-foreground">Retirement Social Security</Label>
+                    <Input 
+                      value={sharedInputs.retirementSocialSecurity} 
+                      onChange={e => updateSharedInput('retirementSocialSecurity', e.target.value)} 
+                      placeholder="$35,000" 
+                      className={`mt-1.5 h-9 ${(!sharedInputs.socialSecurityType || (sharedInputs.socialSecurityType !== 'PIA User Input' && sharedInputs.socialSecurityType !== 'Monthly Amount')) ? 'bg-muted text-muted-foreground' : ''}`}
+                      disabled={!sharedInputs.socialSecurityType || (sharedInputs.socialSecurityType !== 'PIA User Input' && sharedInputs.socialSecurityType !== 'Monthly Amount')}
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-foreground">Survivor Social Security</Label>
+                    <Input 
+                      value={sharedInputs.survivorSocialSecurity} 
+                      onChange={e => updateSharedInput('survivorSocialSecurity', e.target.value)} 
+                      placeholder="$30,000" 
+                      className={`mt-1.5 h-9 ${(!sharedInputs.socialSecurityType || (sharedInputs.socialSecurityType !== 'PIA User Input' && sharedInputs.socialSecurityType !== 'Monthly Amount')) ? 'bg-muted text-muted-foreground' : ''}`}
+                      disabled={!sharedInputs.socialSecurityType || (sharedInputs.socialSecurityType !== 'PIA User Input' && sharedInputs.socialSecurityType !== 'Monthly Amount')}
+                    />
+                  </div>
+                </div>
+                
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label className="text-sm font-medium text-foreground">Client 1 Annual Social Security</Label>
@@ -280,7 +331,13 @@ export const RetirementAccumulationInputs = () => {
                   </div>
                   <div>
                     <Label className="text-sm font-medium text-foreground">Client 1 SS Start Age</Label>
-                    <Input value={sharedInputs.client1SSStartAge} onChange={e => updateSharedInput('client1SSStartAge', e.target.value)} placeholder="67" className="mt-1.5 h-9" />
+                    <Input 
+                      value={sharedInputs.client1SSStartAge} 
+                      onChange={e => updateSharedInput('client1SSStartAge', e.target.value)} 
+                      placeholder="67" 
+                      className={`mt-1.5 h-9 ${sharedInputs.UseOptimizer ? 'bg-muted text-muted-foreground' : ''}`}
+                      disabled={sharedInputs.UseOptimizer}
+                    />
                   </div>
                 </div>
 
@@ -292,7 +349,13 @@ export const RetirementAccumulationInputs = () => {
                     </div>
                     <div>
                       <Label className="text-sm font-medium text-foreground">Client 2 SS Start Age</Label>
-                      <Input value={sharedInputs.client2SSStartAge} onChange={e => updateSharedInput('client2SSStartAge', e.target.value)} placeholder="67" className="mt-1.5 h-9" />
+                      <Input 
+                        value={sharedInputs.client2SSStartAge} 
+                        onChange={e => updateSharedInput('client2SSStartAge', e.target.value)} 
+                        placeholder="67" 
+                        className={`mt-1.5 h-9 ${sharedInputs.UseOptimizer ? 'bg-muted text-muted-foreground' : ''}`}
+                        disabled={sharedInputs.UseOptimizer}
+                      />
                     </div>
                   </div>
                 )}
