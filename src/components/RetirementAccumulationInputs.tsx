@@ -257,12 +257,36 @@ export const RetirementAccumulationInputs = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
                     <Label className="text-sm font-medium text-foreground">Client 1 Annual Employment Income</Label>
-                    <Input value={sharedInputs.Client1_AnnualSalary} onChange={e => updateSharedInput('Client1_AnnualSalary', e.target.value)} placeholder="$100,000" className="h-9" />
+                    <Input 
+                      value={sharedInputs.Client1_AnnualSalary} 
+                      onChange={e => updateSharedInput('Client1_AnnualSalary', e.target.value)} 
+                      placeholder="$100,000" 
+                      className="h-9"
+                      maxLength={7}
+                      data-backend-name="Client1_AnnualSalary"
+                      data-label="Client 1 Annual Employment Income"
+                      data-xtype="currency"
+                      data-min-length={0}
+                      data-max-length={7}
+                      data-min-value={0}
+                    />
                   </div>
                   {sharedInputs.hasClient2 && (
                     <div className="space-y-1.5">
                       <Label className="text-sm font-medium text-foreground">Client 2 Annual Employment Income</Label>
-                      <Input value={sharedInputs.Client2_AnnualSalary} onChange={e => updateSharedInput('Client2_AnnualSalary', e.target.value)} placeholder="$80,000" className="h-9" />
+                      <Input 
+                        value={sharedInputs.Client2_AnnualSalary} 
+                        onChange={e => updateSharedInput('Client2_AnnualSalary', e.target.value)} 
+                        placeholder="$80,000" 
+                        className="h-9"
+                        maxLength={7}
+                        data-backend-name="Client2_AnnualSalary"
+                        data-label="Client 2 Annual Employment Income"
+                        data-xtype="currency"
+                        data-min-length={0}
+                        data-max-length={7}
+                        data-min-value={0}
+                      />
                     </div>
                   )}
                 </div>
@@ -314,16 +338,30 @@ export const RetirementAccumulationInputs = () => {
                         placeholder="$35,000" 
                         className={`h-9 ${(!sharedInputs.client1SocialSecurityType || (sharedInputs.client1SocialSecurityType !== 'PIA User Input' && sharedInputs.client1SocialSecurityType !== 'Monthly Amount')) ? 'bg-muted text-muted-foreground' : ''}`}
                         disabled={!sharedInputs.client1SocialSecurityType || (sharedInputs.client1SocialSecurityType !== 'PIA User Input' && sharedInputs.client1SocialSecurityType !== 'Monthly Amount')}
+                        maxLength={7}
+                        data-backend-name="client1RetirementSocialSecurity"
+                        data-label="Client 1 Retirement Social Security"
+                        data-xtype="currency"
+                        data-min-length={0}
+                        data-max-length={7}
+                        data-min-value={0}
                       />
                     </div>
                     <div className="space-y-1.5">
                       <Label className="text-sm font-medium text-foreground">Survivor</Label>
                       <Input 
                         value={sharedInputs.client1SurvivorSocialSecurity} 
-                        onChange={e => updateSharedInput('client1SurvivorSocialSecurity', e.target.value)}
+                        onChange={e => updateSharedInput('client1SurvivorSocialSecurity', e.target.value)} 
                         placeholder="$30,000" 
                         className={`h-9 ${(!sharedInputs.client1SocialSecurityType || (sharedInputs.client1SocialSecurityType !== 'PIA User Input' && sharedInputs.client1SocialSecurityType !== 'Monthly Amount')) ? 'bg-muted text-muted-foreground' : ''}`}
                         disabled={!sharedInputs.client1SocialSecurityType || (sharedInputs.client1SocialSecurityType !== 'PIA User Input' && sharedInputs.client1SocialSecurityType !== 'Monthly Amount')}
+                        maxLength={7}
+                        data-backend-name="client1SurvivorSocialSecurity"
+                        data-label="Client 1 Survivor Social Security"
+                        data-xtype="currency"
+                        data-min-length={0}
+                        data-max-length={7}
+                        data-min-value={0}
                       />
                     </div>
                   </div>
@@ -361,6 +399,13 @@ export const RetirementAccumulationInputs = () => {
                           placeholder="$30,000" 
                           className={`h-9 ${(!sharedInputs.client2SocialSecurityType || (sharedInputs.client2SocialSecurityType !== 'PIA User Input' && sharedInputs.client2SocialSecurityType !== 'Monthly Amount')) ? 'bg-muted text-muted-foreground' : ''}`}
                           disabled={!sharedInputs.client2SocialSecurityType || (sharedInputs.client2SocialSecurityType !== 'PIA User Input' && sharedInputs.client2SocialSecurityType !== 'Monthly Amount')}
+                          maxLength={7}
+                          data-backend-name="client2RetirementSocialSecurity"
+                          data-label="Client 2 Retirement Social Security"
+                          data-xtype="currency"
+                          data-min-length={0}
+                          data-max-length={7}
+                          data-min-value={0}
                         />
                       </div>
                       <div className="space-y-1.5">
@@ -371,6 +416,13 @@ export const RetirementAccumulationInputs = () => {
                           placeholder="$25,000" 
                           className={`h-9 ${(!sharedInputs.client2SocialSecurityType || (sharedInputs.client2SocialSecurityType !== 'PIA User Input' && sharedInputs.client2SocialSecurityType !== 'Monthly Amount')) ? 'bg-muted text-muted-foreground' : ''}`}
                           disabled={!sharedInputs.client2SocialSecurityType || (sharedInputs.client2SocialSecurityType !== 'PIA User Input' && sharedInputs.client2SocialSecurityType !== 'Monthly Amount')}
+                          maxLength={7}
+                          data-backend-name="client2SurvivorSocialSecurity"
+                          data-label="Client 2 Survivor Social Security"
+                          data-xtype="currency"
+                          data-min-length={0}
+                          data-max-length={7}
+                          data-min-value={0}
                         />
                       </div>
                     </div>
@@ -450,7 +502,18 @@ export const RetirementAccumulationInputs = () => {
                       </div>
                       <div className="space-y-1.5">
                         <Label className="text-sm">Amount</Label>
-                        <Input value={source.Amount} onChange={e => updateIncomeSource(index, 'Amount', e.target.value)} placeholder="$2,000" />
+                        <Input 
+                          value={source.Amount} 
+                          onChange={e => updateIncomeSource(index, 'Amount', e.target.value)} 
+                          placeholder="$2,000"
+                          maxLength={7}
+                          data-backend-name={`otherIncomeSource_${index}_Amount`}
+                          data-label={`Other Income Source ${index + 1} Amount`}
+                          data-xtype="currency"
+                          data-min-length={0}
+                          data-max-length={7}
+                          data-min-value={0}
+                        />
                       </div>
                       <div className="space-y-1.5">
                         <Label className="text-sm">Start Age</Label>
@@ -563,18 +626,51 @@ export const RetirementAccumulationInputs = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
                     <Label className="text-sm">Retirement Balance</Label>
-                    <Input value={sharedInputs.Client1_RPBalance} onChange={e => updateSharedInput('Client1_RPBalance', e.target.value)} placeholder="$500,000" />
+                    <Input 
+                      value={sharedInputs.Client1_RPBalance} 
+                      onChange={e => updateSharedInput('Client1_RPBalance', e.target.value)} 
+                      placeholder="$500,000"
+                      maxLength={7}
+                      data-backend-name="Client1_RPBalance"
+                      data-label="Client 1 Retirement Balance"
+                      data-xtype="currency"
+                      data-min-length={0}
+                      data-max-length={7}
+                      data-min-value={0}
+                    />
                   </div>
                   <div className="space-y-1.5">
                     <Label className="text-sm">Monthly Contributions</Label>
-                    <Input value={sharedInputs.Client1_RPMonthlyContribution} onChange={e => updateSharedInput('Client1_RPMonthlyContribution', e.target.value)} placeholder="$2,000" />
+                    <Input 
+                      value={sharedInputs.Client1_RPMonthlyContribution} 
+                      onChange={e => updateSharedInput('Client1_RPMonthlyContribution', e.target.value)} 
+                      placeholder="$2,000"
+                      maxLength={7}
+                      data-backend-name="Client1_RPMonthlyContribution"
+                      data-label="Client 1 Monthly Contributions"
+                      data-xtype="currency"
+                      data-min-length={0}
+                      data-max-length={7}
+                      data-min-value={0}
+                    />
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div className="space-y-1.5">
                     <Label className="text-sm">Company Match</Label>
-                    <Input value={sharedInputs.Client1_RPCompanyMatch} onChange={e => updateSharedInput('Client1_RPCompanyMatch', e.target.value)} placeholder="$500" />
+                    <Input 
+                      value={sharedInputs.Client1_RPCompanyMatch} 
+                      onChange={e => updateSharedInput('Client1_RPCompanyMatch', e.target.value)} 
+                      placeholder="$500"
+                      maxLength={7}
+                      data-backend-name="Client1_RPCompanyMatch"
+                      data-label="Client 1 Company Match"
+                      data-xtype="currency"
+                      data-min-length={0}
+                      data-max-length={7}
+                      data-min-value={0}
+                    />
                   </div>
                   <div className="space-y-1.5">
                     <Label className="text-sm">Annual Increase</Label>
@@ -593,18 +689,51 @@ export const RetirementAccumulationInputs = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                       <Label className="text-sm">Retirement Balance</Label>
-                      <Input value={sharedInputs.Client2_RPBalance} onChange={e => updateSharedInput('Client2_RPBalance', e.target.value)} placeholder="$300,000" />
+                      <Input 
+                        value={sharedInputs.Client2_RPBalance} 
+                        onChange={e => updateSharedInput('Client2_RPBalance', e.target.value)} 
+                        placeholder="$300,000"
+                        maxLength={7}
+                        data-backend-name="Client2_RPBalance"
+                        data-label="Client 2 Retirement Balance"
+                        data-xtype="currency"
+                        data-min-length={0}
+                        data-max-length={7}
+                        data-min-value={0}
+                      />
                     </div>
                     <div className="space-y-1.5">
                       <Label className="text-sm">Monthly Contributions</Label>
-                      <Input value={sharedInputs.Client2_RPMonthlyContribution} onChange={e => updateSharedInput('Client2_RPMonthlyContribution', e.target.value)} placeholder="$1,500" />
+                      <Input 
+                        value={sharedInputs.Client2_RPMonthlyContribution} 
+                        onChange={e => updateSharedInput('Client2_RPMonthlyContribution', e.target.value)} 
+                        placeholder="$1,500"
+                        maxLength={7}
+                        data-backend-name="Client2_RPMonthlyContribution"
+                        data-label="Client 2 Monthly Contributions"
+                        data-xtype="currency"
+                        data-min-length={0}
+                        data-max-length={7}
+                        data-min-value={0}
+                      />
                     </div>
                   </div>
                   
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div className="space-y-1.5">
                       <Label className="text-sm">Company Match</Label>
-                      <Input value={sharedInputs.Client2_RPCompanyMatch} onChange={e => updateSharedInput('Client2_RPCompanyMatch', e.target.value)} placeholder="$400" />
+                      <Input 
+                        value={sharedInputs.Client2_RPCompanyMatch} 
+                        onChange={e => updateSharedInput('Client2_RPCompanyMatch', e.target.value)} 
+                        placeholder="$400"
+                        maxLength={7}
+                        data-backend-name="Client2_RPCompanyMatch"
+                        data-label="Client 2 Company Match"
+                        data-xtype="currency"
+                        data-min-length={0}
+                        data-max-length={7}
+                        data-min-value={0}
+                      />
                     </div>
                     <div className="space-y-1.5">
                       <Label className="text-sm">Annual Increase</Label>
@@ -623,11 +752,33 @@ export const RetirementAccumulationInputs = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-1.5">
                     <Label className="text-sm">Balance</Label>
-                    <Input value={sharedInputs.OtherAssetBalance} onChange={e => updateSharedInput('OtherAssetBalance', e.target.value)} placeholder="$100,000" />
+                    <Input 
+                      value={sharedInputs.OtherAssetBalance} 
+                      onChange={e => updateSharedInput('OtherAssetBalance', e.target.value)} 
+                      placeholder="$100,000"
+                      maxLength={7}
+                      data-backend-name="OtherAssetBalance"
+                      data-label="Other Assets Balance"
+                      data-xtype="currency"
+                      data-min-length={0}
+                      data-max-length={7}
+                      data-min-value={0}
+                    />
                   </div>
                   <div className="space-y-1.5">
                     <Label className="text-sm">Contributions</Label>
-                    <Input value={sharedInputs.OtherAssetMonthlyContribution} onChange={e => updateSharedInput('OtherAssetMonthlyContribution', e.target.value)} placeholder="$500" />
+                    <Input 
+                      value={sharedInputs.OtherAssetMonthlyContribution} 
+                      onChange={e => updateSharedInput('OtherAssetMonthlyContribution', e.target.value)} 
+                      placeholder="$500"
+                      maxLength={7}
+                      data-backend-name="OtherAssetMonthlyContribution"
+                      data-label="Other Assets Monthly Contributions"
+                      data-xtype="currency"
+                      data-min-length={0}
+                      data-max-length={7}
+                      data-min-value={0}
+                    />
                   </div>
                   <div className="space-y-1.5">
                     <Label className="text-sm">Rate of Return</Label>
