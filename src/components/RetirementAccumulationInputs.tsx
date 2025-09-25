@@ -41,6 +41,66 @@ export const RetirementAccumulationInputs = () => {
   const getCurrencyDisplayValue = (value: string) => {
     return formatCurrency(value);
   };
+
+  // Percentage formatting helpers
+  const formatPercentage = (value: string) => {
+    if (!value || value === '') return '';
+    // Allow digits and decimal point
+    let numericValue = value.replace(/[^\d.]/g, '');
+    
+    // Ensure only one decimal point
+    const decimalIndex = numericValue.indexOf('.');
+    if (decimalIndex !== -1) {
+      numericValue = numericValue.substring(0, decimalIndex + 1) + 
+                    numericValue.substring(decimalIndex + 1).replace(/\./g, '');
+      
+      // Limit to 2 decimal places
+      const afterDecimal = numericValue.substring(decimalIndex + 1);
+      if (afterDecimal.length > 2) {
+        numericValue = numericValue.substring(0, decimalIndex + 3);
+      }
+    }
+    
+    // Convert to number and check max value
+    const number = parseFloat(numericValue);
+    if (isNaN(number)) return '';
+    if (number > 25) return '25%';
+    
+    return numericValue + '%';
+  };
+
+  const handlePercentageChange = (fieldName: keyof typeof sharedInputs, value: string) => {
+    // Remove % symbol and store the numeric value with decimals
+    let numericValue = value.replace(/%/g, '');
+    
+    // Allow digits and decimal point only
+    numericValue = numericValue.replace(/[^\d.]/g, '');
+    
+    // Ensure only one decimal point
+    const decimalIndex = numericValue.indexOf('.');
+    if (decimalIndex !== -1) {
+      numericValue = numericValue.substring(0, decimalIndex + 1) + 
+                    numericValue.substring(decimalIndex + 1).replace(/\./g, '');
+      
+      // Limit to 2 decimal places
+      const afterDecimal = numericValue.substring(decimalIndex + 1);
+      if (afterDecimal.length > 2) {
+        numericValue = numericValue.substring(0, decimalIndex + 3);
+      }
+    }
+    
+    // Check max value
+    const number = parseFloat(numericValue);
+    if (!isNaN(number) && number > 25) {
+      numericValue = '25';
+    }
+    
+    updateSharedInput(fieldName, numericValue);
+  };
+
+  const getPercentageDisplayValue = (value: string) => {
+    return formatPercentage(value);
+  };
   const addIncomeSource = () => {
     const newSource = {
       Name: '',
@@ -70,6 +130,31 @@ export const RetirementAccumulationInputs = () => {
     // Handle currency formatting for Amount field
     if (field === 'Amount') {
       processedValue = value.replace(/[^\d]/g, '');
+    }
+    
+    // Handle percentage formatting for AnnualInflationRate field
+    if (field === 'AnnualInflationRate') {
+      // Allow digits and decimal point only
+      processedValue = value.replace(/[^\d.]/g, '');
+      
+      // Ensure only one decimal point
+      const decimalIndex = processedValue.indexOf('.');
+      if (decimalIndex !== -1) {
+        processedValue = processedValue.substring(0, decimalIndex + 1) + 
+                       processedValue.substring(decimalIndex + 1).replace(/\./g, '');
+        
+        // Limit to 2 decimal places
+        const afterDecimal = processedValue.substring(decimalIndex + 1);
+        if (afterDecimal.length > 2) {
+          processedValue = processedValue.substring(0, decimalIndex + 3);
+        }
+      }
+      
+      // Check max value
+      const number = parseFloat(processedValue);
+      if (!isNaN(number) && number > 25) {
+        processedValue = '25';
+      }
     }
     
     newSources[index] = {
@@ -589,10 +674,18 @@ export const RetirementAccumulationInputs = () => {
                         <Label className="text-sm">Inflate Amount annual at</Label>
                         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
                           <Input 
-                            value={source.AnnualInflationRate} 
-                            onChange={e => updateIncomeSource(index, 'AnnualInflationRate', e.target.value)} 
+                            value={getPercentageDisplayValue(source.AnnualInflationRate)} 
+                            onChange={e => updateIncomeSource(index, 'AnnualInflationRate', e.target.value.replace(/%/g, ''))} 
                             placeholder="3.0%" 
-                            className="w-20" 
+                            className="w-20"
+                            maxLength={5}
+                            data-backend-name={`otherIncomeSource_${index}_AnnualInflationRate`}
+                            data-label={`Other Income Source ${index + 1} Annual Inflation Rate`}
+                            data-xtype="percentage"
+                            data-min-length={0}
+                            data-max-length={5}
+                            data-min-value={0}
+                            data-max-value={25}
                           />
                           <div className="flex items-center gap-4">
                             <div className="flex items-center space-x-2">
@@ -702,11 +795,35 @@ export const RetirementAccumulationInputs = () => {
                   </div>
                   <div className="space-y-1.5">
                     <Label className="text-sm">Annual Increase</Label>
-                    <Input value={sharedInputs.Client1_RPAnnualIncrease} onChange={e => updateSharedInput('Client1_RPAnnualIncrease', e.target.value)} placeholder="3%" />
+                    <Input 
+                      value={getPercentageDisplayValue(sharedInputs.Client1_RPAnnualIncrease)} 
+                      onChange={e => handlePercentageChange('Client1_RPAnnualIncrease', e.target.value)} 
+                      placeholder="3%"
+                      maxLength={5}
+                      data-backend-name="Client1_RPAnnualIncrease"
+                      data-label="Client 1 Annual Increase"
+                      data-xtype="percentage"
+                      data-min-length={0}
+                      data-max-length={5}
+                      data-min-value={0}
+                      data-max-value={25}
+                    />
                   </div>
                   <div className="space-y-1.5">
                     <Label className="text-sm">Rate of Return</Label>
-                    <Input value={sharedInputs.Client1_RPRateOfReturn} onChange={e => updateSharedInput('Client1_RPRateOfReturn', e.target.value)} placeholder="7%" />
+                    <Input 
+                      value={getPercentageDisplayValue(sharedInputs.Client1_RPRateOfReturn)} 
+                      onChange={e => handlePercentageChange('Client1_RPRateOfReturn', e.target.value)} 
+                      placeholder="7%"
+                      maxLength={5}
+                      data-backend-name="Client1_RPRateOfReturn"
+                      data-label="Client 1 Rate of Return"
+                      data-xtype="percentage"
+                      data-min-length={0}
+                      data-max-length={5}
+                      data-min-value={0}
+                      data-max-value={25}
+                    />
                   </div>
                 </div>
               </div>
@@ -765,11 +882,35 @@ export const RetirementAccumulationInputs = () => {
                     </div>
                     <div className="space-y-1.5">
                       <Label className="text-sm">Annual Increase</Label>
-                      <Input value={sharedInputs.Client2_RPAnnualIncrease} onChange={e => updateSharedInput('Client2_RPAnnualIncrease', e.target.value)} placeholder="3%" />
+                      <Input 
+                        value={getPercentageDisplayValue(sharedInputs.Client2_RPAnnualIncrease)} 
+                        onChange={e => handlePercentageChange('Client2_RPAnnualIncrease', e.target.value)} 
+                        placeholder="3%"
+                        maxLength={5}
+                        data-backend-name="Client2_RPAnnualIncrease"
+                        data-label="Client 2 Annual Increase"
+                        data-xtype="percentage"
+                        data-min-length={0}
+                        data-max-length={5}
+                        data-min-value={0}
+                        data-max-value={25}
+                      />
                     </div>
                     <div className="space-y-1.5">
                       <Label className="text-sm">Rate of Return</Label>
-                      <Input value={sharedInputs.Client2_RPRateOfReturn} onChange={e => updateSharedInput('Client2_RPRateOfReturn', e.target.value)} placeholder="7%" />
+                      <Input 
+                        value={getPercentageDisplayValue(sharedInputs.Client2_RPRateOfReturn)} 
+                        onChange={e => handlePercentageChange('Client2_RPRateOfReturn', e.target.value)} 
+                        placeholder="7%"
+                        maxLength={5}
+                        data-backend-name="Client2_RPRateOfReturn"
+                        data-label="Client 2 Rate of Return"
+                        data-xtype="percentage"
+                        data-min-length={0}
+                        data-max-length={5}
+                        data-min-value={0}
+                        data-max-value={25}
+                      />
                     </div>
                   </div>
                 </div>}
@@ -810,7 +951,19 @@ export const RetirementAccumulationInputs = () => {
                   </div>
                   <div className="space-y-1.5">
                     <Label className="text-sm">Rate of Return</Label>
-                    <Input value={sharedInputs.OtherAssetRoR} onChange={e => updateSharedInput('OtherAssetRoR', e.target.value)} placeholder="6%" />
+                    <Input 
+                      value={getPercentageDisplayValue(sharedInputs.OtherAssetRoR)} 
+                      onChange={e => handlePercentageChange('OtherAssetRoR', e.target.value)} 
+                      placeholder="6%"
+                      maxLength={5}
+                      data-backend-name="OtherAssetRoR"
+                      data-label="Other Assets Rate of Return"
+                      data-xtype="percentage"
+                      data-min-length={0}
+                      data-max-length={5}
+                      data-min-value={0}
+                      data-max-value={25}
+                    />
                   </div>
                 </div>
               </div>
@@ -842,23 +995,71 @@ export const RetirementAccumulationInputs = () => {
 
               <div className="space-y-1.5">
                 <Label className="text-sm">Annual Inflation Rate</Label>
-                <Input value={sharedInputs.AnnualInflationRate} onChange={e => updateSharedInput('AnnualInflationRate', e.target.value)} placeholder="3.0%" />
+                <Input 
+                  value={getPercentageDisplayValue(sharedInputs.AnnualInflationRate)} 
+                  onChange={e => handlePercentageChange('AnnualInflationRate', e.target.value)} 
+                  placeholder="3.0%"
+                  maxLength={5}
+                  data-backend-name="AnnualInflationRate"
+                  data-label="Annual Inflation Rate"
+                  data-xtype="percentage"
+                  data-min-length={0}
+                  data-max-length={5}
+                  data-min-value={0}
+                  data-max-value={25}
+                />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <Label className="text-sm">Annual Employment Inflation Rate - Client 1</Label>
-                  <Input value={sharedInputs.Client1_AnnualEmploymentInflationRate} onChange={e => updateSharedInput('Client1_AnnualEmploymentInflationRate', e.target.value)} placeholder="3.0%" />
+                  <Input 
+                    value={getPercentageDisplayValue(sharedInputs.Client1_AnnualEmploymentInflationRate)} 
+                    onChange={e => handlePercentageChange('Client1_AnnualEmploymentInflationRate', e.target.value)} 
+                    placeholder="3.0%"
+                    maxLength={5}
+                    data-backend-name="Client1_AnnualEmploymentInflationRate"
+                    data-label="Client 1 Annual Employment Inflation Rate"
+                    data-xtype="percentage"
+                    data-min-length={0}
+                    data-max-length={5}
+                    data-min-value={0}
+                    data-max-value={25}
+                  />
                 </div>
                 <div className="space-y-1.5">
                   <Label className="text-sm">Annual Employment Inflation Rate - Client 2</Label>
-                  <Input value={sharedInputs.Client2_AnnualEmploymentInflationRate} onChange={e => updateSharedInput('Client2_AnnualEmploymentInflationRate', e.target.value)} placeholder="3.0%" />
+                  <Input 
+                    value={getPercentageDisplayValue(sharedInputs.Client2_AnnualEmploymentInflationRate)} 
+                    onChange={e => handlePercentageChange('Client2_AnnualEmploymentInflationRate', e.target.value)} 
+                    placeholder="3.0%"
+                    maxLength={5}
+                    data-backend-name="Client2_AnnualEmploymentInflationRate"
+                    data-label="Client 2 Annual Employment Inflation Rate"
+                    data-xtype="percentage"
+                    data-min-length={0}
+                    data-max-length={5}
+                    data-min-value={0}
+                    data-max-value={25}
+                  />
                 </div>
               </div>
 
               <div className="space-y-1.5">
                 <Label className="text-sm">Annual Social Security Benefit Inflation Rate</Label>
-                <Input value={sharedInputs.AnnualSocialSecurityBenefitInflationRate} onChange={e => updateSharedInput('AnnualSocialSecurityBenefitInflationRate', e.target.value)} placeholder="2.5%" />
+                <Input 
+                  value={getPercentageDisplayValue(sharedInputs.AnnualSocialSecurityBenefitInflationRate)} 
+                  onChange={e => handlePercentageChange('AnnualSocialSecurityBenefitInflationRate', e.target.value)} 
+                  placeholder="2.5%"
+                  maxLength={5}
+                  data-backend-name="AnnualSocialSecurityBenefitInflationRate"
+                  data-label="Annual Social Security Benefit Inflation Rate"
+                  data-xtype="percentage"
+                  data-min-length={0}
+                  data-max-length={5}
+                  data-min-value={0}
+                  data-max-value={25}
+                />
               </div>
 
               <div className="border-l-4 border-primary/20 pl-3 pt-4 mt-6">
@@ -868,17 +1069,42 @@ export const RetirementAccumulationInputs = () => {
               <div className="bg-muted/30 p-4 rounded-lg space-y-4">
                 <div className="space-y-1.5">
                   <Label className="text-sm">Assumed Rate of Return During Retirement</Label>
-                  <Input placeholder="5%" />
+                  <Input 
+                    placeholder="5%"
+                    maxLength={5}
+                    data-backend-name="AssumedRateOfReturnDuringRetirement"
+                    data-label="Assumed Rate of Return During Retirement"
+                    data-xtype="percentage"
+                    data-min-length={0}
+                    data-max-length={5}
+                    data-min-value={0}
+                    data-max-value={25}
+                  />
                 </div>
                 
                 <div className="space-y-1.5">
                   <Label className="text-sm">Solution Rate of Return</Label>
-                  <Input placeholder="6%" />
+                  <Input 
+                    placeholder="6%"
+                    maxLength={5}
+                    data-backend-name="SolutionRateOfReturn"
+                    data-label="Solution Rate of Return"
+                    data-xtype="percentage"
+                    data-min-length={0}
+                    data-max-length={5}
+                    data-min-value={0}
+                    data-max-value={25}
+                  />
                 </div>
                 
                 <div className="space-y-1.5">
                   <Label className="text-sm">Number of Months Since the Last Review</Label>
-                  <Input placeholder="12" />
+                  <Input 
+                    placeholder="12"
+                    data-backend-name="NumberOfMonthsSinceLastReview"
+                    data-label="Number of Months Since Last Review"
+                    data-xtype="number"
+                  />
                 </div>
               </div>
             </CardContent>
