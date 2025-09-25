@@ -398,9 +398,12 @@ interface SharedInputs {
   YYearsAfterRetiredPercentOfIncome: string;
   
   UseOptimizer: boolean;
-  socialSecurityType: string;
-  retirementSocialSecurity: string;
-  survivorSocialSecurity: string;
+  client1SocialSecurityType: string;
+  client1RetirementSocialSecurity: string;
+  client1SurvivorSocialSecurity: string;
+  client2SocialSecurityType: string;
+  client2RetirementSocialSecurity: string;
+  client2SurvivorSocialSecurity: string;
   Client1_SocialSecurityMonthlyRetirementBenefit: string;
   Client1_SocialSecurityMonthlySurvivorBenefit: string;
   Client2_SocialSecurityMonthlyRetirementBenefit: string;
@@ -631,9 +634,12 @@ const initialSharedInputs: SharedInputs = {
   
   // Social Security and other fields
   UseOptimizer: false,
-  socialSecurityType: 'Earnings',
-  retirementSocialSecurity: '',
-  survivorSocialSecurity: '',
+  client1SocialSecurityType: 'Earnings',
+  client1RetirementSocialSecurity: '',
+  client1SurvivorSocialSecurity: '',
+  client2SocialSecurityType: 'Earnings',
+  client2RetirementSocialSecurity: '',
+  client2SurvivorSocialSecurity: '',
   Client1_SocialSecurityMonthlyRetirementBenefit: '',
   Client1_SocialSecurityMonthlySurvivorBenefit: '',
   Client2_SocialSecurityMonthlyRetirementBenefit: '',

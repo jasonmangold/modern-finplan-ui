@@ -282,80 +282,96 @@ export const RetirementAccumulationInputs = () => {
                   <Label htmlFor="useOptimizer" className="text-sm font-medium text-foreground">Use Optimizer</Label>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4 mb-4">
-                  <div>
-                    <Label className="text-sm font-medium text-foreground">Social Security Type</Label>
-                    <Select 
-                      value={sharedInputs.socialSecurityType || 'Earnings'} 
-                      onValueChange={value => updateSharedInput('socialSecurityType', value)}
-                    >
-                      <SelectTrigger className="mt-1.5 h-9">
-                        <SelectValue placeholder="Select type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Spousal Only">Spousal Only</SelectItem>
-                        <SelectItem value="Earnings">Earnings</SelectItem>
-                        <SelectItem value="Maximum">Maximum</SelectItem>
-                        <SelectItem value="PIA User Input">PIA User Input</SelectItem>
-                        <SelectItem value="Not Eligible">Not Eligible</SelectItem>
-                        <SelectItem value="Monthly Amount">Monthly Amount</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <Label className="text-sm font-medium text-foreground">Retirement Social Security</Label>
-                    <Input 
-                      value={sharedInputs.retirementSocialSecurity} 
-                      onChange={e => updateSharedInput('retirementSocialSecurity', e.target.value)} 
-                      placeholder="$35,000" 
-                      className={`mt-1.5 h-9 ${(!sharedInputs.socialSecurityType || (sharedInputs.socialSecurityType !== 'PIA User Input' && sharedInputs.socialSecurityType !== 'Monthly Amount')) ? 'bg-muted text-muted-foreground' : ''}`}
-                      disabled={!sharedInputs.socialSecurityType || (sharedInputs.socialSecurityType !== 'PIA User Input' && sharedInputs.socialSecurityType !== 'Monthly Amount')}
-                    />
-                  </div>
-                  <div>
-                    <Label className="text-sm font-medium text-foreground">Survivor Social Security</Label>
-                    <Input 
-                      value={sharedInputs.survivorSocialSecurity} 
-                      onChange={e => updateSharedInput('survivorSocialSecurity', e.target.value)} 
-                      placeholder="$30,000" 
-                      className={`mt-1.5 h-9 ${(!sharedInputs.socialSecurityType || (sharedInputs.socialSecurityType !== 'PIA User Input' && sharedInputs.socialSecurityType !== 'Monthly Amount')) ? 'bg-muted text-muted-foreground' : ''}`}
-                      disabled={!sharedInputs.socialSecurityType || (sharedInputs.socialSecurityType !== 'PIA User Input' && sharedInputs.socialSecurityType !== 'Monthly Amount')}
-                    />
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label className="text-sm font-medium text-foreground">Client 1 Annual Social Security</Label>
-                    <Input value={sharedInputs.Client1_SocialSecurityCalculation} onChange={e => updateSharedInput('Client1_SocialSecurityCalculation', e.target.value)} placeholder="$35,000" className="mt-1.5 h-9" />
-                  </div>
-                  <div>
-                    <Label className="text-sm font-medium text-foreground">Client 1 SS Start Age</Label>
-                    <Input 
-                      value={sharedInputs.client1SSStartAge} 
-                      onChange={e => updateSharedInput('client1SSStartAge', e.target.value)} 
-                      placeholder="67" 
-                      className={`mt-1.5 h-9 ${sharedInputs.UseOptimizer ? 'bg-muted text-muted-foreground' : ''}`}
-                      disabled={sharedInputs.UseOptimizer}
-                    />
+                {/* Client 1 Social Security */}
+                <div className="space-y-3">
+                  <Label className="text-sm font-medium text-foreground">Client 1</Label>
+                  <div className="grid grid-cols-3 gap-4">
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Type</Label>
+                      <Select 
+                        value={sharedInputs.client1SocialSecurityType || 'Earnings'} 
+                        onValueChange={value => updateSharedInput('client1SocialSecurityType', value)}
+                      >
+                        <SelectTrigger className="mt-1.5 h-9">
+                          <SelectValue placeholder="Select type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Spousal Only">Spousal Only</SelectItem>
+                          <SelectItem value="Earnings">Earnings</SelectItem>
+                          <SelectItem value="Maximum">Maximum</SelectItem>
+                          <SelectItem value="PIA User Input">PIA User Input</SelectItem>
+                          <SelectItem value="Not Eligible">Not Eligible</SelectItem>
+                          <SelectItem value="Monthly Amount">Monthly Amount</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Retirement</Label>
+                      <Input 
+                        value={sharedInputs.client1RetirementSocialSecurity} 
+                        onChange={e => updateSharedInput('client1RetirementSocialSecurity', e.target.value)} 
+                        placeholder="$35,000" 
+                        className={`mt-1.5 h-9 ${(!sharedInputs.client1SocialSecurityType || (sharedInputs.client1SocialSecurityType !== 'PIA User Input' && sharedInputs.client1SocialSecurityType !== 'Monthly Amount')) ? 'bg-muted text-muted-foreground' : ''}`}
+                        disabled={!sharedInputs.client1SocialSecurityType || (sharedInputs.client1SocialSecurityType !== 'PIA User Input' && sharedInputs.client1SocialSecurityType !== 'Monthly Amount')}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Survivor</Label>
+                      <Input 
+                        value={sharedInputs.client1SurvivorSocialSecurity} 
+                        onChange={e => updateSharedInput('client1SurvivorSocialSecurity', e.target.value)} 
+                        placeholder="$30,000" 
+                        className={`mt-1.5 h-9 ${(!sharedInputs.client1SocialSecurityType || (sharedInputs.client1SocialSecurityType !== 'PIA User Input' && sharedInputs.client1SocialSecurityType !== 'Monthly Amount')) ? 'bg-muted text-muted-foreground' : ''}`}
+                        disabled={!sharedInputs.client1SocialSecurityType || (sharedInputs.client1SocialSecurityType !== 'PIA User Input' && sharedInputs.client1SocialSecurityType !== 'Monthly Amount')}
+                      />
+                    </div>
                   </div>
                 </div>
 
+                {/* Client 2 Social Security */}
                 {sharedInputs.hasClient2 && (
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label className="text-sm font-medium text-foreground">Client 2 Annual Social Security</Label>
-                      <Input value={sharedInputs.Client2_SocialSecurityCalculation} onChange={e => updateSharedInput('Client2_SocialSecurityCalculation', e.target.value)} placeholder="$30,000" className="mt-1.5 h-9" />
-                    </div>
-                    <div>
-                      <Label className="text-sm font-medium text-foreground">Client 2 SS Start Age</Label>
-                      <Input 
-                        value={sharedInputs.client2SSStartAge} 
-                        onChange={e => updateSharedInput('client2SSStartAge', e.target.value)} 
-                        placeholder="67" 
-                        className={`mt-1.5 h-9 ${sharedInputs.UseOptimizer ? 'bg-muted text-muted-foreground' : ''}`}
-                        disabled={sharedInputs.UseOptimizer}
-                      />
+                  <div className="space-y-3">
+                    <Label className="text-sm font-medium text-foreground">Client 2</Label>
+                    <div className="grid grid-cols-3 gap-4">
+                      <div>
+                        <Label className="text-sm font-medium text-foreground">Type</Label>
+                        <Select 
+                          value={sharedInputs.client2SocialSecurityType || 'Earnings'} 
+                          onValueChange={value => updateSharedInput('client2SocialSecurityType', value)}
+                        >
+                          <SelectTrigger className="mt-1.5 h-9">
+                            <SelectValue placeholder="Select type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Spousal Only">Spousal Only</SelectItem>
+                            <SelectItem value="Earnings">Earnings</SelectItem>
+                            <SelectItem value="Maximum">Maximum</SelectItem>
+                            <SelectItem value="PIA User Input">PIA User Input</SelectItem>
+                            <SelectItem value="Not Eligible">Not Eligible</SelectItem>
+                            <SelectItem value="Monthly Amount">Monthly Amount</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label className="text-sm font-medium text-foreground">Retirement</Label>
+                        <Input 
+                          value={sharedInputs.client2RetirementSocialSecurity} 
+                          onChange={e => updateSharedInput('client2RetirementSocialSecurity', e.target.value)} 
+                          placeholder="$30,000" 
+                          className={`mt-1.5 h-9 ${(!sharedInputs.client2SocialSecurityType || (sharedInputs.client2SocialSecurityType !== 'PIA User Input' && sharedInputs.client2SocialSecurityType !== 'Monthly Amount')) ? 'bg-muted text-muted-foreground' : ''}`}
+                          disabled={!sharedInputs.client2SocialSecurityType || (sharedInputs.client2SocialSecurityType !== 'PIA User Input' && sharedInputs.client2SocialSecurityType !== 'Monthly Amount')}
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-sm font-medium text-foreground">Survivor</Label>
+                        <Input 
+                          value={sharedInputs.client2SurvivorSocialSecurity} 
+                          onChange={e => updateSharedInput('client2SurvivorSocialSecurity', e.target.value)} 
+                          placeholder="$25,000" 
+                          className={`mt-1.5 h-9 ${(!sharedInputs.client2SocialSecurityType || (sharedInputs.client2SocialSecurityType !== 'PIA User Input' && sharedInputs.client2SocialSecurityType !== 'Monthly Amount')) ? 'bg-muted text-muted-foreground' : ''}`}
+                          disabled={!sharedInputs.client2SocialSecurityType || (sharedInputs.client2SocialSecurityType !== 'PIA User Input' && sharedInputs.client2SocialSecurityType !== 'Monthly Amount')}
+                        />
+                      </div>
                     </div>
                   </div>
                 )}
