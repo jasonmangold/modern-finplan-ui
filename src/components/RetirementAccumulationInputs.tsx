@@ -246,43 +246,64 @@ export const RetirementAccumulationInputs = () => {
             <CardHeader className="pb-4">
               <CardTitle className="text-base font-medium">Income Sources</CardTitle>
             </CardHeader>
-            <CardContent className="pt-0 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label className="text-sm">Client 1 Annual Employment Income</Label>
-                  <Input value={sharedInputs.Client1_AnnualSalary} onChange={e => updateSharedInput('Client1_AnnualSalary', e.target.value)} placeholder="$100,000" className="mt-1" />
+            <CardContent className="pt-0 space-y-6">
+              {/* Employment Income Section */}
+              <div className="bg-muted/30 p-4 rounded-lg space-y-4">
+                <div className="border-l-4 border-primary/20 pl-3">
+                  <Label className="text-base font-medium text-foreground">Employment Income</Label>
                 </div>
-                {sharedInputs.hasClient2 && <div>
-                    <Label className="text-sm">Client 2 Annual Employment Income</Label>
-                    <Input value={sharedInputs.Client2_AnnualSalary} onChange={e => updateSharedInput('Client2_AnnualSalary', e.target.value)} placeholder="$80,000" className="mt-1" />
-                  </div>}
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-sm font-medium text-foreground">Client 1 Annual Employment Income</Label>
+                    <Input value={sharedInputs.Client1_AnnualSalary} onChange={e => updateSharedInput('Client1_AnnualSalary', e.target.value)} placeholder="$100,000" className="mt-1.5 h-9" />
+                  </div>
+                  {sharedInputs.hasClient2 && (
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Client 2 Annual Employment Income</Label>
+                      <Input value={sharedInputs.Client2_AnnualSalary} onChange={e => updateSharedInput('Client2_AnnualSalary', e.target.value)} placeholder="$80,000" className="mt-1.5 h-9" />
+                    </div>
+                  )}
+                </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label className="text-sm">Client 1 Annual Social Security</Label>
-                  <Input value={sharedInputs.Client1_SocialSecurityCalculation} onChange={e => updateSharedInput('Client1_SocialSecurityCalculation', e.target.value)} placeholder="$35,000" className="mt-1" />
+              {/* Social Security Section */}
+              <div className="bg-muted/30 p-4 rounded-lg space-y-4">
+                <div className="border-l-4 border-primary/20 pl-3">
+                  <Label className="text-base font-medium text-foreground">Social Security</Label>
                 </div>
-                <div>
-                  <Label className="text-sm">Client 1 SS Start Age</Label>
-                  <Input value={sharedInputs.client1SSStartAge} onChange={e => updateSharedInput('client1SSStartAge', e.target.value)} placeholder="67" className="mt-1" />
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-sm font-medium text-foreground">Client 1 Annual Social Security</Label>
+                    <Input value={sharedInputs.Client1_SocialSecurityCalculation} onChange={e => updateSharedInput('Client1_SocialSecurityCalculation', e.target.value)} placeholder="$35,000" className="mt-1.5 h-9" />
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-foreground">Client 1 SS Start Age</Label>
+                    <Input value={sharedInputs.client1SSStartAge} onChange={e => updateSharedInput('client1SSStartAge', e.target.value)} placeholder="67" className="mt-1.5 h-9" />
+                  </div>
                 </div>
+
+                {sharedInputs.hasClient2 && (
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Client 2 Annual Social Security</Label>
+                      <Input value={sharedInputs.Client2_SocialSecurityCalculation} onChange={e => updateSharedInput('Client2_SocialSecurityCalculation', e.target.value)} placeholder="$30,000" className="mt-1.5 h-9" />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-foreground">Client 2 SS Start Age</Label>
+                      <Input value={sharedInputs.client2SSStartAge} onChange={e => updateSharedInput('client2SSStartAge', e.target.value)} placeholder="67" className="mt-1.5 h-9" />
+                    </div>
+                  </div>
+                )}
               </div>
 
-              {sharedInputs.hasClient2 && <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label className="text-sm">Client 2 Annual Social Security</Label>
-                    <Input value={sharedInputs.Client2_SocialSecurityCalculation} onChange={e => updateSharedInput('Client2_SocialSecurityCalculation', e.target.value)} placeholder="$30,000" className="mt-1" />
-                  </div>
-                  <div>
-                    <Label className="text-sm">Client 2 SS Start Age</Label>
-                    <Input value={sharedInputs.client2SSStartAge} onChange={e => updateSharedInput('client2SSStartAge', e.target.value)} placeholder="67" className="mt-1" />
-                  </div>
-                </div>}
-
-              <div className="space-y-4">
+              {/* Other Income Sources Section */}
+              <div className="bg-muted/30 p-4 rounded-lg space-y-4">
                 <div className="flex items-center justify-between">
-                  <Label className="text-sm font-medium">Other Income Sources</Label>
+                  <div className="border-l-4 border-primary/20 pl-3">
+                    <Label className="text-base font-medium text-foreground">Other Income Sources</Label>
+                  </div>
                   <Button onClick={addIncomeSource} size="sm" variant="outline">
                     <Plus className="h-4 w-4 mr-2" />
                     Add Income Source
