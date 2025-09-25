@@ -22,17 +22,18 @@ export const RetirementAccumulationInputs = () => {
   };
   const addIncomeSource = () => {
     const newSource = {
-      name: '',
-      type: 'Pension',
-      owner: 'Client 1',
-      startAge: '',
-      amount: '',
-      frequency: 'Monthly',
-      valueType: 'Present Value',
-      payableFor: 'Life',
-      endAge: '',
-      inflationRate: '',
-      percentAvailableToSurvivors: ''
+      Name: '',
+      TypeOfIncome: 'Pension',
+      Owner1BasedIndex: 'Client 1',
+      StartAge: '',
+      Amount: '',
+      IncomeTimeFrame: 'Monthly',
+      Period: 'Present Value',
+      PayableForLife: 'Life',
+      EndAge: '',
+      AnnualInflationRate: '',
+      InflationDuration: 'for life',
+      PercentAvailableToSurvivor: ''
     };
     const newSources = [...sharedInputs.otherIncomeSources, newSource];
     updateSharedInput('otherIncomeSources', newSources);
@@ -397,98 +398,149 @@ export const RetirementAccumulationInputs = () => {
                       </Button>
                     </div>
                     
+                    {/* Row 1: Name, Type, Owner */}
                     <div className="grid grid-cols-3 gap-4">
                       <div>
                         <Label className="text-sm">Name</Label>
-                         <Input value={source.Name} onChange={e => updateIncomeSource(index, 'Name', e.target.value)} placeholder="Income source name" className="mt-1" />
-                       </div>
-                       <div>
-                         <Label className="text-sm">Type</Label>
-                         <Select value={source.TypeOfIncome} onValueChange={value => updateIncomeSource(index, 'TypeOfIncome', value)}>
-                           <SelectTrigger className="mt-1">
-                             <SelectValue />
-                           </SelectTrigger>
-                           <SelectContent>
-                             <SelectItem value="Pension">Pension</SelectItem>
-                             <SelectItem value="Annuity">Annuity</SelectItem>
-                             <SelectItem value="Rental Income">Rental Income</SelectItem>
-                             <SelectItem value="Business Income">Business Income</SelectItem>
-                             <SelectItem value="Other">Other</SelectItem>
-                           </SelectContent>
-                         </Select>
-                       </div>
-                       <div>
-                         <Label className="text-sm">Owner</Label>
-                         <Select value={source.Owner1BasedIndex} onValueChange={value => updateIncomeSource(index, 'Owner1BasedIndex', value)}>
-                           <SelectTrigger className="mt-1">
-                             <SelectValue />
-                           </SelectTrigger>
-                           <SelectContent>
-                             <SelectItem value="Client 1">Client 1</SelectItem>
-                             <SelectItem value="Client 2">Client 2</SelectItem>
-                             <SelectItem value="Joint">Joint</SelectItem>
-                           </SelectContent>
-                         </Select>
-                       </div>
-                     </div>
+                        <Input value={source.Name} onChange={e => updateIncomeSource(index, 'Name', e.target.value)} placeholder="Income source name" className="mt-1" />
+                      </div>
+                      <div>
+                        <Label className="text-sm">Type</Label>
+                        <Select value={source.TypeOfIncome} onValueChange={value => updateIncomeSource(index, 'TypeOfIncome', value)}>
+                          <SelectTrigger className="mt-1">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Pension">Pension</SelectItem>
+                            <SelectItem value="Annuity">Annuity</SelectItem>
+                            <SelectItem value="Rental Income">Rental Income</SelectItem>
+                            <SelectItem value="Business Income">Business Income</SelectItem>
+                            <SelectItem value="Other">Other</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label className="text-sm">Owner</Label>
+                        <Select value={source.Owner1BasedIndex} onValueChange={value => updateIncomeSource(index, 'Owner1BasedIndex', value)}>
+                          <SelectTrigger className="mt-1">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Client 1">Client 1</SelectItem>
+                            <SelectItem value="Client 2">Client 2</SelectItem>
+                            <SelectItem value="Joint">Joint</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
 
-                     <div className="grid grid-cols-4 gap-4">
-                       <div>
-                         <Label className="text-sm">Start Age</Label>
-                         <Input value={source.StartAge} onChange={e => updateIncomeSource(index, 'StartAge', e.target.value)} placeholder="65" className="mt-1" />
-                       </div>
-                       <div>
-                         <Label className="text-sm">Amount</Label>
-                         <Input value={source.Amount} onChange={e => updateIncomeSource(index, 'Amount', e.target.value)} placeholder="$2,000" className="mt-1" />
-                       </div>
-                       <div>
-                         <Label className="text-sm">Frequency</Label>
-                         <Select value={source.IncomeTimeFrame} onValueChange={value => updateIncomeSource(index, 'IncomeTimeFrame', value)}>
-                           <SelectTrigger className="mt-1">
-                             <SelectValue />
-                           </SelectTrigger>
-                           <SelectContent>
-                             <SelectItem value="monthly">Monthly</SelectItem>
-                             <SelectItem value="lump-sum">Lump Sum</SelectItem>
-                           </SelectContent>
-                         </Select>
-                       </div>
-                       <div>
-                         <Label className="text-sm">Value Type</Label>
-                         <Select value={source.Period} onValueChange={value => updateIncomeSource(index, 'Period', value)}>
-                           <SelectTrigger className="mt-1">
-                             <SelectValue />
-                           </SelectTrigger>
-                           <SelectContent>
-                             <SelectItem value="present">Present Value</SelectItem>
-                             <SelectItem value="future">Future Value</SelectItem>
-                           </SelectContent>
-                         </Select>
-                       </div>
-                     </div>
+                    {/* Row 2: Frequency, Amount, Start Age */}
+                    <div className="grid grid-cols-3 gap-4">
+                      <div>
+                        <Label className="text-sm">Frequency</Label>
+                        <Select value={source.IncomeTimeFrame} onValueChange={value => updateIncomeSource(index, 'IncomeTimeFrame', value)}>
+                          <SelectTrigger className="mt-1">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Monthly">Monthly</SelectItem>
+                            <SelectItem value="Lump Sum">Lump Sum</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label className="text-sm">Amount</Label>
+                        <Input value={source.Amount} onChange={e => updateIncomeSource(index, 'Amount', e.target.value)} placeholder="$2,000" className="mt-1" />
+                      </div>
+                      <div>
+                        <Label className="text-sm">Start Age</Label>
+                        <Input value={source.StartAge} onChange={e => updateIncomeSource(index, 'StartAge', e.target.value)} placeholder="65" className="mt-1" />
+                      </div>
+                    </div>
 
-                     <div className="grid grid-cols-3 gap-4">
-                       <div>
-                         <Label className="text-sm">Payable For</Label>
-                         <Select value={source.PayableForLife} onValueChange={value => updateIncomeSource(index, 'PayableForLife', value)}>
-                           <SelectTrigger className="mt-1">
-                             <SelectValue />
-                           </SelectTrigger>
-                           <SelectContent>
-                             <SelectItem value="life">Life</SelectItem>
-                             <SelectItem value="specific-age">Until Specific Age</SelectItem>
-                           </SelectContent>
-                         </Select>
-                       </div>
-                       {source.PayableForLife === 'specific-age' && <div>
-                           <Label className="text-sm">End Age</Label>
-                           <Input value={source.EndAge} onChange={e => updateIncomeSource(index, 'EndAge', e.target.value)} placeholder="85" className="mt-1" />
-                         </div>}
-                       <div>
-                         <Label className="text-sm">Inflation Rate</Label>
-                         <Input value={source.AnnualInflationRate} onChange={e => updateIncomeSource(index, 'AnnualInflationRate', e.target.value)} placeholder="3.0%" className="mt-1" />
-                       </div>
-                     </div>
+                    {/* Row 3: Value Type, Payable For, End Age (conditional) */}
+                    <div className="grid grid-cols-3 gap-4">
+                      <div>
+                        <Label className="text-sm">Value Type</Label>
+                        <Select value={source.Period} onValueChange={value => updateIncomeSource(index, 'Period', value)}>
+                          <SelectTrigger className="mt-1">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Present Value">Present Value</SelectItem>
+                            <SelectItem value="Future Value">Future Value</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label className="text-sm">Payable For</Label>
+                        <Select value={source.PayableForLife} onValueChange={value => updateIncomeSource(index, 'PayableForLife', value)}>
+                          <SelectTrigger className="mt-1">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Life">Life</SelectItem>
+                            <SelectItem value="Until Specific Age">Until Specific Age</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      {source.PayableForLife === 'Until Specific Age' && (
+                        <div>
+                          <Label className="text-sm">End Age</Label>
+                          <Input value={source.EndAge} onChange={e => updateIncomeSource(index, 'EndAge', e.target.value)} placeholder="85" className="mt-1" />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Row 4: Inflation Rate with Radio Buttons */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-sm">Inflate Amount annual at</Label>
+                        <div className="flex items-center gap-2 mt-1">
+                          <Input 
+                            value={source.AnnualInflationRate} 
+                            onChange={e => updateIncomeSource(index, 'AnnualInflationRate', e.target.value)} 
+                            placeholder="3.0%" 
+                            className="w-20" 
+                          />
+                          <div className="flex items-center gap-4">
+                            <div className="flex items-center space-x-2">
+                              <input 
+                                type="radio" 
+                                id={`forLife${index}`}
+                                name={`inflationDuration${index}`}
+                                value="for life"
+                                checked={source.InflationDuration === 'for life'}
+                                onChange={e => updateIncomeSource(index, 'InflationDuration', e.target.value)}
+                                className="h-4 w-4" 
+                              />
+                              <Label htmlFor={`forLife${index}`} className="text-sm">for life</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <input 
+                                type="radio" 
+                                id={`untilStartStage${index}`}
+                                name={`inflationDuration${index}`}
+                                value="until start stage"
+                                checked={source.InflationDuration === 'until start stage'}
+                                onChange={e => updateIncomeSource(index, 'InflationDuration', e.target.value)}
+                                className="h-4 w-4" 
+                              />
+                              <Label htmlFor={`untilStartStage${index}`} className="text-sm">until start stage</Label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <Label className="text-sm">Percent Available to Survivors</Label>
+                        <Input 
+                          value={source.PercentAvailableToSurvivor} 
+                          onChange={e => updateIncomeSource(index, 'PercentAvailableToSurvivor', e.target.value)} 
+                          placeholder="100%" 
+                          className="mt-1" 
+                        />
+                      </div>
+                    </div>
                   </div>)}
               </div>
             </CardContent>

@@ -98,6 +98,7 @@ interface SharedInputs {
     PayableForLife: string;
     EndAge: string;
     AnnualInflationRate: string;
+    InflationDuration: string;
     PercentAvailableToSurvivor: string;
   }>;
   
