@@ -32,7 +32,7 @@ const Education = () => {
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [selectedFormats, setSelectedFormats] = useState<string[]>([]);
   const [selectedReport, setSelectedReport] = useState<string | null>(null);
-  const [selectedPDF, setSelectedPDF] = useState<{ url: string; title: string; message?: string; htmlContent?: string } | null>(null);
+  const [selectedPDF, setSelectedPDF] = useState<{ url: string; title: string; message?: string } | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
   const [expandedSubfolders, setExpandedSubfolders] = useState<string[]>([]);
@@ -133,23 +133,13 @@ const Education = () => {
     });
   };
 
-  const handleReportClick = async (report: any) => {
+  const handleReportClick = (report: any) => {
     // Save current scroll position
     scrollPositionRef.current = window.scrollY;
     setSavedScrollPosition(window.scrollY);
     
     console.log('Report clicked:', report.DocumentTitle);
     console.log('Raw file path:', report.file_path);
-    
-    // Special handling for Long-Term Care report - for now show a message about external content
-    if (report.DocumentTitle.toLowerCase().includes('long-term care')) {
-      setSelectedPDF({ 
-        url: '', 
-        title: report.DocumentTitle,
-        message: 'This report displays external content that cannot be loaded due to browser security restrictions. The report would typically show HTML content from advisys.com with Long-Term Care planning information.'
-      });
-      return;
-    }
     
     // Check if PDF file path exists
     if (report.file_path && report.file_path.trim() !== '') {
@@ -408,16 +398,9 @@ const Education = () => {
             </div>
           </div>
 
-          {/* PDF/HTML Content */}
+          {/* PDF Content */}
           <div className="flex-1 bg-gray-100">
-            {selectedPDF.htmlContent ? (
-              <div className="w-full h-full bg-white">
-                <div 
-                  className="w-full h-full p-4 overflow-auto"
-                  dangerouslySetInnerHTML={{ __html: selectedPDF.htmlContent }}
-                />
-              </div>
-            ) : selectedPDF.url ? (
+            {selectedPDF.url ? (
               <iframe
                 src={selectedPDF.url}
                 className="w-full h-full border-0"
