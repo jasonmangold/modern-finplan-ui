@@ -92,55 +92,62 @@ export const RetirementAccumulationInputs = () => {
             <CardHeader className="pb-4">
               <CardTitle className="text-base font-medium">Personal Information</CardTitle>
             </CardHeader>
-            <CardContent className="pt-0 space-y-4">
-              <div className="grid grid-cols-3 gap-4">
-                <div>
-                  <Label className="text-sm font-medium text-foreground">Client 1 First Name</Label>
-                  <Input 
-                    value={sharedInputs.Client1_FirstName}
-                    onChange={(e) => updateSharedInput('Client1_FirstName', e.target.value)}
-                    placeholder="Enter first name" 
-                    className="mt-1.5 h-9" 
-                  />
+            <CardContent className="pt-0 space-y-6">
+              {/* Client 1 Section */}
+              <div className="bg-muted/30 p-4 rounded-lg space-y-4">
+                <div className="border-l-4 border-primary/20 pl-3">
+                  <Label className="text-base font-medium text-foreground">Client 1</Label>
                 </div>
-                <div>
-                  <Label className="text-sm font-medium text-foreground">Client 1 Middle Name</Label>
-                  <Input 
-                    value={sharedInputs.Client1_MiddleName}
-                    onChange={(e) => updateSharedInput('Client1_MiddleName', e.target.value)}
-                    placeholder="Enter middle name" 
-                    className="mt-1.5 h-9" 
-                  />
+                
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <Label className="text-sm font-medium text-foreground">First Name</Label>
+                    <Input 
+                      value={sharedInputs.Client1_FirstName}
+                      onChange={(e) => updateSharedInput('Client1_FirstName', e.target.value)}
+                      placeholder="Enter first name" 
+                      className="mt-1.5 h-9" 
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-foreground">Middle Name</Label>
+                    <Input 
+                      value={sharedInputs.Client1_MiddleName}
+                      onChange={(e) => updateSharedInput('Client1_MiddleName', e.target.value)}
+                      placeholder="Enter middle name" 
+                      className="mt-1.5 h-9" 
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-foreground">Last Name</Label>
+                    <Input 
+                      value={sharedInputs.Client1_LastName}
+                      onChange={(e) => updateSharedInput('Client1_LastName', e.target.value)}
+                      placeholder="Enter last name" 
+                      className="mt-1.5 h-9" 
+                    />
+                  </div>
                 </div>
-                <div>
-                  <Label className="text-sm font-medium text-foreground">Client 1 Last Name</Label>
-                  <Input 
-                    value={sharedInputs.Client1_LastName}
-                    onChange={(e) => updateSharedInput('Client1_LastName', e.target.value)}
-                    placeholder="Enter last name" 
-                    className="mt-1.5 h-9" 
-                  />
-                </div>
-              </div>
 
-              <div className="grid grid-cols-3 gap-4">
-                <div>
-                  <Label className="text-sm font-medium text-foreground">Client 1 Date of Birth</Label>
-                  <Input 
-                    type="date"
-                    value={sharedInputs.Client1_BirthDate}
-                    onChange={(e) => updateSharedInput('Client1_BirthDate', e.target.value)}
-                    className="mt-1.5 h-9" 
-                  />
-                </div>
-                <div>
-                  <Label className="text-sm">Client 1 Retirement Age</Label>
-                  <Input 
-                    value={sharedInputs.Client1_RetirementAge}
-                    onChange={(e) => updateSharedInput('Client1_RetirementAge', e.target.value)}
-                    placeholder="67" 
-                    className="mt-1" 
-                  />
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-sm font-medium text-foreground">Date of Birth</Label>
+                    <Input 
+                      type="date"
+                      value={sharedInputs.Client1_BirthDate}
+                      onChange={(e) => updateSharedInput('Client1_BirthDate', e.target.value)}
+                      className="mt-1.5 h-9" 
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-foreground">Retirement Age</Label>
+                    <Input 
+                      value={sharedInputs.Client1_RetirementAge}
+                      onChange={(e) => updateSharedInput('Client1_RetirementAge', e.target.value)}
+                      placeholder="67" 
+                      className="mt-1.5 h-9" 
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -154,68 +161,73 @@ export const RetirementAccumulationInputs = () => {
               </div>
 
               {sharedInputs.hasClient2 && (
-                <div className="space-y-4">
-                  <div className="grid grid-cols-3 gap-4">
-                    <div>
-                      <Label className="text-sm">Client 2 First Name</Label>
-                      <Input 
-                        value={sharedInputs.Client2_FirstName}
-                        onChange={(e) => updateSharedInput('Client2_FirstName', e.target.value)}
-                        placeholder="Enter first name" 
-                        className="mt-1" 
-                      />
+                <>
+                  {/* Client 2 Section */}
+                  <div className="bg-muted/30 p-4 rounded-lg space-y-4">
+                    <div className="border-l-4 border-primary/20 pl-3">
+                      <Label className="text-base font-medium text-foreground">Client 2</Label>
                     </div>
-                    <div>
-                      <Label className="text-sm">Client 2 Middle Name</Label>
-                      <Input 
-                        value={sharedInputs.Client2_MiddleName}
-                        onChange={(e) => updateSharedInput('Client2_MiddleName', e.target.value)}
-                        placeholder="Enter middle name" 
-                        className="mt-1" 
-                      />
+                    
+                    <div className="grid grid-cols-3 gap-4">
+                      <div>
+                        <Label className="text-sm font-medium text-foreground">First Name</Label>
+                        <Input 
+                          value={sharedInputs.Client2_FirstName}
+                          onChange={(e) => updateSharedInput('Client2_FirstName', e.target.value)}
+                          placeholder="Enter first name" 
+                          className="mt-1.5 h-9" 
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-sm font-medium text-foreground">Middle Name</Label>
+                        <Input 
+                          value={sharedInputs.Client2_MiddleName}
+                          onChange={(e) => updateSharedInput('Client2_MiddleName', e.target.value)}
+                          placeholder="Enter middle name" 
+                          className="mt-1.5 h-9" 
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-sm font-medium text-foreground">Last Name</Label>
+                        <Input 
+                          value={sharedInputs.Client2_LastName}
+                          onChange={(e) => updateSharedInput('Client2_LastName', e.target.value)}
+                          placeholder="Enter last name" 
+                          className="mt-1.5 h-9" 
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <Label className="text-sm">Client 2 Last Name</Label>
-                      <Input 
-                        value={sharedInputs.Client2_LastName}
-                        onChange={(e) => updateSharedInput('Client2_LastName', e.target.value)}
-                        placeholder="Enter last name" 
-                        className="mt-1" 
-                      />
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-sm font-medium text-foreground">Date of Birth</Label>
+                        <Input 
+                          type="date"
+                          value={sharedInputs.Client2_BirthDate}
+                          onChange={(e) => updateSharedInput('Client2_BirthDate', e.target.value)}
+                          className="mt-1.5 h-9" 
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-sm font-medium text-foreground">Retirement Age</Label>
+                        <Input 
+                          value={sharedInputs.Client2_RetirementAge}
+                          onChange={(e) => updateSharedInput('Client2_RetirementAge', e.target.value)}
+                          placeholder="67" 
+                          className="mt-1.5 h-9" 
+                        />
+                      </div>
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div>
-                      <Label className="text-sm">Client 2 Date of Birth</Label>
-                      <Input 
-                        type="date"
-                        value={sharedInputs.Client2_BirthDate}
-                        onChange={(e) => updateSharedInput('Client2_BirthDate', e.target.value)}
-                        className="mt-1" 
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-sm">Client 2 Retirement Age</Label>
-                      <Input 
-                        value={sharedInputs.Client2_RetirementAge}
-                        onChange={(e) => updateSharedInput('Client2_RetirementAge', e.target.value)}
-                        placeholder="67" 
-                        className="mt-1" 
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
 
-              {sharedInputs.hasClient2 && (
-                <div className="flex items-center space-x-2">
-                  <Checkbox 
-                    id="married" 
-                    checked={sharedInputs.ClientsAreMarried}
-                    onCheckedChange={(checked) => updateSharedInput('ClientsAreMarried', checked)}
-                  />
-                  <Label htmlFor="married" className="text-sm">Married</Label>
-                </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="married" 
+                      checked={sharedInputs.ClientsAreMarried}
+                      onCheckedChange={(checked) => updateSharedInput('ClientsAreMarried', checked)}
+                    />
+                    <Label htmlFor="married" className="text-sm">Married</Label>
+                  </div>
+                </>
               )}
             </CardContent>
           </Card>
