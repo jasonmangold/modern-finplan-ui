@@ -141,24 +141,13 @@ const Education = () => {
     console.log('Report clicked:', report.DocumentTitle);
     console.log('Raw file path:', report.file_path);
     
-    // Special handling for Long-Term Care report
+    // Special handling for Long-Term Care report - for now show a message about external content
     if (report.DocumentTitle.toLowerCase().includes('long-term care')) {
-      try {
-        const response = await fetch('https://www.advisys.com/app/handlers/rptHandler.ashx?action=getnow&formNumber=A123S&format=html');
-        const htmlContent = await response.text();
-        setSelectedPDF({ 
-          url: '', 
-          title: report.DocumentTitle,
-          htmlContent: htmlContent
-        });
-      } catch (error) {
-        console.error('Failed to fetch HTML content:', error);
-        setSelectedPDF({ 
-          url: '', 
-          title: report.DocumentTitle,
-          message: 'Failed to load HTML preview for this report.'
-        });
-      }
+      setSelectedPDF({ 
+        url: '', 
+        title: report.DocumentTitle,
+        message: 'This report displays external content that cannot be loaded due to browser security restrictions. The report would typically show HTML content from advisys.com with Long-Term Care planning information.'
+      });
       return;
     }
     
