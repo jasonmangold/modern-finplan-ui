@@ -714,7 +714,7 @@ export const RetirementAccumulationInputs = () => {
                          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
                            <PercentageInput 
                              value={source.AnnualInflationRate} 
-                             onChange={(e) => updateIncomeSource(index, 'AnnualInflationRate', e.target.value)} 
+                             onChange={(value) => updateIncomeSource(index, 'AnnualInflationRate', value)} 
                              placeholder="3.0" 
                              className="w-20"
                              maxLength={5}
@@ -836,7 +836,7 @@ export const RetirementAccumulationInputs = () => {
                      <Label className="text-sm">Annual Increase</Label>
                      <PercentageInput 
                        value={sharedInputs.Client1_RPAnnualIncrease} 
-                       onChange={(e) => handlePercentageChange('Client1_RPAnnualIncrease', e.target.value)} 
+                       onChange={(value) => handlePercentageChange('Client1_RPAnnualIncrease', value)} 
                        placeholder="3"
                        maxLength={5}
                        data-backend-name="Client1_RPAnnualIncrease"
@@ -852,7 +852,7 @@ export const RetirementAccumulationInputs = () => {
                      <Label className="text-sm">Rate of Return</Label>
                      <PercentageInput 
                        value={sharedInputs.Client1_RPRateOfReturn} 
-                       onChange={(e) => handlePercentageChange('Client1_RPRateOfReturn', e.target.value)} 
+                       onChange={(value) => handlePercentageChange('Client1_RPRateOfReturn', value)} 
                        placeholder="7"
                        maxLength={5}
                        data-backend-name="Client1_RPRateOfReturn"
@@ -923,7 +923,7 @@ export const RetirementAccumulationInputs = () => {
                        <Label className="text-sm">Annual Increase</Label>
                        <PercentageInput 
                          value={sharedInputs.Client2_RPAnnualIncrease} 
-                         onChange={(e) => handlePercentageChange('Client2_RPAnnualIncrease', e.target.value)}
+                         onChange={(value) => handlePercentageChange('Client2_RPAnnualIncrease', value)}
                          placeholder="3"
                          maxLength={5}
                          data-backend-name="Client2_RPAnnualIncrease"
@@ -939,7 +939,7 @@ export const RetirementAccumulationInputs = () => {
                        <Label className="text-sm">Rate of Return</Label>
                        <PercentageInput 
                          value={sharedInputs.Client2_RPRateOfReturn} 
-                         onChange={(e) => handlePercentageChange('Client2_RPRateOfReturn', e.target.value)}
+                         onChange={(value) => handlePercentageChange('Client2_RPRateOfReturn', value)}
                          placeholder="7"
                          maxLength={5}
                          data-backend-name="Client2_RPRateOfReturn"
@@ -992,7 +992,7 @@ export const RetirementAccumulationInputs = () => {
                      <Label className="text-sm">Rate of Return</Label>
                       <PercentageInput 
                         value={sharedInputs.OtherAssetRoR} 
-                        onChange={(e) => handlePercentageChange('OtherAssetRoR', e.target.value)}
+                        onChange={(value) => handlePercentageChange('OtherAssetRoR', value)}
                         placeholder="6"
                         maxLength={5}
                         data-backend-name="OtherAssetRoR"
@@ -1036,7 +1036,7 @@ export const RetirementAccumulationInputs = () => {
                  <Label className="text-sm">Annual Inflation Rate</Label>
                  <PercentageInput 
                    value={sharedInputs.AnnualInflationRate} 
-                   onChange={(e) => handlePercentageChange('AnnualInflationRate', e.target.value)}
+                   onChange={(value) => handlePercentageChange('AnnualInflationRate', value)}
                    placeholder="3.0"
                    maxLength={5}
                    data-backend-name="AnnualInflationRate"
@@ -1054,7 +1054,7 @@ export const RetirementAccumulationInputs = () => {
                    <Label className="text-sm">Annual Employment Inflation Rate - Client 1</Label>
                    <PercentageInput 
                      value={sharedInputs.Client1_AnnualEmploymentInflationRate} 
-                     onChange={(e) => handlePercentageChange('Client1_AnnualEmploymentInflationRate', e.target.value)}
+                     onChange={(value) => handlePercentageChange('Client1_AnnualEmploymentInflationRate', value)}
                      placeholder="3.0"
                      maxLength={5}
                      data-backend-name="Client1_AnnualEmploymentInflationRate"
@@ -1070,7 +1070,7 @@ export const RetirementAccumulationInputs = () => {
                    <Label className="text-sm">Annual Employment Inflation Rate - Client 2</Label>
                    <PercentageInput 
                      value={sharedInputs.Client2_AnnualEmploymentInflationRate} 
-                     onChange={(e) => handlePercentageChange('Client2_AnnualEmploymentInflationRate', e.target.value)}
+                     onChange={(value) => handlePercentageChange('Client2_AnnualEmploymentInflationRate', value)}
                      placeholder="3.0"
                      maxLength={5}
                      data-backend-name="Client2_AnnualEmploymentInflationRate"
@@ -1088,7 +1088,7 @@ export const RetirementAccumulationInputs = () => {
                  <Label className="text-sm">Annual Social Security Benefit Inflation Rate</Label>
                  <PercentageInput 
                    value={sharedInputs.AnnualSocialSecurityBenefitInflationRate} 
-                   onChange={(e) => handlePercentageChange('AnnualSocialSecurityBenefitInflationRate', e.target.value)}
+                   onChange={(value) => handlePercentageChange('AnnualSocialSecurityBenefitInflationRate', value)}
                    placeholder="2.5"
                    maxLength={5}
                    data-backend-name="AnnualSocialSecurityBenefitInflationRate"
