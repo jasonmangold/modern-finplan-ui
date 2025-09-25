@@ -620,13 +620,13 @@ export const RetirementAccumulationInputs = () => {
               {/* Other Assets */}
               <div className="bg-muted/30 p-4 rounded-lg space-y-4">
                 <Label className="text-sm font-medium">Other Assets</Label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-1.5">
                     <Label className="text-sm">Balance</Label>
                     <Input value={sharedInputs.OtherAssetBalance} onChange={e => updateSharedInput('OtherAssetBalance', e.target.value)} placeholder="$100,000" />
                   </div>
                   <div className="space-y-1.5">
-                    <Label className="text-sm">Monthly Contributions</Label>
+                    <Label className="text-sm">Contributions</Label>
                     <Input value={sharedInputs.OtherAssetMonthlyContribution} onChange={e => updateSharedInput('OtherAssetMonthlyContribution', e.target.value)} placeholder="$500" />
                   </div>
                   <div className="space-y-1.5">
