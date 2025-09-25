@@ -142,15 +142,6 @@ export const RetirementAccumulationInputs = () => {
                     className="mt-1" 
                   />
                 </div>
-                <div>
-                  <Label className="text-sm">Client 1 Social Security Start Age</Label>
-                  <Input 
-                    value={sharedInputs.Client1_SocialSecurityPaymentsStartAge}
-                    onChange={(e) => updateSharedInput('Client1_SocialSecurityPaymentsStartAge', e.target.value)}
-                    placeholder="67" 
-                    className="mt-1" 
-                  />
-                </div>
               </div>
 
               <div className="flex items-center space-x-2">
@@ -208,15 +199,6 @@ export const RetirementAccumulationInputs = () => {
                       <Input 
                         value={sharedInputs.Client2_RetirementAge}
                         onChange={(e) => updateSharedInput('Client2_RetirementAge', e.target.value)}
-                        placeholder="67" 
-                        className="mt-1" 
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-sm">Client 2 Social Security Start Age</Label>
-                      <Input 
-                        value={sharedInputs.Client2_SocialSecurityPaymentsStartAge}
-                        onChange={(e) => updateSharedInput('Client2_SocialSecurityPaymentsStartAge', e.target.value)}
                         placeholder="67" 
                         className="mt-1" 
                       />
