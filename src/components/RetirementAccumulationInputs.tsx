@@ -112,6 +112,44 @@ export const RetirementAccumulationInputs = () => {
     updateSharedInput(fieldName, numericValue);
   };
 
+  // Decimal percentage handler for specific fields
+  const handleDecimalPercentageChange = (fieldName: keyof typeof sharedInputs, value: string) => {
+    // Handle empty string
+    if (value === '') {
+      updateSharedInput(fieldName, '');
+      return;
+    }
+
+    // Allow digits and decimal point (allowDecimals: true)
+    let numericValue = value.replace(/[^\d.]/g, '');
+    
+    // Ensure only one decimal point
+    const decimalIndex = numericValue.indexOf('.');
+    if (decimalIndex !== -1) {
+      numericValue = numericValue.substring(0, decimalIndex + 1) + 
+                    numericValue.substring(decimalIndex + 1).replace(/\./g, '');
+      
+      // Limit to 2 decimal places (decimalPrecision: 2)
+      const afterDecimal = numericValue.substring(decimalIndex + 1);
+      if (afterDecimal.length > 2) {
+        numericValue = numericValue.substring(0, decimalIndex + 3);
+      }
+    }
+    
+    // maxLength: 5 - limit total characters
+    if (numericValue.length > 5) {
+      numericValue = numericValue.substring(0, 5);
+    }
+    
+    // Check minValue: 0
+    const number = parseFloat(numericValue);
+    if (!isNaN(number) && number < 0) {
+      numericValue = '0';
+    }
+    
+    updateSharedInput(fieldName, numericValue);
+  };
+
   const getPercentageDisplayValue = (value: string) => {
     return formatPercentage(value);
   };
@@ -902,40 +940,42 @@ export const RetirementAccumulationInputs = () => {
                    <div className="space-y-1.5">
                      <Label className="text-sm">Annual Increase</Label>
                      <div className="relative flex items-center">
-                       <Input 
-                         value={sharedInputs.Client1_RPAnnualIncrease} 
-                         onChange={e => handlePercentageChange('Client1_RPAnnualIncrease', e.target.value)} 
-                         placeholder="3"
-                         className="text-right pr-6"
-                         maxLength={5}
-                         data-backend-name="Client1_RPAnnualIncrease"
-                         data-label="Client 1 Annual Increase"
-                         data-xtype="percentage"
-                         data-min-length={0}
-                         data-max-length={5}
-                         data-min-value={0}
-                         data-max-value={25}
-                       />
+                        <Input 
+                          value={sharedInputs.Client1_RPAnnualIncrease} 
+                          onChange={e => handleDecimalPercentageChange('Client1_RPAnnualIncrease', e.target.value)} 
+                          placeholder="3.00"
+                          className="text-right pr-6"
+                          maxLength={5}
+                          data-backend-name="Client1_RPAnnualIncrease"
+                          data-label="Client 1 Annual Increase"
+                          data-xtype="percentage"
+                          data-min-length={0}
+                          data-max-length={5}
+                          data-min-value={0}
+                          data-allow-decimals={true}
+                          data-decimal-precision={2}
+                        />
                        <span className="absolute right-2 text-sm text-muted-foreground pointer-events-none">%</span>
                      </div>
                    </div>
                    <div className="space-y-1.5">
                      <Label className="text-sm">Rate of Return</Label>
                      <div className="relative flex items-center">
-                       <Input 
-                         value={sharedInputs.Client1_RPRateOfReturn} 
-                         onChange={e => handlePercentageChange('Client1_RPRateOfReturn', e.target.value)} 
-                         placeholder="7"
-                         className="text-right pr-6"
-                         maxLength={5}
-                         data-backend-name="Client1_RPRateOfReturn"
-                         data-label="Client 1 Rate of Return"
-                         data-xtype="percentage"
-                         data-min-length={0}
-                         data-max-length={5}
-                         data-min-value={0}
-                         data-max-value={25}
-                       />
+                        <Input 
+                          value={sharedInputs.Client1_RPRateOfReturn} 
+                          onChange={e => handleDecimalPercentageChange('Client1_RPRateOfReturn', e.target.value)} 
+                          placeholder="7.00"
+                          className="text-right pr-6"
+                          maxLength={5}
+                          data-backend-name="Client1_RPRateOfReturn"
+                          data-label="Client 1 Rate of Return"
+                          data-xtype="percentage"
+                          data-min-length={0}
+                          data-max-length={5}
+                          data-min-value={0}
+                          data-allow-decimals={true}
+                          data-decimal-precision={2}
+                        />
                        <span className="absolute right-2 text-sm text-muted-foreground pointer-events-none">%</span>
                      </div>
                    </div>
