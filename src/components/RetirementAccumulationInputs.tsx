@@ -34,8 +34,26 @@ export const RetirementAccumulationInputs = () => {
   };
 
   const handleCurrencyChange = (fieldName: keyof typeof sharedInputs, value: string) => {
-    // Store the raw numeric value (remove formatting)
-    const numericValue = value.replace(/[^\d]/g, '');
+    // Handle empty string
+    if (value === '') {
+      updateSharedInput(fieldName, '');
+      return;
+    }
+
+    // Remove all non-numeric characters (allowDecimals: false)
+    let numericValue = value.replace(/[^\d]/g, '');
+    
+    // maxLength: 6 - limit total characters
+    if (numericValue.length > 6) {
+      numericValue = numericValue.substring(0, 6);
+    }
+    
+    // Check minValue: 0
+    const number = parseInt(numericValue, 10);
+    if (!isNaN(number) && number < 0) {
+      numericValue = '0';
+    }
+    
     updateSharedInput(fieldName, numericValue);
   };
 
@@ -77,35 +95,18 @@ export const RetirementAccumulationInputs = () => {
       return;
     }
 
-    // Allow digits and decimal point only (allowDecimals: true)
-    let numericValue = value.replace(/[^\d.]/g, '');
+    // Allow digits only (allowDecimals: false)
+    let numericValue = value.replace(/[^\d]/g, '');
     
-    // maxLength: 5 - limit total characters
-    if (numericValue.length > 5) {
-      numericValue = numericValue.substring(0, 5);
+    // maxLength: 3 - limit total characters
+    if (numericValue.length > 3) {
+      numericValue = numericValue.substring(0, 3);
     }
     
-    // Ensure only one decimal point
-    const decimalIndex = numericValue.indexOf('.');
-    if (decimalIndex !== -1) {
-      numericValue = numericValue.substring(0, decimalIndex + 1) + 
-                    numericValue.substring(decimalIndex + 1).replace(/\./g, '');
-      
-      // decimalPrecision: 2 - limit to 2 decimal places
-      const afterDecimal = numericValue.substring(decimalIndex + 1);
-      if (afterDecimal.length > 2) {
-        numericValue = numericValue.substring(0, decimalIndex + 3);
-      }
-    }
-    
-    // Check minValue: 0 and maxValue: 25
-    const number = parseFloat(numericValue);
-    if (!isNaN(number)) {
-      if (number < 0) {
-        numericValue = '0';
-      } else if (number > 25) {
-        numericValue = '25';
-      }
+    // Check minValue: 0
+    const number = parseInt(numericValue, 10);
+    if (!isNaN(number) && number < 0) {
+      numericValue = '0';
     }
     
     updateSharedInput(fieldName, numericValue);
@@ -152,35 +153,18 @@ export const RetirementAccumulationInputs = () => {
       if (value === '') {
         processedValue = '';
       } else {
-        // Allow digits and decimal point only (allowDecimals: true)
-        processedValue = value.replace(/[^\d.]/g, '');
+        // Allow digits only (allowDecimals: false)
+        processedValue = value.replace(/[^\d]/g, '');
         
-        // maxLength: 5 - limit total characters
-        if (processedValue.length > 5) {
-          processedValue = processedValue.substring(0, 5);
+        // maxLength: 3 - limit total characters
+        if (processedValue.length > 3) {
+          processedValue = processedValue.substring(0, 3);
         }
         
-        // Ensure only one decimal point
-        const decimalIndex = processedValue.indexOf('.');
-        if (decimalIndex !== -1) {
-          processedValue = processedValue.substring(0, decimalIndex + 1) + 
-                         processedValue.substring(decimalIndex + 1).replace(/\./g, '');
-          
-          // decimalPrecision: 2 - limit to 2 decimal places
-          const afterDecimal = processedValue.substring(decimalIndex + 1);
-          if (afterDecimal.length > 2) {
-            processedValue = processedValue.substring(0, decimalIndex + 3);
-          }
-        }
-        
-        // Check minValue: 0 and maxValue: 25
-        const number = parseFloat(processedValue);
-        if (!isNaN(number)) {
-          if (number < 0) {
-            processedValue = '0';
-          } else if (number > 25) {
-            processedValue = '25';
-          }
+        // Check minValue: 0
+        const number = parseInt(processedValue, 10);
+        if (!isNaN(number) && number < 0) {
+          processedValue = '0';
         }
       }
     }
@@ -325,13 +309,38 @@ export const RetirementAccumulationInputs = () => {
                   <div className="flex items-center space-x-2">
                     <input type="radio" id="retirementAmount" name="retirementIncomeType" className="h-4 w-4" defaultChecked />
                     <Label htmlFor="retirementAmount" className="text-sm">$</Label>
-                    <Input placeholder="0" className="w-24 h-8" />
+                    <Input 
+                      value={getCurrencyDisplayValue(sharedInputs.AtRetirementFlatAmount || '')} 
+                      onChange={e => handleCurrencyChange('AtRetirementFlatAmount', e.target.value)} 
+                      placeholder="0" 
+                      className="w-24 h-8"
+                      data-backend-name="AtRetirementFlatAmount"
+                      data-label="Retirement Amount"
+                      data-xtype="currency"
+                      data-min-length={0}
+                      data-max-length={6}
+                      data-min-value={0}
+                    />
                     <Label className="text-sm">or</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <input type="radio" id="retirementPercent" name="retirementIncomeType" className="h-4 w-4" />
-                    <Input placeholder="0" className="w-16 h-8" />
-                    <Label className="text-sm">% of total current income</Label>
+                    <div className="flex items-center">
+                      <Input 
+                        value={sharedInputs.AtRetirementPercentOfIncome || ''} 
+                        onChange={e => handlePercentageChange('AtRetirementPercentOfIncome', e.target.value)} 
+                        placeholder="0" 
+                        className="w-16 h-8"
+                        data-backend-name="AtRetirementPercentOfIncome"
+                        data-label="Retirement Percent"
+                        data-xtype="percentage"
+                        data-min-length={0}
+                        data-max-length={3}
+                        data-min-value={0}
+                      />
+                      <span className="ml-1 text-sm">%</span>
+                    </div>
+                    <Label className="text-sm">of total current income</Label>
                   </div>
                 </div>
               </div>
@@ -340,20 +349,53 @@ export const RetirementAccumulationInputs = () => {
               <div className="bg-muted/30 p-4 rounded-lg space-y-3">
                 <div className="flex items-center space-x-2">
                   <Label className="text-sm font-medium">Beginning</Label>
-                  <Input placeholder="0" className="w-16 h-8" />
+                  <Input 
+                    value={sharedInputs.XYearsAfterRetiredYearsAfter || ''} 
+                    onChange={e => updateSharedInput('XYearsAfterRetiredYearsAfter', e.target.value)} 
+                    placeholder="0" 
+                    className="w-16 h-8"
+                    data-backend-name="XYearsAfterRetiredYearsAfter"
+                    data-label="Period 1 Years"
+                    data-xtype="number"
+                  />
                   <Label className="text-sm font-medium">years after retirement</Label>
                 </div>
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2">
                     <input type="radio" id="period1Amount" name="period1IncomeType" className="h-4 w-4" defaultChecked />
                     <Label htmlFor="period1Amount" className="text-sm">$</Label>
-                    <Input placeholder="0" className="w-24 h-8" />
+                    <Input 
+                      value={getCurrencyDisplayValue(sharedInputs.XYearsAfterRetiredFlatAmount || '')} 
+                      onChange={e => handleCurrencyChange('XYearsAfterRetiredFlatAmount', e.target.value)} 
+                      placeholder="0" 
+                      className="w-24 h-8"
+                      data-backend-name="XYearsAfterRetiredFlatAmount"
+                      data-label="Period 1 Amount"
+                      data-xtype="currency"
+                      data-min-length={0}
+                      data-max-length={6}
+                      data-min-value={0}
+                    />
                     <Label className="text-sm">or</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <input type="radio" id="period1Percent" name="period1IncomeType" className="h-4 w-4" />
-                    <Input placeholder="0" className="w-16 h-8" />
-                    <Label className="text-sm">% of total current income</Label>
+                    <div className="flex items-center">
+                      <Input 
+                        value={sharedInputs.XYearsAfterRetiredPercentOfIncome || ''} 
+                        onChange={e => handlePercentageChange('XYearsAfterRetiredPercentOfIncome', e.target.value)} 
+                        placeholder="0" 
+                        className="w-16 h-8"
+                        data-backend-name="XYearsAfterRetiredPercentOfIncome"
+                        data-label="Period 1 Percent"
+                        data-xtype="percentage"
+                        data-min-length={0}
+                        data-max-length={3}
+                        data-min-value={0}
+                      />
+                      <span className="ml-1 text-sm">%</span>
+                    </div>
+                    <Label className="text-sm">of total current income</Label>
                   </div>
                 </div>
               </div>
@@ -362,23 +404,56 @@ export const RetirementAccumulationInputs = () => {
               <div className="bg-muted/30 p-4 rounded-lg space-y-3">
                 <div className="flex items-center space-x-2">
                   <Label className="text-sm font-medium">Beginning</Label>
-                  <Input placeholder="0" className="w-16 h-8" />
+                  <Input 
+                    value={sharedInputs.YYearsAfterRetiredYearsAfter || ''} 
+                    onChange={e => updateSharedInput('YYearsAfterRetiredYearsAfter', e.target.value)} 
+                    placeholder="0" 
+                    className="w-16 h-8"
+                    data-backend-name="YYearsAfterRetiredYearsAfter"
+                    data-label="Period 2 Years"
+                    data-xtype="number"
+                  />
                   <Label className="text-sm font-medium">years after retirement</Label>
                 </div>
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2">
                     <input type="radio" id="period2Amount" name="period2IncomeType" className="h-4 w-4" defaultChecked />
                     <Label htmlFor="period2Amount" className="text-sm">$</Label>
-                    <Input placeholder="0" className="w-24 h-8" />
+                    <Input 
+                      value={getCurrencyDisplayValue(sharedInputs.YYearsAfterRetiredFlatAmount || '')} 
+                      onChange={e => handleCurrencyChange('YYearsAfterRetiredFlatAmount', e.target.value)} 
+                      placeholder="0" 
+                      className="w-24 h-8"
+                      data-backend-name="YYearsAfterRetiredFlatAmount"
+                      data-label="Period 2 Amount"
+                      data-xtype="currency"
+                      data-min-length={0}
+                      data-max-length={6}
+                      data-min-value={0}
+                    />
                     <Label className="text-sm">or</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <input type="radio" id="period2Percent" name="period2IncomeType" className="h-4 w-4" />
-                    <Input placeholder="0" className="w-16 h-8" />
-                    <Label className="text-sm">% of total current income</Label>
-                  </div>
-                </div>
-              </div>
+                    <div className="flex items-center">
+                      <Input 
+                        value={sharedInputs.YYearsAfterRetiredPercentOfIncome || ''} 
+                        onChange={e => handlePercentageChange('YYearsAfterRetiredPercentOfIncome', e.target.value)} 
+                        placeholder="0" 
+                        className="w-16 h-8"
+                        data-backend-name="YYearsAfterRetiredPercentOfIncome"
+                        data-label="Period 2 Percent"
+                        data-xtype="percentage"
+                        data-min-length={0}
+                        data-max-length={3}
+                        data-min-value={0}
+                      />
+                      <span className="ml-1 text-sm">%</span>
+                    </div>
+                     <Label className="text-sm">of total current income</Label>
+                   </div>
+                 </div>
+               </div>
             </CardContent>
           </Card>
         </TabsContent>
