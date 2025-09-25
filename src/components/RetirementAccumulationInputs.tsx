@@ -102,37 +102,12 @@ export const RetirementAccumulationInputs = () => {
 
   // Percentage input wrapper component
   const PercentageInput = ({ value, onChange, placeholder, className, ...props }: any) => {
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      onChange(e.target.value);
-    };
-
-    const displayValue = React.useMemo(() => {
-      if (!value || value === '') return '';
-      // Allow digits and decimal point
-      let numericValue = value.replace(/[^\d.]/g, '');
-      
-      // Ensure only one decimal point
-      const decimalIndex = numericValue.indexOf('.');
-      if (decimalIndex !== -1) {
-        numericValue = numericValue.substring(0, decimalIndex + 1) + 
-                      numericValue.substring(decimalIndex + 1).replace(/\./g, '');
-        
-        // Limit to 2 decimal places
-        const afterDecimal = numericValue.substring(decimalIndex + 1);
-        if (afterDecimal.length > 2) {
-          numericValue = numericValue.substring(0, decimalIndex + 3);
-        }
-      }
-      
-      return numericValue;
-    }, [value]);
-
     return (
       <div className="relative flex items-center">
         <Input
           {...props}
-          value={displayValue}
-          onChange={handleChange}
+          value={value || ''}
+          onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           className={`text-right pr-6 ${className}`}
         />
