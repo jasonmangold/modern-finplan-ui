@@ -32,7 +32,7 @@ const Education = () => {
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [selectedFormats, setSelectedFormats] = useState<string[]>([]);
   const [selectedReport, setSelectedReport] = useState<string | null>(null);
-  const [selectedPDF, setSelectedPDF] = useState<{ url: string; title: string; message?: string } | null>(null);
+  const [selectedPDF, setSelectedPDF] = useState<{ url: string; title: string; message?: string; htmlContent?: string } | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
   const [expandedSubfolders, setExpandedSubfolders] = useState<string[]>([]);
@@ -133,13 +133,34 @@ const Education = () => {
     });
   };
 
-  const handleReportClick = (report: any) => {
+  const handleReportClick = async (report: any) => {
     // Save current scroll position
     scrollPositionRef.current = window.scrollY;
     setSavedScrollPosition(window.scrollY);
     
     console.log('Report clicked:', report.DocumentTitle);
     console.log('Raw file path:', report.file_path);
+    
+    // Special handling for Long-Term Care report
+    if (report.DocumentTitle.toLowerCase().includes('long-term care')) {
+      try {
+        const response = await fetch('https://www.advisys.com/app/handlers/rptHandler.ashx?action=getnow&formNumber=A123S&format=html');
+        const htmlContent = await response.text();
+        setSelectedPDF({ 
+          url: '', 
+          title: report.DocumentTitle,
+          htmlContent: htmlContent
+        });
+      } catch (error) {
+        console.error('Failed to fetch HTML content:', error);
+        setSelectedPDF({ 
+          url: '', 
+          title: report.DocumentTitle,
+          message: 'Failed to load HTML preview for this report.'
+        });
+      }
+      return;
+    }
     
     // Check if PDF file path exists
     if (report.file_path && report.file_path.trim() !== '') {
@@ -398,9 +419,16 @@ const Education = () => {
             </div>
           </div>
 
-          {/* PDF Content */}
+          {/* PDF/HTML Content */}
           <div className="flex-1 bg-gray-100">
-            {selectedPDF.url ? (
+            {selectedPDF.htmlContent ? (
+              <div className="w-full h-full bg-white">
+                <div 
+                  className="w-full h-full p-4 overflow-auto"
+                  dangerouslySetInnerHTML={{ __html: selectedPDF.htmlContent }}
+                />
+              </div>
+            ) : selectedPDF.url ? (
               <iframe
                 src={selectedPDF.url}
                 className="w-full h-full border-0"
