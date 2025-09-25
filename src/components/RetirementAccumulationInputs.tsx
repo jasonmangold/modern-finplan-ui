@@ -590,29 +590,29 @@ export const RetirementAccumulationInputs = () => {
               {/* Client 2 Retirement Plans */}
               {sharedInputs.hasClient2 && <div className="bg-muted/30 p-4 rounded-lg space-y-4">
                   <Label className="text-sm font-medium">Client 2</Label>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
                       <Label className="text-sm">Retirement Balance</Label>
-                      <Input value={sharedInputs.Client2_RPBalance} onChange={e => updateSharedInput('Client2_RPBalance', e.target.value)} placeholder="$300,000" className="mt-1" />
+                      <Input value={sharedInputs.Client2_RPBalance} onChange={e => updateSharedInput('Client2_RPBalance', e.target.value)} placeholder="$300,000" />
                     </div>
-                    <div>
+                    <div className="space-y-1.5">
                       <Label className="text-sm">Monthly Contributions</Label>
-                      <Input value={sharedInputs.Client2_RPMonthlyContribution} onChange={e => updateSharedInput('Client2_RPMonthlyContribution', e.target.value)} placeholder="$1,500" className="mt-1" />
+                      <Input value={sharedInputs.Client2_RPMonthlyContribution} onChange={e => updateSharedInput('Client2_RPMonthlyContribution', e.target.value)} placeholder="$1,500" />
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-3 gap-4">
-                    <div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="space-y-1.5">
                       <Label className="text-sm">Company Match</Label>
-                      <Input value={sharedInputs.Client2_RPCompanyMatch} onChange={e => updateSharedInput('Client2_RPCompanyMatch', e.target.value)} placeholder="$400" className="mt-1" />
+                      <Input value={sharedInputs.Client2_RPCompanyMatch} onChange={e => updateSharedInput('Client2_RPCompanyMatch', e.target.value)} placeholder="$400" />
                     </div>
-                    <div>
+                    <div className="space-y-1.5">
                       <Label className="text-sm">Annual Increase</Label>
-                      <Input value={sharedInputs.Client2_RPAnnualIncrease} onChange={e => updateSharedInput('Client2_RPAnnualIncrease', e.target.value)} placeholder="3%" className="mt-1" />
+                      <Input value={sharedInputs.Client2_RPAnnualIncrease} onChange={e => updateSharedInput('Client2_RPAnnualIncrease', e.target.value)} placeholder="3%" />
                     </div>
-                    <div>
+                    <div className="space-y-1.5">
                       <Label className="text-sm">Rate of Return</Label>
-                      <Input value={sharedInputs.Client2_RPRateOfReturn} onChange={e => updateSharedInput('Client2_RPRateOfReturn', e.target.value)} placeholder="7%" className="mt-1" />
+                      <Input value={sharedInputs.Client2_RPRateOfReturn} onChange={e => updateSharedInput('Client2_RPRateOfReturn', e.target.value)} placeholder="7%" />
                     </div>
                   </div>
                 </div>}
@@ -620,18 +620,18 @@ export const RetirementAccumulationInputs = () => {
               {/* Other Assets */}
               <div className="bg-muted/30 p-4 rounded-lg space-y-4">
                 <Label className="text-sm font-medium">Other Assets</Label>
-                <div className="grid grid-cols-3 gap-4">
-                  <div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="space-y-1.5">
                     <Label className="text-sm">Balance</Label>
-                    <Input value={sharedInputs.OtherAssetBalance} onChange={e => updateSharedInput('OtherAssetBalance', e.target.value)} placeholder="$100,000" className="mt-1" />
+                    <Input value={sharedInputs.OtherAssetBalance} onChange={e => updateSharedInput('OtherAssetBalance', e.target.value)} placeholder="$100,000" />
                   </div>
-                  <div>
+                  <div className="space-y-1.5">
                     <Label className="text-sm">Monthly Contributions</Label>
-                    <Input value={sharedInputs.OtherAssetMonthlyContribution} onChange={e => updateSharedInput('OtherAssetMonthlyContribution', e.target.value)} placeholder="$500" className="mt-1" />
+                    <Input value={sharedInputs.OtherAssetMonthlyContribution} onChange={e => updateSharedInput('OtherAssetMonthlyContribution', e.target.value)} placeholder="$500" />
                   </div>
-                  <div>
+                  <div className="space-y-1.5">
                     <Label className="text-sm">Rate of Return</Label>
-                    <Input value={sharedInputs.OtherAssetRoR} onChange={e => updateSharedInput('OtherAssetRoR', e.target.value)} placeholder="6%" className="mt-1" />
+                    <Input value={sharedInputs.OtherAssetRoR} onChange={e => updateSharedInput('OtherAssetRoR', e.target.value)} placeholder="6%" />
                   </div>
                 </div>
               </div>
@@ -645,41 +645,41 @@ export const RetirementAccumulationInputs = () => {
               <CardTitle className="text-base font-medium">Analysis Assumptions</CardTitle>
             </CardHeader>
             <CardContent className="pt-0 space-y-4">
-              <div>
+              <div className="space-y-1.5">
                 <Label className="text-sm">Analysis Date</Label>
-                <Input type="date" value={sharedInputs.AnalysisDate} onChange={e => updateSharedInput('AnalysisDate', e.target.value)} className="mt-1" />
+                <Input type="date" value={sharedInputs.AnalysisDate} onChange={e => updateSharedInput('AnalysisDate', e.target.value)} />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
                   <Label className="text-sm">Mortality Age - Client 1</Label>
-                  <Input value={sharedInputs.MortalityAge} onChange={e => updateSharedInput('MortalityAge', e.target.value)} placeholder="90" className="mt-1" />
+                  <Input value={sharedInputs.MortalityAge} onChange={e => updateSharedInput('MortalityAge', e.target.value)} placeholder="90" />
                 </div>
-                <div>
-                  <Label className="text-sm">Client 2</Label>
-                  <Input value={sharedInputs.MortalityAgeOfClient2} onChange={e => updateSharedInput('MortalityAgeOfClient2', e.target.value)} placeholder="90" className="mt-1" />
+                <div className="space-y-1.5">
+                  <Label className="text-sm">Mortality Age - Client 2</Label>
+                  <Input value={sharedInputs.MortalityAgeOfClient2} onChange={e => updateSharedInput('MortalityAgeOfClient2', e.target.value)} placeholder="90" />
                 </div>
               </div>
 
-              <div>
+              <div className="space-y-1.5">
                 <Label className="text-sm">Annual Inflation Rate</Label>
-                <Input value={sharedInputs.AnnualInflationRate} onChange={e => updateSharedInput('AnnualInflationRate', e.target.value)} placeholder="3.0%" className="mt-1" />
+                <Input value={sharedInputs.AnnualInflationRate} onChange={e => updateSharedInput('AnnualInflationRate', e.target.value)} placeholder="3.0%" />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
                   <Label className="text-sm">Annual Employment Inflation Rate - Client 1</Label>
-                  <Input value={sharedInputs.Client1_AnnualEmploymentInflationRate} onChange={e => updateSharedInput('Client1_AnnualEmploymentInflationRate', e.target.value)} placeholder="3.0%" className="mt-1" />
+                  <Input value={sharedInputs.Client1_AnnualEmploymentInflationRate} onChange={e => updateSharedInput('Client1_AnnualEmploymentInflationRate', e.target.value)} placeholder="3.0%" />
                 </div>
-                <div>
-                  <Label className="text-sm">Client 2</Label>
-                  <Input value={sharedInputs.Client2_AnnualEmploymentInflationRate} onChange={e => updateSharedInput('Client2_AnnualEmploymentInflationRate', e.target.value)} placeholder="3.0%" className="mt-1" />
+                <div className="space-y-1.5">
+                  <Label className="text-sm">Annual Employment Inflation Rate - Client 2</Label>
+                  <Input value={sharedInputs.Client2_AnnualEmploymentInflationRate} onChange={e => updateSharedInput('Client2_AnnualEmploymentInflationRate', e.target.value)} placeholder="3.0%" />
                 </div>
               </div>
 
-              <div>
+              <div className="space-y-1.5">
                 <Label className="text-sm">Annual Social Security Benefit Inflation Rate</Label>
-                <Input value={sharedInputs.AnnualSocialSecurityBenefitInflationRate} onChange={e => updateSharedInput('AnnualSocialSecurityBenefitInflationRate', e.target.value)} placeholder="2.5%" className="mt-1" />
+                <Input value={sharedInputs.AnnualSocialSecurityBenefitInflationRate} onChange={e => updateSharedInput('AnnualSocialSecurityBenefitInflationRate', e.target.value)} placeholder="2.5%" />
               </div>
 
               <div className="border-l-4 border-primary/20 pl-3 pt-4 mt-6">
@@ -687,19 +687,19 @@ export const RetirementAccumulationInputs = () => {
               </div>
 
               <div className="bg-muted/30 p-4 rounded-lg space-y-4">
-                <div>
+                <div className="space-y-1.5">
                   <Label className="text-sm">Assumed Rate of Return During Retirement</Label>
-                  <Input placeholder="5%" className="mt-1" />
+                  <Input placeholder="5%" />
                 </div>
                 
-                <div>
+                <div className="space-y-1.5">
                   <Label className="text-sm">Solution Rate of Return</Label>
-                  <Input placeholder="6%" className="mt-1" />
+                  <Input placeholder="6%" />
                 </div>
                 
-                <div>
+                <div className="space-y-1.5">
                   <Label className="text-sm">Number of Months Since the Last Review</Label>
-                  <Input placeholder="12" className="mt-1" />
+                  <Input placeholder="12" />
                 </div>
               </div>
             </CardContent>
